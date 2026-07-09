@@ -24,7 +24,13 @@ function createWindow() {
 
   const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
   if (isDev) {
-    mainWindow.loadURL('http://localhost:5173');
+    const loadURLWithRetry = (url) => {
+      mainWindow.loadURL(url).catch((err) => {
+        console.log("Vite server is not ready yet, retrying in 1s...");
+        setTimeout(() => loadURLWithRetry(url), 1000);
+      });
+    };
+    loadURLWithRetry('http://localhost:5173');
     mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
