@@ -1,19 +1,10 @@
 @echo off
-title ViGen AIO - Khoi Dong Nhanh
+title ViGen AIO Studio
 echo ====================================================
 echo      KHOI DONG VIGEN AIO STUDIO - DESKTOP APP
 echo ====================================================
 echo.
-
-echo [1/2] Dang khoi chay React Vite Server trong nen...
-start /min cmd /c "call npm run dev"
-
-echo Dang cho server khoi dong trong 4 giay...
-timeout /t 4 /nobreak > NUL
-
-echo [2/2] Dang khoi chay Electron Desktop App...
-call npm run start
-
+echo Dang khoi chay may chu va giao dien ung dung...
+echo (Vui long khong dong cua so nay khi dang su dung phan mem)
 echo.
-echo Da dong ung dung. Nhan nut bat ky de thoat...
-pause > NUL
+call npm start

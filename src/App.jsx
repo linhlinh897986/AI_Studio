@@ -7,7 +7,14 @@ import {
   Video, 
   Settings, 
   AlertTriangle,
-  Server
+  Server,
+  Cpu,
+  Layers,
+  Wifi,
+  Clock,
+  Bell,
+  Search,
+  Activity
 } from 'lucide-react';
 
 import Dashboard from './components/Dashboard';
@@ -21,6 +28,33 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [logs, setLogs] = useState([]);
   const [hasApiKey, setHasApiKey] = useState(false);
+  
+  // Real-time Sci-Fi Dashboard stats state
+  const [currentTime, setCurrentTime] = useState('');
+  const [cpuUsage, setCpuUsage] = useState(18);
+  const [ramUsage, setRamUsage] = useState(44);
+  const [gpuUsage, setGpuUsage] = useState(8);
+
+  // Time & System Specs Simulation
+  useEffect(() => {
+    // 1. Clock
+    const timer = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+    }, 1000);
+
+    // 2. CPU / RAM / GPU jitter simulation (Sci-Fi Center aesthetic)
+    const statsTimer = setInterval(() => {
+      setCpuUsage(Math.floor(12 + Math.random() * 15));
+      setRamUsage(Math.floor(41 + Math.random() * 4));
+      setGpuUsage(Math.floor(4 + Math.random() * 12));
+    }, 3000);
+
+    return () => {
+      clearInterval(timer);
+      clearInterval(statsTimer);
+    };
+  }, []);
 
   // Poll localStorage to check if API key exists for visual warning badges
   useEffect(() => {
@@ -63,13 +97,13 @@ export default function App() {
 
   const getHeaderTitle = () => {
     switch (activeTab) {
-      case 'dashboard': return 'Dashboard';
-      case 'shopee': return 'Shopee Review';
-      case 'buddhist': return 'Buddhist Teachings';
-      case 'stickman': return 'Stickman Animator';
-      case 'dubber': return 'Video Cloner & Dubber';
-      case 'settings': return 'Cấu hình Hệ thống';
-      default: return 'Studio';
+      case 'dashboard': return 'Dashboard - Hạm Đội Điều Khiển';
+      case 'shopee': return 'Kênh Review Shopee Affiliate';
+      case 'buddhist': return 'Kiến Tạo Phim Phật Pháp';
+      case 'stickman': return 'Hoạt Họa Người Que AI';
+      case 'dubber': return 'Trình Dịch & Lồng Tiếng Phim';
+      case 'settings': return 'Cấu Hình Hệ Thống AI';
+      default: return 'Trạm Điều Khiển';
     }
   };
 
@@ -79,7 +113,7 @@ export default function App() {
       <aside className="sidebar">
         <div className="logo-container">
           <div className="logo-icon" />
-          <span className="logo-text">ViGen AIO</span>
+          <span className="logo-text">VIGEN AIO</span>
         </div>
 
         <nav className="nav-links">
@@ -88,7 +122,7 @@ export default function App() {
             onClick={() => setActiveTab('dashboard')}
           >
             <LayoutDashboard className="nav-icon" />
-            <span>Dashboard</span>
+            <span>Trạm Tổng Quan</span>
           </div>
 
           <div 
@@ -96,7 +130,7 @@ export default function App() {
             onClick={() => setActiveTab('shopee')}
           >
             <ShoppingBag className="nav-icon" />
-            <span>Shopee Review</span>
+            <span>Shopee Generator</span>
           </div>
 
           <div 
@@ -104,7 +138,7 @@ export default function App() {
             onClick={() => setActiveTab('buddhist')}
           >
             <Compass className="nav-icon" />
-            <span>Video Phật Pháp</span>
+            <span>Buddhist Engine</span>
           </div>
 
           <div 
@@ -112,7 +146,7 @@ export default function App() {
             onClick={() => setActiveTab('stickman')}
           >
             <Smile className="nav-icon" />
-            <span>Người Que AI</span>
+            <span>Stickman Comic</span>
           </div>
 
           <div 
@@ -120,7 +154,7 @@ export default function App() {
             onClick={() => setActiveTab('dubber')}
           >
             <Video className="nav-icon" />
-            <span>Lồng Tiếng Video</span>
+            <span>Video Translator</span>
           </div>
 
           <div 
@@ -129,7 +163,7 @@ export default function App() {
             style={{ marginTop: 'auto' }}
           >
             <Settings className="nav-icon" />
-            <span>Tab Cấu Hình</span>
+            <span>Bảng Cấu Hình</span>
             {!hasApiKey && (
               <AlertTriangle 
                 size={14} 
@@ -142,32 +176,58 @@ export default function App() {
 
         {/* Footer info: Local servers check */}
         <div className="sidebar-footer">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: 'var(--text-muted)' }}>
-            <Server size={12} style={{ color: 'var(--success-zen)' }} />
-            <span>Môi trường: Sẵn sàng</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 11, color: 'var(--text-muted)' }}>
+            <Server size={14} style={{ color: 'var(--accent-green)', filter: 'drop-shadow(0 0 5px var(--accent-green))' }} />
+            <span>Hệ Thống Trực Tuyến</span>
           </div>
         </div>
       </aside>
 
       {/* Main Studio Frame */}
       <main className="main-content">
+        {/* Sci-Fi Header Top Bar */}
         <header className="header-bar">
-          <div className="header-title">
+          <div className="header-title" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Activity size={18} style={{ color: 'var(--secondary)', filter: 'drop-shadow(0 0 5px var(--secondary))' }} />
             <h2>{getHeaderTitle()}</h2>
           </div>
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            {!hasApiKey && activeTab !== 'settings' && (
-              <div 
-                onClick={() => setActiveTab('settings')}
-                style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 12px', background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.2)', borderRadius: 8, color: '#f59e0b', fontSize: 12, cursor: 'pointer' }}
-              >
-                <AlertTriangle size={14} />
-                <span>Yêu cầu Gemini API Key</span>
-              </div>
-            )}
-            <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-              Phiên bản 1.0.0
+          {/* Futuristic System Stats Dashboard */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+            {/* CPU */}
+            <div className="status-pill">
+              <Cpu size={12} style={{ color: 'var(--secondary)' }} />
+              <span>CPU: {cpuUsage}%</span>
+            </div>
+            
+            {/* RAM */}
+            <div className="status-pill">
+              <Layers size={12} style={{ color: 'var(--primary)' }} />
+              <span>RAM: {ramUsage}%</span>
+            </div>
+
+            {/* GPU */}
+            <div className="status-pill">
+              <Activity size={12} style={{ color: 'var(--accent-green)' }} />
+              <span>GPU: {gpuUsage}%</span>
+            </div>
+
+            {/* NET */}
+            <div className="status-pill">
+              <Wifi size={12} style={{ color: 'var(--secondary)' }} />
+              <div className="status-dot" />
+            </div>
+
+            {/* Clock */}
+            <div className="status-pill" style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
+              <Clock size={12} style={{ color: '#fff' }} />
+              <span style={{ color: '#fff', fontWeight: 600 }}>{currentTime || '00:00:00'}</span>
+            </div>
+
+            {/* Notification Bell (Visual Accent) */}
+            <div style={{ position: 'relative', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center' }}>
+              <Bell size={16} />
+              <span style={{ position: 'absolute', top: -4, right: -4, width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)' }} />
             </div>
           </div>
         </header>
