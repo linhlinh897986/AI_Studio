@@ -230,10 +230,10 @@ h1, h2, h3, h4, h5, h6 {
 /* Content Frame & Spacious Alignment */
 .tab-content {
   flex-grow: 1;
-  padding: 40px;
+  padding: 24px;
   overflow-y: auto;
   display: flex;
-  gap: 40px;
+  gap: 24px;
 }
 
 .workspace-left {
@@ -317,7 +317,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 14px 28px;
+  padding: 12px 24px; /* More compact padding */
   border-radius: 30px; /* Pillow shape for high-end look */
   font-family: var(--font-display);
   font-weight: 600;
@@ -327,6 +327,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  white-space: nowrap; /* Prevents text breaking into multiple lines */
 }
 
 .btn:hover {
@@ -364,6 +365,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Video Player Container style */
 .player-container {
+  position: relative; /* CRITICAL: binds absolute child element alignments */
   overflow: hidden;
   border: 1px solid var(--border);
   background: #000;
@@ -567,4 +569,13 @@ h1, h2, h3, h4, h5, h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.15);
+}
+
+/* Spinner Rotate Animation */
+.spinner-spin {
+  animation: spinner-rotate 1.5s linear infinite;
+}
+@keyframes spinner-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

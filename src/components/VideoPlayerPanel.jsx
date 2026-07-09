@@ -108,7 +108,7 @@ export default function VideoPlayerPanel({
           />
         ) : (
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: 14, flexDirection: 'column', gap: 12, background: 'rgba(0,0,0,0.5)' }}>
-            <div style={{ width: 40, height: 40, border: '2px dashed var(--primary)', borderRadius: '50%' }} />
+            <div className="spinner-spin" style={{ width: 40, height: 40, border: '2px dashed var(--primary)', borderRadius: '50%' }} />
             Chưa có video. Nhập link/prompt và bấm Tạo Video.
           </div>
         )}
