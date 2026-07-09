@@ -8,7 +8,8 @@ export default defineConfig(({ command }) => {
     base: command === 'serve' ? '/' : './',
     server: {
       port: 5173,
-      strictPort: true
+      strictPort: true,
+      hmr: false
     }
   }
 })
