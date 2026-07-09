@@ -61,11 +61,12 @@ const getTempDir = () => {
 // ── IPC Handlers ────────────────────────────────────────────────────────────
 
 // 1. Save and Verify Settings (API Keys)
-ipcMain.handle('settings-verify', async (event, { geminiApiKey }) => {
+ipcMain.handle('settings-verify', async (event, { geminiApiKey, geminiModel }) => {
   try {
     const { GoogleGenerativeAI } = require('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(geminiApiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const modelName = geminiModel || "gemini-2.0-flash";
+    const model = genAI.getGenerativeModel({ model: modelName });
     await model.generateContent("test");
     return { success: true };
   } catch (err) {
@@ -84,9 +85,10 @@ ipcMain.handle('shopee-fetch', async (event, { shopeeLink }) => {
 });
 
 // 3. Gemini Prompt Generation
-ipcMain.handle('gemini-generate', async (event, { apiKey, systemPrompt, userPrompt }) => {
+ipcMain.handle('gemini-generate', async (event, { apiKey, systemPrompt, userPrompt, geminiModel }) => {
   try {
-    const result = await generateJsonScript(apiKey, systemPrompt, userPrompt);
+    const modelName = geminiModel || "gemini-2.0-flash";
+    const result = await generateJsonScript(apiKey, systemPrompt, userPrompt, modelName);
     return { success: true, data: result };
   } catch (err) {
     return { success: false, error: err.message };

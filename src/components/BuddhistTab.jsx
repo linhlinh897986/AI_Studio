@@ -60,7 +60,8 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
   ]
 }`;
 
-      const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt });
+      const geminiModel = localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
+      const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel });
       if (!geminiRes.success) throw new Error(geminiRes.error);
       const generatedData = geminiRes.data.script;
       onLog('Buddhist', `Kịch bản triết lý hoàn tất. Lên kế hoạch tạo ${generatedData.length} phân cảnh thiền.`, 'success');

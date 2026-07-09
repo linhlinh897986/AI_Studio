@@ -5,28 +5,32 @@ const { ipcRenderer } = window.require('electron');
 export default function SettingsTab() {
   const [apiKey, setApiKey] = useState('');
   const [showKey, setShowKey] = useState(false);
+  const [model, setModel] = useState('gemini-3.1-flash-lite');
   const [status, setStatus] = useState('idle'); // idle, checking, success, error
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     const savedKey = localStorage.getItem('gemini_api_key') || '';
+    const savedModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
     setApiKey(savedKey);
+    setModel(savedModel);
     if (savedKey) {
-      testApiKey(savedKey);
+      testApiKey(savedKey, savedModel);
     }
   }, []);
 
-  const testApiKey = async (keyToTest) => {
+  const testApiKey = async (keyToTest, modelToTest = model) => {
     if (!keyToTest) return;
     setStatus('checking');
     try {
-      const res = await ipcRenderer.invoke('settings-verify', { geminiApiKey: keyToTest });
+      const res = await ipcRenderer.invoke('settings-verify', { geminiApiKey: keyToTest, geminiModel: modelToTest });
       if (res.success) {
         setStatus('success');
         localStorage.setItem('gemini_api_key', keyToTest);
+        localStorage.setItem('gemini_model', modelToTest);
       } else {
         setStatus('error');
-        setErrorMsg(res.error || 'API Key không hợp lệ.');
+        setErrorMsg(res.error || 'API Key hoặc Model không hợp lệ.');
       }
     } catch (e) {
       setStatus('error');
@@ -35,16 +39,18 @@ export default function SettingsTab() {
   };
 
   const handleSave = () => {
+    localStorage.setItem('gemini_model', model);
     if (!apiKey) {
       localStorage.removeItem('gemini_api_key');
       setStatus('idle');
       return;
     }
-    testApiKey(apiKey);
+    testApiKey(apiKey, model);
   };
 
   const handleForceSave = () => {
     localStorage.setItem('gemini_api_key', apiKey);
+    localStorage.setItem('gemini_model', model);
     setStatus('success');
   };
 
@@ -103,6 +109,21 @@ export default function SettingsTab() {
               )}
             </button>
           </div>
+        </div>
+
+        <div className="form-group" style={{ marginTop: 20 }}>
+          <label className="form-label">Chọn phiên bản Model Gemini</label>
+          <select 
+            className="form-input" 
+            value={model}
+            onChange={(e) => setModel(e.target.value)}
+            disabled={status === 'checking'}
+          >
+            <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash Lite (Mặc định - Mới nhất)</option>
+            <option value="gemini-3.5-flash">Gemini 3.5 Flash (Hiệu năng cao)</option>
+            <option value="gemini-2.0-flash">Gemini 2.0 Flash (Chuẩn)</option>
+            <option value="gemini-1.5-pro">Gemini 1.5 Pro (Xử lý sâu)</option>
+          </select>
         </div>
 
         {/* API Status Feedback */}

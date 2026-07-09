@@ -7,11 +7,11 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
  * @param {string} userPrompt 
  * @returns {Promise<object>}
  */
-async function generateJsonScript(apiKey, systemPrompt, userPrompt) {
+async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = "gemini-2.0-flash") {
   // Use GoogleGenerativeAI client SDK
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ 
-    model: "gemini-1.5-flash",
+    model: modelName,
     generationConfig: {
       responseMimeType: "application/json"
     }
