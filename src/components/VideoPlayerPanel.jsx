@@ -148,8 +148,8 @@ export default function VideoPlayerPanel({
             <span>{exportProgress.message}</span>
             <span>{exportProgress.percent}%</span>
           </div>
-          <div className="progress-bar-glow">
-            <div className="progress-bar-laser" style={{ width: `${exportProgress.percent}%` }} />
+          <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 3, overflow: 'hidden' }}>
+            <div style={{ width: `${exportProgress.percent}%`, height: '100%', background: 'linear-gradient(to right, var(--primary), var(--secondary))', transition: 'width 0.3s ease' }} />
           </div>
         </div>
       )}
