@@ -43,6 +43,11 @@ export default function SettingsTab() {
     testApiKey(apiKey);
   };
 
+  const handleForceSave = () => {
+    localStorage.setItem('gemini_api_key', apiKey);
+    setStatus('success');
+  };
+
   return (
     <div style={{ maxWidth: 680, display: 'flex', flexDirection: 'column', gap: 24 }}>
       <div className="glass-panel active">
@@ -108,11 +113,22 @@ export default function SettingsTab() {
         )}
 
         {status === 'error' && (
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, color: '#ef4444', fontSize: 13, background: 'rgba(239, 68, 68, 0.08)', padding: '12px 16px', borderRadius: 8, border: '1px solid rgba(239, 68, 68, 0.2)' }}>
-            <X size={16} style={{ marginTop: 2, flexShrink: 0 }} />
-            <div>
-              <strong>Lỗi kiểm tra khóa:</strong>
-              <div style={{ marginTop: 4, fontFamily: 'var(--font-mono)', fontSize: 11 }}>{errorMsg}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, background: 'rgba(239, 68, 68, 0.06)', padding: '16px', borderRadius: 12, border: '1px solid rgba(239, 68, 68, 0.15)' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, color: '#ef4444', fontSize: 13 }}>
+              <X size={16} style={{ marginTop: 2, flexShrink: 0 }} />
+              <div>
+                <strong>Lỗi kiểm tra khóa:</strong>
+                <div style={{ marginTop: 4, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-secondary)' }}>{errorMsg}</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 12, marginTop: 4 }}>
+              <button 
+                className="btn btn-secondary" 
+                onClick={handleForceSave}
+                style={{ padding: '8px 16px', fontSize: 12, borderRadius: 8 }}
+              >
+                Vẫn lưu khóa (Bỏ qua kiểm tra)
+              </button>
             </div>
           </div>
         )}
