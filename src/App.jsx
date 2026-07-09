@@ -1,0 +1,179 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  LayoutDashboard, 
+  ShoppingBag, 
+  Compass, 
+  Smile, 
+  Video, 
+  Settings, 
+  AlertTriangle,
+  Server
+} from 'lucide-react';
+
+import Dashboard from './components/Dashboard';
+import ShopeeTab from './components/ShopeeTab';
+import BuddhistTab from './components/BuddhistTab';
+import StickmanTab from './components/StickmanTab';
+import DubberTab from './components/DubberTab';
+import SettingsTab from './components/SettingsTab';
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [logs, setLogs] = useState([]);
+  const [hasApiKey, setHasApiKey] = useState(false);
+
+  // Poll localStorage to check if API key exists for visual warning badges
+  useEffect(() => {
+    const checkApiKey = () => {
+      const key = localStorage.getItem('gemini_api_key');
+      setHasApiKey(!!key);
+    };
+
+    checkApiKey();
+    const interval = setInterval(checkApiKey, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const addLog = (tab, text, type = 'info') => {
+    const timestamp = new Date().toLocaleTimeString();
+    setLogs((prevLogs) => [
+      { tab, text, type, timestamp },
+      ...prevLogs.slice(0, 99) // Cap at 100 logs
+    ]);
+  };
+
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return <Dashboard activeTab={activeTab} setActiveTab={setActiveTab} logs={logs} />;
+      case 'shopee':
+        return <ShopeeTab onLog={addLog} />;
+      case 'buddhist':
+        return <BuddhistTab onLog={addLog} />;
+      case 'stickman':
+        return <StickmanTab onLog={addLog} />;
+      case 'dubber':
+        return <DubberTab onLog={addLog} />;
+      case 'settings':
+        return <SettingsTab />;
+      default:
+        return <Dashboard activeTab={activeTab} setActiveTab={setActiveTab} logs={logs} />;
+    }
+  };
+
+  const getHeaderTitle = () => {
+    switch (activeTab) {
+      case 'dashboard': return 'Dashboard';
+      case 'shopee': return 'Shopee Review';
+      case 'buddhist': return 'Buddhist Teachings';
+      case 'stickman': return 'Stickman Animator';
+      case 'dubber': return 'Video Cloner & Dubber';
+      case 'settings': return 'Cấu hình Hệ thống';
+      default: return 'Studio';
+    }
+  };
+
+  return (
+    <div className="app-container">
+      {/* Sidebar Navigation */}
+      <aside className="sidebar">
+        <div className="logo-container">
+          <div className="logo-icon" />
+          <span className="logo-text">ViGen AIO</span>
+        </div>
+
+        <nav className="nav-links">
+          <div 
+            className={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`}
+            onClick={() => setActiveTab('dashboard')}
+          >
+            <LayoutDashboard className="nav-icon" />
+            <span>Dashboard</span>
+          </div>
+
+          <div 
+            className={`nav-item ${activeTab === 'shopee' ? 'active' : ''}`}
+            onClick={() => setActiveTab('shopee')}
+          >
+            <ShoppingBag className="nav-icon" />
+            <span>Shopee Review</span>
+          </div>
+
+          <div 
+            className={`nav-item ${activeTab === 'buddhist' ? 'active' : ''}`}
+            onClick={() => setActiveTab('buddhist')}
+          >
+            <Compass className="nav-icon" />
+            <span>Video Phật Pháp</span>
+          </div>
+
+          <div 
+            className={`nav-item ${activeTab === 'stickman' ? 'active' : ''}`}
+            onClick={() => setActiveTab('stickman')}
+          >
+            <Smile className="nav-icon" />
+            <span>Người Que AI</span>
+          </div>
+
+          <div 
+            className={`nav-item ${activeTab === 'dubber' ? 'active' : ''}`}
+            onClick={() => setActiveTab('dubber')}
+          >
+            <Video className="nav-icon" />
+            <span>Lồng Tiếng Video</span>
+          </div>
+
+          <div 
+            className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
+            onClick={() => setActiveTab('settings')}
+            style={{ marginTop: 'auto' }}
+          >
+            <Settings className="nav-icon" />
+            <span>Tab Cấu Hình</span>
+            {!hasApiKey && (
+              <AlertTriangle 
+                size={14} 
+                style={{ color: '#f59e0b', marginLeft: 'auto' }} 
+                title="Cảnh báo: Chưa cài đặt API Key"
+              />
+            )}
+          </div>
+        </nav>
+
+        {/* Footer info: Local servers check */}
+        <div className="sidebar-footer">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: 'var(--text-muted)' }}>
+            <Server size={12} style={{ color: 'var(--success-zen)' }} />
+            <span>Môi trường: Sẵn sàng</span>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Studio Frame */}
+      <main className="main-content">
+        <header className="header-bar">
+          <div className="header-title">
+            <h2>{getHeaderTitle()}</h2>
+          </div>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            {!hasApiKey && activeTab !== 'settings' && (
+              <div 
+                onClick={() => setActiveTab('settings')}
+                style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 12px', background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.2)', borderRadius: 8, color: '#f59e0b', fontSize: 12, cursor: 'pointer' }}
+              >
+                <AlertTriangle size={14} />
+                <span>Yêu cầu Gemini API Key</span>
+              </div>
+            )}
+            <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+              Phiên bản 1.0.0
+            </div>
+          </div>
+        </header>
+
+        {renderActiveTab()}
+      </main>
+    </div>
+  );
+}

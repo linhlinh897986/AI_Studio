@@ -1,0 +1,21 @@
+# Dependency directories
+node_modules/
+
+# Production build artifacts
+dist/
+dist-electron/
+
+# Temp folders
+temp/
+*.log
+
+# Local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS files
+.DS_Store
+Thumbs.db
