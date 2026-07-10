@@ -62,7 +62,7 @@ export const VideoComposition = ({
             key={index}
             from={slide.startFrame}
             durationInFrames={slide.durationFrames}
-            layout="absolute"
+            layout="absolute-fill"
           >
             <Slide 
               imageUrl={slide.imageUrl} 

@@ -232,7 +232,7 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
     mainWindow.webContents.send('render-progress', { stage: 'selecting', percent: 40, message: 'Đang khởi tạo Composition...' });
 
     const composition = await selectComposition({
-      bundleLocation,
+      serveUrl: bundleLocation,
       id: compositionId,
       inputProps: inputProps,
     });
