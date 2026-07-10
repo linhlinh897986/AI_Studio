@@ -7,43 +7,39 @@ const { ipcRenderer } = window.require('electron');
 const CURATED_PDFS = [
   {
     title: "Kinh Địa Tạng Bồ Tát Bổn Nguyện (HT. Thích Trí Tịnh dịch)",
-    localFile: "Kinh_Dia_Tang.pdf",
+    localFile: "kinh_dia_tang.pdf",
     url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Dia-Tang-HT-Thich-Tri-Tinh.pdf",
     desc: "Bộ kinh nổi tiếng về chữ hiếu, công đức độ sanh và thế giới u minh."
   },
   {
     title: "Kinh Diệu Pháp Liên Hoa (Kinh Pháp Hoa - HT. Thích Trí Tịnh)",
-    localFile: "Kinh_Phap_Hoa.pdf",
+    localFile: "kinh_phap_hoa.pdf",
     url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Phap-Hoa-HT-Thich-Tri-Tinh.pdf",
     desc: "Vua của các kinh điển Đại Thừa, khai mở tri kiến Phật cho mọi chúng sinh."
   },
   {
-    title: "Kinh Pháp Cú (Dhammapada - HT. Thích Minh Châu dịch)",
-    localFile: "Kinh_Phap_Cu.pdf",
+    title: "Kinh Pháp Cú (Dhammapada - Lời Vàng Ấn Tống)",
+    localFile: "k21-423_loi_vang_cua_phat_an_tong_co_bia.pdf",
     url: "https://daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Phap-Cu-HT-Thich-Minh-Chau.pdf",
     desc: "423 câu thi kệ ngắn gọn chứa đựng tinh hoa triết lý giải thoát."
   },
   {
     title: "Kinh Kim Cang Bát Nhã Ba La Mật (HT. Thích Trí Tịnh dịch)",
-    localFile: "Kinh_Kim_Cang.pdf",
+    localFile: "kinh_kim_cang.pdf",
     url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Kim-Cang-HT-Thich-Tri-Tinh.pdf",
     desc: "Kinh điển tối thượng luận giải về tính Không và trí tuệ giải thoát."
   },
   {
-    title: "Kinh A Di Đà (HT. Thích Trí Tịnh dịch)",
-    localFile: "Kinh_A_Di_Da.pdf",
+    title: "Kinh A Di Đà (Kinh A Di Đà Có Bìa)",
+    localFile: "k09-kinh_a_di_da_co_bia.pdf",
     url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-A-Di-Da-HT-Thich-Tri-Tinh.pdf",
     desc: "Kinh điển nền tảng hướng tâm về thế giới Tây Phương Cực Lạc thanh tịnh."
   },
   {
     title: "Bước Đầu Học Phật (HT. Thích Thanh Từ)",
+    localFile: "buocdauhocphat.pdf",
     url: "https://thuvienhoasen.org/images/file/GKrurg03GkzWjACY/buoc-dau-hoc-phat.pdf",
     desc: "Cẩm nang hướng dẫn căn bản về nhân quả, tu tập thiền định."
-  },
-  {
-    title: "Phật Học Phổ Thông - Khóa I (HT. Thích Thiện Hoa)",
-    url: "https://thuvienhoasen.org/images/file/GcfriO7hhcJA-7O8/phat-hoc-pho-thong-khoa-1.pdf",
-    desc: "Giáo trình Phật giáo căn bản cho hàng Phật tử tại gia."
   }
 ];
 
@@ -171,7 +167,7 @@ export default function BuddhistTab({ onLog }) {
   const handleLoadCuratedPdf = async (pdfItem) => {
     setPdfLoading(true);
     setError('');
-    setPdfFile({ name: pdfItem.title, url: pdfItem.url });
+    setPdfFile({ name: pdfItem.title, url: pdfItem.url, localFile: pdfItem.localFile });
     onLog('Buddhist', `Đang tải tài liệu Kinh điển: "${pdfItem.title}"...`, 'info');
     try {
       const invokeParams = pdfItem.localFile 
@@ -203,8 +199,8 @@ export default function BuddhistTab({ onLog }) {
       setError('Vui lòng nhập ý tưởng chủ đề.');
       return;
     }
-    if (sourceType === 'pdf' && !extractedExcerpt) {
-      setError('Vui lòng chọn tài liệu tham khảo và trích xuất trang trước.');
+    if (sourceType === 'pdf' && !pdfFile) {
+      setError('Vui lòng chọn tài liệu tham khảo.');
       return;
     }
 
@@ -243,6 +239,8 @@ export default function BuddhistTab({ onLog }) {
         }
 
         let userPrompt = '';
+        let pdfFilePath = null;
+
         if (sourceType === 'prompt') {
           userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) về chủ đề "${topic}". 
 Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video độc lập. Hãy viết kịch bản này khai thác một khía cạnh riêng biệt, hoàn toàn không trùng lặp ý tưởng với các video khác.
@@ -260,13 +258,11 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
   ]
 }`;
         } else {
-          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên tài liệu Phật pháp trích dẫn dưới đây:
-NỘI DUNG TÀI LIỆU TRÍCH DẪN:
-"""
-${extractedExcerpt.substring(0, 1500)}
-"""
+          pdfFilePath = pdfFile?.path || pdfFile?.localFile || null;
+          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên tài liệu Phật pháp đính kèm.
+Tập trung khai thác nội dung của tài liệu trong khoảng từ trang ${pdfStartPage} đến trang ${pdfEndPage}.
 
-Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video. Hãy đúc kết một chủ đề/bài học hoặc câu kinh cốt lõi khác biệt trong tài liệu trích dẫn để soạn bài giảng này, tránh trùng lặp nội dung với các phần khác.
+Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video. Hãy đúc kết một chủ đề/bài học hoặc câu kinh cốt lõi khác biệt trong tài liệu đính kèm để soạn bài giảng này, tránh trùng lặp nội dung với các phần khác.
 Hãy chia bài viết làm 4 phân đoạn. Với mỗi phân đoạn cung cấp mô tả hình ảnh tiếng Anh chi tiết.
 Hãy kết hợp hình ảnh với phong cách không gian sau: "${moodVisualDetail}".
 
@@ -283,7 +279,13 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         }
 
         const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
-        const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel });
+        const geminiRes = await ipcRenderer.invoke('gemini-generate', { 
+          apiKey, 
+          systemPrompt, 
+          userPrompt, 
+          geminiModel,
+          pdfFilePath
+        });
         if (!geminiRes.success) throw new Error(geminiRes.error);
         const generatedData = geminiRes.data.script;
 

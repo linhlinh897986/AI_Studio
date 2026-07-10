@@ -85,10 +85,14 @@ ipcMain.handle('shopee-fetch', async (event, { shopeeLink }) => {
 });
 
 // 3. Gemini Prompt Generation
-ipcMain.handle('gemini-generate', async (event, { apiKey, systemPrompt, userPrompt, geminiModel }) => {
+ipcMain.handle('gemini-generate', async (event, { apiKey, systemPrompt, userPrompt, geminiModel, pdfFilePath }) => {
   try {
     const modelName = geminiModel || "gemini-2.0-flash";
-    const result = await generateJsonScript(apiKey, systemPrompt, userPrompt, modelName);
+    let resolvedPath = pdfFilePath;
+    if (pdfFilePath && !path.isAbsolute(pdfFilePath)) {
+      resolvedPath = path.join(__dirname, 'resources', 'scriptures', pdfFilePath);
+    }
+    const result = await generateJsonScript(apiKey, systemPrompt, userPrompt, modelName, resolvedPath);
     return { success: true, data: result };
   } catch (err) {
     return { success: false, error: err.message };

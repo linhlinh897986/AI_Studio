@@ -7,37 +7,49 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
  * @param {string} userPrompt 
  * @returns {Promise<object>}
  */
-async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = "gemini-2.0-flash") {
+async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = "gemini-2.0-flash", pdfFilePath = null) {
   // Use GoogleGenerativeAI client SDK
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ 
+  
+  const modelOptions = { 
     model: modelName,
     generationConfig: {
       responseMimeType: "application/json"
     }
-  });
+  };
 
-  const chat = model.startChat({
-    history: [
-      {
-        role: "user",
-        parts: [{ text: systemPrompt }]
-      },
-      {
-        role: "model",
-        parts: [{ text: "Tôi đã hiểu yêu cầu hệ thống. Tôi sẽ luôn trả về kết quả ở định dạng JSON đúng chuẩn cấu trúc được yêu cầu." }]
-      }
-    ]
-  });
+  if (systemPrompt) {
+    modelOptions.systemInstruction = systemPrompt;
+  }
 
-  const result = await chat.sendMessage(userPrompt);
+  const model = genAI.getGenerativeModel(modelOptions);
+
+  const contents = [];
+  if (pdfFilePath) {
+    const fs = require('fs');
+    if (fs.existsSync(pdfFilePath)) {
+      const pdfBuffer = fs.readFileSync(pdfFilePath);
+      contents.push({
+        inlineData: {
+          data: pdfBuffer.toString("base64"),
+          mimeType: "application/pdf"
+        }
+      });
+    } else {
+      console.warn(`PDF file not found at: ${pdfFilePath}`);
+    }
+  }
+
+  contents.push({ text: userPrompt });
+
+  const result = await model.generateContent(contents);
   const responseText = result.response.text();
   
   try {
     return JSON.parse(responseText);
   } catch (err) {
     console.error("Gemini output was not valid JSON:", responseText);
-    throw new Error("Gemini API không trả về định dạng JSON hợp lệ.");
+    throw new Error("Gemini API không trả về định dạng JSON hợp lệ. Chi tiết phản hồi: " + responseText.substring(0, 100));
   }
 }
 
