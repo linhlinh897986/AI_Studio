@@ -353,3 +353,128 @@ ipcMain.handle('video-dub-merge', async (event, { videoPath, segments }) => {
   }
 });
 
+
+// 7. Vibes.ai Image Generation & Download
+ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) => {
+  try {
+    const crypto = require('crypto');
+    const axios = require('axios');
+    const tempDir = getTempDir();
+    const filename = `vibes_${Date.now()}_${Math.floor(Math.random() * 1000)}.jpg`;
+    const outputPath = path.join(tempDir, filename);
+
+    const headers = {
+      'accept': '*/*',
+      'accept-language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7',
+      'content-type': 'application/json',
+      'cookie': `cookie_ack=true; meta_session=${metaSession}`,
+      'Referer': 'https://vibes.ai/',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    };
+
+    // Step 1: Create a temporary project to acquire a valid projectId
+    const projectRes = await axios.post('https://vibes.ai/api/projects', { name: 'Chưa đặt tên' }, { headers });
+    if (!projectRes.data || !projectRes.data.success || !projectRes.data.project) {
+      throw new Error("Không thể tạo dự án tạm thời trên Vibes.ai. Hãy kiểm tra Meta Session Cookie.");
+    }
+    const projectId = projectRes.data.project.id;
+
+    // Step 2: Register the generation batch
+    const batchId = `batch-${crypto.randomUUID()}`;
+    const requestId = `www-${crypto.randomUUID()}`;
+    const now = new Date().toISOString();
+
+    const registerPayload = {
+      id: batchId,
+      type: 'images',
+      prompt: prompt,
+      timestamp: now,
+      content: [
+        { id: `${batchId}-content-0`, type: 'images', isLoading: true },
+        { id: `${batchId}-content-1`, type: 'images', isLoading: true },
+        { id: `${batchId}-content-2`, type: 'images', isLoading: true },
+        { id: `${batchId}-content-3`, type: 'images', isLoading: true }
+      ],
+      isComplete: false,
+      config: {
+        directGeneration: true,
+        promptModel: 'gemini-2.5-flash',
+        aspectRatio: '9:16',
+        imageModel: 'midjen-base',
+        videoModel: 'midjen-short',
+        resolution: '480p',
+        batchVariation: true
+      },
+      promptModel: 'gemini-2.5-flash',
+      imageModel: 'midjen-base',
+      videoModel: 'midjen-short',
+      generationStartTime: now,
+      isDirectGeneration: true,
+      projectId: projectId
+    };
+
+    await axios.post('https://vibes.ai/api/generation-batches', registerPayload, { headers });
+
+    // Step 3: Trigger the image generation
+    const generatePayload = {
+      inputs: [
+        { type: 'variation', image_prompt: prompt, original_prompt: prompt, config: registerPayload.config },
+        { type: 'variation', image_prompt: prompt, original_prompt: prompt, config: registerPayload.config },
+        { type: 'variation', image_prompt: prompt, original_prompt: prompt, config: registerPayload.config },
+        { type: 'variation', image_prompt: prompt, original_prompt: prompt, config: registerPayload.config }
+      ],
+      config: {
+        ...registerPayload.config,
+        generationType: 't2i'
+      },
+      batchId: batchId,
+      mg_request_id: requestId,
+      projectId: projectId
+    };
+
+    await axios.post('https://vibes.ai/api/generate/images', generatePayload, { headers });
+
+    // Step 4: Poll for completion
+    let imageUrl = null;
+    const maxRetries = 20;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      const pollRes = await axios.get('https://vibes.ai/api/generation-batches', { headers });
+      const batches = pollRes.data?.batches || [];
+      const targetBatch = batches.find(b => b.id === batchId);
+
+      if (targetBatch) {
+        const allLoaded = targetBatch.content.every(c => !c.isLoading);
+        if (allLoaded) {
+          imageUrl = targetBatch.content[0].imageUrl;
+          break;
+        }
+      }
+    }
+
+    if (!imageUrl) {
+      throw new Error("Vượt quá thời gian chờ (Timeout) tạo ảnh trên Vibes.ai.");
+    }
+
+    // Step 5: Download the generated image locally
+    const response = await axios({
+      url: imageUrl,
+      method: 'GET',
+      responseType: 'stream',
+      timeout: 20000
+    });
+
+    const writer = fs.createWriteStream(outputPath);
+    response.data.pipe(writer);
+
+    await new Promise((resolve, reject) => {
+      writer.on('finish', resolve);
+      writer.on('error', reject);
+    });
+
+    return { success: true, filePath: `file://${outputPath.replace(/\\/g, '/')}` };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+

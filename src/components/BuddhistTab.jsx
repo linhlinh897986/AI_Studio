@@ -181,16 +181,16 @@ export default function BuddhistTab({ onLog }) {
         if (sourceType === 'prompt') {
           userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) về chủ đề "${topic}". 
 Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video độc lập. Hãy viết kịch bản này khai thác một khía cạnh riêng biệt, hoàn toàn không trùng lặp ý tưởng với các video khác.
-Chia bài viết làm 4 phân đoạn. Với mỗi phân đoạn, hãy cung cấp một mô tả hình ảnh tiếng Anh chi tiết để tạo ảnh thiền định.
-Hãy luôn kết hợp các phân cảnh hình ảnh với phong cách không gian trực quan sau: "${moodVisualDetail}".
+Chia bài viết làm 4 phân đoạn. 
+Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết để làm bức ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này, kết hợp hoàn hảo với phong cách không gian trực quan sau: "${moodVisualDetail}".
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
   "title": "${topic.substring(0, 20)} - Phần ${i + 1}",
+  "imagePrompt": "Mô tả ảnh nền tiếng Anh chi tiết tích hợp hoàn hảo với phong cách không gian được cung cấp",
   "script": [
     {
-      "text": "Câu triết lý tiếng Việt (khoảng 20 từ, giọng điệu thiền tịnh chậm rãi)",
-      "imagePrompt": "Mô tả ảnh tiếng Anh chi tiết tích hợp hoàn hảo với phong cách không gian được cung cấp"
+      "text": "Câu triết lý tiếng Việt (khoảng 20 từ, giọng điệu thiền tịnh chậm rãi)"
     }
   ]
 }`;
@@ -200,16 +200,16 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
 Tập trung khai thác nội dung của tài liệu trong khoảng từ trang ${pdfStartPage} đến trang ${pdfEndPage}.
 
 Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video. Hãy đúc kết một chủ đề/bài học hoặc câu kinh cốt lõi khác biệt trong tài liệu đính kèm để soạn bài giảng này, tránh trùng lặp nội dung với các phần khác.
-Hãy chia bài viết làm 4 phân đoạn. Với mỗi phân đoạn cung cấp mô tả hình ảnh tiếng Anh chi tiết.
-Hãy kết hợp hình ảnh với phong cách không gian sau: "${moodVisualDetail}".
+Hãy chia bài viết làm 4 phân đoạn.
+Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết để làm bức ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này, kết hợp hoàn hảo với phong cách không gian trực quan sau: "${moodVisualDetail}".
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
   "title": "Lời Phật Dạy - Tập ${i + 1}",
+  "imagePrompt": "Mô tả ảnh nền tiếng Anh chi tiết tích hợp hoàn hảo với phong cách không gian được cung cấp",
   "script": [
     {
-      "text": "Câu triết lý tiếng Việt đúc kết từ tài liệu (khoảng 20 từ, chậm rãi)",
-      "imagePrompt": "Mô tả ảnh tiếng Anh chi tiết tích hợp hoàn hảo với phong cách không gian được cung cấp"
+      "text": "Câu triết lý tiếng Việt đúc kết từ tài liệu (khoảng 20 từ, chậm rãi)"
     }
   ]
 }`;
@@ -245,41 +245,45 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         if (!asrRes.success) throw new Error(asrRes.error);
         const asrSegments = asrRes.segments;
 
-        // 4. Image downloads
-        setLoadingStage(`${stagePrefix} Đang tạo & tải ảnh thiền AI...`);
+        // 4. Image generation & download
+        setLoadingStage(`${stagePrefix} Đang thiết kế ảnh nền Vibes.ai...`);
         const localImages = [];
-        for (let j = 0; j < generatedData.length; j++) {
-          const rawPrompt = generatedData[j].imagePrompt;
-          const formattedPrompt = `${rawPrompt}, vertical aspect ratio, vertical frame, 1080x1920, zen, ultra high resolution, digital art`;
+        const rawPrompt = geminiRes.data.imagePrompt || topic;
+        const formattedPrompt = `${rawPrompt}, vertical aspect ratio, 9:16 aspect ratio, zen, highly detailed`;
+
+        try {
+          const vibesCookie = localStorage.getItem('vibes_meta_session') || '7d5949e8-ea5f-448d-a81e-afc41ab0c6d3.BexKJg2_7mvk_BTYz8CYKGJyk1wAf6omZmevfmF6arg';
+          onLog('Buddhist', `${stagePrefix} Đang gọi API Vibes.ai để tạo ảnh nền chất lượng cao...`, 'info');
+          const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
+          if (vibeRes.success) {
+            localImages.push(vibeRes.filePath);
+            onLog('Buddhist', `${stagePrefix} Vẽ ảnh Vibes.ai thành công!`, 'success');
+          } else {
+            throw new Error(vibeRes.error);
+          }
+        } catch (vibeErr) {
+          onLog('Buddhist', `Không tạo được ảnh trên Vibes.ai (${vibeErr.message}). Chuyển sang vẽ ảnh dự phòng...`, 'warning');
           const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=1080&height=1920&nologo=true`;
-          
           const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
           if (dlRes.success) {
             localImages.push(dlRes.filePath);
           } else {
-            localImages.push(localImages[0] || ''); // fallback
+            localImages.push('');
           }
         }
 
-        // 5. Build Slide timings
+        // 5. Build Slide timings (one single slide for the entire video!)
         const lastWordSeg = asrSegments[asrSegments.length - 1];
         const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 15000;
         const audioDurationFrames = Math.ceil((audioDurationMs / 1000) * 30);
 
-        const computedSlides = [];
-        let currentFrame = 0;
-        const segmentDurationFrames = Math.floor(audioDurationFrames / generatedData.length);
-
-        generatedData.forEach((item, idx) => {
-          computedSlides.push({
-            imageUrl: localImages[idx % localImages.length] || localImages[0],
-            startFrame: currentFrame,
-            durationFrames: idx === generatedData.length - 1 
-              ? (audioDurationFrames - currentFrame) 
-              : segmentDurationFrames
-          });
-          currentFrame += segmentDurationFrames;
-        });
+        const computedSlides = [
+          {
+            imageUrl: localImages[0] || '',
+            startFrame: 0,
+            durationFrames: audioDurationFrames
+          }
+        ];
 
         // Set to local states (enables real-time preview of the LAST generated video)
         setSlides(computedSlides);
