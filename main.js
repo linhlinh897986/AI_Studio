@@ -2,10 +2,10 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
-const { synthesizeSpeech } = require('./edge_tts_helper');
-const { fetchShopeeProduct } = require('./shopee_helper');
-const { generateJsonScript } = require('./gemini_helper');
-const { transcribeCapCut, segmentsToSrt } = require('./capcut_asr');
+const { synthesizeSpeech } = require('./backend/edge_tts_helper');
+const { fetchShopeeProduct } = require('./backend/shopee_helper');
+const { generateJsonScript } = require('./backend/gemini_helper');
+const { transcribeCapCut, segmentsToSrt } = require('./backend/capcut_asr');
 
 let mainWindow;
 
