@@ -158,6 +158,51 @@ ipcMain.handle('download-image', async (event, { imageUrl }) => {
   }
 });
 
+// 6.5. PDF Downloading & Extraction
+ipcMain.handle('buddhist-parse-pdf', async (event, { filePath, fileUrl }) => {
+  try {
+    const pdfParse = require('pdf-parse');
+    let buffer;
+    if (fileUrl) {
+      const axios = require('axios');
+      const response = await axios.get(fileUrl, { responseType: 'arraybuffer' });
+      buffer = Buffer.from(response.data);
+    } else if (filePath) {
+      const cleanPath = filePath.startsWith('file://') ? filePath.substring(7) : filePath;
+      buffer = fs.readFileSync(cleanPath);
+    } else {
+      throw new Error('Không có tệp PDF nào được cung cấp.');
+    }
+
+    const data = await pdfParse(buffer);
+    return {
+      success: true,
+      text: data.text,
+      numpages: data.numpages,
+      info: data.info
+    };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('open-pdf-dialog', async () => {
+  try {
+    const result = await dialog.showOpenDialog(mainWindow, {
+      properties: ['openFile'],
+      filters: [{ name: 'PDF Files', extensions: ['pdf'] }]
+    });
+
+    if (result.canceled || result.filePaths.length === 0) {
+      return { success: false, error: "Đã hủy chọn file." };
+    }
+
+    return { success: true, filePath: result.filePaths[0] };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
 // 7. Video File Selection Dialog
 ipcMain.handle('select-video-file', async () => {
   try {
