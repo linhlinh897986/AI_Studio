@@ -485,3 +485,26 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
   }
 });
 
+ipcMain.handle('open-path', async (event, { filePath }) => {
+  try {
+    const { shell } = require('electron');
+    const cleanPath = filePath.replace(/^file:\/\/\/?/, '').replace(/\//g, '\\');
+    await shell.openPath(cleanPath);
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('show-item-in-folder', async (event, { filePath }) => {
+  try {
+    const { shell } = require('electron');
+    const cleanPath = filePath.replace(/^file:\/\/\/?/, '').replace(/\//g, '\\');
+    shell.showItemInFolder(cleanPath);
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+

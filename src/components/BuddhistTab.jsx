@@ -43,7 +43,12 @@ const CURATED_PDFS = [
   }
 ];
 
-export default function BuddhistTab({ onLog }) {
+export default function BuddhistTab({ 
+  onLog, 
+  registerProcess = () => {}, 
+  updateProcess = () => {}, 
+  addProcessLog = () => {} 
+}) {
   // Batch video configuration
   const [numVideos, setNumVideos] = useState(1); // 1, 5, 10, 15
   const [selectedRefKey, setSelectedRefKey] = useState('free'); // free, local, or index of CURATED_PDFS
@@ -210,10 +215,17 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         const stagePrefix = `[Video ${i + 1}/${totalToGenerate}]`;
         const currentTopic = plannedTopics[i % plannedTopics.length];
 
+        // Register process in background tracker
+        const processId = `buddhist-batch-${Date.now()}-${i}`;
+        registerProcess(processId, `[Video ${i + 1}/${totalToGenerate}] ${currentTopic.title}`, 'buddhist');
+        addProcessLog(processId, `Bắt đầu xử lý chủ đề: "${currentTopic.title}". Trọng tâm: ${currentTopic.description}`, 'info');
+
         onLog('Buddhist', `${stagePrefix} Bắt đầu khởi tạo chủ đề: "${currentTopic.title}"...`, 'info');
 
         // 1. Generate script
         setLoadingStage(`${stagePrefix} AI đang biên soạn kịch bản chi tiết...`);
+        updateProcess(processId, { progress: 10, stage: 'AI đang biên soạn kịch bản chi tiết...' });
+        addProcessLog(processId, 'Đang gửi yêu cầu lập kịch bản chi tiết và hình ảnh tới Gemini...', 'info');
         const systemPrompt = `Bạn là một thiền sư hiền triết, am hiểu Phật Pháp sâu sắc. Hãy viết các câu triết lý sống bằng tiếng Việt mang tính thanh tịnh, chậm rãi, thư thái và bình yên. Trả về cấu trúc JSON bắt buộc.`;
         
         let moodVisualDetail = '';
@@ -273,30 +285,51 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           geminiModel,
           pdfFilePath
         });
-        if (!geminiRes.success) throw new Error(geminiRes.error);
+        if (!geminiRes.success) {
+          updateProcess(processId, { status: 'failed', error: geminiRes.error });
+          addProcessLog(processId, `Lỗi tạo kịch bản Gemini: ${geminiRes.error}`, 'error');
+          throw new Error(geminiRes.error);
+        }
         const generatedData = geminiRes.data.script;
+        addProcessLog(processId, `AI tạo kịch bản thành công. Số đoạn: ${generatedData.length}`, 'success');
 
         // 2. TTS Voiceover
         setLoadingStage(`${stagePrefix} Đang lồng tiếng thiền sư...`);
+        updateProcess(processId, { progress: 30, stage: 'Đang lồng tiếng thiền sư...' });
+        addProcessLog(processId, 'Bắt đầu gọi Edge-TTS lồng tiếng Việt...', 'info');
         const fullText = generatedData.map(item => item.text).join(' ');
         const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { 
           text: fullText, 
           options: { voice, rate: '-15%' }
         });
-        if (!ttsRes.success) throw new Error(ttsRes.error);
+        if (!ttsRes.success) {
+          updateProcess(processId, { status: 'failed', error: ttsRes.error });
+          addProcessLog(processId, `Lỗi lồng tiếng: ${ttsRes.error}`, 'error');
+          throw new Error(ttsRes.error);
+        }
         const localAudioUrl = ttsRes.filePath;
+        addProcessLog(processId, 'Lồng tiếng Việt hoàn tất.', 'success');
 
         // 3. ASR Syncing
         setLoadingStage(`${stagePrefix} Đang chạy phụ đề karaoke...`);
+        updateProcess(processId, { progress: 50, stage: 'Đang chạy phụ đề karaoke...' });
+        addProcessLog(processId, 'Chạy ASR đồng bộ thời gian phụ đề...', 'info');
         const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
           audioPath: localAudioUrl,
           options: { language: 'vi-VN', needWordTimestamp: true }
         });
-        if (!asrRes.success) throw new Error(asrRes.error);
+        if (!asrRes.success) {
+          updateProcess(processId, { status: 'failed', error: asrRes.error });
+          addProcessLog(processId, `Lỗi chạy ASR phụ đề: ${asrRes.error}`, 'error');
+          throw new Error(asrRes.error);
+        }
         const asrSegments = asrRes.segments;
+        addProcessLog(processId, `Khớp phụ đề thành công (${asrSegments.length} dòng).`, 'success');
 
         // 4. Image generation & download
         setLoadingStage(`${stagePrefix} Đang thiết kế ảnh nền Vibes.ai...`);
+        updateProcess(processId, { progress: 70, stage: 'Đang thiết kế ảnh nền Vibes.ai...' });
+        addProcessLog(processId, 'Bắt đầu tạo ảnh nền Phật giáo...', 'info');
         const localImages = [];
         const rawPrompt = geminiRes.data.imagePrompt || topic;
         const formattedPrompt = `${rawPrompt}, vertical aspect ratio, 9:16 aspect ratio, zen, highly detailed`;
@@ -304,10 +337,12 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         try {
           const vibesCookie = localStorage.getItem('vibes_meta_session') || '7d5949e8-ea5f-448d-a81e-afc41ab0c6d3.BexKJg2_7mvk_BTYz8CYKGJyk1wAf6omZmevfmF6arg';
           onLog('Buddhist', `${stagePrefix} Đang gọi API Vibes.ai để tạo ảnh nền chất lượng cao...`, 'info');
+          addProcessLog(processId, 'Đang kết nối API Vibes.ai...', 'info');
           const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
           if (vibeRes.success) {
             localImages.push(vibeRes.filePath);
             onLog('Buddhist', `${stagePrefix} Vẽ ảnh Vibes.ai thành công!`, 'success');
+            addProcessLog(processId, 'Vẽ ảnh Vibes.ai thành công!', 'success');
           } else {
             throw new Error(vibeRes.error);
           }
@@ -346,6 +381,16 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         if (totalToGenerate > 1) {
           setLoadingStage(`${stagePrefix} Đang kết xuất video thành tệp MP4...`);
           onLog('Buddhist', `${stagePrefix} Bắt đầu kết xuất video MP4 tự động...`, 'info');
+          updateProcess(processId, { progress: 80, stage: 'Bắt đầu kết xuất video MP4...' });
+          addProcessLog(processId, 'Khởi chạy tiến trình render Remotion MP4...', 'info');
+
+          const progressListener = (event, progress) => {
+            const percent = Math.floor(progress.percent * 100);
+            const remotionProgress = 80 + Math.floor(percent * 0.19);
+            updateProcess(processId, { progress: remotionProgress, stage: `Đang kết xuất Remotion MP4 (${percent}%)...` });
+            addProcessLog(processId, `Đang render Remotion: ${percent}%...`, 'info');
+          };
+          ipcRenderer.on('render-progress', progressListener);
 
           const inputProps = {
             slides: computedSlides,
@@ -365,13 +410,23 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             compositionId: 'BuddhistVideo'
           });
 
+          ipcRenderer.removeListener('render-progress', progressListener);
+
           if (renderRes.success) {
             setBatchLogs(prev => [...prev, { success: true, path: renderRes.filePath }]);
             onLog('Buddhist', `${stagePrefix} Kết xuất MP4 thành công! File: ${renderRes.filePath}`, 'success');
+            updateProcess(processId, { status: 'success', progress: 100, stage: 'Hoàn thành!', outputPath: renderRes.filePath });
+            addProcessLog(processId, `Kết xuất MP4 thành công! Tệp lưu tại: ${renderRes.filePath}`, 'success');
           } else {
             setBatchLogs(prev => [...prev, { success: false, error: renderRes.error }]);
             onLog('Buddhist', `${stagePrefix} Lỗi kết xuất MP4: ${renderRes.error}`, 'error');
+            updateProcess(processId, { status: 'failed', error: renderRes.error });
+            addProcessLog(processId, `Lỗi kết xuất video: ${renderRes.error}`, 'error');
           }
+        } else {
+          // If totalToGenerate === 1, the draft preparation is complete
+          updateProcess(processId, { status: 'success', progress: 100, stage: 'Khởi tạo thành công!' });
+          addProcessLog(processId, 'Đã chuẩn bị cấu trúc video thành công! Bạn có thể xem trước hoặc nhấp "Xuất Video MP4" ở cột phải để lưu file.', 'success');
         }
       }
 
@@ -398,8 +453,16 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
     setExportProgress({ percent: 0, message: 'Khởi chạy kết xuất video Phật pháp...' });
     onLog('Buddhist', 'Bắt đầu kết xuất video MP4 thành phẩm...', 'info');
 
+    // Register process in background tracker
+    const processId = `buddhist-export-${Date.now()}`;
+    registerProcess(processId, `Xuất Video: ${topic.trim() ? topic : 'Video Phật Pháp'}`, 'buddhist');
+    addProcessLog(processId, 'Bắt đầu kết xuất video thành phẩm...', 'info');
+
     const progressListener = (event, progress) => {
       setExportProgress(progress);
+      const percent = Math.floor(progress.percent * 100);
+      updateProcess(processId, { progress: percent, stage: `Đang render MP4 (${percent}%)...` });
+      addProcessLog(processId, `Render: ${percent}%...`, 'info');
     };
     ipcRenderer.on('render-progress', progressListener);
 
@@ -424,12 +487,16 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
 
       if (res.success) {
         onLog('Buddhist', `Kết xuất video thành công! File: ${res.filePath}`, 'success');
+        updateProcess(processId, { status: 'success', progress: 100, stage: 'Hoàn thành!', outputPath: res.filePath });
+        addProcessLog(processId, `Xuất video thành công! Tệp lưu tại: ${res.filePath}`, 'success');
         alert(`Xuất video thành công! File lưu tại: ${res.filePath}`);
       } else {
         throw new Error(res.error);
       }
     } catch (e) {
       onLog('Buddhist', `Lỗi xuất video: ${e.message}`, 'error');
+      updateProcess(processId, { status: 'failed', error: e.message });
+      addProcessLog(processId, `Lỗi xuất video: ${e.message}`, 'error');
       alert(`Lỗi xuất video: ${e.message}`);
     } finally {
       setIsExporting(false);

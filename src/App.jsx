@@ -10,7 +10,8 @@ import {
   Server,
   Search,
   Bell,
-  User
+  User,
+  Activity
 } from 'lucide-react';
 
 import Dashboard from './components/Dashboard';
@@ -19,11 +20,13 @@ import BuddhistTab from './components/BuddhistTab';
 import StickmanTab from './components/StickmanTab';
 import DubberTab from './components/DubberTab';
 import SettingsTab from './components/SettingsTab';
+import ProcessesTab from './components/ProcessesTab';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [logs, setLogs] = useState([]);
   const [hasApiKey, setHasApiKey] = useState(false);
+  const [processes, setProcesses] = useState([]);
 
   // Poll localStorage to check if API key exists for visual warning badges
   useEffect(() => {
@@ -45,6 +48,57 @@ export default function App() {
     ]);
   };
 
+  const registerProcess = (id, name, type) => {
+    const timestamp = new Date().toLocaleTimeString();
+    setProcesses((prev) => [
+      {
+        id,
+        name,
+        type,
+        status: 'running',
+        progress: 0,
+        stage: 'Khởi tạo tiến trình...',
+        startTime: timestamp,
+        endTime: null,
+        outputPath: null,
+        error: null,
+        logs: [{ timestamp, text: 'Tiến trình đăng ký thành công.', type: 'success' }]
+      },
+      ...prev
+    ]);
+    addLog(type, `Khởi tạo tiến trình ngầm: "${name}" [ID: ${id}]`, 'info');
+  };
+
+  const updateProcess = (id, updates) => {
+    setProcesses((prev) =>
+      prev.map((proc) => {
+        if (proc.id === id) {
+          const updated = { ...proc, ...updates };
+          if (updates.status === 'success' || updates.status === 'failed') {
+            updated.endTime = new Date().toLocaleTimeString();
+          }
+          return updated;
+        }
+        return proc;
+      })
+    );
+  };
+
+  const addProcessLog = (id, text, type = 'info') => {
+    const timestamp = new Date().toLocaleTimeString();
+    setProcesses((prev) =>
+      prev.map((proc) => {
+        if (proc.id === id) {
+          return {
+            ...proc,
+            logs: [{ timestamp, text, type }, ...proc.logs]
+          };
+        }
+        return proc;
+      })
+    );
+  };
+
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -52,11 +106,20 @@ export default function App() {
       case 'shopee':
         return <ShopeeTab onLog={addLog} />;
       case 'buddhist':
-        return <BuddhistTab onLog={addLog} />;
+        return (
+          <BuddhistTab 
+            onLog={addLog} 
+            registerProcess={registerProcess}
+            updateProcess={updateProcess}
+            addProcessLog={addProcessLog}
+          />
+        );
       case 'stickman':
         return <StickmanTab onLog={addLog} />;
       case 'dubber':
         return <DubberTab onLog={addLog} />;
+      case 'processes':
+        return <ProcessesTab processes={processes} setProcesses={setProcesses} />;
       case 'settings':
         return <SettingsTab />;
       default:
@@ -68,9 +131,10 @@ export default function App() {
     switch (activeTab) {
       case 'dashboard': return 'Dashboard';
       case 'shopee': return 'Shopee Review';
-      case 'buddhist': return 'Buddhist Teachings';
+      case 'buddhist': return 'Sản xuất Video Phật Pháp';
       case 'stickman': return 'Stickman Animator';
       case 'dubber': return 'Video Cloner & Dubber';
+      case 'processes': return 'Giám sát Tiến trình ngầm';
       case 'settings': return 'Cấu hình Hệ thống';
       default: return 'Studio';
     }
@@ -124,6 +188,28 @@ export default function App() {
           >
             <Video className="nav-icon" />
             <span>Lồng Tiếng Video</span>
+          </div>
+
+          <div 
+            className={`nav-item ${activeTab === 'processes' ? 'active' : ''}`}
+            onClick={() => setActiveTab('processes')}
+          >
+            <Activity className="nav-icon" />
+            <span>Tiến Trình</span>
+            {processes.filter(p => p.status === 'running').length > 0 && (
+              <span style={{ 
+                marginLeft: 'auto', 
+                fontSize: 10, 
+                fontWeight: 'bold', 
+                background: 'var(--success)', 
+                color: '#fff', 
+                padding: '2px 6px', 
+                borderRadius: 10, 
+                boxShadow: '0 0 8px rgba(34, 197, 94, 0.6)'
+              }}>
+                {processes.filter(p => p.status === 'running').length}
+              </span>
+            )}
           </div>
 
           <div 
