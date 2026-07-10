@@ -424,7 +424,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                     fontWeight: 700,
                     cursor: 'pointer',
                     fontSize: 13,
-                    transition: 'all 200s'
+                    transition: 'all 0.2s'
                   }}
                 >
                   {num} Video{num > 1 ? 's' : ''}
