@@ -1,0 +1,88 @@
+{
+  "dia-tang": {
+    "title": "Kinh Địa Tạng Bồ Tát Bổn Nguyện",
+    "desc": "Bộ kinh nổi tiếng về chữ hiếu, công đức độ sanh và thế giới u minh.",
+    "passages": [
+      {
+        "chapter": "Phẩm 1: Thần Thông Trên Cung Trời Đao Lợi (Hạnh nguyện cứu mẹ)",
+        "text": "Lúc bấy giờ, đức Phật Thích Ca Mâu Ni bảo ngài Văn Thù Sư Lợi Pháp Vương Tử rằng: Bồ Tát Địa Tạng này từ thuở lâu xa về trước, trải qua muôn vàn kiếp khổ cực để cứu độ chúng sinh đau khổ. Thuở xưa, ngài từng là một người con hiếu thảo tên là Quang Mục. Vì mẹ sinh tiền tạo ác nghiệp sát sinh và hủy báng Tam Bảo nên bị đọa vào địa ngục. Quang Mục đã phát nguyện rộng lớn trước đức Phật: Nguyện cứu vớt tất cả chúng sinh đau khổ trong ba đường ác, khi nào địa ngục chưa trống rỗng thì ngài quyết chưa thành Phật."
+      },
+      {
+        "chapter": "Phẩm 6: Như Lai Tán Thán Công Đức (Công đức trì niệm)",
+        "text": "Đức Phật bảo khắp đại chúng cõi trời cõi người: Bồ Tát Địa Tạng có nhân duyên rất lớn với thế giới Ta Bà này. Nếu có thiện nam tử hay thiện nữ nhân nào nghe danh hiệu Bồ Tát Địa Tạng, chắp tay chiêm ngưỡng kính lễ hoặc vẽ hình tượng ngài, thì người đó sẽ tiêu trừ nghiệp chướng, gia đình hòa thuận yên ấm, tai qua nạn khỏi, quỷ thần hộ vệ xung quanh và khi lâm chung sẽ được tiếp dẫn về cõi lành."
+      }
+    ]
+  },
+  "phap-hoa": {
+    "title": "Kinh Diệu Pháp Liên Hoa (Kinh Pháp Hoa)",
+    "desc": "Vua của các kinh điển Đại Thừa, khai mở tri kiến Phật cho chúng sinh.",
+    "passages": [
+      {
+        "chapter": "Phẩm 2: Phương Tiện (Chúng sinh đồng Phật tính)",
+        "text": "Đức Phật muốn khai thị ngộ nhập tri kiến Phật cho mọi chúng sinh. Ngài bảo ngài Xá Lợi Phất: Chư Phật chỉ dùng một vị trí tuệ tối thượng để thuyết pháp, đó là Nhất Phật Thừa, không có hai cũng không có ba thừa khác. Vì căn tính chúng sinh bất đồng, Phật phải dùng các phương tiện thiện xảo như Thanh Văn, Duyên Giác, Bồ Tát để dẫn dắt từng bước. Nhưng đích đến tối hậu của tất cả vạn vật là khai mở bản tính Phật có sẵn trong lòng để tự giải thoát."
+      },
+      {
+        "chapter": "Phẩm 25: Quán Thế Âm Bồ Tát Phổ Môn (Cứu khổ nạn)",
+        "text": "Lúc đó ngài Vô Tận Ý Bồ Tát bạch Phật rằng: Thế Tôn! Vì nhân duyên gì mà Bồ Tát mang tên Quán Thế Âm? Phật bảo: Này thiện nam tử! Nếu có vô lượng trăm nghìn muôn ức chúng sinh chịu các khổ não, nghe danh hiệu Quán Thế Âm Bồ Tát này, một lòng xưng danh niệm tưởng, thì Bồ Tát tức thời quán xét tiếng kêu cầu cứu đó mà cứu họ đều được giải thoát tai ách."
+      }
+    ]
+  },
+  "phap-cu": {
+    "title": "Kinh Pháp Cú (Dhammapada Thi Kệ)",
+    "desc": "423 câu thi kệ chứa đựng những bài học đạo đức giản dị, sâu sắc của Phật.",
+    "passages": [
+      {
+        "chapter": "Phẩm 1: Song Yếu (Ý dẫn đầu các pháp)",
+        "text": "Ý dẫn đầu các pháp, ý làm chủ, ý tạo. Nếu nói hay hành động với tâm ô nhiễm, đau khổ sẽ theo ta như bánh xe lăn theo chân con vật kéo. Ý dẫn đầu các pháp, ý làm chủ, ý tạo. Nếu nói hay hành động với tâm thanh tịnh, hạnh phúc sẽ đi theo ta như bóng không bao giờ rời hình. Kẻ thù không thể làm hại ta bằng chính tâm trí điên đảo của ta làm hại mình. Cha mẹ không thể giúp ta bằng chính tâm trí thanh tịnh cứu độ ta."
+      },
+      {
+        "chapter": "Phẩm 2: Không Phóng Dật (Đường sống và đường chết)",
+        "text": "Không phóng dật là đường sống, phóng dật là đường chết. Người không phóng dật không bao giờ chết, kẻ phóng dật giống như đã chết rồi. Nhờ nỗ lực, chánh niệm, tự chế và kiểm soát bản thân, người trí tuệ tự xây dựng cho mình một hòn đảo an toàn giữa dòng đời mà không trận bão lũ nào có thể nhấn chìm được. Hãy tự tỉnh thức để chiến thắng bản thân mình trước khi chiến thắng người khác."
+      }
+    ]
+  },
+  "kim-cang": {
+    "title": "Kinh Kim Cang Bát Nhã Ba La Mật",
+    "desc": "Kinh điển tối thượng luận giải về tính Không và trí tuệ giải thoát.",
+    "passages": [
+      {
+        "chapter": "Phân đoạn 1: Vô Tướng Vô Ngã (Phá bỏ chấp trước)",
+        "text": "Đức Phật bảo ngài Tu Bồ Đề: Bồ Tát muốn cứu độ chúng sinh thì không nên khởi tâm phân biệt. Phải diệt độ vô lượng chúng sinh mà thực tế không thấy có chúng sinh nào được diệt độ. Tại vì sao? Nếu Bồ Tát còn có tướng ngã, tướng nhân, tướng chúng sinh, tướng thọ giả thì không phải là một vị Bồ Tát đích thực. Hãy lìa tất cả các tướng để ngộ vào tự tính chân thật."
+      },
+      {
+        "chapter": "Phân đoạn 2: Kệ Như Huyễn (Thế gian như giấc mộng)",
+        "text": "Tất cả pháp hữu vi trên thế gian này, đều giống như giấc mộng, như bọt nước, như cái bóng, như giọt sương buổi sáng, hay như tia chớp lóe lên rồi tắt. Chúng sinh nên quán xét thế gian này theo tinh thần như vậy để tâm không bị dính mắc, trói buộc vào tiền tài, danh vọng hay sự được mất. Nhờ quán chiếu như huyễn, hành giả sẽ tự tại an nhiên giữa sinh tử luân hồi."
+      }
+    ]
+  },
+  "a-di-da": {
+    "title": "Kinh A Di Đà",
+    "desc": "Kinh điển hướng tâm về thế giới Tây Phương Cực Lạc thanh tịnh.",
+    "passages": [
+      {
+        "chapter": "Cảnh giới Cực Lạc (Cõi nước thanh tịnh)",
+        "text": "Đức Phật bảo ngài Xá Lợi Phất: Cách đây mười muôn ức cõi Phật về phương Tây, có thế giới tên là Cực Lạc, đức Phật hiệu là A Di Đà hiện đang thuyết pháp. Cõi nước đó có hồ bảy báu chứa đầy nước tám công đức, đáy lót bằng cát vàng, xung quanh có lầu gác trang nghiêm bằng ngọc báu. Chim hót tiếng pháp âm vi diệu, gió thổi hàng cây báu phát ra nhạc trời thanh tịnh, khiến chúng sinh nghe thấy đều khởi lòng niệm Phật, niệm Pháp, niệm Tăng."
+      }
+    ]
+  },
+  "buoc-dau-hoc-phat": {
+    "title": "Bước Đầu Học Phật (HT. Thích Thanh Từ)",
+    "desc": "Cẩm nang hướng dẫn căn bản về nhân quả, tu tập thiền định.",
+    "passages": [
+      {
+        "chapter": "Chương 1: Luật Nhân Quả trong đời sống",
+        "text": "Luật nhân quả là chân lý khách quan chi phối vũ trụ và con người. Không có chuyện ngẫu nhiên hay định mệnh. Gieo nhân nào gặt quả nấy. Gieo hành vi tốt đẹp sẽ gặt hái hạnh phúc, gieo ác nghiệp tất yếu chuốc lấy đau khổ tai ương. Muốn biết nhân đời trước hãy xem quả đời này đang nhận; muốn biết quả đời sau hãy nhìn nhân gieo trong hiện tại. Nhận rõ nhân quả giúp ta làm chủ số phận của mình."
+      }
+    ]
+  },
+  "phat-hoc-pho-thong": {
+    "title": "Phật Học Phổ Thông (HT. Thích Thiện Hoa)",
+    "desc": "Giáo trình Phật giáo căn bản cho hàng Phật tử tại gia.",
+    "passages": [
+      {
+        "chapter": "Bài học: Quy y Tam Bảo & Ngũ Giới",
+        "text": "Quy y Tam Bảo (Phật, Pháp, Tăng) là bước đầu tiên để trở thành Phật tử, quay về nương tựa ánh sáng giác ngộ. Giữ gìn năm giới cấm (không sát sinh, không trộm cướp, không tà dâm, không nói dối, không uống rượu) là năm nguyên tắc đạo đức cơ bản để bảo vệ nhân cách con người, giúp xã hội hòa bình và tránh xa các đường ác."
+      }
+    ]
+  }
+}
