@@ -59,7 +59,7 @@ export default function BuddhistTab({
   const [bgMusic, setBgMusic] = useState('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3');
   
   // Custom mechanisms states
-  const [mood, setMood] = useState('nature');
+
   const [ambientSfx, setAmbientSfx] = useState('bell');
   const [particleType, setParticleType] = useState('dust');
   const [subtitleStyle, setSubtitleStyle] = useState('modern');
@@ -228,30 +228,19 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         addProcessLog(processId, 'Đang gửi yêu cầu lập kịch bản chi tiết và hình ảnh tới Gemini...', 'info');
         const systemPrompt = `Bạn là một thiền sư hiền triết, am hiểu Phật Pháp sâu sắc. Hãy viết các câu triết lý sống bằng tiếng Việt mang tính thanh tịnh, chậm rãi, thư thái và bình yên. Trả về cấu trúc JSON bắt buộc.`;
         
-        let moodVisualDetail = '';
-        if (mood === 'temple') {
-          moodVisualDetail = 'ancient misty temple, stone lanterns, slow rising incense smoke, warm golden morning sun, highly detailed vertical format';
-        } else if (mood === 'nature') {
-          moodVisualDetail = 'serene lush green bamboo forest, fresh morning dew drops, clear flowing stream water, slow zoom vertical format';
-        } else if (mood === 'meditation') {
-          moodVisualDetail = 'a dark silhouette of a Buddhist monk meditating peacefully under a giant bodhi tree, giant red sunset, absolute silence vertical format';
-        } else if (mood === 'mystical') {
-          moodVisualDetail = 'mystical glowing pink lotus flower floating on calm sacred water, galaxy stardust nebula night background, glowing rays vertical format';
-        }
-
         let userPrompt = '';
         if (sourceType === 'prompt') {
           userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên chủ đề hoạch định sau:
 Tiêu đề: ${currentTopic.title}
 Trọng tâm: ${currentTopic.description}
 
-Hãy chia bài giảng làm 4 phân đoạn. 
-Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết để làm bức ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này, kết hợp hoàn hảo với phong cách không gian trực quan sau: "${moodVisualDetail}".
+Hãy chia bài giảng làm 4 phân đoạn.
+Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết, dùng làm ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này. Ảnh PHẢI thể hiện trực tiếp nội dung của bài giảng: hình ảnh một vị Đức Phật hoặc nhà sư đang ngồi thiền hoặc giảng pháp, bối cảnh thanh tịnh liên quan đến chủ đề của video, ánh sáng ấm áp, phong cách nghệ thuật Phật giáo truyền thống Á Đông, tỷ lệ dọc 9:16.
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
   "title": "${currentTopic.title}",
-  "imagePrompt": "Mô tả ảnh nền tiếng Anh chi tiết tích hợp hoàn hảo với phong cách không gian được cung cấp",
+  "imagePrompt": "Detailed English image prompt featuring a Buddha or Buddhist monk scene directly related to the video's teaching theme, vertical 9:16 aspect ratio, traditional East Asian Buddhist art style",
   "script": [
     {
       "text": "Câu triết lý tiếng Việt (khoảng 20 từ, giọng điệu thiền tịnh chậm rãi)"
@@ -264,12 +253,12 @@ Tiêu đề: ${currentTopic.title}
 Trọng tâm: ${currentTopic.description}
 
 Hãy chia bài giảng làm 4 phân đoạn.
-Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết để làm bức ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này, kết hợp hoàn hảo với phong cách không gian trực quan sau: "${moodVisualDetail}".
+Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết, dùng làm ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này. Ảnh PHẢI thể hiện trực tiếp nội dung của bài giảng: hình ảnh một vị Đức Phật hoặc nhà sư đang ngồi thiền hoặc giảng pháp, bối cảnh thanh tịnh liên quan đến chủ đề của video, ánh sáng ấm áp, phong cách nghệ thuật Phật giáo truyền thống Á Đông, tỷ lệ dọc 9:16.
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
   "title": "${currentTopic.title}",
-  "imagePrompt": "Mô tả ảnh nền tiếng Anh chi tiết tích hợp hoàn hảo với phong cách không gian được cung cấp",
+  "imagePrompt": "Detailed English image prompt featuring a Buddha or Buddhist monk scene directly related to the video's teaching theme, vertical 9:16 aspect ratio, traditional East Asian Buddhist art style",
   "script": [
     {
       "text": "Câu triết lý tiếng Việt đúc kết từ tài liệu (khoảng 20 từ, chậm rãi)"
@@ -326,38 +315,33 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         const asrSegments = asrRes.segments;
         addProcessLog(processId, `Khớp phụ đề thành công (${asrSegments.length} dòng).`, 'success');
 
-        // 4. Image generation & download
-        setLoadingStage(`${stagePrefix} Đang thiết kế ảnh nền Vibes.ai...`);
-        updateProcess(processId, { progress: 70, stage: 'Đang thiết kế ảnh nền Vibes.ai...' });
+        // 4. Image generation via Vibes.ai
+        setLoadingStage(`${stagePrefix} Đang tạo ảnh Phật/Nhà sư qua Vibes.ai...`);
+        updateProcess(processId, { progress: 70, stage: 'Đang tạo ảnh Phật/Nhà sư qua Vibes.ai...' });
         addProcessLog(processId, 'Bắt đầu tạo ảnh nền Phật giáo...', 'info');
         const localImages = [];
-        const rawPrompt = geminiRes.data.imagePrompt || topic;
-        const formattedPrompt = `${rawPrompt}, vertical aspect ratio, 9:16 aspect ratio, zen, highly detailed`;
+        const imagePrompt = geminiRes.data.imagePrompt || `a serene Buddha meditating, traditional East Asian Buddhist art style, vertical 9:16`;
+        const formattedPrompt = `${imagePrompt}, vertical aspect ratio, 9:16, photorealistic, highly detailed, masterpiece`;
 
-        try {
-          const vibesCookie = localStorage.getItem('vibes_meta_session') || '';
-          if (!vibesCookie) {
-            throw new Error('Chưa cấu hình Vibes.ai Meta Session. Vui lòng vào Cài Đặt để nhập token.');
-          }
-          onLog('Buddhist', `${stagePrefix} Đang gọi API Vibes.ai để tạo ảnh nền chất lượng cao...`, 'info');
-          addProcessLog(processId, 'Đang kết nối API Vibes.ai...', 'info');
-          const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
-          if (vibeRes.success) {
-            localImages.push(vibeRes.filePath);
-            onLog('Buddhist', `${stagePrefix} Vẽ ảnh Vibes.ai thành công!`, 'success');
-            addProcessLog(processId, 'Vẽ ảnh Vibes.ai thành công!', 'success');
-          } else {
-            throw new Error(vibeRes.error);
-          }
-        } catch (vibeErr) {
-          onLog('Buddhist', `Không tạo được ảnh trên Vibes.ai (${vibeErr.message}). Chuyển sang vẽ ảnh dự phòng...`, 'warning');
-          const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=1080&height=1920&nologo=true`;
-          const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
-          if (dlRes.success) {
-            localImages.push(dlRes.filePath);
-          } else {
-            localImages.push('');
-          }
+        const vibesCookie = localStorage.getItem('vibes_meta_session') || '';
+        if (!vibesCookie) {
+          const errMsg = 'Chưa cấu hình Vibes.ai Meta Session. Vui lòng vào Cài Đặt để nhập token.';
+          addProcessLog(processId, errMsg, 'error');
+          updateProcess(processId, { status: 'failed', error: errMsg });
+          throw new Error(errMsg);
+        }
+        onLog('Buddhist', `${stagePrefix} Đang gọi API Vibes.ai tạo ảnh Phật/Nhà sư...`, 'info');
+        addProcessLog(processId, 'Đang kết nối API Vibes.ai...', 'info');
+        const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
+        if (vibeRes.success) {
+          localImages.push(vibeRes.filePath);
+          onLog('Buddhist', `${stagePrefix} Tạo ảnh Phật/Nhà sư thành công!`, 'success');
+          addProcessLog(processId, 'Tạo ảnh Phật/Nhà sư thành công!', 'success');
+        } else {
+          const errMsg = `Vibes.ai lỗi: ${vibeRes.error}`;
+          addProcessLog(processId, errMsg, 'error');
+          updateProcess(processId, { status: 'failed', error: errMsg });
+          throw new Error(errMsg);
         }
 
         // 5. Build Slide timings (one single slide for the entire video!)
@@ -613,39 +597,20 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             </div>
           )}
 
-          {/* Visual settings */}
-          <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
-            <div className="form-group" style={{ flex: 1 }}>
-              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Sun size={14} /> Không gian (Visual Mood)
-              </label>
-              <select 
-                className="form-input"
-                value={mood}
-                onChange={(e) => setMood(e.target.value)}
-                disabled={loading}
-              >
-                <option value="nature">Trúc xanh & Suối chảy (Serene Nature)</option>
-                <option value="temple">Chùa cổ & Khói sương (Ancient Temple)</option>
-                <option value="meditation">Nhà sư & Bóng hoàng hôn (Bodhi Meditation)</option>
-                <option value="mystical">Hồ sen phát sáng (Mystical Zen)</option>
-              </select>
-            </div>
-
-            <div className="form-group" style={{ flex: 1 }}>
-              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Type size={14} /> Kiểu chữ phụ đề
-              </label>
-              <select 
-                className="form-input"
-                value={subtitleStyle}
-                onChange={(e) => setSubtitleStyle(e.target.value)}
-                disabled={loading}
-              >
-                <option value="modern">Hiện đại (TikTok Karaoke nằm ngang)</option>
-                <option value="calligraphy">Cổ kính (Thư pháp cuộn chạy dọc)</option>
-              </select>
-            </div>
+          {/* Visual settings - subtitle style only */}
+          <div className="form-group" style={{ marginBottom: 20 }}>
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Type size={14} /> Kiểu chữ phụ đề
+            </label>
+            <select 
+              className="form-input"
+              value={subtitleStyle}
+              onChange={(e) => setSubtitleStyle(e.target.value)}
+              disabled={loading}
+            >
+              <option value="modern">Hiện đại (TikTok Karaoke nằm ngang)</option>
+              <option value="calligraphy">Cổ kính (Thư pháp cuộn chạy dọc)</option>
+            </select>
           </div>
 
           {/* Audio mixing and particles */}
