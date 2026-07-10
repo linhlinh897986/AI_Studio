@@ -149,13 +149,71 @@ export default function BuddhistTab({ onLog }) {
     onLog('Buddhist', `Bắt đầu tiến trình tạo BATCH gồm ${totalToGenerate} video...`, 'info');
 
     try {
+      const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
+      const pdfFilePath = sourceType === 'pdf' ? (pdfFile?.path || pdfFile?.localFile || null) : null;
+
+      // ── BƯỚC 1: Lập kế hoạch & Hoạch định danh sách chủ đề ──────────────────
+      setLoadingStage(`Đang phân tích tài liệu và hoạch định ${totalToGenerate} chủ đề cho loạt video...`);
+      const step1System = `Bạn là một thiền sư hiền triết, am hiểu Phật Pháp sâu sắc. Hãy lập kế hoạch và phân chia chủ đề cho loạt video bài giảng ngắn. Trả về cấu trúc JSON bắt buộc.`;
+      
+      let step1Prompt = '';
+      if (sourceType === 'prompt') {
+        step1Prompt = `Tôi muốn sản xuất một loạt gồm ${totalToGenerate} video thiền ngắn độc lập xoay quanh chủ đề chính: "${topic}".
+
+Hãy lên hoạch định chi tiết đề xuất đúng ${totalToGenerate} khía cạnh/góc nhìn/chủ đề phụ riêng biệt, hoàn toàn không trùng lặp ý tưởng với nhau.
+Trả về duy nhất định dạng JSON có cấu trúc sau:
+{
+  "topics": [
+    {
+      "index": 1,
+      "title": "Tiêu đề ngắn gọn cho video (khoảng 5-8 từ)",
+      "description": "Mô tả khía cạnh cụ thể mà video này sẽ tập trung truyền tải"
+    }
+  ]
+}`;
+      } else {
+        step1Prompt = `Tôi muốn sản xuất một loạt gồm ${totalToGenerate} video Phật pháp ngắn độc lập dựa trên tài liệu đính kèm.
+${topic.trim() ? `Hãy ưu tiên xoay quanh định hướng/chủ đề sau: "${topic}".` : ''}
+
+Hãy phân tích kỹ tài liệu đính kèm và đề xuất đúng ${totalToGenerate} chủ đề/ý tưởng bài giảng riêng biệt, sâu sắc, hoàn toàn không trùng lặp ý tưởng với nhau.
+Trả về duy nhất định dạng JSON có cấu trúc sau:
+{
+  "topics": [
+    {
+      "index": 1,
+      "title": "Tiêu đề ngắn gọn cho video (khoảng 5-8 từ)",
+      "description": "Mô tả khía cạnh hoặc câu kinh cụ thể trong tài liệu mà video này sẽ tập trung phân tích"
+    }
+  ]
+}`;
+      }
+
+      const step1Res = await ipcRenderer.invoke('gemini-generate', {
+        apiKey,
+        systemPrompt: step1System,
+        userPrompt: step1Prompt,
+        geminiModel,
+        pdfFilePath
+      });
+
+      if (!step1Res.success) throw new Error(`Lỗi lập kế hoạch chủ đề: ${step1Res.error}`);
+      const plannedTopics = step1Res.data.topics;
+      if (!Array.isArray(plannedTopics) || plannedTopics.length === 0) {
+        throw new Error("Không nhận được danh sách hoạch định chủ đề từ AI.");
+      }
+
+      onLog('Buddhist', `Lập kế hoạch thành công! Đã lên danh sách ${plannedTopics.length} chủ đề độc lập.`, 'success');
+
+      // ── BƯỚC 2: Vòng lặp biên soạn kịch bản chi tiết dựa trên kế hoạch ───────
       for (let i = 0; i < totalToGenerate; i++) {
         setCurrentBatchIdx(i);
         const stagePrefix = `[Video ${i + 1}/${totalToGenerate}]`;
-        onLog('Buddhist', `${stagePrefix} Bắt đầu khởi tạo...`, 'info');
+        const currentTopic = plannedTopics[i % plannedTopics.length];
+
+        onLog('Buddhist', `${stagePrefix} Bắt đầu khởi tạo chủ đề: "${currentTopic.title}"...`, 'info');
 
         // 1. Generate script
-        setLoadingStage(`${stagePrefix} AI đang biên soạn kịch bản độc lập...`);
+        setLoadingStage(`${stagePrefix} AI đang biên soạn kịch bản chi tiết...`);
         const systemPrompt = `Bạn là một thiền sư hiền triết, am hiểu Phật Pháp sâu sắc. Hãy viết các câu triết lý sống bằng tiếng Việt mang tính thanh tịnh, chậm rãi, thư thái và bình yên. Trả về cấu trúc JSON bắt buộc.`;
         
         let moodVisualDetail = '';
@@ -170,17 +228,17 @@ export default function BuddhistTab({ onLog }) {
         }
 
         let userPrompt = '';
-        let pdfFilePath = null;
-
         if (sourceType === 'prompt') {
-          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) về chủ đề "${topic}". 
-Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video độc lập. Hãy viết kịch bản này khai thác một khía cạnh riêng biệt, hoàn toàn không trùng lặp ý tưởng với các video khác.
-Chia bài viết làm 4 phân đoạn. 
+          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên chủ đề hoạch định sau:
+Tiêu đề: ${currentTopic.title}
+Trọng tâm: ${currentTopic.description}
+
+Hãy chia bài giảng làm 4 phân đoạn. 
 Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết để làm bức ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này, kết hợp hoàn hảo với phong cách không gian trực quan sau: "${moodVisualDetail}".
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
-  "title": "${topic.substring(0, 20)} - Phần ${i + 1}",
+  "title": "${currentTopic.title}",
   "imagePrompt": "Mô tả ảnh nền tiếng Anh chi tiết tích hợp hoàn hảo với phong cách không gian được cung cấp",
   "script": [
     {
@@ -189,21 +247,16 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
   ]
 }`;
         } else {
-          pdfFilePath = pdfFile?.path || pdfFile?.localFile || null;
-          let focusInstruction = '';
-          if (topic.trim()) {
-            focusInstruction = `Hãy ưu tiên tập trung khai thác nội dung tài liệu xoay quanh ý tưởng/chủ đề sau: "${topic}".`;
-          }
-          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên tài liệu Phật pháp đính kèm.
-${focusInstruction}
+          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên tài liệu Phật pháp đính kèm, tập trung khai thác chính xác chủ đề hoạch định sau:
+Tiêu đề: ${currentTopic.title}
+Trọng tâm: ${currentTopic.description}
 
-Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video. Hãy đúc kết một chủ đề/bài học hoặc câu kinh cốt lõi khác biệt trong tài liệu đính kèm để soạn bài giảng này, tránh trùng lặp nội dung với các phần khác.
-Hãy chia bài viết làm 4 phân đoạn.
+Hãy chia bài giảng làm 4 phân đoạn.
 Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết để làm bức ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này, kết hợp hoàn hảo với phong cách không gian trực quan sau: "${moodVisualDetail}".
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
-  "title": "Lời Phật Dạy - Tập ${i + 1}",
+  "title": "${currentTopic.title}",
   "imagePrompt": "Mô tả ảnh nền tiếng Anh chi tiết tích hợp hoàn hảo với phong cách không gian được cung cấp",
   "script": [
     {
@@ -213,7 +266,6 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
 }`;
         }
 
-        const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
         const geminiRes = await ipcRenderer.invoke('gemini-generate', { 
           apiKey, 
           systemPrompt, 
