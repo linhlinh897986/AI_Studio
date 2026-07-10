@@ -1,31 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, Loader, AlertTriangle, BookOpen, Sun, Wind, Type, FileText, Upload, BookOpenCheck } from 'lucide-react';
+import { Compass, Loader, AlertTriangle, BookOpen, Sun, Wind, Type, FileText, Upload, Sliders, Layers } from 'lucide-react';
 import VideoPlayerPanel from './VideoPlayerPanel';
 
 const { ipcRenderer } = window.require('electron');
-
-const ZEN_PRESETS = [
-  {
-    title: "Buông bỏ phiền não",
-    topic: "Sự buông bỏ trong cuộc sống để tâm an nhiên, không tranh giành đố kỵ",
-    quote: "Buông bỏ không phải là từ bỏ tất cả, mà là không để bất kỳ thứ gì trói buộc tâm hồn ta."
-  },
-  {
-    title: "Luật nhân quả",
-    topic: "Luật nhân quả gieo nhân nào gặt quả nấy, sống lương thiện, tích đức",
-    quote: "Gieo nhân lương thiện, gặt quả bình yên. Mọi sự gặp gỡ trong đời đều có nhân duyên."
-  },
-  {
-    title: "Tâm bình thế giới bình",
-    topic: "Giữ tâm tĩnh lặng giữa dòng đời bão tố, thiền định chánh niệm",
-    quote: "Tâm ta an thì thế giới an. Tâm ta tịnh thì vạn vật tịnh. Đừng tìm kiếm hạnh phúc bên ngoài."
-  },
-  {
-    title: "Từ bi hỷ xả",
-    topic: "Lòng khoan dung, từ bi hỷ xả, yêu thương và tha thứ cho mọi người",
-    quote: "Từ bi là liều thuốc chữa lành mọi nỗi đau. Khi ta tha thứ, chính ta được giải thoát."
-  }
-];
 
 const CURATED_PDFS = [
   {
@@ -66,9 +43,12 @@ const CURATED_PDFS = [
 ];
 
 export default function BuddhistTab({ onLog }) {
-  // Input settings
+  // Batch video configuration
+  const [numVideos, setNumVideos] = useState(1); // 1, 5, 10, 15
+  const [selectedRefKey, setSelectedRefKey] = useState('free'); // free, local, or index of CURATED_PDFS
+  
   const [sourceType, setSourceType] = useState('prompt'); // prompt, pdf
-  const [topic, setTopic] = useState(ZEN_PRESETS[0].topic);
+  const [topic, setTopic] = useState('Sự buông bỏ trong cuộc sống để tâm an nhiên, không tranh giành đố kỵ');
   const [voice, setVoice] = useState('vi-VN-NamMinhNeural');
   const [bgMusic, setBgMusic] = useState('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3');
   
@@ -92,6 +72,11 @@ export default function BuddhistTab({ onLog }) {
   const [loadingStage, setLoadingStage] = useState('');
   const [error, setError] = useState('');
 
+  // Batch rendering states
+  const [batchLogs, setBatchLogs] = useState([]);
+  const [currentBatchIdx, setCurrentBatchIdx] = useState(null); // null if not batching
+
+  // Preview panel states (corresponds to the currently loaded/generated video)
   const [slides, setSlides] = useState([]);
   const [subtitles, setSubtitles] = useState([]);
   const [audioUrl, setAudioUrl] = useState('');
@@ -105,21 +90,18 @@ export default function BuddhistTab({ onLog }) {
     const cleanStart = Math.max(1, start);
     const cleanEnd = Math.max(cleanStart, end);
 
-    // Split by form-feed (standard page separator from pdf-parse)
     const pages = fullText.split(/\x0c|\f/);
     if (pages.length >= totalPages - 1 && pages.length > 1) {
       const sliceStart = Math.max(0, cleanStart - 1);
       const sliceEnd = Math.min(pages.length, cleanEnd);
       return pages.slice(sliceStart, sliceEnd).join('\n').trim();
     }
-    // Fallback: character length slice estimate
     const charPerPage = Math.floor(fullText.length / (totalPages || 1));
     const startIndex = Math.max(0, (cleanStart - 1) * charPerPage);
     const endIndex = Math.min(fullText.length, cleanEnd * charPerPage);
     return fullText.substring(startIndex, endIndex).trim();
   };
 
-  // Update excerpt when page ranges change
   useEffect(() => {
     if (pdfText) {
       const excerpt = extractPagesExcerpt(pdfText, pdfPagesCount, pdfStartPage, pdfEndPage);
@@ -127,18 +109,40 @@ export default function BuddhistTab({ onLog }) {
     }
   }, [pdfStartPage, pdfEndPage, pdfText]);
 
-  // Load a local PDF file via OS Dialog
+  // Handle reference material dropdown change
+  const handleRefMaterialChange = async (val) => {
+    setSelectedRefKey(val);
+    if (val === 'free') {
+      setSourceType('prompt');
+      setPdfFile(null);
+      setPdfText('');
+      setExtractedExcerpt('');
+    } else if (val === 'local') {
+      setSourceType('pdf');
+      await handleLoadLocalPdf();
+    } else {
+      setSourceType('pdf');
+      const idx = parseInt(val);
+      const item = CURATED_PDFS[idx];
+      if (item) {
+        await handleLoadCuratedPdf(item);
+      }
+    }
+  };
+
   const handleLoadLocalPdf = async () => {
     setPdfLoading(true);
     setError('');
     try {
       const res = await ipcRenderer.invoke('open-pdf-dialog');
       if (!res.success) {
+        setSelectedRefKey('free');
+        setSourceType('prompt');
         if (res.error !== 'Cancelled') setError(res.error);
         return;
       }
       const filePath = res.filePath;
-      onLog('Buddhist', `Đang mở và đọc file PDF cục bộ: ${filePath.split('\\').pop()}...`, 'info');
+      onLog('Buddhist', `Đang nạp PDF cục bộ: ${filePath.split('\\').pop()}...`, 'info');
       
       const parseRes = await ipcRenderer.invoke('buddhist-parse-pdf', { filePath });
       if (!parseRes.success) throw new Error(parseRes.error);
@@ -152,18 +156,18 @@ export default function BuddhistTab({ onLog }) {
       onLog('Buddhist', `Đọc PDF thành công! Gồm ${parseRes.numpages} trang.`, 'success');
     } catch (e) {
       setError(`Lỗi đọc file PDF: ${e.message}`);
-      onLog('Buddhist', `Lỗi đọc file PDF: ${e.message}`, 'error');
+      setSelectedRefKey('free');
+      setSourceType('prompt');
     } finally {
       setPdfLoading(false);
     }
   };
 
-  // Load a curated PDF from Thư viện Hoa Sen or DaoTrangLienHoa
   const handleLoadCuratedPdf = async (pdfItem) => {
     setPdfLoading(true);
     setError('');
     setPdfFile({ name: pdfItem.title, url: pdfItem.url });
-    onLog('Buddhist', `Đang tải tài liệu: "${pdfItem.title}" từ thư viện Phật giáo trực tuyến...`, 'info');
+    onLog('Buddhist', `Đang tải tài liệu Kinh điển: "${pdfItem.title}"...`, 'info');
     try {
       const parseRes = await ipcRenderer.invoke('buddhist-parse-pdf', { fileUrl: pdfItem.url });
       if (!parseRes.success) throw new Error(parseRes.error);
@@ -173,27 +177,25 @@ export default function BuddhistTab({ onLog }) {
       setPdfStartPage(1);
       setPdfEndPage(Math.min(parseRes.numpages, 2));
       
-      onLog('Buddhist', `Tải về & Đọc tài liệu thành công! Gồm ${parseRes.numpages} trang.`, 'success');
+      onLog('Buddhist', `Tải & Đọc tài liệu thành công! Gồm ${parseRes.numpages} trang.`, 'success');
     } catch (e) {
-      setError(`Lỗi tải trực tuyến: ${e.message}. Hãy tải file PDF về máy và nhấn 'Chọn File từ máy tính'.`);
-      onLog('Buddhist', `Lỗi tải trực tuyến: ${e.message}`, 'error');
+      setError(`Lỗi tải trực tuyến: ${e.message}. Hãy tải file PDF về máy và nạp cục bộ.`);
+      onLog('Buddhist', `Lỗi tải: ${e.message}`, 'error');
+      setSelectedRefKey('free');
+      setSourceType('prompt');
     } finally {
       setPdfLoading(false);
     }
   };
 
-  const selectPreset = (preset) => {
-    setTopic(preset.topic);
-    onLog('Buddhist', `Đã chọn mẫu trích dẫn: "${preset.title}"`, 'info');
-  };
-
+  // Triggers generation (runs loop for batch mode)
   const handleGenerate = async () => {
     if (sourceType === 'prompt' && !topic) {
-      setError('Vui lòng nhập chủ đề Phật pháp.');
+      setError('Vui lòng nhập ý tưởng chủ đề.');
       return;
     }
     if (sourceType === 'pdf' && !extractedExcerpt) {
-      setError('Vui lòng tải tệp PDF lên và trích xuất nội dung trước.');
+      setError('Vui lòng chọn tài liệu tham khảo và trích xuất trang trước.');
       return;
     }
 
@@ -205,37 +207,42 @@ export default function BuddhistTab({ onLog }) {
 
     setLoading(true);
     setError('');
-    setSlides([]);
-    setSubtitles([]);
-    setAudioUrl('');
+    setBatchLogs([]);
+
+    const totalToGenerate = numVideos;
+    onLog('Buddhist', `Bắt đầu tiến trình tạo BATCH gồm ${totalToGenerate} video...`, 'info');
 
     try {
-      setLoadingStage('Gemini đang chiêm nghiệm tài liệu viết bài giảng Phật pháp...');
-      onLog('Buddhist', 'Bắt đầu gửi kịch bản qua AI Gemini...', 'info');
+      for (let i = 0; i < totalToGenerate; i++) {
+        setCurrentBatchIdx(i);
+        const stagePrefix = `[Video ${i + 1}/${totalToGenerate}]`;
+        onLog('Buddhist', `${stagePrefix} Bắt đầu khởi tạo...`, 'info');
 
-      const systemPrompt = `Bạn là một thiền sư hiền triết, am hiểu Phật Pháp sâu sắc. Hãy viết các câu triết lý sống bằng tiếng Việt mang tính thanh tịnh, chậm rãi, thư thái và bình yên. Trả về cấu trúc JSON bắt buộc.`;
-      
-      // Visual mood definitions
-      let moodVisualDetail = '';
-      if (mood === 'temple') {
-        moodVisualDetail = 'ancient misty temple, stone lanterns, slow rising incense smoke, warm golden morning sun, highly detailed vertical format';
-      } else if (mood === 'nature') {
-        moodVisualDetail = 'serene lush green bamboo forest, fresh morning dew drops, clear flowing stream water, slow zoom vertical format';
-      } else if (mood === 'meditation') {
-        moodVisualDetail = 'a dark silhouette of a Buddhist monk meditating peacefully under a giant bodhi tree, giant red sunset, absolute silence vertical format';
-      } else if (mood === 'mystical') {
-        moodVisualDetail = 'mystical glowing pink lotus flower floating on calm sacred water, galaxy stardust nebula night background, glowing rays vertical format';
-      }
+        // 1. Generate script
+        setLoadingStage(`${stagePrefix} AI đang biên soạn kịch bản độc lập...`);
+        const systemPrompt = `Bạn là một thiền sư hiền triết, am hiểu Phật Pháp sâu sắc. Hãy viết các câu triết lý sống bằng tiếng Việt mang tính thanh tịnh, chậm rãi, thư thái và bình yên. Trả về cấu trúc JSON bắt buộc.`;
+        
+        let moodVisualDetail = '';
+        if (mood === 'temple') {
+          moodVisualDetail = 'ancient misty temple, stone lanterns, slow rising incense smoke, warm golden morning sun, highly detailed vertical format';
+        } else if (mood === 'nature') {
+          moodVisualDetail = 'serene lush green bamboo forest, fresh morning dew drops, clear flowing stream water, slow zoom vertical format';
+        } else if (mood === 'meditation') {
+          moodVisualDetail = 'a dark silhouette of a Buddhist monk meditating peacefully under a giant bodhi tree, giant red sunset, absolute silence vertical format';
+        } else if (mood === 'mystical') {
+          moodVisualDetail = 'mystical glowing pink lotus flower floating on calm sacred water, galaxy stardust nebula night background, glowing rays vertical format';
+        }
 
-      let userPrompt = '';
-      if (sourceType === 'prompt') {
-        userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) về chủ đề "${topic}". Chia bài viết làm 4 phân đoạn.
-Với mỗi phân đoạn, hãy cung cấp một mô tả hình ảnh tiếng Anh chi tiết để tạo ảnh thiền định.
-Hãy luôn kết hợp và hòa quyện các chủ đề hình ảnh của mỗi câu với phong cách không gian trực quan sau: "${moodVisualDetail}".
+        let userPrompt = '';
+        if (sourceType === 'prompt') {
+          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) về chủ đề "${topic}". 
+Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video độc lập. Hãy viết kịch bản này khai thác một khía cạnh riêng biệt, hoàn toàn không trùng lặp ý tưởng với các video khác.
+Chia bài viết làm 4 phân đoạn. Với mỗi phân đoạn, hãy cung cấp một mô tả hình ảnh tiếng Anh chi tiết để tạo ảnh thiền định.
+Hãy luôn kết hợp các phân cảnh hình ảnh với phong cách không gian trực quan sau: "${moodVisualDetail}".
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
-  "title": "${topic.substring(0, 30)}",
+  "title": "${topic.substring(0, 20)} - Phần ${i + 1}",
   "script": [
     {
       "text": "Câu triết lý tiếng Việt (khoảng 20 từ, giọng điệu thiền tịnh chậm rãi)",
@@ -243,21 +250,20 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
     }
   ]
 }`;
-      } else {
-        userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) đúc kết các triết lý sâu sắc nhất từ tài liệu Phật pháp trích dẫn dưới đây:
-
+        } else {
+          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên tài liệu Phật pháp trích dẫn dưới đây:
 NỘI DUNG TÀI LIỆU TRÍCH DẪN:
 """
-${extractedExcerpt.substring(0, 1200)}
+${extractedExcerpt.substring(0, 1500)}
 """
 
-Hãy soạn bài giảng chia làm 4 phân đoạn ngắn gọn, mang tính chánh niệm, thanh tịnh và điềm đạm.
-Với mỗi phân đoạn, hãy cung cấp một mô tả hình ảnh tiếng Anh chi tiết để tạo ảnh thiền định.
+Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video. Hãy đúc kết một chủ đề/bài học hoặc câu kinh cốt lõi khác biệt trong tài liệu trích dẫn để soạn bài giảng này, tránh trùng lặp nội dung với các phần khác.
+Hãy chia bài viết làm 4 phân đoạn. Với mỗi phân đoạn cung cấp mô tả hình ảnh tiếng Anh chi tiết.
 Hãy kết hợp hình ảnh với phong cách không gian sau: "${moodVisualDetail}".
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
-  "title": "Lời Phật Dạy",
+  "title": "Lời Phật Dạy - Tập ${i + 1}",
   "script": [
     {
       "text": "Câu triết lý tiếng Việt đúc kết từ tài liệu (khoảng 20 từ, chậm rãi)",
@@ -265,83 +271,123 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
     }
   ]
 }`;
-      }
+        }
 
-      const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
-      const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel });
-      if (!geminiRes.success) throw new Error(geminiRes.error);
-      const generatedData = geminiRes.data.script;
-      onLog('Buddhist', `Biên soạn kịch bản từ AI hoàn thành. Đang lồng tiếng...`, 'success');
+        const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
+        const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel });
+        if (!geminiRes.success) throw new Error(geminiRes.error);
+        const generatedData = geminiRes.data.script;
 
-      // Stage 2: Voiceover Speech synthesis
-      setLoadingStage('Đang chuyển hóa triết lý thành giọng đọc thiền định...');
-      const fullText = generatedData.map(item => item.text).join(' ');
-      const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { 
-        text: fullText, 
-        options: { voice, rate: '-15%' }
-      });
-      if (!ttsRes.success) throw new Error(ttsRes.error);
-      const localAudioUrl = ttsRes.filePath;
-      setAudioUrl(localAudioUrl);
-      onLog('Buddhist', 'Tạo giọng lồng tiếng thiền định xong.', 'success');
+        // 2. TTS Voiceover
+        setLoadingStage(`${stagePrefix} Đang lồng tiếng thiền sư...`);
+        const fullText = generatedData.map(item => item.text).join(' ');
+        const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { 
+          text: fullText, 
+          options: { voice, rate: '-15%' }
+        });
+        if (!ttsRes.success) throw new Error(ttsRes.error);
+        const localAudioUrl = ttsRes.filePath;
 
-      // Stage 3: ASR Word Aligning
-      setLoadingStage('Đang đồng bộ từ vựng với CapCut ASR...');
-      const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
-        audioPath: localAudioUrl,
-        options: { language: 'vi-VN', needWordTimestamp: true }
-      });
-      if (!asrRes.success) throw new Error(asrRes.error);
-      const asrSegments = asrRes.segments;
-      setSubtitles(asrSegments);
-      onLog('Buddhist', 'Đồng bộ phụ đề karaoke xong.', 'success');
+        // 3. ASR Syncing
+        setLoadingStage(`${stagePrefix} Đang chạy phụ đề karaoke...`);
+        const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
+          audioPath: localAudioUrl,
+          options: { language: 'vi-VN', needWordTimestamp: true }
+        });
+        if (!asrRes.success) throw new Error(asrRes.error);
+        const asrSegments = asrRes.segments;
 
-      // Stage 4: Image creation & download
-      setLoadingStage('Đang tạo và tải ảnh thiền định AI...');
-      const localImages = [];
-      for (let i = 0; i < generatedData.length; i++) {
-        const rawPrompt = generatedData[i].imagePrompt;
-        const formattedPrompt = `${rawPrompt}, vertical aspect ratio, vertical frame, 1080x1920, zen, ultra high resolution, digital art`;
-        const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=1080&height=1920&nologo=true`;
-        
-        onLog('Buddhist', `Tạo ảnh phân cảnh ${i + 1}/${generatedData.length}...`, 'info');
-        const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
-        if (dlRes.success) {
-          localImages.push(dlRes.filePath);
-        } else {
-          onLog('Buddhist', `Lỗi tạo ảnh phân cảnh ${i + 1}: ${dlRes.error}`, 'error');
+        // 4. Image downloads
+        setLoadingStage(`${stagePrefix} Đang tạo & tải ảnh thiền AI...`);
+        const localImages = [];
+        for (let j = 0; j < generatedData.length; j++) {
+          const rawPrompt = generatedData[j].imagePrompt;
+          const formattedPrompt = `${rawPrompt}, vertical aspect ratio, vertical frame, 1080x1920, zen, ultra high resolution, digital art`;
+          const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=1080&height=1920&nologo=true`;
+          
+          const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
+          if (dlRes.success) {
+            localImages.push(dlRes.filePath);
+          } else {
+            localImages.push(localImages[0] || ''); // fallback
+          }
+        }
+
+        // 5. Build Slide timings
+        const lastWordSeg = asrSegments[asrSegments.length - 1];
+        const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 15000;
+        const audioDurationFrames = Math.ceil((audioDurationMs / 1000) * 30);
+
+        const computedSlides = [];
+        let currentFrame = 0;
+        const segmentDurationFrames = Math.floor(audioDurationFrames / generatedData.length);
+
+        generatedData.forEach((item, idx) => {
+          computedSlides.push({
+            imageUrl: localImages[idx % localImages.length] || localImages[0],
+            startFrame: currentFrame,
+            durationFrames: idx === generatedData.length - 1 
+              ? (audioDurationFrames - currentFrame) 
+              : segmentDurationFrames
+          });
+          currentFrame += segmentDurationFrames;
+        });
+
+        // Set to local states (enables real-time preview of the LAST generated video)
+        setSlides(computedSlides);
+        setSubtitles(asrSegments);
+        setAudioUrl(localAudioUrl);
+
+        onLog('Buddhist', `${stagePrefix} Khởi tạo thành công cấu trúc video!`, 'success');
+
+        // 6. IF batch size > 1, we automatically render/export to MP4 file on the fly!
+        if (totalToGenerate > 1) {
+          setLoadingStage(`${stagePrefix} Đang kết xuất video thành tệp MP4...`);
+          onLog('Buddhist', `${stagePrefix} Bắt đầu kết xuất video MP4 tự động...`, 'info');
+
+          const inputProps = {
+            slides: computedSlides,
+            subtitles: asrSegments,
+            audioUrl: localAudioUrl,
+            bgMusicUrl: bgMusic,
+            type: 'buddhist',
+            shopeeProps: {
+              ambientSfx,
+              particleType,
+              subtitleStyle
+            }
+          };
+
+          const renderRes = await ipcRenderer.invoke('remotion-render', {
+            inputProps,
+            compositionId: 'BuddhistVideo'
+          });
+
+          if (renderRes.success) {
+            setBatchLogs(prev => [...prev, { success: true, path: renderRes.filePath }]);
+            onLog('Buddhist', `${stagePrefix} Kết xuất MP4 thành công! File: ${renderRes.filePath}`, 'success');
+          } else {
+            setBatchLogs(prev => [...prev, { success: false, error: renderRes.error }]);
+            onLog('Buddhist', `${stagePrefix} Lỗi kết xuất MP4: ${renderRes.error}`, 'error');
+          }
         }
       }
 
-      // Stage 5: Frame sync slides
-      const lastWordSeg = asrSegments[asrSegments.length - 1];
-      const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 15000;
-      const audioDurationFrames = Math.ceil((audioDurationMs / 1000) * 30);
-
-      const computedSlides = [];
-      let currentFrame = 0;
-      const segmentDurationFrames = Math.floor(audioDurationFrames / generatedData.length);
-
-      generatedData.forEach((item, index) => {
-        computedSlides.push({
-          imageUrl: localImages[index % localImages.length] || localImages[0],
-          startFrame: currentFrame,
-          durationFrames: index === generatedData.length - 1 
-            ? (audioDurationFrames - currentFrame) 
-            : segmentDurationFrames
-        });
-        currentFrame += segmentDurationFrames;
-      });
-
-      setSlides(computedSlides);
-      onLog('Buddhist', 'Thiết lập video Phật pháp hoàn chỉnh!', 'success');
+      // Finish notification
+      if (totalToGenerate > 1) {
+        onLog('Buddhist', `Hoàn tất sản xuất hàng loạt ${totalToGenerate} video Phật pháp!`, 'success');
+        alert(`Đã hoàn tất sản xuất hàng loạt ${totalToGenerate} video!\nTất cả file MP4 đã được lưu trữ trong thư mục tạm.`);
+      } else {
+        onLog('Buddhist', `Khởi tạo video Phật pháp thành công! Nhấp 'Xuất Video MP4' ở bên phải để lưu file.`, 'success');
+      }
 
     } catch (err) {
       setError(err.message);
-      onLog('Buddhist', `Lỗi: ${err.message}`, 'error');
+      onLog('Buddhist', `Gặp lỗi trong tiến trình: ${err.message}`, 'error');
     } finally {
       setLoading(false);
       setLoadingStage('');
+      setCurrentBatchIdx(null);
     }
   };
 
@@ -375,7 +421,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
       });
 
       if (res.success) {
-        onLog('Buddhist', `Kết xuất video thành công! Đường dẫn: ${res.filePath}`, 'success');
+        onLog('Buddhist', `Kết xuất video thành công! File: ${res.filePath}`, 'success');
         alert(`Xuất video thành công! File lưu tại: ${res.filePath}`);
       } else {
         throw new Error(res.error);
@@ -398,7 +444,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         .map(w => w.text)
         .join(' ');
       setSubtitles(updatedSubtitles);
-      onLog('Editor', `Cập nhật từ câu dịch: "${newValue}"`, 'info');
+      onLog('Editor', `Cập nhật từ phụ đề: "${newValue}"`, 'info');
     }
   };
 
@@ -408,203 +454,132 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
       <div className="workspace-left">
         <div className="glass-panel">
           <h2 style={{ fontSize: 18, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
-            <Compass size={20} style={{ color: 'var(--success)' }} /> Tạo Video Phật Pháp & Triết Lý
+            <Compass size={20} style={{ color: 'var(--success)' }} /> Tạo Hàng Loạt Video Phật Pháp & Triết Lý
           </h2>
 
-          {/* Source Type Toggle */}
-          <div style={{ display: 'flex', background: 'var(--bg-dark)', padding: 4, borderRadius: 12, marginBottom: 24 }}>
-            <button
-              onClick={() => setSourceType('prompt')}
-              style={{
-                flex: 1,
-                padding: '10px 16px',
-                border: 'none',
-                background: sourceType === 'prompt' ? 'var(--bg-surface-secondary)' : 'none',
-                color: sourceType === 'prompt' ? 'var(--text-primary)' : 'var(--text-muted)',
-                borderRadius: 8,
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 200ms',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 8
-              }}
-            >
-              <BookOpen size={16} /> Ý tưởng & Mẫu trích dẫn
-            </button>
-            <button
-              onClick={() => setSourceType('pdf')}
-              style={{
-                flex: 1,
-                padding: '10px 16px',
-                border: 'none',
-                background: sourceType === 'pdf' ? 'var(--bg-surface-secondary)' : 'none',
-                color: sourceType === 'pdf' ? 'var(--text-primary)' : 'var(--text-muted)',
-                borderRadius: 8,
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 200ms',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 8
-              }}
-            >
-              <FileText size={16} /> Nhập liệu từ Kinh điển PDF
-            </button>
+          {/* 1. Batch Quantity Selector */}
+          <div className="form-group" style={{ marginBottom: 20 }}>
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Layers size={14} /> Số lượng video muốn sản xuất hàng loạt
+            </label>
+            <div style={{ display: 'flex', gap: 10 }}>
+              {[1, 5, 10, 15].map((num) => (
+                <button
+                  key={num}
+                  type="button"
+                  onClick={() => setNumVideos(num)}
+                  disabled={loading}
+                  style={{
+                    flex: 1,
+                    padding: '10px 16px',
+                    background: numVideos === num ? 'var(--success)' : 'var(--bg-surface-secondary)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 12,
+                    color: numVideos === num ? '#fff' : 'var(--text-primary)',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    fontSize: 13,
+                    transition: 'all 200s'
+                  }}
+                >
+                  {num} Video{num > 1 ? 's' : ''}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Type A: Prompts and Presets */}
-          {sourceType === 'prompt' && (
-            <>
-              <div className="form-group">
-                <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <BookOpenCheck size={14} /> Chọn mẫu chủ đề thiền định nhanh
-                </label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  {ZEN_PRESETS.map((preset, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => selectPreset(preset)}
-                      style={{
-                        padding: '10px 14px',
-                        background: 'var(--bg-surface-secondary)',
-                        border: topic === preset.topic ? '1px solid var(--success)' : '1px solid var(--border)',
-                        borderRadius: 12,
-                        cursor: 'pointer',
-                        fontSize: 13,
-                        transition: 'all 200ms ease'
-                      }}
-                    >
-                      <strong style={{ color: topic === preset.topic ? 'var(--success)' : 'var(--text-primary)', display: 'block', marginBottom: 4 }}>
-                        {preset.title}
-                      </strong>
-                      <span style={{ fontSize: 11, color: 'var(--text-secondary)', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                        {preset.quote}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          {/* 2. Unified Reference Materials Dropdown Selector */}
+          <div className="form-group">
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <BookOpen size={14} /> Chọn tài liệu tham khảo Phật Pháp
+            </label>
+            <select
+              className="form-input"
+              value={selectedRefKey}
+              onChange={(e) => handleRefMaterialChange(e.target.value)}
+              disabled={loading || pdfLoading}
+            >
+              <option value="free">✍️ Ý tưởng tự do (Không dùng tài liệu, tự gõ chủ đề)</option>
+              <option value="local">📂 Sử dụng tệp PDF cục bộ từ máy tính của bạn...</option>
+              <optgroup label="Thư viện Ebook Kinh điển Phật giáo online">
+                {CURATED_PDFS.map((item, idx) => (
+                  <option key={idx} value={idx}>
+                    📖 {item.title}
+                  </option>
+                ))}
+              </optgroup>
+            </select>
+          </div>
 
-              <div className="form-group">
-                <label className="form-label">Chủ đề bài giảng chi tiết (Gõ ý tưởng tự do)</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
-                  disabled={loading}
-                  placeholder="Nhập chủ đề triết lý..."
-                />
-              </div>
-            </>
+          {/* Prompt description input (only show if free topic selected) */}
+          {selectedRefKey === 'free' && (
+            <div className="form-group">
+              <label className="form-label">Ý tưởng / Chủ đề bài giảng chi tiết</label>
+              <input
+                type="text"
+                className="form-input"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                disabled={loading}
+                placeholder="Nhập chủ đề triết lý (ví dụ: Sự buông bỏ, luật nhân quả...)"
+              />
+            </div>
           )}
 
-          {/* Type B: PDF Documents Parsing */}
-          {sourceType === 'pdf' && (
-            <>
-              <div className="form-group">
-                <label className="form-label">Tải sách Phật Pháp trực tuyến (Thư Viện Hoa Sen / Đạo Tràng Liên Hoa)</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 8, marginBottom: 12 }}>
-                  {CURATED_PDFS.map((item, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => !pdfLoading && handleLoadCuratedPdf(item)}
-                      style={{
-                        padding: '12px 16px',
-                        background: 'var(--bg-surface-secondary)',
-                        border: pdfFile?.url === item.url ? '1px solid var(--success)' : '1px solid var(--border)',
-                        borderRadius: 12,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        transition: 'all 200ms'
-                      }}
-                    >
-                      <div>
-                        <strong style={{ fontSize: 13, color: pdfFile?.url === item.url ? 'var(--success)' : 'var(--text-primary)', display: 'block' }}>
-                          {item.title}
-                        </strong>
-                        <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{item.desc}</span>
-                      </div>
-                      <span style={{ fontSize: 11, color: 'var(--success)', fontStyle: 'italic' }}>Tải nhanh</span>
-                    </div>
-                  ))}
-                </div>
+          {/* PDF Details Panel (only show if reference type is PDF) */}
+          {sourceType === 'pdf' && pdfFile && (
+            <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 16, padding: 16, marginBottom: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--success)', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden', maxWidth: '70%' }}>
+                  📄 File: {pdfFile.name}
+                </span>
+                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                  Tổng: {pdfPagesCount} trang
+                </span>
+              </div>
 
-                <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                  <span style={{ color: 'var(--text-muted)', fontSize: 13 }}>Hoặc sử dụng tài liệu của bạn:</span>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={handleLoadLocalPdf}
-                    disabled={pdfLoading}
-                    style={{ padding: '8px 16px', fontSize: 12, borderRadius: 8, gap: 6 }}
-                  >
-                    <Upload size={14} /> Chọn File PDF cục bộ
-                  </button>
+              <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Từ trang:</span>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    max={pdfPagesCount} 
+                    value={pdfStartPage}
+                    onChange={(e) => setPdfStartPage(parseInt(e.target.value) || 1)}
+                    style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
+                  />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Đến trang:</span>
+                  <input 
+                    type="number" 
+                    min={pdfStartPage} 
+                    max={pdfPagesCount} 
+                    value={pdfEndPage}
+                    onChange={(e) => setPdfEndPage(parseInt(e.target.value) || pdfStartPage)}
+                    style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
+                  />
                 </div>
               </div>
 
-              {pdfFile && (
-                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 16, padding: 16, marginBottom: 20 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--success)' }}>
-                      📄 Đang nạp: {pdfFile.name}
-                    </span>
-                    <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-                      Tổng: {pdfPagesCount} trang
-                    </span>
-                  </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Nội dung trích xuất làm tư liệu tham khảo:</span>
+                <textarea
+                  className="form-input"
+                  value={extractedExcerpt}
+                  readOnly
+                  style={{ height: 100, fontSize: 11, background: 'var(--bg-dark)', resize: 'none', padding: 12, color: 'var(--text-secondary)' }}
+                  placeholder="Không có dữ liệu trích xuất."
+                />
+              </div>
+            </div>
+          )}
 
-                  <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Từ trang:</span>
-                      <input 
-                        type="number" 
-                        min="1" 
-                        max={pdfPagesCount} 
-                        value={pdfStartPage}
-                        onChange={(e) => setPdfStartPage(parseInt(e.target.value) || 1)}
-                        style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
-                      />
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Đến trang:</span>
-                      <input 
-                        type="number" 
-                        min={pdfStartPage} 
-                        max={pdfPagesCount} 
-                        value={pdfEndPage}
-                        onChange={(e) => setPdfEndPage(parseInt(e.target.value) || pdfStartPage)}
-                        style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
-                      />
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Nội dung trích xuất làm kịch bản gốc:</span>
-                    <textarea
-                      className="form-input"
-                      value={extractedExcerpt}
-                      readOnly
-                      style={{ height: 120, fontSize: 11, background: 'var(--bg-dark)', resize: 'none', padding: 12, color: 'var(--text-secondary)' }}
-                      placeholder="Không có nội dung được trích xuất."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {pdfLoading && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: 12, color: 'var(--success)', fontSize: 13, marginBottom: 20 }}>
-                  <Loader size={16} className="spin" /> Đang xử lý & phân tích cú pháp tệp PDF...
-                </div>
-              )}
-            </>
+          {pdfLoading && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: 12, color: 'var(--success)', fontSize: 13, marginBottom: 20 }}>
+              <Loader size={16} className="spin" /> Đang tải và phân tích cú pháp Ebook PDF...
+            </div>
           )}
 
           {/* Visual settings */}
@@ -677,6 +652,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             </div>
           </div>
 
+          {/* Voice and background music */}
           <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
             <div className="form-group" style={{ flex: 1 }}>
               <label className="form-label">Giọng thiền sư</label>
@@ -718,9 +694,28 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                 <span>{loadingStage}</span>
               </>
             ) : (
-              'Bắt đầu Khởi tạo Video Phật Pháp'
+              `Bắt đầu Sản xuất Hàng loạt (${numVideos} Video)`
             )}
           </button>
+
+          {/* Batch Logs Display */}
+          {batchLogs.length > 0 && (
+            <div style={{ marginTop: 20, background: 'rgba(0,0,0,0.2)', padding: 14, borderRadius: 12, border: '1px solid var(--border)' }}>
+              <strong style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'block', marginBottom: 8 }}>
+                BÁO CÁO KẾT XUẤT HÀNG LOẠT:
+              </strong>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 100, overflowY: 'auto', fontSize: 11, fontFamily: 'var(--font-mono)' }}>
+                {batchLogs.map((log, idx) => (
+                  <div key={idx} style={{ color: log.success ? 'var(--success)' : '#ef4444' }}>
+                    {log.success 
+                      ? `✓ Video ${idx + 1}: Xuất thành công -> ${log.path.split('/').pop()}` 
+                      : `✗ Video ${idx + 1}: Thất bại -> ${log.error}`
+                    }
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {error && (
             <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 8, color: 'var(--danger)', fontSize: 13, background: 'rgba(239, 68, 68, 0.08)', padding: '10px 16px', borderRadius: 8, border: '1px solid rgba(239, 68, 68, 0.2)' }}>
