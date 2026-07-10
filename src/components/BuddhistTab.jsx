@@ -449,7 +449,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
               className="form-input"
               value={selectedRefKey}
               onChange={(e) => handleRefMaterialChange(e.target.value)}
-              disabled={loading || pdfLoading}
+              disabled={loading}
             >
               <option value="free">✍️ Ý tưởng tự do (Không dùng tài liệu, tự gõ chủ đề)</option>
               <option value="local">📂 Sử dụng tệp PDF cục bộ từ máy tính của bạn...</option>
@@ -615,7 +615,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           <button
             className="btn btn-primary"
             onClick={handleGenerate}
-            disabled={loading || pdfLoading}
+            disabled={loading}
             style={{ width: '100%', padding: '16px', background: 'linear-gradient(135deg, var(--success) 0%, #15803d 100%)', boxShadow: '0 4px 15px rgba(34, 197, 94, 0.25)' }}
           >
             {loading ? (
