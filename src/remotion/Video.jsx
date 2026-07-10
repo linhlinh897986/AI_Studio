@@ -10,19 +10,44 @@ export const VideoComposition = ({
   type = 'shopee',
   shopeeProps = {} 
 }) => {
+  
+  // Extract custom Buddhist parameters from shopeeProps if type is buddhist
+  const isBuddhist = type === 'buddhist';
+  const ambientSfx = isBuddhist ? (shopeeProps.ambientSfx || 'bell') : 'none';
+  const particleType = isBuddhist ? (shopeeProps.particleType || 'dust') : 'none';
+  const subtitleStyle = isBuddhist ? (shopeeProps.subtitleStyle || 'modern') : 'modern';
+
+  // Map ambient audio keys to their Mixkit royalty-free SFX links
+  const ambientUrls = {
+    bell: 'https://assets.mixkit.co/active_storage/sfx/1659/1659-84.wav',
+    stream: 'https://assets.mixkit.co/active_storage/sfx/2433/2433-84.wav',
+    rain: 'https://assets.mixkit.co/active_storage/sfx/2526/2526-84.wav'
+  };
+
+  const selectedAmbientUrl = ambientUrls[ambientSfx];
+
   return (
     <AbsoluteFill style={{ backgroundColor: '#03010a', overflow: 'hidden' }}>
       
-      {/* 1. Background Music */}
+      {/* 1. Main Background Music */}
       {bgMusicUrl && (
         <Audio 
           src={bgMusicUrl} 
-          volume={type === 'buddhist' ? 0.15 : 0.08} 
+          volume={isBuddhist ? 0.12 : 0.08} 
           loop 
         />
       )}
 
-      {/* 2. Main Voiceover */}
+      {/* 2. Secondary Ambient SFX Loop (Meditative water/bell/rain) */}
+      {isBuddhist && selectedAmbientUrl && (
+        <Audio 
+          src={selectedAmbientUrl} 
+          volume={ambientSfx === 'bell' ? 0.35 : 0.18} // louder bell since it tolls periodically
+          loop
+        />
+      )}
+
+      {/* 3. Voiceover Vocals */}
       {audioUrl && (
         <Audio 
           src={audioUrl} 
@@ -30,7 +55,7 @@ export const VideoComposition = ({
         />
       )}
 
-      {/* 3. Image Slides Layer with transitions */}
+      {/* 4. Slides transitions layer */}
       {slides.map((slide, index) => {
         return (
           <Sequence
@@ -48,14 +73,14 @@ export const VideoComposition = ({
         );
       })}
 
-      {/* 4. Zen Ambient Particles Layer (For Buddhist theme) */}
-      {type === 'buddhist' && (
+      {/* 5. Custom Particles Overlay Layer */}
+      {isBuddhist && particleType !== 'none' && (
         <Sequence from={0} durationInFrames={9999}>
-          <ZenParticlesOverlay />
+          <ZenParticlesOverlay particleType={particleType} />
         </Sequence>
       )}
 
-      {/* 5. Shopee Sales & QR Overlay (For Shopee Review) */}
+      {/* 6. Shopee Card Overlay (Affiliate Marketing) */}
       {type === 'shopee' && shopeeProps && (
         <Sequence from={0} durationInFrames={9999}>
           <ShopeeBadgeOverlay 
@@ -66,70 +91,107 @@ export const VideoComposition = ({
         </Sequence>
       )}
 
-      {/* 6. Active Word Subtitles Layer */}
-      <Subtitles subtitles={subtitles} />
+      {/* 7. Subtitles Layer (supports horizontal karaoke vs vertical calligraphy) */}
+      <Subtitles 
+        subtitles={subtitles} 
+        styleType={subtitleStyle} 
+      />
       
     </AbsoluteFill>
   );
 };
 
-// ── Zen Atmospheric Particles Overlay ────────────────────────────────────────
-const ZenParticlesOverlay = () => {
+// ── Multi-Effect Ambient Particles Overlay ───────────────────────────────────
+const ZenParticlesOverlay = ({ particleType = 'dust' }) => {
   return (
     <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 5 }}>
-      {/* Dynamic ambient particles CSS styled */}
-      <div className="zen-particles-container">
-        {[...Array(15)].map((_, i) => (
-          <div 
-            key={i} 
-            className="zen-particle" 
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 8}s`,
-              animationDuration: `${10 + Math.random() * 12}s`,
-              transform: `scale(${0.5 + Math.random() * 1.5})`
-            }}
-          />
-        ))}
+      <div className={`zen-particles-container ${particleType}`}>
+        
+        {/* Render dust or lotus floating elements */}
+        {(particleType === 'dust' || particleType === 'lotus') && (
+          [...Array(15)].map((_, i) => (
+            <div 
+              key={i} 
+              className={`zen-element ${particleType === 'lotus' ? 'lotus-petal' : 'dust-spec'}`}
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 8}s`,
+                animationDuration: particleType === 'lotus' ? `${8 + Math.random() * 10}s` : `${10 + Math.random() * 12}s`,
+                transform: `scale(${0.4 + Math.random() * 1.2})`,
+                opacity: 0.1 + Math.random() * 0.5
+              }}
+            />
+          ))
+        )}
+
+        {/* Render misty sun rays overlay */}
+        {particleType === 'rays' && (
+          <div className="sun-rays-overlay" />
+        )}
       </div>
+
       <style>{`
         .zen-particles-container {
           position: absolute;
           inset: 0;
           overflow: hidden;
         }
-        .zen-particle {
+
+        /* 1. Golden Dust Specs Animation */
+        .dust-spec {
           position: absolute;
           bottom: -20px;
           width: 8px;
           height: 8px;
-          background: rgba(16, 185, 129, 0.4);
+          background: #fbbf24; /* Golden glow */
           border-radius: 50%;
           filter: blur(2px);
-          animation: float-up linear infinite;
+          animation: float-up-dust linear infinite;
         }
-        @keyframes float-up {
-          0% {
-            transform: translateY(0) translateX(0) scale(0.5);
-            opacity: 0;
-          }
-          10% {
-            opacity: 0.8;
-          }
-          90% {
-            opacity: 0.5;
-          }
-          100% {
-            transform: translateY(-110vh) translateX(50px) scale(1.5);
-            opacity: 0;
-          }
+        @keyframes float-up-dust {
+          0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
+          10% { opacity: 0.7; }
+          90% { opacity: 0.5; }
+          100% { transform: translateY(-110vh) translateX(40px) scale(1.3); opacity: 0; }
+        }
+
+        /* 2. Pink Lotus Petals Falling Animation */
+        .lotus-petal {
+          position: absolute;
+          top: -20px;
+          width: 14px;
+          height: 20px;
+          background: radial-gradient(circle, #fbcfe8 0%, #ec4899 100%); /* Pink rose */
+          border-radius: 80% 0 85% 50% / 80% 0 85% 50%;
+          transform: rotate(45deg);
+          animation: fall-sway-lotus linear infinite;
+        }
+        @keyframes fall-sway-lotus {
+          0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+          10% { opacity: 0.8; }
+          90% { opacity: 0.6; }
+          100% { transform: translateY(110vh) translateX(-80px) rotate(360deg); opacity: 0; }
+        }
+
+        /* 3. Sunlight Rays Breathing Animation */
+        .sun-rays-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, transparent 60%);
+          mix-blend-mode: overlay;
+          animation: breathe-rays 4s ease-in-out infinite alternate;
+          transform-origin: top left;
+        }
+        @keyframes breathe-rays {
+          0% { transform: scale(1.0); opacity: 0.7; }
+          100% { transform: scale(1.08); opacity: 1.0; }
         }
       `}</style>
     </AbsoluteFill>
   );
 };
 
-// ── Shopee Premium Product Badge Overlay ─────────────────────────────────────
+// ── Shopee Sales & Pricing Card Overlay ──────────────────────────────────────
 const ShopeeBadgeOverlay = ({ title = '', price = 0, ratingStar = 5 }) => {
   return (
     <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 10, padding: 48, justifyContent: 'flex-start' }}>
