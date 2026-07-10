@@ -51,7 +51,11 @@ export default function BuddhistTab({
 }) {
   // Batch video configuration
   const [numVideos, setNumVideos] = useState(1); // 1, 5, 10, 15
+  const [videoDuration, setVideoDuration] = useState(3); // minutes: 2, 3, 5, 8, 10, 15
   const [selectedRefKey, setSelectedRefKey] = useState('free'); // free, local, or index of CURATED_PDFS
+
+  // Duration → approximate word count (Vietnamese TTS at -15% speed ≈ 80 words/min)
+  const DURATION_WORD_MAP = { 2: 160, 3: 240, 5: 400, 8: 640, 10: 800, 15: 1200 };
   
   const [sourceType, setSourceType] = useState('prompt'); // prompt, pdf
   const [topic, setTopic] = useState('Sự buông bỏ trong cuộc sống để tâm an nhiên, không tranh giành đố kỵ');
@@ -228,41 +232,51 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         addProcessLog(processId, 'Đang gửi yêu cầu lập kịch bản chi tiết và hình ảnh tới Gemini...', 'info');
         const systemPrompt = `Bạn là một thiền sư hiền triết, am hiểu Phật Pháp sâu sắc. Hãy viết các câu triết lý sống bằng tiếng Việt mang tính thanh tịnh, chậm rãi, thư thái và bình yên. Trả về cấu trúc JSON bắt buộc.`;
         
+        const targetWords = DURATION_WORD_MAP[videoDuration] || 240;
+        const sentenceCount = Math.round(targetWords / 20); // ~20 từ/câu
+
         let userPrompt = '';
         if (sourceType === 'prompt') {
-          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên chủ đề hoạch định sau:
+          userPrompt = `Hãy viết một bài giảng thiền liền mạch, sâu sắc (khoảng ${targetWords} từ tiếng Việt, tương đương ${videoDuration} phút audio giọng đọc chậm rãi) dựa trên chủ đề hoạch định sau:
 Tiêu đề: ${currentTopic.title}
 Trọng tâm: ${currentTopic.description}
 
-Hãy chia bài giảng làm 4 phân đoạn.
-Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết, dùng làm ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này. Ảnh PHẢI thể hiện trực tiếp nội dung của bài giảng: hình ảnh một vị Đức Phật hoặc nhà sư đang ngồi thiền hoặc giảng pháp, bối cảnh thanh tịnh liên quan đến chủ đề của video, ánh sáng ấm áp, phong cách nghệ thuật Phật giáo truyền thống Á Đông, tỷ lệ dọc 9:16.
+YÊU CẦU QUAN TRỌNG:
+- KHÔNG chia đoạn, KHÔNG đánh số, KHÔNG tiêu đề phụ. Viết liền mạch như một bài pháp thoại tự nhiên.
+- Giọng văn thiền định, chậm rãi, bình an, mỗi câu khoảng 15-25 từ.
+- Tổng cộng khoảng ${sentenceCount} câu, đủ để lấp đầy ${videoDuration} phút.
+- Mỗi phần tử trong mảng "script" là MỘT CÂU độc lập (không phải đoạn văn).
+
+Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết, dùng làm ảnh nền tĩnh cho toàn bộ video. Ảnh PHẢI là hình ảnh Đức Phật hoặc nhà sư đang ngồi thiền/giảng pháp, bối cảnh thanh tịnh liên quan đến chủ đề, phong cách nghệ thuật Phật giáo Á Đông, tỷ lệ dọc 9:16.
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
   "title": "${currentTopic.title}",
   "imagePrompt": "Detailed English image prompt featuring a Buddha or Buddhist monk scene directly related to the video's teaching theme, vertical 9:16 aspect ratio, traditional East Asian Buddhist art style",
   "script": [
-    {
-      "text": "Câu triết lý tiếng Việt (khoảng 20 từ, giọng điệu thiền tịnh chậm rãi)"
-    }
+    { "text": "Một câu thiền định tiếng Việt (15-25 từ, tự nhiên, liền mạch với câu trước và sau)" }
   ]
 }`;
         } else {
-          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên tài liệu Phật pháp đính kèm, tập trung khai thác chính xác chủ đề hoạch định sau:
+          userPrompt = `Hãy viết một bài giảng thiền liền mạch, sâu sắc (khoảng ${targetWords} từ tiếng Việt, tương đương ${videoDuration} phút audio giọng đọc chậm rãi) dựa trên tài liệu Phật pháp đính kèm, tập trung khai thác chính xác chủ đề hoạch định sau:
 Tiêu đề: ${currentTopic.title}
 Trọng tâm: ${currentTopic.description}
 
-Hãy chia bài giảng làm 4 phân đoạn.
-Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết, dùng làm ảnh nền tĩnh duy nhất cho toàn bộ video Phật pháp này. Ảnh PHẢI thể hiện trực tiếp nội dung của bài giảng: hình ảnh một vị Đức Phật hoặc nhà sư đang ngồi thiền hoặc giảng pháp, bối cảnh thanh tịnh liên quan đến chủ đề của video, ánh sáng ấm áp, phong cách nghệ thuật Phật giáo truyền thống Á Đông, tỷ lệ dọc 9:16.
+YÊU CẦU QUAN TRỌNG:
+- KHÔNG chia đoạn, KHÔNG đánh số, KHÔNG tiêu đề phụ. Viết liền mạch như một bài pháp thoại tự nhiên.
+- Giọng văn thiền định, chậm rãi, bình an, mỗi câu khoảng 15-25 từ.
+- Tổng cộng khoảng ${sentenceCount} câu, đủ để lấp đầy ${videoDuration} phút.
+- Mỗi phần tử trong mảng "script" là MỘT CÂU độc lập (không phải đoạn văn).
+- Trích dẫn trực tiếp và phân tích sâu từ tài liệu đính kèm.
+
+Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết, dùng làm ảnh nền tĩnh cho toàn bộ video. Ảnh PHẢI là hình ảnh Đức Phật hoặc nhà sư đang ngồi thiền/giảng pháp, bối cảnh thanh tịnh liên quan đến chủ đề, phong cách nghệ thuật Phật giáo Á Đông, tỷ lệ dọc 9:16.
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
 {
   "title": "${currentTopic.title}",
   "imagePrompt": "Detailed English image prompt featuring a Buddha or Buddhist monk scene directly related to the video's teaching theme, vertical 9:16 aspect ratio, traditional East Asian Buddhist art style",
   "script": [
-    {
-      "text": "Câu triết lý tiếng Việt đúc kết từ tài liệu (khoảng 20 từ, chậm rãi)"
-    }
+    { "text": "Một câu thiền định tiếng Việt (15-25 từ, đúc kết từ tài liệu, tự nhiên liền mạch)" }
   ]
 }`;
         }
@@ -513,34 +527,67 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             <Compass size={20} style={{ color: 'var(--success)' }} /> Tạo Hàng Loạt Video Phật Pháp & Triết Lý
           </h2>
 
-          {/* 1. Batch Quantity Selector */}
-          <div className="form-group" style={{ marginBottom: 20 }}>
-            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Layers size={14} /> Số lượng video muốn sản xuất hàng loạt
-            </label>
-            <div style={{ display: 'flex', gap: 10 }}>
-              {[1, 5, 10, 15].map((num) => (
-                <button
-                  key={num}
-                  type="button"
-                  onClick={() => setNumVideos(num)}
-                  disabled={loading}
-                  style={{
-                    flex: 1,
-                    padding: '10px 16px',
-                    background: numVideos === num ? 'var(--success)' : 'var(--bg-surface-secondary)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 12,
-                    color: numVideos === num ? '#fff' : 'var(--text-primary)',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    fontSize: 13,
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  {num} Video{num > 1 ? 's' : ''}
-                </button>
-              ))}
+          {/* 1. Batch Quantity + Duration Selectors */}
+          <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
+            <div className="form-group" style={{ flex: 1 }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Layers size={14} /> Số lượng video
+              </label>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {[1, 5, 10, 15].map((num) => (
+                  <button
+                    key={num}
+                    type="button"
+                    onClick={() => setNumVideos(num)}
+                    disabled={loading}
+                    style={{
+                      flex: 1,
+                      padding: '10px 12px',
+                      background: numVideos === num ? 'var(--success)' : 'var(--bg-surface-secondary)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 12,
+                      color: numVideos === num ? '#fff' : 'var(--text-primary)',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      fontSize: 13,
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    {num}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-group" style={{ flex: 1 }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                ⏱️ Thời lượng mỗi video
+              </label>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {[2, 3, 5, 8, 10, 15].map((min) => (
+                  <button
+                    key={min}
+                    type="button"
+                    onClick={() => setVideoDuration(min)}
+                    disabled={loading}
+                    style={{
+                      flex: 1,
+                      minWidth: 40,
+                      padding: '10px 8px',
+                      background: videoDuration === min ? 'var(--accent)' : 'var(--bg-surface-secondary)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 12,
+                      color: videoDuration === min ? '#fff' : 'var(--text-primary)',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      fontSize: 13,
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    {min}'
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
