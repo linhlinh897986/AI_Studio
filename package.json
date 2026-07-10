@@ -16,6 +16,7 @@
     "axios": "^1.7.9",
     "lucide-react": "^0.475.0",
     "pdf-parse": "^2.4.5",
+    "pdfkit": "^0.19.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "remotion": "^4.0.190",

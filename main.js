@@ -161,7 +161,7 @@ ipcMain.handle('download-image', async (event, { imageUrl }) => {
 // 6.5. PDF Downloading & Extraction
 ipcMain.handle('buddhist-parse-pdf', async (event, { filePath, fileUrl, localResourceName }) => {
   try {
-    const pdfParse = require('pdf-parse');
+    const pdfParseModule = require('pdf-parse');
     let buffer;
     if (localResourceName) {
       const localPath = path.join(__dirname, 'resources', 'scriptures', localResourceName);
@@ -181,12 +181,33 @@ ipcMain.handle('buddhist-parse-pdf', async (event, { filePath, fileUrl, localRes
       throw new Error('Không có tệp PDF nào được cung cấp.');
     }
 
-    const data = await pdfParse(buffer);
+    let text = '';
+    let numpages = 0;
+
+    if (pdfParseModule && typeof pdfParseModule.PDFParse === 'function') {
+      // Handle pdf-parse v2 class constructor
+      const parser = new pdfParseModule.PDFParse({ data: buffer });
+      const parsed = await parser.getText();
+      text = parsed.text;
+      numpages = parsed.total;
+    } else if (typeof pdfParseModule === 'function') {
+      // Handle pdf-parse v1 function
+      const parsed = await pdfParseModule(buffer);
+      text = parsed.text;
+      numpages = parsed.numpages;
+    } else if (pdfParseModule && pdfParseModule.default && typeof pdfParseModule.default === 'function') {
+      // Handle default export
+      const parsed = await pdfParseModule.default(buffer);
+      text = parsed.text;
+      numpages = parsed.numpages;
+    } else {
+      throw new Error('Không tương thích với phiên bản thư viện pdf-parse được cài đặt.');
+    }
+
     return {
       success: true,
-      text: data.text,
-      numpages: data.numpages,
-      info: data.info
+      text: text,
+      numpages: numpages
     };
   } catch (err) {
     return { success: false, error: err.message };
