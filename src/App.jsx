@@ -99,34 +99,6 @@ export default function App() {
     );
   };
 
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case 'dashboard':
-        return <Dashboard activeTab={activeTab} setActiveTab={setActiveTab} logs={logs} />;
-      case 'shopee':
-        return <ShopeeTab onLog={addLog} />;
-      case 'buddhist':
-        return (
-          <BuddhistTab 
-            onLog={addLog} 
-            registerProcess={registerProcess}
-            updateProcess={updateProcess}
-            addProcessLog={addProcessLog}
-          />
-        );
-      case 'stickman':
-        return <StickmanTab onLog={addLog} />;
-      case 'dubber':
-        return <DubberTab onLog={addLog} />;
-      case 'processes':
-        return <ProcessesTab processes={processes} setProcesses={setProcesses} />;
-      case 'settings':
-        return <SettingsTab />;
-      default:
-        return <Dashboard activeTab={activeTab} setActiveTab={setActiveTab} logs={logs} />;
-    }
-  };
-
   const getHeaderTitle = () => {
     switch (activeTab) {
       case 'dashboard': return 'Dashboard';
@@ -280,7 +252,33 @@ export default function App() {
           </div>
         </header>
 
-        {renderActiveTab()}
+        {/* Always-mounted tabs — hidden with display:none to preserve component state */}
+        <div style={{ display: activeTab === 'dashboard' ? 'contents' : 'none' }}>
+          <Dashboard activeTab={activeTab} setActiveTab={setActiveTab} logs={logs} />
+        </div>
+        <div style={{ display: activeTab === 'shopee' ? 'contents' : 'none' }}>
+          <ShopeeTab onLog={addLog} />
+        </div>
+        <div style={{ display: activeTab === 'buddhist' ? 'contents' : 'none' }}>
+          <BuddhistTab
+            onLog={addLog}
+            registerProcess={registerProcess}
+            updateProcess={updateProcess}
+            addProcessLog={addProcessLog}
+          />
+        </div>
+        <div style={{ display: activeTab === 'stickman' ? 'contents' : 'none' }}>
+          <StickmanTab onLog={addLog} />
+        </div>
+        <div style={{ display: activeTab === 'dubber' ? 'contents' : 'none' }}>
+          <DubberTab onLog={addLog} />
+        </div>
+        <div style={{ display: activeTab === 'processes' ? 'contents' : 'none' }}>
+          <ProcessesTab processes={processes} setProcesses={setProcesses} />
+        </div>
+        <div style={{ display: activeTab === 'settings' ? 'contents' : 'none' }}>
+          <SettingsTab />
+        </div>
       </main>
     </div>
   );
