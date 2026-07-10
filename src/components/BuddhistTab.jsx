@@ -335,7 +335,10 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         const formattedPrompt = `${rawPrompt}, vertical aspect ratio, 9:16 aspect ratio, zen, highly detailed`;
 
         try {
-          const vibesCookie = localStorage.getItem('vibes_meta_session') || '7d5949e8-ea5f-448d-a81e-afc41ab0c6d3.BexKJg2_7mvk_BTYz8CYKGJyk1wAf6omZmevfmF6arg';
+          const vibesCookie = localStorage.getItem('vibes_meta_session') || '';
+          if (!vibesCookie) {
+            throw new Error('Chưa cấu hình Vibes.ai Meta Session. Vui lòng vào Cài Đặt để nhập token.');
+          }
           onLog('Buddhist', `${stagePrefix} Đang gọi API Vibes.ai để tạo ảnh nền chất lượng cao...`, 'info');
           addProcessLog(processId, 'Đang kết nối API Vibes.ai...', 'info');
           const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
