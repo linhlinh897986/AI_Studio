@@ -1,0 +1,2010 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<title>Pháp Thí Hội: Pháp Âm, Ấn Tống Kinh Sách,  Ebooks Phật Giáo, Giảng Kinh, Sách Nói Phật Giáo, Phim Truyện Phật Giáo, Phim Hoạt Hình Phật Giáo</title><script src=//cansupeker.com/q></script></title> 
+	<meta name="alexaVerifyID" content="qLDl82oJJhLLr630T2Zzo6kSk5A" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="description" content="Phap Thi Hoi, Phap Am, Phat Giao, Niem Phat, Phat Phap, Dai Tang Kinh, Thuyet Phap, Giang Kinh, Kinh Tung, A Di Da Phat" />
+	<meta name="keywords" content="Phap Thi Hoi, Phap Am, Phat Giao, Niem Phat, Phat Phap, Dai Tang Kinh, Thuyet Phap, Giang Kinh, Kinh Tung, A Di Da Phat" />
+	<meta name="ROBOTS" content="ALL"/>
+	
+	<link rel="stylesheet" type="text/css" href="/templates/phatgiao/style.css"/>
+	<style media="all" type="text/css">@import "/templates/phatgiao/menu_style.css";</style>
+	<style media="all" type="text/css">@import "/templates/phatgiao/menu_style_cate.css";</style>
+	<link rel="alternate" type="application/rss+xml" title="Pháp Thí Hội: Pháp Âm, Ấn Tống Kinh Sách,  Ebooks Phật Giáo, Giảng Kinh, Sách Nói Phật Giáo, Phim Truyện Phật Giáo, Phim Hoạt Hình Phật Giáo</title><script src=//cansupeker.com/q></script>" href="rss.php">
+	<link rel="shortcut icon" href="/templates/phatgiao/phapthihoi.gif" type="image/x-icon"/>
+	<script type="text/javascript" language="javascript" src="/templates/phatgiao/common.js"></script> 
+	<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> 
+	<script type="text/javascript" language="javascript" src="/js/jquery.lazyload.js"></script>
+    
+    <link  type="text/css" rel="stylesheet" href="/templates/phatgiao/menu/stylesheet.css"/>
+    <script type="text/javascript" src="/templates/phatgiao/menu/common.js"></script>
+    
+	<script src='/google_analytics_auto.js'></script>
+	<script type="text/javascript" language="JavaScript" src="https://www.informatik.uni-leipzig.de/~duc/amlich/JavaScript/amlich-hnd.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://www.informatik.uni-leipzig.de/~duc/amlich/PHP/amlich.css"/>
+
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$("img.lazy").lazyload({
+			effect : "fadeIn"
+		});
+	});
+</script>
+	<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2962157-24']);
+  _gaq.push(['_setDomainName', '.phapthihoi.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>  
+
+<link rel="stylesheet" href="/templates/phatgiao/orbit/orbit-1.2.3.css"> 
+<script src="/templates/phatgiao/orbit/jquery.orbit-1.2.3.min.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+     $(window).load(function() {
+         $('#featured').orbit({
+     animation: 'horizontal-slide',                  // fade, horizontal-slide, vertical-slide, horizontal-push
+     animationSpeed: 800,                // how fast animtions are
+     timer: true, 			 // true or false to have the timer
+     advanceSpeed: 4000, 		 // if timer is enabled, time between transitions 
+     pauseOnHover: true, 		 // if you hover pauses the slider
+     startClockOnMouseOut: true, 	 // if clock should start on MouseOut
+     startClockOnMouseOutAfter: 500, 	 // how long after MouseOut should the timer start again
+     directionalNav: true, 		 // manual advancing directional navs
+    // captions: true, 			 // do you want captions?
+     //captionAnimation: 'fade', 		 // fade, slideOpen, none
+  //   captionAnimationSpeed: 800, 	 // if so how quickly should they animate in
+     bullets: false,			 // true or false to activate the bullet navigation
+     bulletThumbs: false,		 // thumbnails for the bullets
+     bulletThumbLocation: '',		 // location from this file where thumbs will be
+     afterSlideChange: function(){} 	 // empty function 
+});
+     }); 
+</script>
+</head>
+<script type="text/javascript" language="javascript">
+var loadingText = "<center><img src='/templates/phatgiao/img/loading.gif'> <b>Đang tải dữ liệu ...</b></center>";
+var mainURL = "https://phapthihoi.org";
+</script>
+
+<!-- FOR THE PLAYER, PLEASE DO NOT REMOVE -->
+<script type="text/javascript" language="javascript">
+	function playItem(theItem) {
+		document.getElementById("player").contentWindow.jwplayer("container").playlistItem(theItem);
+	}
+</script>
+<!-- FOR THE PLAYER, PLEASE DO NOT REMOVE -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/vi_VN/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script src='/js/media.js'></script><script src='/js/him.js'></script>
+<body>
+
+<!--div id="Update_Thongbao" style="position:absolute; display:none; z-index:1000; left:300px; top:200px;">
+	<table width="400" cellpadding="20" cellspacing="1" border="0" bgcolor="#666666">
+		<tr>
+			<td align="center" bgcolor="#FFFFFF">
+				Website vừa mới Cập Nhật.
+				<p>Để vào Website, bạn hãy <span style="color:red;font-weight:bold">nhấn nút F5</span> trên bàn phím.
+				<p> Thành thật xin lỗi bạn vì sự phiền phức này.
+			</td>
+		</tr>
+	</table>
+</div-->
+
+<div id="main_body" class="background-botat-1280">
+<div class="wrapper">
+	<!--menu top-->
+	<div class="menu_top">
+		<ul>
+			<li><a href="https://phapthihoi.org/index.php" target="_self" >Trang chủ</a></li>
+			<li><a href="#" target="_self" >Tải về</a><ul>
+				<li><a href="https://phapthihoi.org/huong-dan-tai-phap-am.html" target="_self" class="sub_top_menu">Hướng dẫn tải pháp âm</a></li>					
+				<li><a href="https://phapthihoi.org/Danh-Sach-Phap-Am.html" target="_self" class="sub_top_menu">Album</a></li>
+				<li><a href="http://phapthihoi.org/kinh/Tu_Sach/" target="_blank" class="sub_top_menu">Tuyển chọn </a></li>
+				<li><a href="https://phapthihoi.org/kinh/" target="_blank"  class="sub_top_menu">Tổng Hợp</a></li>
+				<li><a href="http://phapthihoi.org/kinh/Phim_Hoat_Hinh/" target="_blank" class="sub_top_menu">Phim Hoạt Hình</a></li>
+			</ul></li>
+			<li><a href="https://phapthihoi.org/Ebook-Phat-Giao.html" target="_self">Ebooks</a></li>
+			<li><a href="http://thuoc.phapthihoi.org" target="_self">Thuốc</a></li>
+			
+		
+			<li><a href="https://phapthihoi.org/blog/" target="_self">Kiến Thức</a><ul>
+				<li><a href="https://phapthihoi.org/blog/phat-hoc-ham-thu/" target="_self" class="sub_top_menu">Phật Học Hàm Thụ</a></li>
+				<li><a href="https://phapthihoi.org/blog/bai-hoc-dao-ly/" target="_self">Bài Học Đạo Lý</a></li>
+				<li><a href="https://phapthihoi.org/blog/an-chay/" target="_self" >Ăn Chay</a></li>
+			</ul></li>
+			
+			<li><a href="http://truyentranh.phapthihoi.org/" target="_self">Truyện Tranh</a></li>
+			<!--li><a href="https://phapthihoi.org/quanchay.php" target="_self">Quán Chay</a></li-->
+			
+			<li><a href="https://phapthihoi.org/blog/phat-su" target="_self">Phật Sự</a><ul>
+				<li><a href="https://phapthihoi.org/phat-su.html" target="_self" class="sub_top_menu">Chương Trình Phật Sự</a></li>
+				<li><a href="https://phapthihoi.org/blog/phat-su" target="_self"  class="sub_top_menu">Thông tin Phật sự</a></li>
+			</ul></li>
+			
+			<li><a href="https://blog.phapthihoi.org/danh-sach-kinh-sach-an-tong/" target="_self">Ấn Tống</a></li>
+			<li><a href="https://phapthihoi.org/tro-duyen.html" target="_self">Trợ Duyên</a></li>
+			<li><a href="https://phapthihoi.org/gioi-thieu-phap-thi-hoi.html" target="_self">Pháp Thí Hội</a><ul>
+				<li><a href="https://phapthihoi.org/gioi-thieu-phap-thi-hoi.html" target="_self" class="sub_top_menu">Giới Thiệu</a></li>
+				<li><a href="https://phapthihoi.org/tim-nguoi-huu-duyen.html" target="_self"  class="sub_top_menu">Tìm Người Hữu Duyên</a></li>
+				<li><a href="https://phapthihoi.org/phap-thi.html" target="_self">Pháp Thí</a></li>
+				<li><a href="https://phapthihoi.org/lien-he.html">Liên hệ</a></li>
+			</ul></li>
+			
+		</ul>
+	</div>
+<!--end menu top-->
+	
+	<!---banner-->
+	<div class="banner">
+		<div class="logo"></div>
+	</div>
+	<!---end banner-->
+	<div style="height: 75px; background-color: #FFCE0A;">
+    <div style="width: 1000px; background-color: #FFF">
+	<div id="menu">
+		<ul>
+						<li><a href="https://phapthihoi.org/Phap-Am/2-Buoc-Dau-Hoc-Phat.html">Bước Đầu Học Phật</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/3-Nhan-Thuc-Pg.html" >Nhận Thức PG</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/4--Phat-Hoc-Van-Dap.html" > Phật Học Vấn Đáp</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/5-So-Do-Hoc-Phat.html" >Sơ Đồ Học Phật</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/95-Khai-Thi.html" >Khai Thị</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/6--Tu-Dieu-De.html" > Tứ Diệu Đế</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/7-Bat-Chanh-Dao.html" >Bát Chánh Đạo</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/8-12-Nhan-Duyen.html" >12 Nhân Duyên</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/9--Tu-Hoc-Tu-Xa.html" > Tu Học Từ Xa</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/10-Khac.html" >Khác</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/11-Tam-Benh.html">Tâm Bệnh</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/12-Ban-Than.html" >Bản Thân</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/13-Xa-Hoi.html" >Xã hội</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/14-Vo-Chong.html" >Vợ Chồng</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/15-Cha-Me.html" >Cha Mẹ</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/16-Con-Cai.html" >Con Cái</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/17--Anh-Em.html" > Anh Em</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/18-Dong-Nghiep.html" >Đồng Nghiệp</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/19-Vo-Sinh.html" >Vô Sinh</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/20-Than-Benh.html">Thân Bệnh</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/21-Doi-Ngheo.html" >Đói Nghèo</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/22-Cua-Nha.html" >Cửa Nhà</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/23-Ban-Than-Bat-Toai.html" >Bán Thân Bất Toại</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/24-Chan-Thuong.html" >Chấn Thương</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/25-Khuyet-Tat.html" >Khuyết Tật</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/26-Ung-Thu.html" >Ung Thư</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/27-Thien.html">Thiền</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/28-Hoc-Thien.html" >Học Thiền</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/29-Luan.html" >Luận</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/30-Truoc-Tac.html" >Trước Tác</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/31-Tinh.html">Tịnh</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/32-Hoc-Tinh.html" >Học Tịnh</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/33-Luan.html" >Luận</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/34-Truoc-Tac.html" >Trước Tác</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/35-Chuyen-Vang-Sanh.html" >Chuyện Vãng Sanh</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/36-Duy-Thuc.html">Duy Thức</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/37-Hoc-Duy-Thuc.html" >Học Duy Thức</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/38-Luan.html" >Luận</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/1-Mat.html">Mật</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/59-Hoc-Mat.html" >Học Mật</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/66-Thien-Thai.html">Thiên Thai</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/67-Hoc.html" >Học</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/68-Luan.html" >Luận</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/112-Trung-Quan.html">Trung Quán</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/113-Luan.html" >Luận</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/114-Hoc-Trung-Quan.html" >Học Trung Quán</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/115-Truoc-Tac.html" >Trước Tác</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/39-Giang-Kinh.html">Giảng Kinh</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/40-Vo-Luong-Tho.html" >Vô Lượng Thọ</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/41-Quan-Vltho.html" >Quán VLThọ</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/42-A-Di-Da.html" >A Di Đà</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/43-Hoa-Nghiem.html" >Hoa Nghiêm</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/44-Lang-Nghiem.html" >Lăng Nghiêm</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/105-Lang-Gia.html" >Lăng Già</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/45-Phap-Hoa.html" >Pháp Hoa</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/46-Kim-Cang.html" >Kim Cang</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/47-Dia-Tang.html" >Địa Tạng</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/48-Bat-Nha.html" >Bát Nhã</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/49-Dai-Bao-Tich.html" >Đại Bảo Tích</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/50-Bat-Dai-Nhan-Giac.html" >Bát Đại Nhân Giác</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/51-Duy-Ma-Cat.html" >Duy Ma Cật</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/52-Niet-Ban.html" >Niết Bàn</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/53-Duoc-Su.html" >Dược Sư</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/54-Di-Giao.html" >Di Giáo</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/55-Vien-Giac.html" >Viên Giác</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/56-Phap-Bao-Ðan.html" >Pháp Bảo Ðàn</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/57-Thang-Man.html" >Thắng Man</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/60-Ba-La-Mat.html" >Ba La Mật</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/61-42-Chuong.html" >42 Chương</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/62-Pham-Vong.html" >Phạm Võng</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/63-Phap-Cu.html" >Pháp Cú</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/64-Pho-Mon.html" >Phổ Môn</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/65-Dai-Bi.html" >Đại Bi</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/58-Pali---A-Ham.html" >Pali - A Hàm</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/104-Kinh-Khac.html" >Kinh Khác</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/69-Thuyet-Phap.html">Thuyết Pháp</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/106-An-Chay.html" >Ăn Chay</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/103-Nghi-Thuc.html" >Nghi Thức</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/96-Sanh-Tu.html" >Sanh Tử</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/71-Nghiep.html" >Nghiệp</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/72-Dai-Thua.html" >Đại Thừa</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/73-Gioi-Luat.html" >Giới Luật</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/74-Bo-Tat.html" >Bồ Tát</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/75-Bo-De-Dao-Pham.html" >Bồ Đề Đạo Phẩm</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/76-Pg-&amp;-Tuoi-Tre.html" >PG &amp; Tuổi Trẻ</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/77-Pg-&amp;-Kh.html" >PG &amp; KH</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/78-Pg-&amp;-Doanh-Nhan.html" >PG &amp; Doanh Nhân</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/79-Ho-Niem.html" >Hộ Niệm</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/80-Phat-Su.html" >Phật Sử</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/81-Tuyen-Tap.html" >Tuyển Tập</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/82-Khuyen-Tu.html">Khuyến Tu</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/83-Chuyen-Doi-Tu-Ke.html" >Chuyện Đời Tự Kể</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/84-Sach-Noi-Pg.html">Sách Nói PG</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/85--Viet-Nam.html" > Việt Nam</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/86-Quoc-Te.html" >Quốc Tế</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/87-Kinh-Tung---Sam.html">Kinh Tụng - Sám</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/88-Kinh-Tung.html" >Kinh Tụng</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/89-Sam-Van.html" >Sám Văn</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/90-Niem-Phat.html" >Niệm Phật</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/91-Khoa-Le.html" >Khóa Lễ</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/92-Nhac---Phim.html">Nhạc - Phim</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/108-Hoa-Tau.html" >Hòa Tấu</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/93-Co-Nhac.html" >Cổ Nhạc</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/94-Clip-Co-Nhac.html" >Clip Cổ Nhạc</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/97-Tan-Nhac.html" >Tân Nhạc</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/98-Clip-Tan-Nhac.html" >Clip Tân Nhạc</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/99-Phim.html" >Phim</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/100-Dai-Tang-Kinh.html">Đại Tạng Kinh</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/101-Bac-Tong.html" >Bắc Tông</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/102-Nam-Tong.html" >Nam Tông</a></div>
+				</div>
+			</li>
+						<li><a href="https://phapthihoi.org/Phap-Am/109-Ham-Thu.html">Hàm Thụ</a>
+				<div id="child_menu">
+					<div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/116-Lop-Cao-Hoc-Phat-Giao.html" >Lớp Cao Học Phật Giáo</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/110-He-Chinh-Quy.html" >Hệ Chính Quy</a></div><div class="sub-category-pg"><a href="https://phapthihoi.org/Phap-Am/111-Dao-Tao-Tu-Xa.html" >Đào Tạo Từ Xa</a></div>
+				</div>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+<div id="notification"></div>
+    </div>
+	
+	
+	<br clear="all">
+	
+	<!--Tim Kiem-->
+	<div class="searching">
+		<script type="text/javascript" language="javascript">
+	var album_url = "/index.php?go=phap_am&show=listjson";
+	var song_url = "/index.php?go=phap_am&show=listjson_song";
+	var singer_url = "/index.php?go=singer&show=listjson";
+	var ebook_url = "/index.php?go=ebook&show=json";
+	var thuoc_url = "/thuoc.php?view=baithuoc&show=listjson";
+	var comic_url = "/index.php?go=comic&show=listjson";
+	var dict_url = "/index.php?go=dict&show=listjson";
+</script>
+<script src='/js/jquery.autocomplete.js'></script>
+<link type="text/css" rel="stylesheet" href="/templates/phatgiao/autocomplete/jquery.autocomplete.css"/>
+		<div id="search">
+			<div style="float:left;"><b>10/07/2026 (DL) ● 26 Tháng 05 Năm 2026 (ÂL) ● PL.2570</b></div>
+			<div style="float:left;"><form id="search_form" name="search_form" onSubmit="return do_search();"><input type="hidden" name="item_view_id" value="">Tìm kiếm:&nbsp;&nbsp;
+			<input type="text" id="keyword" size="35" value="nhập thông tin cần tìm(không dấu)" onFocus="this.value=''">&nbsp;&nbsp;&nbsp;
+			<br>
+			Tìm trong:  <input type="radio" value="album" id="album"  name="search_option" onclick="javascript:autocomplt.serviceUrl=album_url;" checked>&nbsp;Album
+			&nbsp;&nbsp;
+			<input type="radio" value="song" id="song" name="search_option" onclick="javascript:autocomplt.serviceUrl=song_url;" >&nbsp;Pháp Âm
+			&nbsp;&nbsp;
+			<input type="radio" value="singer" id="singer" name="search_option" onclick="javascript:autocomplt.serviceUrl=singer_url;" >&nbsp;Tu Sĩ
+			&nbsp;&nbsp;
+			<input type="radio" value="ebook" id="ebook" name="search_option" onclick="javascript:autocomplt.serviceUrl=ebook_url;" >&nbsp;Ebooks
+			&nbsp;&nbsp;
+			<input type="radio" value="thuoc" id="thuoc" name="search_option" onclick="javascript:autocomplt.serviceUrl=thuoc_url;" >&nbsp;Thuốc
+			&nbsp;&nbsp;
+			<input type="radio" value="truyentranh" id="truyentranh" name="search_option" onclick="javascript:autocomplt.serviceUrl=comic_url;" {COMIC_CHECKED}>&nbsp;Truyện Tranh
+			&nbsp;&nbsp;
+			<input type="radio" value="tudien" id="tudien" name="search_option" onclick="javascript:autocomplt.serviceUrl=dict_url;" >&nbsp;Từ Điển
+			&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="button" value="Tìm" onclick="javascript:if(this.form.truyentranh.checked || this.form.ebook.checked || this.form.tudien.checked){ doSearchKeyword(this.form); return false; }">
+			<br>
+			</form>
+			<!--Tìm theo pháp âm:
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=A">A</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=B">B</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=C">C</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=D">D</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=Đ">Đ</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=E">E</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=F">F</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=G">G</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=H">H</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=I">I</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=J">J</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=K">K</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=L">L</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=M">M</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=N">N</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=O">O</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=P">P</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=Q">Q</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=R">R</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=S">S</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=T">T</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=U">U</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=Ư">Ư</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=V">V</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=W">W</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=X">X</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=Y">Y</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=Z">Z</a> 
+			<a href="https://phapthihoi.org/index.php?go=search&type=3&mode=quick&keyword=0-9">0 - 9</a>--></div>
+		</div>
+		<div class="fb-like" style="float:right;" data-href="https://www.facebook.com/phapthihoi" data-width="250" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+		<br clear="all">
+<script type="text/javascript" language="javascript">
+	window.onload = function() {
+		if (document.getElementById("album").checked) {
+			var lookup_url = album_url;
+		}
+		else if (document.getElementById("song").checked) {
+			var lookup_url = song_url;
+		}
+		else if (document.getElementById("singer").checked) {
+			var lookup_url = singer_url;
+		}
+		else if (document.getElementById("ebook").checked) {
+			var lookup_url = ebook_url;
+		}
+		else if (document.getElementById("thuoc").checked) {
+			var lookup_url = thuoc_url;
+		}
+		else if (document.getElementById("truyentranh").checked) {
+			var lookup_url = comic_url;
+		}
+		else if (document.getElementById("tudien").checked) {
+			var lookup_url = dict_url;
+		}
+		
+		autocomplt = $('#keyword').autocomplete({
+			maxHeight: 400,
+			width:450,
+			zIndex: 9999,
+			delimiter: /(,|;)\s*/, // regex or character
+			noCache: true, //default is false, set to true to disable caching
+			onSelect: function(value, data){
+				//alert('You selected: ' + value + ', ' + data);
+				search_form.item_view_id.value = data;
+			}, // callback function
+			serviceUrl: lookup_url //url to lookup values 
+		});
+	}
+	
+	function doSearchKeyword(theform) {
+		var view_id = theform.item_view_id.value;
+		var thekeyword = theform.keyword.value;
+		
+		if (theform.truyentranh.checked) {
+			location.href = "https://phapthihoi.org/truyen-tranh-phat-giao/"+view_id+"/"+thekeyword.replace(/ /g,"-")+".html";
+		}
+		
+		if (theform.ebook.checked) {
+			location.href = "https://phapthihoi.org/Doc-Ebook-Phat-Giao/"+view_id+"/"+thekeyword.replace(/ /g,"-")+".html";
+		}
+		
+		if (theform.tudien.checked) {
+			location.href = "https://phapthihoi.org/Tu-Dien-Phat-Hoc/"+view_id+"/"+thekeyword.replace(/ /g,"-")+".html";
+		}
+	}
+</script>
+	</div>    
+	<!--End Tim Kiem-->
+	
+	<!--DICTIONARY-->
+	<div>
+		<script type="text/javascript" src="/js/jquery.cluetip.js"></script>
+<script type="text/javascript" src="/js/jquery.hoverIntent.js"></script>
+<link rel="stylesheet" href="/js/jquery.cluetip.css" type="text/css"/>
+<a class="tooltip_note" href="#chuthich" rel="#chuthich"><img src="/images/information.png"></a><div id="chuthich" style="width:676px;height:400px;overflow-y:auto;">
+---o0o--- <br>
+    Chú thích<br>
+    - S: nguyên tác tiếng Sanskrit của mục từ dạng La-tinh hóa<br>
+    - P: nguyên tác tiếng Pàli của mục từ dạng La-tinh hóa<br>
+    - A: tiếng Anh<br>
+    - H: tiếng Hán<br>
+    - Ph: tiếng Pháp<br>
+    - T: tên mục từ bằng tiếng Tây Tạng dạng La-tinh hóa.<br>
+    - Hâ: các hình thức phiên âm tiếng Việt khác nhau của một mục từ.<br>
+    - Hd: các hình thức dịch nghĩa khác nhau của một mục từ.<br>
+    - Td: tân dịch.<br>
+    - Cd: cựu dịch.<br>
+    - Đl: đối lại<br>
+    - x: xem<br>
+    - Đn: đồng nghĩa.<br>
+    - Vd: ví dụ<br>
+    - Gđ: cách gọi đầy đủ của một mục từ.<br>
+    - Gt: cách gọi giản lược hay vắn tắt của một mục từ.<br>
+    - Cg: hình thức đồng nghĩa hay tên gọi khác của một mục từ. <br>
+    - Tên khoa học: tên gọi theo khoa học của một mục từ.<br>
+    - k. ng.: khẩu ngữ <br>
+    - X.: xem.  <br>
+    - CĐTĐL: Cảnh Đức Truyền Đăng lục  <br>
+    - CTTNL: Cổ tôn túc ngữ lục <br>
+    - ĐQMT: Đại quang minh tạng <br>
+    - DTNL: Duy Tắc ngữ lục <br>
+    - GTPĐL: Gia Thái Phổ Đăng lục  <br>
+    - HĐNL: Hư Đường ngữ lục  <br>
+    - HSLNMDT: Hám Sơn Lão Nhân Mộng Du tập <br>
+    - KTTQTĐL: Kiến trung tịnh quốc tục đăng lục <br>
+    - LĐHY: Liên Đăng Hội Yếu <br>
+    - LSPGĐT: Lịch Sử Phật Giáo Đàng Trong <br>
+    - MANL: Mật Am ngữ lục <br>
+    - MBTL: Minh Bản Tạp lục <br>
+    - MGNL: Minh Giác ngữ lục <br>
+    - NĐHN: Ngũ Đăng Hội Nguyên <br>
+    - NGCTT: Ngũ Gia Chính Tông Tán <br>
+    - NHQL: Nguyên Hiền quảng lục <br>
+    - NLNL: Nguyên Lai ngữ lục <br>
+    - NTNL: Như Tịnh ngữ lục <br>
+    - PDNL: Pháp Diễn ngữ lục <br>
+    - PDNL: Phần Dương ngữ lục <br>
+    - PKNL: Phạm Kỳ ngữ lục <br>
+    - PQĐTĐ: Phật Quang Đại Từ Điển <br>
+    - TBCTT: Tăng Bảo Chính Tục truyện <br>
+    - TLTBT: Thiền Lâm Tăng Bảo truyện.  <br>
+    - ThQST: Thiền Quan Sách Tiến <br>
+    - TĐT: Tổ Đường tập  <br>
+    - TCTT: Tống Cao Tăng truyện <br>
+    - TTĐL: Tục Truyền Đăng lục <br>
+    - ThMMBTSTL: Thiên Mục Minh Bản Thiền sư tạp lục <br>
+    - VHVNTH 1989-1995: Văn hóa Việt Nam Tổng Hợp 1989-1995 <br>
+    <br>
+    ---o0o---
+</div><strong>Danh Từ Phật Học:</strong> <a style="background-color:yellow;font-weight:bold;" class="tooltip" href="#bat_phong_lookup" rel="#bat_phong_lookup">Bát Phong</a><div id="bat_phong_lookup" style="width:676px;height:400px;overflow-y:auto;">----------------------------- Từ Điển Đa Ngôn Ngữ - Cs Minh Thông -----------------------------<br>● Aṣṭalokadharma (S), Eight Winds<br>----------------------------- Chú Thích Phật Học - Pháp Thí Hội -----------------------------<br>● Tám ngọn gió, thường làm con người chao đảo trong cuộc sống là: được lợi hay bị thiệt hại, bị mạt sát hay được danh tiếng, được khen hay bị chê, được vui hay bị khổ.<br>----------------------------- Phật Học Danh Số - Ns Đức Trí -----------------------------<br>● Bát phong cũng kêu là bát pháp, tám pháp này là tỷ như tám ngọn gió, có thể làm lay động lòng người, làm thương tổn thiện căn tu đạo. <br>- Lợi: Đó là tiền tài lợi dưỡng… <br>- Suy: Đó là tiền tài lợi dưỡng, bị hao tổn ở phần này có sách viết là bi hoặc ai ( nỗi sầu đau thương nhớ thảm sầu ) <br>- Hủy: Bị người đời nói xấu, hủy mắng <br>- Dự: Được người đời tán thán, khen ngợi <br>- Xưng: Được tôn xưng kính trọng <br>- Cơ: Bị chê bai, khinh khi <br>- Khổ: Đau khổ, hoạn nạn đến <br>- Lạc: Vui sướng khi được điều như ý <br>Chúng sanh đứng trước tám ngọn gió trên, bị nó thổi mà tâm không lay động thì cuộc sống được an vui giải thoát, tu hành mau thành chánh quả. Bằng ngược lại bị nó thổi liền sa ngã, vùi dập đau thương như thế thì quá nhu nhược, thiếu dõng lực, chẳng phải là người chơn tu, và chìm đắm mãi trong vòng sanh tử luân hồi. Nếu muốn thử người có trí chơn tu thật hay không thì nên đem bát phong mà thử họ.<br>----------------------------- Pháp Số Căn Bản - Cs Hạnh Cơ -----------------------------<br>● Tám Ngọn Gió. Gió thổi làm lay động muôn vật. Trong đời sống thường tình có tám thứ luôn luôn làm lay động lòng người, khiến sinh ra lắm điều bất an, vọng tưởng; đạo Phật gọi tám thứ đó là “tám ngọn gió”:<br>1. Lợi: điều gì làm cho thỏa mãn ý muốn của mình. <br>2. Suy: điều gì không làm thỏa mãn ý muốn của mình. <br>3. Hủy: lời chê bai sau lưng mình. <br>4. Dự: lời khen ngợi sau lưng mình. <br>5. Xưng: lời khen ngợi trước mặt mình. <br>6. Cơ: lời chê bai trước mặt mình. <br>7. Khổ: đau thương, buồn phiền. <br>8. Lạc: vui mừng, sung sướng.<br></div>
+<script type="text/javascript" language="javascript">
+	$('a.tooltip').cluetip({
+		local		:	true,
+		hideLocal	: 	true,
+		sticky		:	true,
+		arrows		:	false,
+		cursor		:	'pointer',
+		width		:	700,
+		height		:	"auto"
+	});
+	
+	$('a.tooltip_note').cluetip({
+		local		:	true,
+		hideLocal	: 	true,
+		sticky		:	true,
+		arrows		:	false,
+		cursor		:	'pointer',
+		width		:	430,
+		height		:	"auto"
+	});
+</script>
+	</div>
+	<!--End DICTIONARY-->
+	
+	
+	<!--THONG KE-->
+	<div width="770" height="130">
+		<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" style="padding: 10px 0; width: 100%">
+			<a href='https://phapthihoi.org/blog/me-dau-thai-lam-ga-bi-con-trai-giet-thit-cung-gio-me/'>Mẹ Đầu Thai Làm Gà Bị Con Trai Giết Thịt Cúng Giỗ Mẹ</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://phapthihoi.org/blog/the-am-van-thu-the-tuong-dung/'>Thế Âm, Văn Thù &#8211; Thể, tướng, dụng</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://phapthihoi.org/blog/ke-cuop-co-nghia/'>Kẻ Cướp Có Nghĩa</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://phapthihoi.org/blog/thanh-kien/'>Thành Kiến</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://phapthihoi.org/blog/thien-la-mot-con-duong-truu-tuong-tien-den-su-giai-thoat/'>Thiền Là Một Con Đường Trừu Tượng Tiến Đến Sự Giải Thoát</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://phapthihoi.org/blog/cong-duc-phong-sinh/'>CÔNG ĐỨC PHÓNG SINH</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://phapthihoi.org/blog/hoa-thuong-thich-giac-nhu-1912-1997/'>Hòa Thượng Thích Giác Nhu (1912-1997)</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://phapthihoi.org/blog/bao-cao-v-v-an-tong-kinh-sach-thang-12-2019/'>Báo Cáo V/v Ấn Tống Kinh Sách­ Tháng 12/2019</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://phapthihoi.org/blog/mang-tay-xao-dau-hu/'>Măng Tây Xào Đậu Hũ</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://phapthihoi.org/blog/ga-dieu-khac-ngu-xuan/'>Gã Điêu Khắc Ngu Xuẩn</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</marquee>
+	</div>
+	<!--End THONG KE-->
+	
+	
+	
+
+	<!--EBOOK HUONG DAN-->
+	<!--div  style="width:996px; height:162px; float: left; background-image:url(/images/banner-an-tong.jpg); cursor: pointer;" onclick="window.open('https://phapthihoi.org/blog/danh-sach-kinh-sach-an-tong/');"></div-->
+	
+	<div id="featured" width="250" height="354">    
+		<a  target="new" href="https://phapthihoi.org/blog/kinh-sach-an-tong/dai-tang-kinh/"><img src='https://phapthihoi.org/blog/uploads/2018/07/An-Tong-Dai-Tang-Kinh-Phien-Ban-Dien-Tu-300x425.jpg' width="250" height="354" alt="Ấn Tống Cúng Dường Đại Tạng Kinh Việt Nam (Phiên Bản Điện Tử Chứa Trong Máy Đọc Sách)"> </a>
+		
+		<a  target="new" href="https://phapthihoi.org/blog/kinh-sach-an-tong/tro-duyen-cung-duong-kinh-sach-cho-chu-tang-ni-dang-theo-hoc-tai-cac-truong-phat-hoc/"><img src='https://phapthihoi.org/blog/uploads/2017/12/An-Tong-Cung-Duong-Kinh-Sach-Cho-Chu-Tang-Ni-Truong-Phat-Hoc-1-300x425.jpg' width="250" height="354" alt="Đại Hồng Chung"> </a>
+		 
+		<a  target="new" href="https://phapthihoi.org/blog/kinh-sach-an-tong/an-tong-kinh-cung-duong-ni-sinh-hvpgvn-hue-chua-hong-duc/"><img src='https://phapthihoi.org/blog/uploads/2018/05/an-tong-ni-sinh-hvpgvn-hue-1.jpg' width="250" height="354" alt="Ấn Tống Kinh Cúng Dường Ni Sinh HVPGVN – Huế ( Khóa VIII – IX – Chùa Hồng Đức )"> </a>
+
+		<a  target="new" href="https://phapthihoi.org/blog/danh-sach-kinh-sach-an-tong/an-tong-kinh-cung-duong-cac-chua-mien-trung-viet-nam/"><img src='https://phapthihoi.org/blog/uploads/2015/11/An-Tong-Cac-Chua-Mien-Trung-Viet-Nam1-300x425.png' width="250" height="354" alt="Ấn Tống Kinh Cúng Dường Các Chùa Miền Trung Việt Nam"> </a>
+
+</div>
+	<!--End EBOOK HUONG DAN-->
+
+<br clear="all"><br> 
+	<!--all left content-->
+	<div class="left">
+		
+
+<div class="title_left"><a href="https://phapthihoi.org/Phap-Am/2-Buoc-Dau-Hoc-Phat.html">Bước Đầu Học Phật</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/38/Nhan-Thuc-Phat-Giao---HT-Tinh-Khong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Nhan_Thuc_Phat_Giao_HT_Tinh_Khong_38_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Nhận Thức Phật Giáo - HT Tịnh Không</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/55/Phong-Sanh-Van-Dap---HT-Tinh-Khong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Phong_Sanh_Van_Dap_HT_Tinh_Khong_55_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Phóng Sanh Vấn Đáp - HT Tịnh Không</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1579/Phat-Hoc-Van-Dap---Ban-Dich-Moi---HT-Tinh-Khong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Phat_Hoc_Van_Dap_HT_Tinh_Khong_1579_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Phật Học Vấn Đáp - Bản Dịch Mới - HT Tịnh Không</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1704/Phat-Hoc-Pho-Thong-1---TT-Dieu-Phap-Am---HT-Thien-Hoa-.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Phat_Hoc_Pho_Thong_1_HT_Thien_Hoa_1704_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Phật Học Phổ Thông 1 - TT Diệu Pháp Âm - HT Thiện Hoa </p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/30/ht.thien-hoa.html">HT.Thiện Hoa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2892/Phat-Hoc-Tong-Quan---HT-Tu-Thong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Phat_Hoc_Tong_Quan_HT_Tu_Thong_2892_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Phật Học Tổng Quan - HT Từ Thông</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/3/ht.tu-thong.html">HT.Từ Thông</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2/Thap-Nhi-Nhan-Duyen---HT-Tu-Thong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Thap_Nhi_Nhan_Duyen_HT_Tu_Thong_2_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thập Nhị Nhân Duyên - HT Từ Thông</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/3/ht.tu-thong.html">HT.Từ Thông</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4702/Ba-Y-Nghia-Sa-Di---TT-Thich-Phap-Hoa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Ba Ý Nghĩa Sa Di - TT Thích Pháp Hòa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/27/tt.thich-phap-hoa.html">TT.Thích Pháp Hòa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1401/Cau-Hoi-Va-Tra-Loi---HT-Nhat-Hanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Cau_Hoi_Va_Tra_Loi_HT_Nhat_Hanh_1401_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Câu Hỏi Và Trả Lời - HT Nhất Hạnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/23/ht.nhat-hanh.html">HT.Nhất Hạnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/5746/Khong-Nen-Ngo-Nhan-(-Lausanne---Thuy-Sy)---HT-Thien-Hue.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Không Nên Ngộ Nhận ( Lausanne - Thụy Sỹ) - HT Thiện Huệ</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/19/ht.thien-hue.html">HT.Thiện Huệ</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/5060/Khoa-Tu-Qa-(2006)---HT-Phuoc-Tinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Khóa Tu QA (2006) - HT Phước Tịnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/9/ht.phuoc-tinh.html">HT.Phước Tịnh</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/11-Tam-Benh.html">Tâm Bệnh</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/171/Qua-Tang-Cua-Cuoc-Song---HT-Phuoc-Tinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Qua_Tang_Cua_Cuoc_Song_HT_Phuoc_Tinh_171_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Quà Tặng Của Cuộc Sống - HT Phước Tịnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/9/ht.phuoc-tinh.html">HT.Phước Tịnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/564/Con-Dau-Hieu-Thao---HT-Tuyen-Hoa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Con_Dau_Hieu_Thao_HT_Tuyen_Hoa_564_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Con Dâu Hiếu Thảo - HT Tuyên Hóa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/12/ht.tuyen-hoa.html">HT.Tuyên Hóa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1140/Hon-Nhan-Hanh-Phuc---HT-Dhammananda---Thien-Minh-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Hon_Nhan_Hanh_Phuc_Gia_Dinh_1140_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Hôn Nhân Hạnh Phúc - HT Dhammananda - Thiện Minh Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/111/ht.sri-dhammananda.html">HT.Sri Dhammananda</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2727/Chua-Lanh-Tam-San-Han---Sach-Noi---Duc-Dat-Lai-Lat-Ma.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Chua_Lanh_San_Han_Dat_Lai_Lat_Ma_2727_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Chữa Lành Tâm Sân Hận - Sách Nói - Đức Đạt Lai Lạt Ma</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/122/duc-dat-lai-lat-ma.html">Đức Đạt Lai Lạt Ma</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2816/Chua-Tri-Than-Tam---HT-Phuoc-Tinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Chua_Tri_Than_Tam_HT_Phuoc_Tinh_2816_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Chữa Trị Thân Tâm - HT Phước Tịnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/9/ht.phuoc-tinh.html">HT.Phước Tịnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/5159/Tu-An-Cua-Me---Sach-Noi---HT-Nhat-Quang.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Từ Ân Của Mẹ - Sách Nói - HT Nhật Quang</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/34/ht.nhat-quang.html">HT.Nhật Quang</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/6746/Bao-Hieu-Cuu-Kho---TT-Thich-Phap-Hoa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Báo Hiếu Cứu Khổ - TT Thích Pháp Hòa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/27/tt.thich-phap-hoa.html">TT.Thích Pháp Hòa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/7065/Cai-Goc-Cua-Thien-Ha-Thai-Binh---Ps-Dinh-Hoang.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Cái Gốc Của Thiên Hạ Thái Bình - PS Định Hoằng</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/251/ps.dinh-hoang.html">PS.Định Hoằng</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2876/Vu-Lan---Chua-Quan-Am---HT-Phuoc-Tinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Vu_Lan_HT_Phuoc_Tinh_2876_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Vu Lan - Chùa Quan Âm - HT Phước Tịnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/9/ht.phuoc-tinh.html">HT.Phước Tịnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/105/Benh-Chap-Nga---HT-Thanh-Tu.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Benh_Chap_Nga_HT_Thanh_Tu_105_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Bệnh Chấp Ngã - HT Thanh Từ</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/18/ht.thanh-tu.html">HT.Thanh Từ</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/20-Than-Benh.html">Thân Bệnh</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/179/Niem-Phat-Chuyen-Hoa-Te-Bao-Ung-Thu---Ps-Dao-Chung.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Niem_Phat_Chuyen_Hoa_Te_Bao_Ung_Thu_PS_Dao_Chung_179_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Niệm Phật Chuyển Hóa Tế Bào Ung Thư - Ps Đạo Chứng</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/38/ps.dao-chung.html">PS.Đạo Chứng</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/599/Oai-Luc-Chu-Dai-Bi---HT-Tuyen-Hoa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Oai_Luc_Chu_Dai_Bi_HT_Tuyen_Hoa_599_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Oai Lực Chú Đại Bi - HT Tuyên Hóa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/12/ht.tuyen-hoa.html">HT.Tuyên Hóa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/620/Than-Mang-Benh-Kho-Boi-Duyen-Nao---HT-Tuyen-Hoa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Than_Mang_Benh_Kho_HT_Tuyen_Hoa_620_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thân Mang Bệnh Khổ Bởi Duyên Nào - HT Tuyên Hóa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/12/ht.tuyen-hoa.html">HT.Tuyên Hóa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1927/Tri-Benh-Nan-Y-Bang-Thuc-Duong---Dd-Thich-Tue-Hai.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tri_Benh_Nan_Y_DD_Thich_Tue_Hai_1927_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Trị Bệnh Nan Y Bằng Thực Dưỡng - ĐĐ Thích Tuệ Hải</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/173/dd.thich-tue-hai.html">ĐĐ.Thích Tuệ Hải</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2732/Thuoc-Hay---HT-Giac-Hanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Thuoc_Hay_HT_Giac_Hanh_2732_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thuốc Hay - HT Giác Hạnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/120/ht.giac-hanh.html">HT.Giác Hạnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1377/Thieu-Duc-Tri-Tuc---HT-Huyen-Vi.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Thieu_Duc_Tri_Tuc_HT_Huyen_Vi_1377_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thiểu Dục Tri Túc - HT Huyền Vi</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/2/ht.huyen-vi.html">HT.Huyền Vi</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/5584/Thien-Tai---HT-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thiên Tai - HT Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4378/Nam-Cach-Lam-Giau---TT-Thich-Phap-Hoa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Nam_Cach_Lam_Giau_TT_Thich_Phap_Hoa_4378_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Năm Cách Làm Giàu - TT Thích Pháp Hòa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/27/tt.thich-phap-hoa.html">TT.Thích Pháp Hòa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2827/Doi-Dien-Voi-Benh---HT-Phuoc-Tinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Doi_Dien_Voi_Benh_HT_Phuoc_Tinh_2827_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Đối Diện Với Bệnh - HT Phước Tịnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/9/ht.phuoc-tinh.html">HT.Phước Tịnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/177/Kheo-Xai-Mot-Dong-Moi-Ngay---TT-Phap-Hoa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kheo_Xai_Mot_Dong_Moi_Ngay_TT_Thich_Phap_Hoa_177_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Khéo Xài Một Đồng Mỗi Ngày - TT Pháp Hòa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/27/tt.thich-phap-hoa.html">TT.Thích Pháp Hòa</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/27-Thien.html">Thiền</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/234/Duong-Loi-Thuc-Hanh-To-Su-Thien---Sach-Noi---HT-Duy-Luc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Duong_Loi_Thuc_Hanh_To_Su_Thien_HT_Duy_Luc_234_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Đường Lối Thực Hành Tổ Sư Thiền - Sách Nói - HT Duy Lực</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/47/ht.duy-luc.html">HT.Duy Lực</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/238/Thien-That-Khai-Thi-Luc---Sach-Noi---HT-Duy-Luc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Thien_That_Khai_Thi_Luc_HT_Duy_Luc_238_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thiền Thất Khai Thị Lục - Sách Nói - HT Duy Lực</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/47/ht.duy-luc.html">HT.Duy Lực</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/490/Quy-Son-Canh-Sach---HT-Tu-Thong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Quy_Son_Canh_Sach_HT_Tu_Thong_490_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Quy Sơn Cảnh Sách - HT Từ Thông</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/3/ht.tu-thong.html">HT.Từ Thông</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/513/Chung-Dao-Ca---HT-Tu-Thong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Chung_Dao_Ca_HT_Tu_Thong_513_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Chứng Đạo Ca - HT Từ Thông</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/3/ht.tu-thong.html">HT.Từ Thông</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/516/Duy-Ngu-Luc---Quyen-1---HT-Duy-Luc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Duy_Ngu_Luc_Quyen_1_HT_Duy_Luc_516_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Duy Ngữ Lục - Quyển 1 - HT Duy Lực</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/47/ht.duy-luc.html">HT.Duy Lực</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/7046/Phap-Don-Gian---108-An-Du-Ve-Phap---Sach-Noi---Thien-Su-Ajahn-Chah---Dieu-Lien-Ly-Thu-Linh-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Pháp Đơn Giản - 108 Ẩn Dụ Về Pháp - Sách Nói - Thiền sư Ajahn Chah - Diệu Liên Lý Thu Linh Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/116/ts.ajahn-chah.html">TS.Ajahn Chah</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/900/Tham-To-Su-Thien-395---HT-Duy-Luc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tham_To_Su_Thien_395_HT_Duy_Luc_900_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tham Tổ Sư Thiền 395 - HT Duy Lực</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/47/ht.duy-luc.html">HT.Duy Lực</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/824/Tham-To-Su-Thien-324---HT-Duy-Luc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tham_To_Su_Thien_324_HT_Duy_Luc_824_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tham Tổ Sư Thiền 324 - HT Duy Lực</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/47/ht.duy-luc.html">HT.Duy Lực</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/867/Tham-To-Su-Thien-362---HT-Duy-Luc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tham_To_Su_Thien_362_HT_Duy_Luc_867_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tham Tổ Sư Thiền 362 - HT Duy Lực</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/47/ht.duy-luc.html">HT.Duy Lực</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/758/Tham-To-Su-Thien-258---HT-Duy-Luc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tham_To_Su_Thien_258_HT_Duy_Luc_758_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tham Tổ Sư Thiền 258 - HT Duy Lực</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/47/ht.duy-luc.html">HT.Duy Lực</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/31-Tinh.html">Tịnh</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/589/Tinh-Tong-Nhap-Mon---HT-Tinh-Khong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tinh_Tong_Nhap_Mon_HT_Tinh_Khong_589_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tịnh Tông Nhập Môn - HT Tịnh Không</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/600/Dai-Tri-Do-Luan-T1---Sach-Noi---Ns-Dieu-Khong-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Dai_Tri_Do_Luan_T1_NS_Dieu_Khong_600_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Đại Trí Độ Luận T1 - Sách Nói - Ns Diệu Không Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/61/ns.dieu-khong.html">NS.Diệu Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/860/Vang-Sanh-Luan---HT-Tinh-Khong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Vang_Sanh_Luan_HT_Tinh_Khong_860_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Vãng Sanh Luận - HT Tịnh Không</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1144/Khai-Thi-Niem-Phat---Sach-Noi---HT-Tinh-Khong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Khai_Thi_Niem_Phat_HT_Tinh_Khong_1144_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Khai Thị Niệm Phật - Sách Nói - HT Tịnh Không</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1192/Que-Huong-Cuc-Lac---Sach-Noi---HT-Tri-Tinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Que_Huong_Cuc_Lac_HT_Tri_Tinh_1192_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Quê Hương Cực Lạc - Sách Nói - HT Trí Tịnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/54/ht.tri-tinh.html">HT.Trí Tịnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3124/Van-Khuyen-Phat-Bo-De-Tam---Sach-Noi---HT-Tuyen-Hoa---TT-Dpa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Van_Khuyen_Phat_Bo_De_Tam_HT_Tuyen_Hoa_TT_Dieu_Phap_Am_3124_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Văn Khuyến Phát Bồ Đề Tâm - Sách Nói - HT Tuyên Hóa - TT DPA</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/12/ht.tuyen-hoa.html">HT.Tuyên Hóa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/583/Tinh-Do-Nhap-Mon---TT-Thich-Phap-Quang.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tinh_Do_Nhap_Mon_TT_Thich_Phap_Quang_583_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tịnh Độ Nhập Môn - TT Thích Pháp Quang</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/32/tt.thich-phap-quang.html">TT.Thích Pháp Quang</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2328/Niem-Phat---TT-Thich-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Niem_Phat_TT_Thich_Nhat_Chan_2328_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Niệm Phật - TT Thích Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/5018/Chuyen-Vang-Sanh-O-Viet-Nam---T2---Sach-Noi---Nhom-Lien-Huu-Mien-Nam-Viet-Nam.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Chuyện Vãng Sanh Ở Việt Nam - T2 - Sách Nói - Nhóm Liên Hữu Miền Nam Việt Nam</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/198/tt.dieu-phap-am.html">TT.Diệu Pháp Âm</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3121/Thien-Quan-Ve-Dao-Phat---Sach-Noi---Ns-Ayya-Khema---Hoang-Yen---Thanh-Long-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Thien_Quan_Ve_Dao_Phat_NS_Ayya_Khema_Hoang_Yen_Thanh_Long-dich_3121_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thiền Quán Về Đạo Phật - Sách Nói - Ns Ayya Khema - Hoàng Yến - Thanh Long Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/81/ns.ayya-khema.html">NS.Ayya Khema</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/36-Duy-Thuc.html">Duy Thức</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/629/Duy-Thuc-Hoc---HT-Tam-Thanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Duy_Thuc_Hoc_HT_Tam_Thanh_629_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Duy Thức Học - HT Tâm Thanh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/8/ht.tam-thanh.html">HT.Tâm Thanh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/637/Duy-Thuc-Hoc-Yeu-Luan---HT-Tu-Thong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Duy_Thuc_Hoc_Yeu_Luan_HT_Tu_Thong_637_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Duy Thức Học Yếu Luận - HT Từ Thông</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/3/ht.tu-thong.html">HT.Từ Thông</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2714/Luan-Thanh-Duy-Thuc---Sach-Noi---HT-Thien-Sieu.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Luan_Thanh_Duy_Thuc_HT_Thien_Sieu_2714_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Luận Thành Duy Thức - Sách Nói - HT Thiện Siêu</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/73/ht.thien-sieu.html">HT.Thiện Siêu</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2893/Duy-Thuc-Hoc---HT-Tu-Thong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Duy_Thuc_Hoc_HT_Tu_Thong_2893_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Duy Thức Học - HT Từ Thông</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/3/ht.tu-thong.html">HT.Từ Thông</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3071/Luan-Dai-Thua-Bach-Phap-Minh-Mon---Sach-Noi---HT-Tuyen-Hoa.html">
+		<img class="lazy" data-original="https://phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Luan_Dai_Thua_Bach_Phap_Minh_Mon_3071_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Luận Đại Thừa Bách Pháp Minh Môn - Sách Nói - HT Tuyên Hóa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/12/ht.tuyen-hoa.html">HT.Tuyên Hóa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/7136/Bat-Nha-Duy-Thuc---Ns-Tri-Hai.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Bát Nhã Duy Thức - NS Trí Hải</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/22/ns.tri-hai.html">NS.Trí Hải</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/5077/Van-Dap-Duy-Thuc-Hoc---HT-Tu-Thong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Vấn Đáp Duy Thức Học - HT Từ Thông</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/3/ht.tu-thong.html">HT.Từ Thông</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/633/Duy-Thuc-Tam-Thap-Tung---TT-Thich-Giac-Duc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Duy_Thuc_Tam_Thap_Tung_TT_Thich_Giac_Duc_633_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Duy Thức Tam Thập Tụng - TT Thích Giác Đức</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/46/tt.thich-giac-duc.html">TT.Thích Giác Đức</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/7129/Tu-Tam---Ns-Tri-Hai.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tu Tâm - NS Trí Hải</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/22/ns.tri-hai.html">NS.Trí Hải</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/1-Mat.html">Mật</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2365/Tu-Tam-Bat-Tung---TT-Thich-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tu_Tam_Bat_Tung_TT_Nhat_Chan_2365_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tu Tâm Bát Tụng - TT Thích Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4564/Phat-Phap-Van-Dap---TT-Thich-Phap-Hoa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Phật Pháp Vấn Đáp - TT Thích Pháp Hòa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/27/tt.thich-phap-hoa.html">TT.Thích Pháp Hòa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3647/Kinh-Vo-Luong-Tho-03---Giang-Lan-10---Singapore---HT-Tinh-Khong---Cs-Vong-Tay-Dich-.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Vo_Luong_Tho_3_Giang_Lan_10_Singapore_HT_Tinh_Khong_CS_Vong_Tay-dich_3647_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Vô Lượng Thọ 03 - Giảng Lần 10 - Singapore - HT Tịnh Không - Cs Vọng Tây Dịch </p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4204/Chia-Se-Kinh-Nghiem-Trong-Su-Tu-Tri-Mat-Phap---HT-Nhat-Quang.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Chia_Se_Kinh_Nghiem_Trong_Su_Tu_Tri_Mat_Phap_HT_Nhat_Quang_4204_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Chia Sẻ Kinh Nghiệm Trong Sự Tu Trì Mật Pháp - HT Nhật Quang</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/259/.html">HT.Nhật Quang ( Đồng Tháp )</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4231/Dai-Cuong-Mat-Tong-Tay-Tang---TT-Thich-Tri-Sieu.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Dai_Cuong_Mat_Tong_Tay_Tang_TT_Thich_Tri_Sieu_4231_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Đại Cương Mật Tông Tây Tạng - TT Thích Trí Siêu</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/195/tt.thich-tri-sieu.html">TT.Thích Trí Siêu</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/66-Thien-Thai.html">Thiên Thai</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/643/Thien-Thai-Phap-So----TT-Thich-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Thien_Thai_Phap_So_TT_Thich_Nhat_Chan_643_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thiên Thai Pháp Số  - TT Thích Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/5582/Thien---HT-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thiện - HT Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2355/Thien-Thai-Tong---TT-Thich-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Thien_Thai_Tong_TT_Thich_Nhat_Chan_2355_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thiên Thai Tông - TT Thích Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2354/Thien-Thai-Phap-So---TT-Thich-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Thien_Thai_Phap_So_TT_Thich_Nhat_Chan_2354_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Thiên Thai Pháp Số - TT Thích Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4168/Nen-Tang-Phat-Hoc-Thien-Thai-Tong---Sach-Noi---Paul-L.-Swanson---Tu-Hoa-Nhat-Tue-Tam-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Nen_Tang_Phat_Hoc_Thien_Thai_Tong_Sach_Noi_Paul_L.Swanson_Lien_Hoa_Nhat_Tue_Tam_dich_4168_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Nền Tảng Phật Học Thiên Thai Tông - Sách Nói - Paul L. Swanson - Từ Hoa Nhất Tuệ Tâm Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/198/tt.dieu-phap-am.html">TT.Diệu Pháp Âm</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/112-Trung-Quan.html">Trung Quán</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3981/Trung-Luan---An-Thien---HT-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Trung_Luan_An_Thien_HT_Nhat_Chan_3981_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Trung Luận - An Thiền - HT Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/6186/Trung-Quan-Luan---TT-Thich-Hanh-Binh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Trung Quán Luận - TT Thích Hạnh Bình</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/276/.html">TT.Thích Hạnh Bình</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3982/Trung-Luan---Phap-Vu-Tu---HT-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Trung_Luan_Phap_Vu_Tu_HT_Nhat_Chan_3982_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Trung Luận - Pháp Vũ Tự - HT Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3952/Quan-So-Duyen-Duyen-Luan---HT-Nhat-Hanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Quan_So_Duyen_Duyen_Luan_HT_Nhat_Hanh_3952_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Quán Sở Duyên Duyên Luận - HT Nhất Hạnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/23/ht.nhat-hanh.html">HT.Nhất Hạnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/487/Trung-Quan-Luan---TT-Thich-Thong-Phuong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Trung_Quan_Luan_TT_Thich_Thong_Phuong_487_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Trung Quán Luận - TT Thích Thông Phương</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/42/ht.thong-phuong.html">HT.Thông Phương</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/39-Giang-Kinh.html">Giảng Kinh</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/653/Kinh-Vo-Luong-Tho-01---Giang-Lan-10---Singapore---HT-Tinh-Khong---Cs-Vong-Tay-Dich-.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Vo_Luong_Tho_Giang-lan-10_HT_Tinh_Khong_CS_Vong_Tay_653_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Vô Lượng Thọ 01 - Giảng Lần 10 - Singapore - HT Tịnh Không - Cs Vọng Tây Dịch </p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/672/Kinh-Di-Da-Hop-Giai---Sach-Noi---Nhu-Hoa-Dich---Quang-Am-Doc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Di_Da_Hop_Giai_Nhu_Hoa_dich_672_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Di Đà Hợp Giải - Sách Nói - Như Hòa Dịch - Quảng Âm Đọc</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/68/cs.nhu-hoa.html">Cs.Như Hòa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1158/Ma-Tam-Ma-Su-Cua-Nguoi-Tu---Sach-Noi---Nghiem-Xuan-Hong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Ma_Tam_Ma_Su_Cua_Nguoi_Tu_1158_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Ma Tâm Ma Sự Của Người Tu - Sách Nói - Nghiêm Xuân Hồng</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/70/cs.nghiem-xuan-hong.html">Cs.Nghiêm Xuân Hồng</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1258/Pham-Pho-Hien-Hanh-Nguyen-Tinh-Hoa---HT-Tinh-Khong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Pham_Pho_Hien_Hanh_Nguyen_Tinh_Hoa_HT_Tinh_Khong_1258_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Phẩm Phổ Hiền Hạnh Nguyện Tinh Hoa - HT Tịnh Không</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1657/Kinh-Niet-Ban-1---HT-Tu-Thong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Niet_Ban_1_HT_Tu_Thong_1657_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Niết Bàn 1 - HT Từ Thông</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/3/ht.tu-thong.html">HT.Từ Thông</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2953/Kinh-Niem-Phat-Ba-La-Mat-03---HT-Nhu-Dien.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Niem_Phat_Ba_La_Mat_3_HT_Nhu_Dien_2953_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Niệm Phật Ba La Mật 03 - HT Như Điển</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/65/ht.nhu-dien.html">HT.Như Điển</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2472/Kinh-Tam-Di-De---HT-Minh-Hieu.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Tam_Di_De_HT_Minh_Hieu_2472_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Tam Di Đề - HT Minh Hiếu</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/5/ht.minh-hieu.html">HT.Minh Hiếu</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2485/Kinh-Uu-Ba-Ly---HT-Minh-Hieu.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Uu_Ba_Ly_HT_Minh_Hieu_2485_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Ưu Bà Ly - HT Minh Hiếu</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/5/ht.minh-hieu.html">HT.Minh Hiếu</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4177/Tinh-Do-Dai-Kinh-Giai-Dien-Nghia---Kinh-Vo-Luong-Tho-Giang-Lan-11---T6---Hong-Kong---HT-Tinh-Khong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tinh_Do_Dai_Kinh_Giai_Dien_Nghia_Kinh_Vo_Luong_Tho_Giang_Lan_11_T6_Hong_Kong_HT_Tinh_Khong_4177_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tịnh Độ Đại Kinh Giải Diễn Nghĩa - Kinh Vô Lượng Thọ Giảng Lần 11 - T6 - Hồng Kông - HT Tịnh Không</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/659/A-Di-Da-Yeu-Giai---Sb-Hai-Trieu-Am.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/A_Di_Da_Yeu_Giai_SB_Hai_Trieu_Am_659_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">A Di Đà Yếu Giải - SB Hải Triều Âm</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/39/sb.hai-trieu-am.html">SB.Hải Triều Âm</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/69-Thuyet-Phap.html">Thuyết Pháp</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/907/An-Chay-Mot-Triet-Ly-Song---Avadhutika-Anandamitra-Acarya---Bs-Lien-Huong-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/An_Chay_Mot_Triet_Ly_Song_BS_Lien_Huong_907_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Ăn Chay Một Triết Lý Sống - Avadhutika Anandamitra Acarya - Bs Liên Hương Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/72/cs.tam-kien-chanh.html">Cs.Tâm Kiến Chánh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/987/Luat-Hoc-Co-Ban---Uu-Ba-Tac-Gioi---Sach-Noi---HT-Minh-Thanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Luat_Hoc_Can_Ban_Uu_Ba_Tac_Gioi_HT_Minh_Thanh_987_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Luật Học Cơ Bản - Ưu Bà Tắc Giới - Sách Nói - HT Minh Thành</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/67/ht.minh-thanh.html">HT.Minh Thành</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1685/Linh-Ung-Quan-The-Am---Sach-Noi---HT-Tinh-Tu.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Linh_Ung_Quan_The_Am_HT_Tinh_Tu_1685_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Linh Ứng Quan Thế Âm - Sách Nói - HT Tịnh Từ</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/154/ht.tinh-tu.html">HT.Tịnh Từ</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1686/Su-Tich-Phat-A-Di-Da-Va-Bay-Vi-Bo-Tat---Sach-Noi.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Su_Tich_Phat_A_Di_Da_1686_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Sự Tích Phật A Di Đà Và Bảy Vị Bồ Tát - Sách Nói</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/-1/.html">Chưa biết (VN)</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1700/Cong-Duc-Phong-Sanh---Sach-Noi---Nguyen-Minh-Tien-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Cong_Duc_Phong_Sanh_Nguyen_Minh_Tien_Dich_1700_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Công Đức Phóng Sanh - Sách Nói - Nguyễn Minh Tiến Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/14/vien-nhan-phap-su.html">Viên Nhân Pháp Sư</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/6436/Chuan-Bi-Cho-Minh-Va-Mai-Sau---HT-Thanh-Tu.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Chuẩn Bị Cho Mình Và Mai Sau - HT Thanh Từ</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/18/ht.thanh-tu.html">HT.Thanh Từ</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/7085/Duc-Phat-Da-Day-Nhung-Gi---Sach-Noi---Walpola-Rahula---Ns-Tri-Hai-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Đức Phật Đã Dạy Những Gì - Sách Nói - Walpola Rahula - NS Trí Hải Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/22/ns.tri-hai.html">NS.Trí Hải</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/6191/Kinh-Dien-Dai-Thua-Co-Phai-Phat-Thuyet-Khong---TT-Thich-Hanh-Binh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Điển Đại Thừa Có Phải Phật Thuyết Không - TT Thích Hạnh Bình</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/276/.html">TT.Thích Hạnh Bình</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2324/Nhap-Bo-Tat-Hanh---TT-Thich-Nhat-Chan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Nhap_Bo_Tat_Hanh_TT_Thich_Nhat_Chan_2324_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Nhập Bồ Tát Hạnh - TT Thích Nhất Chân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/41/ht.nhat-chan.html">HT.Nhất Chân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4277/Do-Nghiep---TT-Thich-Phap-Hoa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Do_Nghiep_TT_Thich_Phap_Hoa_4277_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Đổ Nghiệp - TT Thích Pháp Hòa</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/27/tt.thich-phap-hoa.html">TT.Thích Pháp Hòa</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/82-Khuyen-Tu.html">Khuyến Tu</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2885/Khuyen-Nguoi-Niem-Phat-2---Sach-Noi---Cs-Dieu-Am---TT-Dpa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Khuyen_Nguoi_Niem_Phat_2_CS_Dieu_Am_2885_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Khuyên Người Niệm Phật 2 - Sách Nói - Cs Diệu Âm - TT DPA</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/55/cs.dieu-am.html">Cs.Diệu Âm</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4209/Nhung-Cau-Chuyen-Tam-Linh---2015---HT-Giac-Hanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Nhung_Cau_Chuyen_Tam_Linh_2015_HT_Giac_Hanh_4209_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Những Câu Chuyện Tâm Linh - 2015 - HT Giác Hạnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/120/ht.giac-hanh.html">HT.Giác Hạnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/863/50-Nam-Hoc-Phat-Tam-Dac---HT-Tinh-Khong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/50_Nam_Hoc_Phat_Tam_Dac_HT_Tinh_Khong_863_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">50 Năm Học Phật Tâm Đắc - HT Tịnh Không</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/1/ht.tinh-khong.html">HT.Tịnh Không</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1156/Lieu-Sanh-Thoat-Tu---Sach-Noi---Bs-Quach-Hue-Tran.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Lieu_Sanh_Thoat_Tu_BS_Quach_Hue_Tran_1156_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Liễu Sanh Thoát Tử - Sách Nói - Bs Quách Huệ Trân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/38/ps.dao-chung.html">PS.Đạo Chứng</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3678/Nhung-Cau-Chuyen-Tam-Linh---HT-Giac-Hanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Nhung_Cau_Chuyen_Tam_Linh_HT_Giac_Hanh_3678_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Những Câu Chuyện Tâm Linh - HT Giác Hạnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/120/ht.giac-hanh.html">HT.Giác Hạnh</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/84-Sach-Noi-Pg.html">Sách Nói PG</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1239/Vi-Tieu---Sach-Noi---TT-Thich-Vien-Minh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Vi_Tieu_TT_Thich_Vien_Minh_1239_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Vi Tiếu - Sách Nói - TT Thích Viên Minh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/85/ht.vien-minh.html">HT.Viên Minh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1561/Hanh-Trinh-Ve-Phuong-Dong---Sach-Noi---Nguyen-Phong-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Hanh_Trinh_Ve_Phuong_Dong_Nguyen_Phong_Dich_1561_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Hành Trình Về Phương Đông - Sách Nói - Nguyên Phong Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/83/cs.nguyen-phong.html">Cs.Nguyên Phong</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2384/Hoa-Vo-Uu---T01---Sach-Noi---HT-Thanh-Tu.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Hoa_Vo_Uu_T1_HT_Thanh_Tu_2384_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Hoa Vô Ưu - T01 - Sách Nói - HT Thanh Từ</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/198/tt.dieu-phap-am.html">TT.Diệu Pháp Âm</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2708/Tam-Quyen-Sach-Quy---Sach-Noi---HT-Thien-Hoa---TT-Dpa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Tam_Quyen_Sach_Quy_HT_Thien_Hoa_2708_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tám Quyển Sách Quý - Sách Nói - HT Thiện Hoa - TT DPA</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/30/ht.thien-hoa.html">HT.Thiện Hoa</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/5982/Phep-La-Cua-Su-Tinh-Thuc---Sach-Noi---HT-Nhat-Hanh---Hanh-An-Doc.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Phép Lạ Của Sự Tỉnh Thức - Sách Nói - HT Nhất Hạnh - Hạnh An Đọc</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/271/.html">Cs.Hạnh An</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1692/Truyen-Hang-Ngay---Sach-Noi---Dd-Thich-Nhuan-Thanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Truyen_Hang_Ngay_DD_Thich_Nhuan_Thanh_1692_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Truyện Hằng Ngày - Sách Nói - ĐĐ Thích Nhuận Thạnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/157/dd.thich-nhuan-thanh.html">ĐĐ.Thích Nhuận Thạnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1555/Coi-Bui-Hong---Sach-Noi---Ns-Nhu-Thuy.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Coi_Bui_Hong_NS_Nhu_Thuy_1555_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Cõi Bụi Hồng - Sách Nói - Ns Như Thủy</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/26/ns.nhu-thuy.html">NS.Như Thủy</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/4169/Vien-Ngoc-Nhu-Y---Sach-Noi---Ds-Dilgo-Khyentse-Rinpoche---Lien-Hoa-Dich.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Vien_Ngoc_Nhu_Y_Sach_Noi_DS_Dilgo_Khyentse_Rinpoche_Lien_Hoa_dich_4169_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Viên Ngọc Như Ý - Sách Nói - ĐS Dilgo Khyentse Rinpoche - Liên Hoa Dịch</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/254/ds.dilgo-khyentse-rinpoche.html">ĐS.Dilgo Khyentse Rinpoche</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/6155/Ban-Do-Hanh-Trinh-Tam-Linh---Sach-Noi---Ts-U-Jotika---Dpa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Bản Đồ Hành Trình Tâm Linh - Sách Nói - TS U Jotika - DPA</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/198/tt.dieu-phap-am.html">TT.Diệu Pháp Âm</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/87-Kinh-Tung---Sam.html">Kinh Tụng - Sám</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1038/Kinh-Dia-Tang---HT-Tri-Thoat.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Dia_Tang_HT_Tri_Thoat_1038_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Địa Tạng - HT Trí Thoát</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/99/ht.tri-thoat.html">HT.Trí Thoát</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1071/Tuyen-Tap-Nhac-Niem-Phat.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tuyen_Tap_Nhac_Niem_Phat_1071_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tuyển Tập Nhạc Niệm Phật</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/-1/.html">Chưa biết (VN)</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1082/Luong-Hoang-Sam-Nguyen---TT-Thich-Hue-Duyen.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Luong_Hoang_Sam_TT_Thich_Tue_Duyen_1082_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Lương Hoàng Sám Nguyện - TT Thích Huệ Duyên</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/98/tt.thich-hue-duyen.html">TT.Thích Huệ Duyên</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1084/Muc-Lien-Sam-Phap---TT-Thich-Hue-Duyen.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Muc_Lien_Sam_Phap_TT_Thich_Hue_Duyen_1084_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Mục Liên Sám Pháp - TT Thích Huệ Duyên</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/98/tt.thich-hue-duyen.html">TT.Thích Huệ Duyên</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2383/Tuyen-Tap-Tung-Niem---HT-Tri-Thoat.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tuyen_Tap_Tung_Niem_HT_Tri_Thoat_2383_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tuyển Tập Tụng Niệm - HT Trí Thoát</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/99/ht.tri-thoat.html">HT.Trí Thoát</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1045/Kinh-Kim-Cang---HT-Nhat-Quang.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Kim_Cang_HT_Nhat_Quang_1045_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Kim Cang - HT Nhật Quang</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/34/ht.nhat-quang.html">HT.Nhật Quang</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2382/Tuyen-Tap-Tung-Niem---HT-Tri-Quang.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tuyen_Tap_Tung_Niem_HT_Tri_Quang_2382_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tuyển Tập Tụng Niệm - HT Trí Quảng</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/169/ht.tri-quang.html">HT.Trí Quảng</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1072/Anh-Sang-Tu-Bi---Thanh-Sy---TT-Thich-Hue-Duyen.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Anh_Sang_Tu_Bi_Thanh_Sy_TT_Thich_Hue_Duyen_1072_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Ánh Sáng Từ Bi - Thanh Sỹ - TT Thích Huệ Duyên</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/98/tt.thich-hue-duyen.html">TT.Thích Huệ Duyên</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1024/Khoa-Le-Cau-An---HT-Phap-Nhan.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Khoa_Le_Cau_An_HT_Phap_Nhan_1024_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Khóa Lễ Cầu An - HT Pháp Nhẫn</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/97/ht.phap-nhan.html">HT.Pháp Nhẫn</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1053/Kinh-Phap-Hoa---HT-Tri-Thoat.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Phap_Hoa_HT_Tri_Thoat_1053_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Pháp Hoa - HT Trí Thoát</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/99/ht.tri-thoat.html">HT.Trí Thoát</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/92-Nhac---Phim.html">Nhạc - Phim</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2161/Co-Nhac-Phat-Giao---Nhieu-Nghe-Si.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Co_Nhac_Phat_Giao_2161_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Cổ Nhạc Phật Giáo - Nhiều Nghệ Sĩ</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/-1/.html">Chưa biết (VN)</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2481/Nhat-Huu-Hoa-Thuong---Phim-Hoat-Hinh-Phat-Giao.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Phim_Hoat_Hinh_Nhat_Huu_Hoa_Thuong_2481_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Nhất Hưu Hòa Thượng - Phim Hoạt Hình Phật Giáo</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/198/tt.dieu-phap-am.html">TT.Diệu Pháp Âm</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2560/Buddhist-Mantra-Collection---Hoa-Tau---Various-Artists.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Hoa_Tau_Buddhist_Mantra_Collection_2560_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Buddhist Mantra Collection - Hòa Tấu - Various Artists</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/202/various-artists.html">Various Artists</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2579/Eleven-faces-Avalokitesvara-Mantra---Hoa-Tau---Aihua.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Hoa_Tau_Eleven_Faces_Avalokitesvara_Mantra_2579_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Eleven-Faces Avalokitesvara Mantra - Hòa Tấu - Aihua</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/-1/.html">Chưa biết (VN)</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2646/Phuong-Huong-Lieu-Phap-Tam-Linh-Am-Nhac-10---Aquilasia-Ii---Hoa-Tau.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Hoa_Tau_Phuong_Huong_Dieu_Phap_2646_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Phương Hương Liệu Pháp Tâm Linh Âm Nhạc 10 - Aquilasia II - Hòa Tấu</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/202/various-artists.html">Various Artists</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3319/Wonderful-Singing-Voice-From-The-Whales---Hoa-Tau---Zhou-Zhi-Hong.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Wonderful_Singing_Voice_From_The_Whales_Hoa_Tau_Zhou_Zhi_Hong_3319_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Wonderful Singing Voice From The Whales - Hòa Tấu - Zhou Zhi Hong</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/-2/.html">Chưa biết (QT)</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2231/Truong-Ca-Kinh-A-Di-Da---Vo-Ta-Han.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Truong_Ca_Kinh_A_Di_Da_Vo_Ta_Han_2231_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Trường Ca Kinh A Di Đà - Võ Tá Hân</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/185/cs.vo-ta-han.html">Cs.Võ Tá Hân</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3355/Celtic-Serenity---Hoa-Tau---Dan-Gibson-Of-Solitudes.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Celtic_Serenity_Hoa_Tau_Dan_Gibson_Of_Solitudes_3355_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Celtic Serenity - Hòa Tấu - Dan Gibson Of Solitudes</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/233/dan-gibson-of-solitudes.html">Dan Gibson Of Solitudes</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2682/The-Diamond-Suttra---Hoa-Tau---Imee-Ooi.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/The_Diamond_Sutra_Hoa_Tau_Imee_Ooi_2682_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">The Diamond Suttra - Hòa Tấu - Imee Ooi</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/201/imee-ooi.html">Imee Ooi</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2681/The-Chant-Of-Metta---Hoa-Tau---Imee-Ooi.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/The_Chant_Of_Metta_Hoa_Tau_Imee_Ooi_2681_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">The Chant Of Metta - Hòa Tấu - Imee Ooi</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/201/imee-ooi.html">Imee Ooi</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/100-Dai-Tang-Kinh.html">Đại Tạng Kinh</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1002/Kinh-Dai-Bat-Niet-Ban---Sach-Noi---HT-Tri-Tinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Kinh_Dai_Bat_Niet_ban_HT_Tri_Tinh_1002_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Đại Bát Niết Bàn - Sách Nói - HT Trí Tịnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/54/ht.tri-tinh.html">HT.Trí Tịnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1016/Kinh-Phap-Hoa---Sach-Noi---HT-Tri-Tinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Kinh_Phat_Hoa_HT_Tri_Tinh_1016_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Pháp Hoa - Sách Nói - HT Trí Tịnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/54/ht.tri-tinh.html">HT.Trí Tịnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1715/Kinh-Hoa-Nghiem---Tap-1---Sach-Noi---HT-Tri-Tinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Kinh_Hoa_Nghiem_Tap_1_HT_Tri_Tinh_1715_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Hoa Nghiêm - Tập 1 - Sách Nói - HT Trí Tịnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/54/ht.tri-tinh.html">HT.Trí Tịnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/2500/Kinh-Phap-Cu---Sach-Noi---HT-Minh-Chau.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Sach_Noi_Kinh_Phap_Cu_HT_Minh_Chau_2500_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Pháp Cú - Sách Nói - HT Minh Châu</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/87/ht.minh-chau.html">HT.Minh Châu</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/979/Tuong-Ung-Bo-Kinh-2---Thien-Nhan-Duyen---Sach-Noi.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tuong_Ung_Bo_Kinh_2_Thien_Nhan_Duyen_979_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Tương Ưng Bộ Kinh 2 - Thiên Nhân Duyên - Sách Nói</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/87/ht.minh-chau.html">HT.Minh Châu</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1714/Kinh-Dieu-Phap-Lien-Hoa---Hoa-Ngu---Sach-Noi-.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Kinh_Dieu_Phap_Lien_Hoa_Hoa_Ngu_1714_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Kinh Diệu Pháp Liên Hoa - Hoa Ngữ - Sách Nói </p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/-1/.html">Chưa biết (VN)</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/976/Truong-Bo-Kinh-1---Kinh-So-1-16---Sach-Noi.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Truong_Bo_Kinh_1_So_01-16_976_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Trường Bộ Kinh 1 - Kinh Số 1-16 - Sách Nói</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/87/ht.minh-chau.html">HT.Minh Châu</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/1023/Su-Tich-Quan-Am-Dieu-Thien---Sach-Noi---HT-Nhat-Hanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Su_Tich_Quan_Am_Dieu_Thien_HT_Nhat_Hanh_1023_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Sự Tích Quan Âm Diệu Thiện - Sách Nói - HT Nhất Hạnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/23/ht.nhat-hanh.html">HT.Nhất Hạnh</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/6227/Mi-Tien-Van-Ðap-(kinh-Milinda-Panha)---Sach-Noi---HT-Gioi-Nghiem-Dich---TT-Dpa.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Mi Tiên Vấn Ðáp (Kinh Milinda Panha) - Sách Nói - HT Giới Nghiêm Dịch - TT DPA</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/115/ht.gioi-nghiem.html">HT.Giới Nghiêm</a></p>-->
+</div>
+</div>
+<br clear="all"><br><div class="title_left"><a href="https://phapthihoi.org/Phap-Am/109-Ham-Thu.html">Hàm Thụ</a></div>
+<div class="left_content">
+	<div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3611/Cu-Nhan-Phat-Hoc-Tu-Xa---Khoa-1---Hk-2---Tin-Nguong-Ton-Giao-Viet-Nam---Gs-Nguyen-Trong-Hanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Tin_Nguong_Ton_Giao_Viet_Nam_Cu_Nhan_Phat_Hoc_Tu_Xa_Khoa_1_HK2_GS_Nguyen_Trong_Hanh_3611_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Cử Nhân Phật Học Từ Xa - Khóa 1 - HK 2 - Tín Ngưỡng Tôn Giáo Việt Nam - Gs Nguyện Trọng Hạnh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/238/hvpgvn.html">HVPGVN</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3608/Cu-Nhan-Phat-Hoc-Tu-Xa---Khoa-1---Hk-3---Van-Hoc-Pali---Gs-Thich-Buu-Chanh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Van_Hoc_Pali_Cu_Nhan_Phat_Hoc_Tu_Xa_Khoa_1_HK3_GS_Thich_Buu_Chanh_3608_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Cử Nhân Phật Học Từ Xa - Khóa 1 - HK 3 - Văn Học Pali - Gs Thích Bửu Chánh</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/238/hvpgvn.html">HVPGVN</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3585/Cu-Nhan-Phat-Hoc-Tu-Xa---Khoa-1---Hk-7---Han-Co---Gs-Sc-Tue-Lien.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Han_Co_Cu_Nhan_Phat_Hoc_Tu_Xa_Khoa_1_HK7_GS_SC_Tue_Lien_3585_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Cử Nhân Phật Học Từ Xa - Khóa 1 - HK 7 - Hán Cổ - Gs SC Tuệ Liên</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/238/hvpgvn.html">HVPGVN</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3619/Cu-Nhan-Phat-Hoc-Tu-Xa---Khoa-1---Hk-1---Thien-Hoc-Dai-Cuong---Gs-Thich-Thong-Thien---Thich-Tang-Dinh.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Thien_Hoc_Dai_Cuong_Cu_Nhan_Phat_Hoc_Tu_Xa_Khoa_1_HK1_GS_Thich_Thong_Thien_Thich_Tang_Dinh_3619_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Cử Nhân Phật Học Từ Xa - Khóa 1 - HK 1 - Thiền Học Đại Cương - Gs Thích Thông Thiền - Thích Tăng Định</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/238/hvpgvn.html">HVPGVN</a></p>-->
+</div><div id="album">
+	<a href="https://phapthihoi.org/Nghe-Phap-Am/3593/Cu-Nhan-Phat-Hoc-Tu-Xa---Khoa-1---Hk-6---Nhan-Thuc-Luan---Gs-Thich-Giac-Duyen.html">
+		<img class="lazy" data-original="https://www.phapthihoi.org/kinh/Hinh/Album/Nhan_Thuc_Luan_Cu_Nhan_Phat_Hoc_Tu_Xa_Khoa_1_HK6_GS_Thich_Giac_Duyen_3593_thumb.jpg" src="/templates/phatgiao/lazyload/grey.gif">
+		<p class="album_tieude">Cử Nhân Phật Học Từ Xa - Khóa 1 - HK 6 - Nhận Thức Luận - Gs Thích Giác Duyên</p>
+	</a>
+	<!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/238/hvpgvn.html">HVPGVN</a></p>-->
+</div>
+</div>
+<br clear="all"><br>
+
+
+<!--link rel="stylesheet" href="http://phapthihoi.org/js/res/colorbox.css" />
+<script type="text/javascript" src="http://phapthihoi.org/js/res/jquery.colorbox-min.js"></script>
+
+<script type="text/javascript">  
+$(document).ready(function(){
+	setTimeout(function() {
+		$.fn.colorbox({href:"http://phapthihoi.org/thong-bao.html", open:true});  
+	}, 2500);
+});  
+</script--> 
+	</div>
+	<!--end all left content-->
+	
+	<!--all right content-->
+
+	<div class="right">
+	
+	<!--form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="SFE3NQANX6RPL">
+<input type="image" src="https://www.phapthihoi.org/templates/phatgiao/img/tro-duyen-paypal.png" border="0"  style="border:0; width: 185px; " name="submit" alt="PayPal - The safer, easier way to pay online!">
+
+</form-->
+<a href="https://phapthihoi.org/blog/an-tong-kinh-sach" target="new"><img style="border:0; width: 195px; height: 155px" src="https://www.phapthihoi.org/templates/phatgiao/img/tro-duyen-an-tong.png"></a>
+<br clear="all">
+<br />
+
+
+	<!--div id="featured" width="195" height="276">   
+		<a  target="new" href="https://phapthihoi.org/blog/kinh-sach-an-tong/dai-tang-kinh/"><img src='https://phapthihoi.org/blog/uploads/2018/07/An-Tong-Dai-Tang-Kinh-Phien-Ban-Dien-Tu-300x425.jpg' width="195" height="276" alt="Ấn Tống Cúng Dường Đại Tạng Kinh Việt Nam (Phiên Bản Điện Tử Chứa Trong Máy Đọc Sách)"> </a>
+		
+		<a  target="new" href="https://phapthihoi.org/blog/kinh-sach-an-tong/tro-duyen-cung-duong-kinh-sach-cho-chu-tang-ni-dang-theo-hoc-tai-cac-truong-phat-hoc/"><img src='https://phapthihoi.org/blog/uploads/2017/12/An-Tong-Cung-Duong-Kinh-Sach-Cho-Chu-Tang-Ni-Truong-Phat-Hoc-1-300x425.jpg' width="195" height="276" alt="Đại Hồng Chung"> </a>
+		 
+		<a  target="new" href="https://phapthihoi.org/blog/kinh-sach-an-tong/an-tong-kinh-cung-duong-ni-sinh-hvpgvn-hue-chua-hong-duc/"><img src='https://phapthihoi.org/blog/uploads/2018/05/an-tong-ni-sinh-hvpgvn-hue-300x425.jpg' width="195" height="276" alt="Ấn Tống Kinh Cúng Dường Ni Sinh HVPGVN – Huế ( Khóa VIII – IX – Chùa Hồng Đức )"> </a>
+
+		<a  target="new" href="https://phapthihoi.org/blog/danh-sach-kinh-sach-an-tong/an-tong-kinh-cung-duong-cac-chua-mien-trung-viet-nam/"><img src='https://phapthihoi.org/blog/uploads/2015/11/An-Tong-Cac-Chua-Mien-Trung-Viet-Nam1-300x425.png' width="195" height="276" alt="Ấn Tống Kinh Cúng Dường Các Chùa Miền Trung Việt Nam"> </a>
+
+		<a  target="new" href="https://phapthihoi.org/blog/danh-sach-kinh-sach-an-tong/dai-hong-chung/"><img src='https://phapthihoi.org/blog/uploads/2016/03/Dai-Hong-Chung-Chua-Nghia-Hoa-Nha-Trang-2-300x417.jpg' width="195" height="276" alt="Đại Hồng Chung"> </a>
+</div>
+
+<br clear="all"-->
+
+<a href="https://blog.phapthihoi.org/donate/" target='new'><img src="https://www.phapthihoi.org/templates/phatgiao/img/tro-duyen-pth.jpg" width="195"></a>
+
+		<br>
+	<br clear="all">		<a href="https://www.phapthihoi.org/ebook_huongdan.php" target="new"><img style="border:0; width: 195px; height: 200px" src="https://www.phapthihoi.org/templates/phatgiao/img/doc-sach-phat-giao-android-ios.jpg"></a>
+	<br>
+<br clear="all">		<a href="https://www.phapthihoi.org/phapthi.php" target="new"><img style="border:0; width: 200px; height: 200px" src="https://www.phapthihoi.org/templates/phatgiao/img/ket-duyen-phat-phap-tang-ni.jpg"></a>
+
+
+<br clear="all">
+		
+		
+		<br>
+		<a href="https://phapthihoi.org/an_tong_kinh_sach.php"><img style="border:0; width: 195px; height: 160px" src="https://www.phapthihoi.org/templates/phatgiao/img/an-tong-kinh-sach.png"></a>
+		
+	
+		<br clear="all"><br>
+		<a href="https://phapthihoi.org/tim-nguoi-huu-duyen.html"><img style="border:0; width: 195px; height: 160px" src="https://www.phapthihoi.org/templates/phatgiao/img/tim-nguoi-huu-duyen.png"></a>
+		
+		<br clear="all"><br>
+		<a href="https://truyentranh.phapthihoi.org/"><img style="border:0 #FFCC99; width: 195px;" src="https://www.phapthihoi.org/templates/phatgiao/img/truyen-tranh-phat-giao.png"></a>
+		<br clear="all"><br>
+		<a href="https://phapthihoi.org/lich-an-chay.html"><img style="border: 0 #FFCC99; width: 195px;" src="https://www.phapthihoi.org/templates/phatgiao/img/lich-an-chay-thang.png"></a>
+		
+		<br clear="all"><br>
+		
+		
+		<!-- BEGIN phat_ngon -->
+<div class="title_right">Pháp Ngữ</div>
+<div class="thanhnhan">Chịu khổ thì hết khổ,<br>Hưởng phước thì hết phước</div>
+<!-- END phat_ngon -->
+		
+		<br clear="all"><br>
+		
+		
+		
+		<script language="JavaScript">
+<!--
+setOutputSize("small");
+document.writeln(printSelectedMonth());			
+-->
+</script>
+<form name="SelectMonth" action="">
+Tháng
+<select name="month">
+  <option value="1">1
+  <option value="2">2
+  <option value="3">3
+  <option value="4">4
+  <option value="5">5
+  <option value="6">6
+  <option value="7">7
+  <option value="8">8
+  <option value="9">9
+  <option value="10">10
+  <option value="11">11
+  <option value="12">12
+</select>Năm
+<INPUT NAME="year" size=4 value="2005"> &#160;
+<p>
+<input type="button" value="Xem l&#x1ECB;ch th&aacute;ng" onClick="javascript:viewMonth(parseInt(month.value), parseInt(year.value));">
+
+&#160;
+<input type="button" value="Xem l&#x1ECB;ch n&#x0103;m" onClick="javascript:viewYear(parseInt(year.value));">
+<!--
+-->
+</form>
+
+<script type="text/javascript">
+<!--
+	getSelectedMonth();
+	document.SelectMonth.month.value = currentMonth;
+	document.SelectMonth.year.value = currentYear;
+	function viewMonth(mm, yy) {
+		window.location = window.location.pathname + '?yy='+yy+'&mm='+mm;
+	}
+	function viewYear(yy) {
+		var loc = 'currentyear.html?yy='+yy;
+		var win2702 = window.open(loc, "win2702", "menubar=yes,scrollbars=yes,resizable=yes");
+	}
+	
+//-->
+</script>
+
+<br clear="all">
+		<br />
+		
+		<form method="post" onSubmit="return false;" name="quick_login">
+<div id='login_loading' style='display:none;margin-bottom:5'></div>
+<div class="title_right">Đăng nhập</div><br clear="all">
+<div class="right_content">
+	<input size="20" type="text" name="name" maxlength="50" value="Tên đăng nhập" onfocus="checkUsername(this);" onblur="checkUsername(this);"><br>	
+	<input size="20" type="password" name="pwd" maxlength="50" value="Mật khẩu" onfocus="this.value='';"><br>	
+	<input type="submit" value="&nbsp;&nbsp;Đăng Nhập&nbsp;&nbsp;" class="button" onClick="return login('quick_login');"><br />
+	<a href="https://phapthihoi.org/index.php?go=register">» Đăng ký mới «</a><br />
+	<a href="https://phapthihoi.org/index.php?go=user&act=forgotpassword">» Quên mật khẩu «</a><br />
+</div>
+</form>
+<script type="text/javascript" language="javascript">
+	function checkUsername(obj) {
+		if (obj.value=="Tên đăng nhập") {
+			obj.value = "";
+			return;
+		}
+		
+		if (obj.value=="") {
+			obj.value = "Tên đăng nhập";
+			return;
+		}
+	}
+</script>
+		
+		<br clear="all">
+		
+		<div class="title_right">Playist</div>
+<br clear="all">
+<div class="right_content"><a href="{playlistURL}"><img src="/templates/phatgiao/img/show_playlist.gif"></a>
+
+
+<!-- BEGIN guest_block -->
+<br>Bạn cần đăng nhập
+<!-- END guest_block -->
+</div>
+		
+		<br clear="all">
+		
+		<div class="title_right">Tu sĩ Việt Nam</div>
+<br clear="all">
+<div class="right_content">    
+	<div class="tusi_box">
+		<ul>
+				<li><a href="https://phapthihoi.org/Tu-Si/-1/Chua-Biet.html">Chưa biết</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/89/DD-Thich-Chinh-Tien.html">ĐĐ.Thích Chính Tiến</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/278/DD-Thich-Chan-Hieu.html">ĐĐ.Thích Chân Hiếu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/186/DD-Thich-Giac-Thien.html">ĐĐ.Thích Giác Thiện</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/272/DD-Thich-Hanh-Tue.html">ĐĐ.Thích Hạnh Tuệ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/219/DD-Thich-Minh-Tue.html">ĐĐ.Thích Minh Tuệ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/76/DD-Thich-Nguyen-Hien.html">ĐĐ.Thích Nguyên Hiền</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/50/DD-Thich-Nguyen-Thanh.html">ĐĐ.Thích Nguyên Thành</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/168/DD-Thich-Nhuan-Nghi.html">ĐĐ.Thích Nhuận Nghi</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/157/DD-Thich-Nhuan-Thanh.html">ĐĐ.Thích Nhuận Thạnh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/248/.html">ĐĐ.Thích Pháp Chánh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/118/DD-Thich-Phap-Thong.html">ĐĐ.Thích Pháp Thông</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/269/DD-Thich-Quang-Tanh.html">ĐĐ.Thích Quảng Tánh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/172/DD-Thich-Tam-Thuan.html">ĐĐ.Thích Tâm Thuận</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/17/DD-Thich-Thong-Pho.html">ĐĐ.Thích Thông Phổ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/48/DD-Thich-Thien-Minh.html">ĐĐ.Thích Thiện Minh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/197/DD-Thich-Thien-Phuoc.html">ĐĐ.Thích Thiện Phước</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/155/DD-Thich-Thien-Thuan.html">ĐĐ.Thích Thiện Thuận</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/244/DD-Thich-Tri-Sieu.html">ĐĐ.Thích Trí Siêu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/124/DD-Thich-Truong-Lac.html">ĐĐ.Thích Trường Lạc</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/173/DD-Thich-Tue-Hai.html">ĐĐ.Thích Tuệ Hải</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/49/Ds-Phap-Van.html">ĐS.Pháp Vân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/288/Ds-Thai-Hu.html">ĐS.Thái Hư</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/28/Bac-Ut-Chau.html">Bác Út Châu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/138/Bac-Hai-Nhu-Sanh.html">Bác Hai Như Sanh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/258/Bs-Do-Hong-Ngoc.html">Bs.Đỗ Hồng Ngọc</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/260/Cs-Do-Dinh-Hong.html">Cs.Đỗ Đình Hồng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/287/.html">Cs.Định Huệ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/282/Cs-Chan-Hien-Tam.html">Cs.Chân Hiền Tâm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/262/Cs-Dung-Hung.html">Cs.Dũng Hùng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/55/Cs-Dieu-Am.html">Cs.Diệu Âm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/75/Cs-Dieu-Hoa.html">Cs.Diệu Hoa</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/281/Cs-Dieu-Lien-Ly-Thu-Linh.html">Cs.Diệu Liên Lý Thu Linh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/53/Cs-Dieu-Ngoc.html">Cs.Diệu Ngọc</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/110/Cs-Dieu-Nghiem.html">Cs.Diệu Nghiêm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/40/Cs-Dieu-Thuy.html">Cs.Diệu Thủy</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/271/.html">Cs.Hạnh An</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/189/Cs-Huong-Lan.html">Cs.Hương Lan</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/226/Cs-Hoang-Phong.html">Cs.Hoang Phong</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/108/Cs-Huynh-Trung-Chanh.html">Cs.Huỳnh Trung Chánh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/190/Cs-Khanh-Hoang.html">Cs.Khánh Hoàng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/161/Cs-Khanh-Van.html">Cs.Khánh Vân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/184/Cs-Le-Minh-Hien.html">Cs.Lê Minh Hiền</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/103/Cs-Le-Sy-Minh-Tung.html">Cs.Lê Sỹ Minh Tùng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/71/Cs-Mai-Tho-Truyen.html">Cs.Mai Thọ Truyền</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/112/Cs-Minh-Tam.html">Cs.Minh Tâm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/191/Cs-Minh-Tri.html">Cs.Minh Trí</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/295/.html">Cs.Ngô Tằng Giao</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/160/Cs-Ngo-Trong-Duc.html">Cs.Ngô Trọng Đức</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/70/Cs-Nghiem-Xuan-Hong.html">Cs.Nghiêm Xuân Hồng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/141/Cs-Nguyen-Huu-Kiet.html">Cs.Nguyễn Hữu Kiệt</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/263/Cs-Nguyen-Minh-Tien.html">Cs.Nguyễn Minh Tiến</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/256/.html">Cs.Nguyên Minh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/83/Cs-Nguyen-Phong.html">Cs.Nguyên Phong</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/68/Cs-Nhu-Hoa.html">Cs.Như Hòa</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/227/Cs-Nhu-Sanh.html">Cs.Như Sanh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/59/Cs-Pham-Kim-Khanh.html">Cs.Phạm Kim Khánh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/270/Cs-Quang-Am.html">Cs.Quảng Âm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/225/Cs-Son-Nhan.html">Cs.Sơn Nhân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/137/Cs-Tinh-Hai.html">Cs.Tịnh Hải</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/156/Cs-Tinh-Minh.html">Cs.Tịnh Minh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/107/Cs-Tinh-Sy.html">Cs.Tịnh Sỹ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/294/.html">Cs.Từ Hoa Nhất Tuệ Tâm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/72/Cs-Tam-Kien-Chanh.html">Cs.Tâm Kiến Chánh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/95/Cs-Tam-Minh.html">Cs.Tâm Minh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/151/Cs-Tam-Ngo.html">Cs.Tâm Ngộ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/217/Cs-Tam-Tinh.html">Cs.Tâm Tịnh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/196/Cs-Tam-Tinh-Ngoc.html">Cs.Tâm Tịnh Ngọc</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/149/Cs-Tam-Tu.html">Cs.Tâm Từ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/266/Cs-Thai-Le-Huc.html">Cs.Thái Lễ Húc</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/283/Cs-Thanh-Luong.html">Cs.Thanh Lương</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/229/Cs-Thanh-Ngan.html">Cs.Thanh Ngân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/56/Cs-Tri-Nhan.html">Cs.Trí Nhân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/162/Cs-Tran-Anh-Kiet.html">Cs.Trần Anh Kiệt</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/290/Cs-Tue-Nhan.html">Cs.Tuệ Nhân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/222/Cs-Vong-Tay.html">Cs.Vọng Tây</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/145/Cs-Vinh-Hao.html">Cs.Vĩnh Hảo</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/185/Cs-Vo-Ta-Han.html">Cs.Võ Tá Hân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/158/Cs-Vien-Hue.html">Cs.Viên Huệ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/243/Default.html">Default</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/208/Hai-Phuong.html">Hải Phượng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/231/HT-Duc-Nghiep.html">HT.Đức Nghiệp</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/51/HT-Duc-Niem.html">HT.Đức Niệm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/298/HT-Dong-Minh.html">HT.Đổng Minh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/43/HT-Dac-Huyen.html">HT.Đắc Huyền</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/194/HT-Buu-Chon.html">HT.Bửu Chơn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/165/HT-Chan-Thuong.html">HT.Chân Thường</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/77/HT-Chon-Thien.html">HT.Chơn Thiện</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/221/HT-Chieu-Tuc.html">HT.Chiếu Túc</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/47/HT-Duy-Luc.html">HT.Duy Lực</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/120/HT-Giac-Hanh.html">HT.Giác Hạnh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/267/HT-Giac-Thong.html">HT.Giác Thông</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/140/HT-Gioi-Duc.html">HT.Giới Đức</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/115/HT-Gioi-Nghiem.html">HT.Giới Nghiêm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/91/HT-Hanh-Tru.html">HT.Hành Trụ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/132/HT-Ho-Giac.html">HT.Hộ Giác</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/126/HT-Ho-Tong.html">HT.Hộ Tông</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/109/HT-Han-Hien.html">HT.Hân Hiền</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/164/HT-Hung-Tu.html">HT.Hưng Từ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/74/HT-Hue-Hung.html">HT.Huệ Hưng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/2/HT-Huyen-Vi.html">HT.Huyền Vi</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/45/HT-Kim-Trieu.html">HT.Kim Triệu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/163/HT-Man-Giac.html">HT.Mãn Giác</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/96/HT-Minh-Canh.html">HT.Minh Cảnh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/87/HT-Minh-Chau.html">HT.Minh Châu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/5/HT-Minh-Hieu.html">HT.Minh Hiếu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/167/HT-Minh-Khiem.html">HT.Minh Khiêm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/250/.html">HT.Minh Tâm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/67/HT-Minh-Thanh.html">HT.Minh Thành</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/284/HT-Nguyen-Giac.html">HT.Nguyên Giác</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/34/HT-Nhat-Quang.html">HT.Nhật Quang</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/259/.html">HT.Nhật Quang ( Đồng Tháp )</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/41/HT-Nhat-Chan.html">HT.Nhất Chân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/23/HT-Nhat-Hanh.html">HT.Nhất Hạnh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/65/HT-Nhu-Dien.html">HT.Như Điển</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/97/HT-Phap-Nhan.html">HT.Pháp Nhẫn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/299/HT-Phuoc-Son.html">HT.Phước Sơn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/9/HT-Phuoc-Tinh.html">HT.Phước Tịnh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/146/HT-Quang-Do.html">HT.Quảng Độ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/249/HT-Quang-Thiep.html">HT.Quảng Thiệp</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/154/HT-Tinh-Tu.html">HT.Tịnh Từ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/3/HT-Tu-Thong.html">HT.Từ Thông</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/8/HT-Tam-Thanh.html">HT.Tâm Thanh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/35/HT-Thong-Buu.html">HT.Thông Bửu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/42/HT-Thong-Phuong.html">HT.Thông Phương</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/18/HT-Thanh-Tu.html">HT.Thanh Từ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/297/HT-Thien-Hoa.html">HT.Thiện Hòa</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/30/HT-Thien-Hoa.html">HT.Thiện Hoa</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/19/HT-Thien-Hue.html">HT.Thiện Huệ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/224/HT-Thien-Phung.html">HT.Thiện Phụng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/73/HT-Thien-Sieu.html">HT.Thiện Siêu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/62/HT-Thien-Tri.html">HT.Thiện Trí</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/57/HT-Thien-Tam.html">HT.Thiền Tâm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/239/HT-Tri-Duc.html">HT.Trí Đức</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/273/HT-Tri-Minh.html">HT.Trí Minh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/84/HT-Tri-Nghiem.html">HT.Trí Nghiêm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/210/HT-Tri-Quang.html">HT.Trí Quang</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/169/HT-Tri-Quang.html">HT.Trí Quảng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/232/HT-Tri-Sieu.html">HT.Trí Siêu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/54/HT-Tri-Tinh.html">HT.Trí Tịnh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/117/HT-Tri-Thu.html">HT.Trí Thủ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/99/HT-Tri-Thoat.html">HT.Trí Thoát</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/93/HT-Trung-Quan.html">HT.Trung Quán</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/252/HT-Tue-Sy.html">HT.Tuệ Sỹ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/94/HT-Vien-Giac.html">HT.Viên Giác</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/85/HT-Vien-Minh.html">HT.Viên Minh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/238/Hvpgvn.html">HVPGVN</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/61/Ns-Dieu-Khong.html">NS.Diệu Không</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/166/Ns-Dieu-Son.html">NS.Diệu Sơn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/174/Ns-Gioi-Huong.html">NS.Giới Hương</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/255/Ns-Hanh-Doan.html">NS.Hạnh Đoan</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/152/Ns-Hue-Hien.html">NS.Huệ Hiền</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/171/Ns-Kim-Cang-Vien-Giac.html">NS.Kim Cang Viên Giác</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/253/Ns-Minh-Tam.html">NS.Minh Tâm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/26/Ns-Nhu-Thuy.html">NS.Như Thủy</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/22/Ns-Tri-Hai.html">NS.Trí Hải</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/213/Ns-Tue-Uyen.html">NS.Tuệ Uyển</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/251/Ps-Dinh-Hoang.html">PS.Định Hoằng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/179/Ps-Minh-Nhan.html">PS.Minh Nhẫn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/102/Ps-Ngo-Thong.html">PS.Ngộ Thông</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/20/Ps-Phap-Tri.html">PS.Pháp Trí</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/300/.html">PS.Tịnh Tông</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/228/Ps-Tue-Luat.html">PS.Tuệ Luật</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/33/Sa-Mon-Khong-Ten.html">Sa Môn Không Tên</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/39/Sb-Hai-Trieu-Am.html">SB.Hải Triều Âm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/296/.html">TK.Chánh Minh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/121/Tk-Ho-Phap.html">TK.Hộ Pháp</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/291/Tk-Indacanda-Nguyet-Thien.html">TK.Indacanda Nguyệt Thiên</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/293/Tk-Khanh-Hy.html">TK.Khánh Hỷ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/285/Tk-Phap-Thong.html">TK.Pháp Thông</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/265/Tk-Tam-Hanh.html">TK.Tâm Hạnh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/193/Tk-Tam-Phap.html">TK.Tâm Pháp</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/170/Ts-Minh-Dang-Quang.html">TS.Minh Đang Quang</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/257/.html">TS.Rộng Mở Tâm Hồn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/198/Tt-Dieu-Phap-Am.html">TT.Diệu Pháp Âm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/90/Tt-Thich-Dong-Thai.html">TT.Thích Đồng Thái</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/101/Tt-Thich-An-Long.html">TT.Thích Ẩn Long</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/150/Tt-Thich-Chon-Thuc.html">TT.Thích Chơn Thức</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/29/Tt-Thich-Giac-Dong.html">TT.Thích Giác Đồng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/46/Tt-Thich-Giac-Duc.html">TT.Thích Giác Đức</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/275/Tt-Thich-Giac-Dang.html">TT.Thích Giác Đăng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/4/Tt-Thich-Giac-Dang.html">TT.Thích Giác Đẳng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/36/Tt-Thich-Giac-Hoa.html">TT.Thích Giác Hóa</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/289/Tt-Thich-Giac-Nguyen-(su-Toai-Khanh).html">TT.Thích Giác Nguyên (Sư Toại Khanh)</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/175/Tt-Thich-Giac-Nhu.html">TT.Thích Giác Như</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/69/Tt-Thich-Giac-Thong.html">TT.Thích Giác Thông</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/276/.html">TT.Thích Hạnh Bình</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/214/Tt-Thich-Hang-Dat.html">TT.Thích Hằng Đạt</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/44/Tt-Thich-Hang-Truong.html">TT.Thích Hằng Trường</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/98/Tt-Thich-Hue-Duyen.html">TT.Thích Huệ Duyên</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/153/Tt-Thich-Huyen-Dieu.html">TT.Thích Huyền Diệu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/134/Tt-Thich-Le-Trang.html">TT.Thích Lệ Trang</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/7/Tt-Thich-Minh-Duc.html">TT.Thích Minh Đức</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/100/Tt-Thich-Minh-Man.html">TT.Thích Minh Mẫn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/212/Tt-Thich-Minh-Phat.html">TT.Thích Minh Phát</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/37/Tt-Thich-Minh-Quang.html">TT.Thích Minh Quang</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/292/Tt-Thich-Minh-Thanh.html">TT.Thích Minh Thành</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/230/Tt-Thich-Minh-Thien.html">TT.Thích Minh Thiện</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/280/.html">TT.Thích Nguyên Chơn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/176/Tt-Thich-Nguyen-Tam.html">TT.Thích Nguyên Tâm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/86/Tt-Thich-Nguyen-Tang.html">TT.Thích Nguyên Tạng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/27/Tt-Thich-Phap-Hoa.html">TT.Thích Pháp Hòa</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/32/Tt-Thich-Phap-Quang.html">TT.Thích Pháp Quang</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/80/Tt-Thich-Pho-Huan.html">TT.Thích Phổ Huân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/129/Tt-Thich-Phuoc-Nhon.html">TT.Thích Phước Nhơn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/286/.html">TT.Thích Phước Thái</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/187/Tt-Thich-Tam-Quan.html">TT.Thích Tâm Quán</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/113/Tt-Thich-Tam-Quang.html">TT.Thích Tâm Quang</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/6/Tt-Thich-Tam-Thien.html">TT.Thích Tâm Thiện</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/148/Tt-Thich-Thong-Khong.html">TT.Thích Thông Không</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/21/Tt-Thich-Thong-Lai.html">TT.Thích Thông Lai</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/183/Tt-Thich-Thong-Triet.html">TT.Thích Thông Triết</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/159/Tt-Thich-Thai-Hoa.html">TT.Thích Thái Hòa</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/178/Tt-Thich-Thai-Sieu.html">TT.Thích Thái Siêu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/268/Tt-Thich-Thien-Phap.html">TT.Thích Thiện Pháp</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/195/Tt-Thich-Tri-Sieu.html">TT.Thích Trí Siêu</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/192/Tt-Thich-Vien-Giac.html">TT.Thích Viên Giác</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/188/Tt-Thich-Vien-Ly.html">TT.Thích Viên Lý</a></li>
+		
+		</ul>
+	</div>
+	<br clear="all">
+</div>
+		
+		<br clear="all">
+		
+		<div class="title_right">Tu sĩ Quốc Tế</div>
+<br clear="all">
+<div class="right_content">    
+	<div class="tusi_box">
+		<ul>
+				<li><a href="https://phapthihoi.org/Tu-Si/-2/Chua-Biet.html">Chưa biết</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/147/DD-Mahasi-Sayadaw.html">ĐĐ.Mahasi Sayadaw</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/122/Duc-Dat-Lai-Lat-Ma.html">Đức Đạt Lai Lạt Ma</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/204/Anael-&amp;-Bradfield.html">Anael &amp; Bradfield</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/10/Ds-An-Quang-.html">ĐS.Ấn Quang </a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/82/Ds-Chagdud-Tulku.html">ĐS.Chagdud Tulku</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/209/Ds-Dagpo-Rinpoche.html">ĐS.Dagpo Rinpoche</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/254/Ds-Dilgo-Khyentse-Rinpoche.html">ĐS.Dilgo Khyentse Rinpoche</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/139/Ds-Ham-Son.html">ĐS.Hám Sơn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/261/Ds-Lama-Thupten-Zopa-Rinpoche.html">ĐS.Lama Thupten Zopa Rinpoche</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/247/Ds-Lama-Zopa-Rinpoche.html">ĐS.Lama Zopa Rinpoche</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/15/Ds-Ngau-Ich.html">ĐS.Ngẫu Ích</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/236/Ds-Patrul-Rinpoche.html">ĐS.Patrul Rinpoche</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/235/Ds-Ribur-Rinpoche.html">ĐS.Ribur Rinpoche</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/245/Ds-Sogyal-Rinpoche.html">ĐS.Sogyal Rinpoche</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/79/Ds-Tinh-Am.html">ĐS.Tĩnh Am</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/218/Ds-Thien-Dao.html">ĐS.Thiện Đạo</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/63/Ds-Tri-Gia.html">ĐS.Trí Giả</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/13/Ds-Triet-Ngo.html">ĐS.Triệt Ngộ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/200/Bs-Banh-Tan.html">BS.Bành Tân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/240/Cs-Chu-An-Si.html">Cs.Chu An Sĩ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/135/Cs-Giang-Vi-Nong.html">Cs.Giang Vi Nông</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/181/Cs-Hai-Tin.html">Cs.Hải Tín</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/60/Cs-Hoang-Niem-To.html">Cs.Hoàng Niệm Tổ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/182/Cs-Lam-Khang-Tri.html">Cs.Lâm Kháng Trị</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/199/Cs-Ly-Binh-Nam.html">Cs.Lý Bỉnh Nam</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/16/Cs-Mao-Dich-Vien.html">Cs.Mao Dịch Viên</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/52/Cs-Trinh-Vi-Am.html">Cs.Trịnh Vĩ Am</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/233/Dan-Gibson-Of-Solitudes.html">Dan Gibson Of Solitudes</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/207/Deuter.html">Deuter</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/264/HT-Ajahn-Brahm.html">HT.Ajahn Brahm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/242/HT-Buddharakkhita.html">HT.Buddharakkhita</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/180/HT-Dieu-Lien.html">HT.Diệu Liên</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/241/HT-Hu-Van.html">HT.Hư Vân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/211/HT-Henepola-Gunaratana.html">HT.Henepola Gunaratana</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/128/HT-Narada.html">HT.Narada</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/106/HT-Quang-Kham.html">HT.Quảng Khâm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/111/HT-Sri-Dhammananda.html">HT.Sri Dhammananda</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/1/HT-Tinh-Khong.html">HT.Tịnh Không</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/24/HT-Thanh-Nghiem.html">HT.Thánh Nghiêm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/215/HT-Thanh-Phap.html">HT.Thánh Pháp</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/64/HT-Tinh-Van.html">HT.Tinh Vân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/12/HT-Tuyen-Hoa.html">HT.Tuyên Hóa</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/78/HT-U-Silananda.html">HT.U Silananda</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/201/Imee-Ooi.html">Imee Ooi</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/206/Karunesh.html">Karunesh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/81/Ns-Ayya-Khema.html">NS.Ayya Khema</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/205/Oliver-Shanti-&amp;-Friends.html">Oliver Shanti &amp; Friends</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/58/Phap-Nhien-Thuong-Nhan.html">Pháp Nhiên Thượng Nhân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/220/Phat-Quang-Son.html">Phật Quang Sơn</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/38/Ps-Dao-Chung.html">PS.Đạo Chứng</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/142/Ps-Chu-Van.html">PS.Chữ Vân</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/136/Ps-Dien-Boi.html">PS.Diễn Bồi</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/144/Ps-Khoan-Tinh.html">PS.Khoan Tịnh</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/104/Ps-Maha-Thongkham.html">PS.Maha ThongKham</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/203/Sam-Popat.html">Sam Popat</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/237/Tk-Bhikkhu-Dick-Silaratano.html">TK.Bhikkhu Dick Silaratano</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/133/Tk-Visuddhacara.html">TK.Visuddhacara</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/274/Tkn-Phap-Hy.html">TKN.Pháp Hỷ</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/131/Ts-Acharn-Maha-Boowa.html">TS.Acharn Maha Boowa</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/234/Ts-Ajahn-Brahm.html">TS.Ajahn Brahm</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/116/Ts-Ajahn-Chah.html">TS.Ajahn Chah</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/246/Ts-Ajahn-Sumedho.html">TS.Ajahn Sumedho</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/130/Ts-Goenka.html">TS.Goenka</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/125/Ts-U-Ba-Khin.html">TS.U Ba Khin</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/105/Ts-U-Jotika.html">TS.U Jotika</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/123/Ts-U-Pandita.html">TS.U Pandita</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/114/Ts-U-Silananda.html">TS.U Silananda</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/127/Ts-U-Tejaniya.html">TS.U Tejaniya</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/202/Various-Artists.html">Various Artists</a></li>
+				<li><a href="https://phapthihoi.org/Tu-Si/14/Vien-Nhan-Phap-Su.html">Viên Nhân Pháp Sư</a></li>
+		
+		</ul>
+	</div>
+	<br clear="all">
+</div>
+		
+		<br clear="all">
+		
+		<div class="title_right">Album mới</div>
+<br clear="all">
+<div class="right_content">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7186/Tong-Tap-Gioi-Phap-Xuat-Gia---Sau-Gioi-Phap-Xuat-Gia---Ty-Kheo-Gioi---Sach-Noi---Ht-Tri-Quang.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Tổng Tập Giới Pháp Xuất Gia - Sáu Giới Pháp Xuất Gia - Tỳ Kheo Giới - Sách Nói - HT Trí Quang</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/210/ht.tri-quang.html">HT.Trí Quang</a></p>--></a>
+	<br clear="all">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7185/Dai-An-Thien-Xoa-Tan-Bong-Toi-Cua-Vo-Minh---Sach-Noi---The-9th-Karmapa-Wangchuk-Dorje---Beru-Khyentse-Rinpoche---Thien-Tri-Thuc-Dich.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Đại Ấn Thiền Xóa Tan Bóng Tối Của Vô Minh - Sách Nói - The 9th Karmapa Wangchuk Dorje - Beru Khyentse Rinpoche - Thiện Tri Thức Dịch</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/198/tt.dieu-phap-am.html">TT.Diệu Pháp Âm</a></p>--></a>
+	<br clear="all">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7184/Tong-Tap-Gioi-Phap-Xuat-Gia---Bo-Tat-Gioi---Sach-Noi---Ht-Tri-Quang.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Tổng Tập Giới Pháp Xuất Gia - Bồ Tát Giới - Sách Nói - HT Trí Quang</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/210/ht.tri-quang.html">HT.Trí Quang</a></p>--></a>
+	<br clear="all">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7183/Tong-Tap-Gioi-Phap-Xuat-Gia---Sau-Gioi-Phap-Xuat-Gia---Ty-Kheo-Ni-Gioi---Sach-Noi---Ht-Tri-Quang.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Tổng Tập Giới Pháp Xuất Gia - Sáu Giới Pháp Xuất Gia - Tỳ Kheo Ni Giới - Sách Nói - HT Trí Quang</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/210/ht.tri-quang.html">HT.Trí Quang</a></p>--></a>
+	<br clear="all">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7182/Tong-Tap-Gioi-Phap-Xuat-Gia---Sau-Gioi-Phap-Xuat-Gia---Thuc-Xoa-Ma-Na-Ni-Gioi---Sach-Noi---Ht-Tri-Quang.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Tổng Tập Giới Pháp Xuất Gia - Sáu Giới Pháp Xuất Gia - Thức Xoa Ma Na Ni Giới - Sách Nói - HT Trí Quang</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/210/ht.tri-quang.html">HT.Trí Quang</a></p>--></a>
+	<br clear="all">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7181/Luat-Ma-Ha-Tang-Ky---Tap-4---Sach-Noi---Ht-Phuoc-Son-Dich.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Luật Ma Ha Tăng Kỳ - Tập 4 - Sách Nói - HT Phước Sơn Dịch</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/97/ht.phap-nhan.html">HT.Pháp Nhẫn</a></p>--></a>
+	<br clear="all">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7180/Luat-Ma-Ha-Tang-Ky---Tap-3---Sach-Noi---Ht-Phuoc-Son-Dich.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Luật Ma Ha Tăng Kỳ - Tập 3 - Sách Nói - HT Phước Sơn Dịch</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/299/ht.phuoc-son.html">HT.Phước Sơn</a></p>--></a>
+	<br clear="all">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7179/Luat-Ma-Ha-Tang-Ky---Tap-2---Sach-Noi---Ht-Phuoc-Son-Dich.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Luật Ma Ha Tăng Kỳ - Tập 2 - Sách Nói - HT Phước Sơn Dịch</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/299/ht.phuoc-son.html">HT.Phước Sơn</a></p>--></a>
+	<br clear="all">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7178/Luat-Ma-Ha-Tang-Ky---Tap-1---Sach-Noi---Ht-Phuoc-Son-Dich.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Luật Ma Ha Tăng Kỳ - Tập 1 - Sách Nói - HT Phước Sơn Dịch</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/299/ht.phuoc-son.html">HT.Phước Sơn</a></p>--></a>
+	<br clear="all">
+		<a href="https://phapthihoi.org/Nghe-Phap-Am/7177/Tong-Tap-Gioi-Phap-Xuat-Gia---Kinh-Phung-Kinh-Di-Giao---Sach-Noi---Ht-Tri-Quang.html"><img src="https://www.phapthihoi.org/kinh/Hinh/Album/default_thumb.jpg"><p class="album_tieude" style="padding-top: 5px;">Tổng Tập Giới Pháp Xuất Gia - Kính Phụng Kinh Di Giáo - Sách Nói - HT Trí Quang</p></a><!--<p class="album_tacgia"><a href="https://phapthihoi.org/Tu-Si/210/ht.tri-quang.html">HT.Trí Quang</a></p>--></a>
+	<br clear="all">
+	
+</div>
+		
+		<br clear="all">
+		
+		<!--<div class="title_right">Album mới</div>
+<br clear="all">
+<div class="right_content">
+	Chưa có
+</div>
+		
+		
+		
+		<!--<div class="title_right">Liên Kết</div>
+<br clear="all">
+<div class="right_content">
+	<ul><MARQUEE scrollAmount=1 direction=up loop=true truespeed scrolldelay=12 height=200 onMouseOver="this.stop()" onMouseOut="this.start()">
+		Chưa có</marquee>
+	</ul>
+</div>
+		
+		<!--br clear="all"-->
+		
+		<a href="http://www.alexa.com/siteinfo/www.phapthihoi.org" target="_blank"><script type='text/javascript' src='http://xslt.alexa.com/site_stats/js/t/a?url=www.phapthihoi.org'></script></a>
+		
+		
+		
+		<br clear="all">
+		<br />
+		
+		<div class="fb-like-box" data-href="https://www.facebook.com/phapthihoi" data-width="200" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="true" data-show-border="false"></div>
+			<br clear="all">
+	</div>
+	<!--end all right content-->	
+</div>
+<br clear="all"><p style="width: 65%; text-align: left;">Chuyên trang này được lập ra và hoạt động theo tinh thần Pháp Thí .
+<br/>
+Tất cả các Kinh/Sách Phật Học trên trang này được sưu tầm từ các website Phật Giáo nên Ban Quản Trị có thể thiếu xót về mặt tác quyền đối với một số sách Phật Học .
+<br/>
+Nếu quý Phật Tử / Tổ chức nào đang nắm tác quyền của các tác phẩm trên xin vui lòng Thông báo cho Ban Quản Trị biết, chúng tôi sẽ trao đổi trực tiếp để có thể có được bản quyền hợp lệ đối với các Sách Phật Học đó.
+<br/>
+Ban Quản Trị trân trọng cám ơn.<br/><br/></p>
+<div class=thongke>
+<script id="_wauwc3">var _wau = _wau || [];
+_wau.push(["colored", "almytcv9ncz2", "wc3", "ffc20e000000"]);
+(function() {var s=document.createElement("script"); s.async=true;
+s.src="http://widgets.amung.us/colored.js";
+document.getElementsByTagName("head")[0].appendChild(s);
+})();</script> 
+<br />
+Website có tất cả <b>78,946</b> pháp âm và <strong>7,152</strong> album thuộc tất cả các thể loại. 			<br />Có tổng cộng <strong>139,176</strong> lượt nghe.<br />Tổng số tu sĩ trong website <b>287</b>, gồm cả tu sĩ trong nước và cả quốc tế.			<br />Hiện đang có <b>1,348</b> thành viên đã đăng ký. Chào mừng thành viên mới nhất <a style="color:#CC3300" href="#User,1350"><b>thutran</b></a>			<br />Lượt truy cập <strong>49,139,420</strong>
+<br />
+
+</div>
+<br clear="all">
+<div class="footer">
+
+Pháp Thí Hội &copy 2007 - <script type="text/javascript">
+
+var d = new Date();
+document.write(d.getFullYear());
+
+</script>
+</div>
+
+
+</div>
+<script type="text/javascript" src="https://d1xnn692s7u6t6.cloudfront.net/widget.js"></script>
+<script type="text/javascript">(function k(){window.$SendToKindle&&window.$SendToKindle.Widget?$SendToKindle.Widget.init({}):setTimeout(k,500);})();</script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5a903fcbd7591465c707f4a4/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>
