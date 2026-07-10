@@ -61,8 +61,6 @@ export default function BuddhistTab({ onLog }) {
 
   // PDF specific states
   const [pdfFile, setPdfFile] = useState(null); // { name, path, url, localFile }
-  const [pdfStartPage, setPdfStartPage] = useState(1);
-  const [pdfEndPage, setPdfEndPage] = useState(5);
 
   // Core generator states
   const [loading, setLoading] = useState(false);
@@ -113,8 +111,6 @@ export default function BuddhistTab({ onLog }) {
       const filePath = res.filePath;
       onLog('Buddhist', `Đã chọn tệp PDF cục bộ: ${filePath.split('\\').pop()}`, 'info');
       setPdfFile({ name: filePath.split('\\').pop(), path: filePath });
-      setPdfStartPage(1);
-      setPdfEndPage(5);
     } catch (e) {
       setError(`Lỗi chọn file PDF: ${e.message}`);
       setSelectedRefKey('free');
@@ -126,8 +122,6 @@ export default function BuddhistTab({ onLog }) {
     setError('');
     setPdfFile({ name: pdfItem.title, url: pdfItem.url, localFile: pdfItem.localFile });
     onLog('Buddhist', `Đã chọn tài liệu Kinh điển: "${pdfItem.title}"`, 'info');
-    setPdfStartPage(1);
-    setPdfEndPage(5);
   };
 
   // Triggers generation (runs loop for batch mode)
@@ -197,7 +191,6 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         } else {
           pdfFilePath = pdfFile?.path || pdfFile?.localFile || null;
           userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên tài liệu Phật pháp đính kèm.
-Tập trung khai thác nội dung của tài liệu trong khoảng từ trang ${pdfStartPage} đến trang ${pdfEndPage}.
 
 Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video. Hãy đúc kết một chủ đề/bài học hoặc câu kinh cốt lõi khác biệt trong tài liệu đính kèm để soạn bài giảng này, tránh trùng lặp nội dung với các phần khác.
 Hãy chia bài viết làm 4 phân đoạn.
@@ -481,33 +474,10 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           {/* PDF Details Panel (only show if reference type is PDF) */}
           {sourceType === 'pdf' && pdfFile && (
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 16, padding: 16, marginBottom: 20 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--success)', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden', maxWidth: '100%' }}>
                   📄 Đã nạp tài liệu: {pdfFile.name}
                 </span>
-              </div>
-
-              <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Từ trang:</span>
-                  <input 
-                    type="number" 
-                    min="1" 
-                    value={pdfStartPage}
-                    onChange={(e) => setPdfStartPage(parseInt(e.target.value) || 1)}
-                    style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
-                  />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Đến trang:</span>
-                  <input 
-                    type="number" 
-                    min={pdfStartPage} 
-                    value={pdfEndPage}
-                    onChange={(e) => setPdfEndPage(parseInt(e.target.value) || pdfStartPage)}
-                    style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
-                  />
-                </div>
               </div>
             </div>
           )}
