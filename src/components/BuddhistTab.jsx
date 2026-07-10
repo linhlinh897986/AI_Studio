@@ -29,19 +29,39 @@ const ZEN_PRESETS = [
 
 const CURATED_PDFS = [
   {
-    title: "Kinh Pháp Cú (Dhammapada - Bản dịch HT. Thích Minh Châu)",
+    title: "Kinh Địa Tạng Bồ Tát Bổn Nguyện (HT. Thích Trí Tịnh dịch)",
+    url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Dia-Tang-HT-Thich-Tri-Tinh.pdf",
+    desc: "Bộ kinh nổi tiếng về chữ hiếu, công đức độ sanh và thế giới u minh."
+  },
+  {
+    title: "Kinh Diệu Pháp Liên Hoa (Kinh Pháp Hoa - HT. Thích Trí Tịnh)",
+    url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Phap-Hoa-HT-Thich-Tri-Tinh.pdf",
+    desc: "Vua của các kinh điển Đại Thừa, khai mở tri kiến Phật cho mọi chúng sinh."
+  },
+  {
+    title: "Kinh Pháp Cú (Dhammapada - HT. Thích Minh Châu dịch)",
     url: "https://daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Phap-Cu-HT-Thich-Minh-Chau.pdf",
-    desc: "Tuyển tập 423 câu thi kệ cốt lõi dạy về đạo đức và thiền định."
+    desc: "423 câu thi kệ ngắn gọn chứa đựng tinh hoa triết lý giải thoát."
+  },
+  {
+    title: "Kinh Kim Cang Bát Nhã Ba La Mật (HT. Thích Trí Tịnh dịch)",
+    url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Kim-Cang-HT-Thich-Tri-Tinh.pdf",
+    desc: "Kinh điển tối thượng luận giải về tính Không và trí tuệ giải thoát."
+  },
+  {
+    title: "Kinh A Di Đà (HT. Thích Trí Tịnh dịch)",
+    url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-A-Di-Da-HT-Thich-Tri-Tinh.pdf",
+    desc: "Kinh điển nền tảng hướng tâm về thế giới Tây Phương Cực Lạc thanh tịnh."
   },
   {
     title: "Bước Đầu Học Phật (HT. Thích Thanh Từ)",
     url: "https://thuvienhoasen.org/images/file/GKrurg03GkzWjACY/buoc-dau-hoc-phat.pdf",
-    desc: "Cẩm nang hướng dẫn căn bản về nhân quả, tu hành thiền môn."
+    desc: "Cẩm nang hướng dẫn căn bản về nhân quả, tu tập thiền định."
   },
   {
-    title: "Phật Học Phổ Thông (HT. Thích Thiện Hoa)",
+    title: "Phật Học Phổ Thông - Khóa I (HT. Thích Thiện Hoa)",
     url: "https://thuvienhoasen.org/images/file/GcfriO7hhcJA-7O8/phat-hoc-pho-thong-khoa-1.pdf",
-    desc: "Giáo trình Phật học phổ thông cơ bản cho mọi giới tử."
+    desc: "Giáo trình Phật giáo căn bản cho hàng Phật tử tại gia."
   }
 ];
 
