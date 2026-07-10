@@ -60,13 +60,9 @@ export default function BuddhistTab({ onLog }) {
   const [subtitleStyle, setSubtitleStyle] = useState('modern');
 
   // PDF specific states
-  const [pdfFile, setPdfFile] = useState(null); // { name, path, url }
-  const [pdfText, setPdfText] = useState('');
-  const [pdfPagesCount, setPdfPagesCount] = useState(0);
+  const [pdfFile, setPdfFile] = useState(null); // { name, path, url, localFile }
   const [pdfStartPage, setPdfStartPage] = useState(1);
-  const [pdfEndPage, setPdfEndPage] = useState(2);
-  const [extractedExcerpt, setExtractedExcerpt] = useState('');
-  const [pdfLoading, setPdfLoading] = useState(false);
+  const [pdfEndPage, setPdfEndPage] = useState(5);
 
   // Core generator states
   const [loading, setLoading] = useState(false);
@@ -85,39 +81,12 @@ export default function BuddhistTab({ onLog }) {
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(null);
 
-  // Approximate page slicer for pdf-parse text stream
-  const extractPagesExcerpt = (fullText, totalPages, start, end) => {
-    if (!fullText) return '';
-    const cleanStart = Math.max(1, start);
-    const cleanEnd = Math.max(cleanStart, end);
-
-    const pages = fullText.split(/\x0c|\f/);
-    if (pages.length >= totalPages - 1 && pages.length > 1) {
-      const sliceStart = Math.max(0, cleanStart - 1);
-      const sliceEnd = Math.min(pages.length, cleanEnd);
-      return pages.slice(sliceStart, sliceEnd).join('\n').trim();
-    }
-    const charPerPage = Math.floor(fullText.length / (totalPages || 1));
-    const startIndex = Math.max(0, (cleanStart - 1) * charPerPage);
-    const endIndex = Math.min(fullText.length, cleanEnd * charPerPage);
-    return fullText.substring(startIndex, endIndex).trim();
-  };
-
-  useEffect(() => {
-    if (pdfText) {
-      const excerpt = extractPagesExcerpt(pdfText, pdfPagesCount, pdfStartPage, pdfEndPage);
-      setExtractedExcerpt(excerpt);
-    }
-  }, [pdfStartPage, pdfEndPage, pdfText]);
-
   // Handle reference material dropdown change
   const handleRefMaterialChange = async (val) => {
     setSelectedRefKey(val);
     if (val === 'free') {
       setSourceType('prompt');
       setPdfFile(null);
-      setPdfText('');
-      setExtractedExcerpt('');
     } else if (val === 'local') {
       setSourceType('pdf');
       await handleLoadLocalPdf();
@@ -132,7 +101,6 @@ export default function BuddhistTab({ onLog }) {
   };
 
   const handleLoadLocalPdf = async () => {
-    setPdfLoading(true);
     setError('');
     try {
       const res = await ipcRenderer.invoke('open-pdf-dialog');
@@ -143,54 +111,23 @@ export default function BuddhistTab({ onLog }) {
         return;
       }
       const filePath = res.filePath;
-      onLog('Buddhist', `Đang nạp PDF cục bộ: ${filePath.split('\\').pop()}...`, 'info');
-      
-      const parseRes = await ipcRenderer.invoke('buddhist-parse-pdf', { filePath });
-      if (!parseRes.success) throw new Error(parseRes.error);
-      
+      onLog('Buddhist', `Đã chọn tệp PDF cục bộ: ${filePath.split('\\').pop()}`, 'info');
       setPdfFile({ name: filePath.split('\\').pop(), path: filePath });
-      setPdfText(parseRes.text);
-      setPdfPagesCount(parseRes.numpages);
       setPdfStartPage(1);
-      setPdfEndPage(Math.min(parseRes.numpages, 2));
-      
-      onLog('Buddhist', `Đọc PDF thành công! Gồm ${parseRes.numpages} trang.`, 'success');
+      setPdfEndPage(5);
     } catch (e) {
-      setError(`Lỗi đọc file PDF: ${e.message}`);
+      setError(`Lỗi chọn file PDF: ${e.message}`);
       setSelectedRefKey('free');
       setSourceType('prompt');
-    } finally {
-      setPdfLoading(false);
     }
   };
 
   const handleLoadCuratedPdf = async (pdfItem) => {
-    setPdfLoading(true);
     setError('');
     setPdfFile({ name: pdfItem.title, url: pdfItem.url, localFile: pdfItem.localFile });
-    onLog('Buddhist', `Đang tải tài liệu Kinh điển: "${pdfItem.title}"...`, 'info');
-    try {
-      const invokeParams = pdfItem.localFile 
-        ? { localResourceName: pdfItem.localFile }
-        : { fileUrl: pdfItem.url };
-
-      const parseRes = await ipcRenderer.invoke('buddhist-parse-pdf', invokeParams);
-      if (!parseRes.success) throw new Error(parseRes.error);
-      
-      setPdfText(parseRes.text);
-      setPdfPagesCount(parseRes.numpages);
-      setPdfStartPage(1);
-      setPdfEndPage(Math.min(parseRes.numpages, 2));
-      
-      onLog('Buddhist', `Tải & Đọc tài liệu thành công! Gồm ${parseRes.numpages} trang.`, 'success');
-    } catch (e) {
-      setError(`Lỗi tải trực tuyến: ${e.message}. Hãy tải file PDF về máy và nạp cục bộ.`);
-      onLog('Buddhist', `Lỗi tải: ${e.message}`, 'error');
-      setSelectedRefKey('free');
-      setSourceType('prompt');
-    } finally {
-      setPdfLoading(false);
-    }
+    onLog('Buddhist', `Đã chọn tài liệu Kinh điển: "${pdfItem.title}"`, 'info');
+    setPdfStartPage(1);
+    setPdfEndPage(5);
   };
 
   // Triggers generation (runs loop for batch mode)
@@ -541,21 +478,17 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           {sourceType === 'pdf' && pdfFile && (
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 16, padding: 16, marginBottom: 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--success)', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden', maxWidth: '70%' }}>
-                  📄 File: {pdfFile.name}
-                </span>
-                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-                  Tổng: {pdfPagesCount} trang
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--success)', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden', maxWidth: '100%' }}>
+                  📄 Đã nạp tài liệu: {pdfFile.name}
                 </span>
               </div>
 
-              <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>
+              <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Từ trang:</span>
                   <input 
                     type="number" 
                     min="1" 
-                    max={pdfPagesCount} 
                     value={pdfStartPage}
                     onChange={(e) => setPdfStartPage(parseInt(e.target.value) || 1)}
                     style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
@@ -566,30 +499,12 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                   <input 
                     type="number" 
                     min={pdfStartPage} 
-                    max={pdfPagesCount} 
                     value={pdfEndPage}
                     onChange={(e) => setPdfEndPage(parseInt(e.target.value) || pdfStartPage)}
                     style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
                   />
                 </div>
               </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Nội dung trích xuất làm tư liệu tham khảo:</span>
-                <textarea
-                  className="form-input"
-                  value={extractedExcerpt}
-                  readOnly
-                  style={{ height: 100, fontSize: 11, background: 'var(--bg-dark)', resize: 'none', padding: 12, color: 'var(--text-secondary)' }}
-                  placeholder="Không có dữ liệu trích xuất."
-                />
-              </div>
-            </div>
-          )}
-
-          {pdfLoading && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: 12, color: 'var(--success)', fontSize: 13, marginBottom: 20 }}>
-              <Loader size={16} className="spin" /> Đang tải và phân tích cú pháp Ebook PDF...
             </div>
           )}
 

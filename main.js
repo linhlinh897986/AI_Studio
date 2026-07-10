@@ -162,61 +162,7 @@ ipcMain.handle('download-image', async (event, { imageUrl }) => {
   }
 });
 
-// 6.5. PDF Downloading & Extraction
-ipcMain.handle('buddhist-parse-pdf', async (event, { filePath, fileUrl, localResourceName }) => {
-  try {
-    const pdfParseModule = require('pdf-parse');
-    let buffer;
-    if (localResourceName) {
-      const localPath = path.join(__dirname, 'resources', 'scriptures', localResourceName);
-      if (fs.existsSync(localPath)) {
-        buffer = fs.readFileSync(localPath);
-      } else {
-        throw new Error(`Tài liệu Kinh điển tích hợp "${localResourceName}" không tồn tại cục bộ.`);
-      }
-    } else if (fileUrl) {
-      const axios = require('axios');
-      const response = await axios.get(fileUrl, { responseType: 'arraybuffer' });
-      buffer = Buffer.from(response.data);
-    } else if (filePath) {
-      const cleanPath = filePath.startsWith('file://') ? filePath.substring(7) : filePath;
-      buffer = fs.readFileSync(cleanPath);
-    } else {
-      throw new Error('Không có tệp PDF nào được cung cấp.');
-    }
-
-    let text = '';
-    let numpages = 0;
-
-    if (pdfParseModule && typeof pdfParseModule.PDFParse === 'function') {
-      // Handle pdf-parse v2 class constructor
-      const parser = new pdfParseModule.PDFParse({ data: buffer });
-      const parsed = await parser.getText();
-      text = parsed.text;
-      numpages = parsed.total;
-    } else if (typeof pdfParseModule === 'function') {
-      // Handle pdf-parse v1 function
-      const parsed = await pdfParseModule(buffer);
-      text = parsed.text;
-      numpages = parsed.numpages;
-    } else if (pdfParseModule && pdfParseModule.default && typeof pdfParseModule.default === 'function') {
-      // Handle default export
-      const parsed = await pdfParseModule.default(buffer);
-      text = parsed.text;
-      numpages = parsed.numpages;
-    } else {
-      throw new Error('Không tương thích với phiên bản thư viện pdf-parse được cài đặt.');
-    }
-
-    return {
-      success: true,
-      text: text,
-      numpages: numpages
-    };
-  } catch (err) {
-    return { success: false, error: err.message };
-  }
-});
+// 6.5. PDF Dialog Picker
 
 ipcMain.handle('open-pdf-dialog', async () => {
   try {
