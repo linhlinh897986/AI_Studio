@@ -159,11 +159,18 @@ ipcMain.handle('download-image', async (event, { imageUrl }) => {
 });
 
 // 6.5. PDF Downloading & Extraction
-ipcMain.handle('buddhist-parse-pdf', async (event, { filePath, fileUrl }) => {
+ipcMain.handle('buddhist-parse-pdf', async (event, { filePath, fileUrl, localResourceName }) => {
   try {
     const pdfParse = require('pdf-parse');
     let buffer;
-    if (fileUrl) {
+    if (localResourceName) {
+      const localPath = path.join(__dirname, 'resources', 'scriptures', localResourceName);
+      if (fs.existsSync(localPath)) {
+        buffer = fs.readFileSync(localPath);
+      } else {
+        throw new Error(`Tài liệu Kinh điển tích hợp "${localResourceName}" không tồn tại cục bộ.`);
+      }
+    } else if (fileUrl) {
       const axios = require('axios');
       const response = await axios.get(fileUrl, { responseType: 'arraybuffer' });
       buffer = Buffer.from(response.data);

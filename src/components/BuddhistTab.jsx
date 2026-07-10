@@ -1,104 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, Loader, AlertTriangle, BookOpen, Sun, Wind, Type, FileText, Upload, Layers } from 'lucide-react';
+import { Compass, Loader, AlertTriangle, BookOpen, Sun, Wind, Type, FileText, Upload, Sliders, Layers } from 'lucide-react';
 import VideoPlayerPanel from './VideoPlayerPanel';
 
 const { ipcRenderer } = window.require('electron');
 
-const CURATED_SCRIPTURES = [
+const CURATED_PDFS = [
   {
-    title: "Kinh Địa Tạng Bồ Tát Bổn Nguyện (Bản dịch HT. Thích Trí Tịnh)",
-    desc: "Kinh về hiếu đạo, công đức độ sinh cứu khổ chúng sinh chốn u minh.",
-    chapters: [
-      {
-        name: "Phẩm Thứ Nhất: Thần Thông Trên Cung Trời Đao Lợi (Lòng Hiếu Hạnh)",
-        text: "Ta nghe như thế này: Một thuở nọ, tại cung trời Đao Lợi, Đức Phật vì Thánh Mẫu mà thuyết pháp. Lúc đó, tất cả chư Phật và đại Bồ Tát trong vô lượng thế giới đều đến hội họp. Đức Phật khen ngợi Bồ Tát Địa Tạng đã từ lâu xa lập nguyện lớn độ thoát tất cả chúng sinh đau khổ. Bồ Tát Địa Tạng phát lời thệ nguyện vĩ đại: 'Địa ngục vị không, thệ bất thành Phật; chúng sinh độ tận, phương chứng Bồ Đề.' Nghĩa là địa ngục chưa trống rỗng, ta thề chưa thành Phật; độ hết chúng sinh đau khổ mới chứng quả Bồ Đề. Lòng hiếu hạnh của Ngài là tấm gương sáng soi cho trời người học tập."
-      },
-      {
-        name: "Phẩm Thứ Ba: Quán Chúng Sinh Nghiệp Duyên (Nhân quả địa ngục)",
-        text: "Bà Ma Da Phu Nhân chắp tay hỏi Bồ Tát Địa Tạng về quả báo ác nghiệp ở thế gian. Bồ Tát đáp: 'Những kẻ bất hiếu với cha mẹ, hủy báng Tam Bảo, tạo các ác nghiệp sát sinh, trộm cắp, vọng ngữ, khi thác xuống sẽ đọa vào ngục Vô Gián. Ở ngục này, một người chịu khổ cũng chật ngục, muôn người chịu khổ cũng chật ngục. Thời gian chịu tội kéo dài vô số kiếp, chịu đủ mọi sự thiêu đốt hành hạ không một giây phút hưu息. Nghiệp lực vô hình dẫn dắt chúng sinh thọ quả báo tương xứng, tơ hào không sai chạy. Vì vậy chúng sinh phải cẩn trọng giữ gìn thân khẩu ý lành.'"
-      }
-    ]
+    title: "Kinh Địa Tạng Bồ Tát Bổn Nguyện (HT. Thích Trí Tịnh dịch)",
+    localFile: "Kinh_Dia_Tang.pdf",
+    url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Dia-Tang-HT-Thich-Tri-Tinh.pdf",
+    desc: "Bộ kinh nổi tiếng về chữ hiếu, công đức độ sanh và thế giới u minh."
   },
   {
-    title: "Kinh Diệu Pháp Liên Hoa (Kinh Pháp Hoa - HT. Thích Trí Tịnh dịch)",
-    desc: "Vua của các kinh điển Đại Thừa, khai mở Phật tánh tự thân.",
-    chapters: [
-      {
-        name: "Phẩm Thứ Hai: Phương Tiện (Khai mở tri kiến Phật)",
-        text: "Đức Phật từ chánh định an lành thức dậy, bảo ngài Xá Lợi Phất: 'Trí tuệ của các đức Phật rất sâu vô lượng, khó hiểu khó vào. Sở dĩ chư Phật xuất hiện ở đời là vì một đại sự nhân duyên duy nhất: Khai thị ngộ nhập tri kiến Phật cho chúng sinh. Nghĩa là mở bày, chỉ rõ cho chúng sinh ngộ được và đi vào tri kiến thanh tịnh của tự tánh Phật sẵn có nơi mình. Chư Phật chỉ dùng một Phật Thừa duy nhất để hóa độ, không có hai cũng không có ba. Các pháp phương tiện khác đều chỉ là nấc thang dẫn dắt chúng sinh tiến tới nhất thừa thanh tịnh.'"
-      },
-      {
-        name: "Phẩm Thứ Hai Mươi Lăm: Quán Thế Âm Bồ Tát Phổ Môn (Cứu Khổ Cứu Nạn)",
-        text: "Lúc bấy giờ, Vô Tận Ý Bồ Tát bạch Phật: 'Bạch Thế Tôn, Bồ Tát Quán Thế Âm vì nhân duyên gì tên là Quán Thế Âm?' Phật bảo: 'Chúng sinh chịu các khổ não, nghe danh hiệu Bồ Tát Quán Thế Âm, một lòng xưng danh, Bồ Tát tức thời quán xét âm thanh kia, đều được giải thoát. Nếu có người rơi vào lửa dữ, xưng danh hiệu Ngài lửa chẳng cháy được; rơi vào nước lớn, xưng danh hiệu Ngài liền được đến chỗ cạn. Bồ Tát dùng sức thần thông diệu dụng cứu khổ cứu nạn cứu độ trời người, hiện ba mươi hai hóa thân tùy duyên độ chúng sinh.'"
-      }
-    ]
+    title: "Kinh Diệu Pháp Liên Hoa (Kinh Pháp Hoa - HT. Thích Trí Tịnh)",
+    localFile: "Kinh_Phap_Hoa.pdf",
+    url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Phap-Hoa-HT-Thich-Tri-Tinh.pdf",
+    desc: "Vua của các kinh điển Đại Thừa, khai mở tri kiến Phật cho mọi chúng sinh."
   },
   {
-    title: "Kinh Pháp Cú (Dhammapada - Bản dịch HT. Thích Minh Châu)",
-    desc: "423 câu thi kệ ngắn gọn chứa đựng tinh hoa triết lý giải thoát.",
-    chapters: [
-      {
-        name: "Phẩm Song Yếu (Ý dẫn đầu các pháp)",
-        text: "Ý dẫn đầu các pháp. Ý làm chủ, ý tạo. Nếu với ý ô nhiễm, nói năng hay hành động, khổ não bước theo sau, như xe chân vật kéo. Ý dẫn đầu các pháp. Ý làm chủ, ý tạo. Nếu với ý thanh tịnh, nói năng hay hành động, an lạc bước theo sau, như bóng không rời hình. Kẻ thù hại kẻ thù, hay oan gia hại nhau, không bằng tâm hướng ác, gây ác nghiệp cho mình. Mẹ cha hay bà con, không làm được việc gì, bằng tâm hướng lương thiện, đưa ta tới an vui."
-      },
-      {
-        name: "Phẩm Không Phóng Dật (Tỉnh giác và tự chế)",
-        text: "Không phóng dật là đường sống, phóng dật là đường chết. Người không phóng dật không chết, kẻ phóng dật như đã chết. Biết rõ điều này, người trí không phóng dật, hoan hỷ trong không phóng dật, an vui cõi thánh nhân. Bằng nỗ lực, tỉnh giác, tự chế và giữ giới, người trí tự xây dựng, hòn đảo nước không chìm. Hãy vui trong chánh niệm, tự bảo vệ tâm mình. Hãy tự kéo mình lên khỏi vũng bùn đau khổ."
-      }
-    ]
+    title: "Kinh Pháp Cú (Dhammapada - HT. Thích Minh Châu dịch)",
+    localFile: "Kinh_Phap_Cu.pdf",
+    url: "https://daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Phap-Cu-HT-Thich-Minh-Chau.pdf",
+    desc: "423 câu thi kệ ngắn gọn chứa đựng tinh hoa triết lý giải thoát."
   },
   {
     title: "Kinh Kim Cang Bát Nhã Ba La Mật (HT. Thích Trí Tịnh dịch)",
-    desc: "Kinh điển luận giải về Tính Không và trí tuệ vô trụ bám chấp.",
-    chapters: [
-      {
-        name: "Phần Ưng Vô Sở Trụ (Tâm không dính mắc hình tướng)",
-        text: "Đức Phật bảo ngài Tu Bồ Đề: 'Các vị đại Bồ Tát nên như thế này mà phát tâm thanh tịnh: Không nên trụ vào sắc sinh tâm, không nên trụ vào thanh, hương, vị, xúc, pháp sinh tâm. Nên không có chỗ trụ mà sinh tâm đó (Ưng vô sở trụ nhi sinh kỳ tâm). Tất cả các tướng đều là hư vọng. Nếu thấy các tướng chẳng phải là tướng, tức là thấy Như Lai. Phàm sở hữu tướng, giai thị hư vọng. Nhược kiến chư tướng phi tướng, tức kiến Như Lai. Người hành giả không dính mắc vào hình tướng thì tự đạt đến bờ giải thoát.'"
-      },
-      {
-        name: "Phần Quán Chiếu Hữu Vi (Vạn pháp mộng huyễn vô thường)",
-        text: "Tất cả pháp hữu vi, như mộng, huyễn, bọt, bóng. Như sương sa, điện chớp, nên quán chiếu như thế. (Nhất thiết hữu vi pháp, như mộng huyễn bào ảnh, như lộ diệc như điện, ưng tác như thị quán). Thế giới vật chất và các hiện tượng sinh diệt đều giả tạm, biến đổi không ngừng như giấc mơ, như bọt nước trên dòng sông, như giọt sương buổi sáng dễ tan. Nhận chân được tính vô thường của vạn vật giúp tâm hành giả buông bỏ bám chấp, đạt đến bình an tự tại."
-      }
-    ]
+    localFile: "Kinh_Kim_Cang.pdf",
+    url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-Kim-Cang-HT-Thich-Tri-Tinh.pdf",
+    desc: "Kinh điển tối thượng luận giải về tính Không và trí tuệ giải thoát."
   },
   {
-    title: "Kinh A Di Đà (Bản dịch HT. Thích Trí Tịnh)",
-    desc: "Mô tả cõi Tây Phương Cực Lạc thanh tịnh trang nghiêm.",
-    chapters: [
-      {
-        name: "Cảnh Giới Cực Lạc (Mô tả cõi tịnh độ trang nghiêm)",
-        text: "Từ đây đi về hướng Tây quá mười muôn ức cõi Phật, có thế giới tên là Cực Lạc. Cõi đó có Đức Phật hiệu là A Di Đà hiện đang thuyết pháp. Cõi Cực Lạc có bảy lớp lan can, bảy lớp lưới giăng, bảy lớp hàng cây, đều bằng bốn chất báu bao bọc. Lại có ao bằng bảy chất báu, nước bát công đức tràn trề. Đáy ao thuần cát vàng trải làm đất. Hoa sen trong ao lớn như bánh xe, hoa sắc xanh ánh sáng xanh, sắc vàng ánh sáng vàng, sắc đỏ ánh sáng đỏ, sắc trắng ánh sáng trắng, hương vị thơm tho trong sạch trang nghiêm."
-      }
-    ]
+    title: "Kinh A Di Đà (HT. Thích Trí Tịnh dịch)",
+    localFile: "Kinh_A_Di_Da.pdf",
+    url: "https://www.daotranglienhoa.com/wp-content/uploads/2020/05/Kinh-A-Di-Da-HT-Thich-Tri-Tinh.pdf",
+    desc: "Kinh điển nền tảng hướng tâm về thế giới Tây Phương Cực Lạc thanh tịnh."
   },
   {
-    title: "Bước Đầu Học Phật (HT. Thích Thanh Từ soạn)",
-    desc: "Cẩm nang hướng dẫn căn bản về luật nhân quả luân hồi.",
-    chapters: [
-      {
-        name: "Quy Luật Nhân Quả (Gieo nhân lành gặt quả ngọt)",
-        text: "Nhân là nguyên nhân, Quả là kết quả. Nhân quả là định luật khách quan điều khiển vạn vật. Muốn gặt quả ngọt phải gieo nhân lành. Gieo hạt cam được quả cam, gieo ác nghiệp chịu báo ứng đau khổ. Định luật nhân quả rất công bằng, không thiên vị ai, không thần linh nào can thiệp được. Người học Phật hiểu rõ nhân quả sẽ tự làm chủ cuộc đời mình, không làm điều ác nghiệp, siêng năng làm các việc thiện lành, tích đức hành thiện giúp đời."
-      }
-    ]
+    title: "Bước Đầu Học Phật (HT. Thích Thanh Từ)",
+    url: "https://thuvienhoasen.org/images/file/GKrurg03GkzWjACY/buoc-dau-hoc-phat.pdf",
+    desc: "Cẩm nang hướng dẫn căn bản về nhân quả, tu tập thiền định."
   },
   {
-    title: "Phật Học Phổ Thông (HT. Thích Thiện Hoa soạn)",
-    desc: "Giáo trình Phật giáo cơ bản về năm giới đạo đức trời người.",
-    chapters: [
-      {
-        name: "Năm Giới Đạo Đức Căn Bản (Ngũ giới Phật tử tại gia)",
-        text: "Ngũ giới là năm điều đạo đức căn bản của người Phật tử tại gia: Không sát sinh (bảo vệ sự sống), không trộm cướp (tôn trọng tài sản người khác), không tà dâm (giữ gìn hạnh phúc gia đình), không nói dối (tôn trọng sự thật), không uống rượu và dùng chất kích thích (giữ gìn sự sáng suốt của tâm trí). Thực hành năm giới này không chỉ đem lại bình an cho cá nhân mà còn xây dựng một xã hội hòa hợp, lương thiện và đầy lòng trắc ẩn thương yêu."
-      }
-    ]
+    title: "Phật Học Phổ Thông - Khóa I (HT. Thích Thiện Hoa)",
+    url: "https://thuvienhoasen.org/images/file/GcfriO7hhcJA-7O8/phat-hoc-pho-thong-khoa-1.pdf",
+    desc: "Giáo trình Phật giáo căn bản cho hàng Phật tử tại gia."
   }
 ];
 
 export default function BuddhistTab({ onLog }) {
-  // Configuration
+  // Batch video configuration
   const [numVideos, setNumVideos] = useState(1); // 1, 5, 10, 15
-  const [selectedRefKey, setSelectedRefKey] = useState('free'); // free, local, or index of CURATED_SCRIPTURES
-  const [selectedChapterIdx, setSelectedChapterIdx] = useState(0);
-
+  const [selectedRefKey, setSelectedRefKey] = useState('free'); // free, local, or index of CURATED_PDFS
+  
   const [sourceType, setSourceType] = useState('prompt'); // prompt, pdf
   const [topic, setTopic] = useState('Sự buông bỏ trong cuộc sống để tâm an nhiên, không tranh giành đố kỵ');
   const [voice, setVoice] = useState('vi-VN-NamMinhNeural');
@@ -110,8 +63,8 @@ export default function BuddhistTab({ onLog }) {
   const [particleType, setParticleType] = useState('dust');
   const [subtitleStyle, setSubtitleStyle] = useState('modern');
 
-  // PDF local uploading states
-  const [pdfFile, setPdfFile] = useState(null); // { name, path }
+  // PDF specific states
+  const [pdfFile, setPdfFile] = useState(null); // { name, path, url }
   const [pdfText, setPdfText] = useState('');
   const [pdfPagesCount, setPdfPagesCount] = useState(0);
   const [pdfStartPage, setPdfStartPage] = useState(1);
@@ -119,16 +72,16 @@ export default function BuddhistTab({ onLog }) {
   const [extractedExcerpt, setExtractedExcerpt] = useState('');
   const [pdfLoading, setPdfLoading] = useState(false);
 
-  // Core status states
+  // Core generator states
   const [loading, setLoading] = useState(false);
   const [loadingStage, setLoadingStage] = useState('');
   const [error, setError] = useState('');
 
-  // Batch rendering logs
+  // Batch rendering states
   const [batchLogs, setBatchLogs] = useState([]);
-  const [currentBatchIdx, setCurrentBatchIdx] = useState(null);
+  const [currentBatchIdx, setCurrentBatchIdx] = useState(null); // null if not batching
 
-  // Preview panel states
+  // Preview panel states (corresponds to the currently loaded/generated video)
   const [slides, setSlides] = useState([]);
   const [subtitles, setSubtitles] = useState([]);
   const [audioUrl, setAudioUrl] = useState('');
@@ -136,7 +89,7 @@ export default function BuddhistTab({ onLog }) {
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(null);
 
-  // Approximate page slicer for local PDF parsing
+  // Approximate page slicer for pdf-parse text stream
   const extractPagesExcerpt = (fullText, totalPages, start, end) => {
     if (!fullText) return '';
     const cleanStart = Math.max(1, start);
@@ -154,31 +107,16 @@ export default function BuddhistTab({ onLog }) {
     return fullText.substring(startIndex, endIndex).trim();
   };
 
-  // Sync page range slices for uploaded PDFs
   useEffect(() => {
-    if (selectedRefKey === 'local' && pdfText) {
+    if (pdfText) {
       const excerpt = extractPagesExcerpt(pdfText, pdfPagesCount, pdfStartPage, pdfEndPage);
       setExtractedExcerpt(excerpt);
     }
-  }, [pdfStartPage, pdfEndPage, pdfText, selectedRefKey]);
+  }, [pdfStartPage, pdfEndPage, pdfText]);
 
-  // Sync pre-embedded scriptures text
-  useEffect(() => {
-    if (selectedRefKey !== 'free' && selectedRefKey !== 'local') {
-      const bookIdx = parseInt(selectedRefKey);
-      const book = CURATED_SCRIPTURES[bookIdx];
-      if (book && book.chapters[selectedChapterIdx]) {
-        setExtractedExcerpt(book.chapters[selectedChapterIdx].text);
-      }
-    }
-  }, [selectedRefKey, selectedChapterIdx]);
-
-  // Handle reference material change
+  // Handle reference material dropdown change
   const handleRefMaterialChange = async (val) => {
     setSelectedRefKey(val);
-    setSelectedChapterIdx(0);
-    setError('');
-
     if (val === 'free') {
       setSourceType('prompt');
       setPdfFile(null);
@@ -189,11 +127,10 @@ export default function BuddhistTab({ onLog }) {
       await handleLoadLocalPdf();
     } else {
       setSourceType('pdf');
-      const bookIdx = parseInt(val);
-      const book = CURATED_SCRIPTURES[bookIdx];
-      if (book && book.chapters[0]) {
-        setExtractedExcerpt(book.chapters[0].text);
-        onLog('Buddhist', `Đã nạp tài liệu tích hợp: "${book.title}"`, 'success');
+      const idx = parseInt(val);
+      const item = CURATED_PDFS[idx];
+      if (item) {
+        await handleLoadCuratedPdf(item);
       }
     }
   };
@@ -210,7 +147,7 @@ export default function BuddhistTab({ onLog }) {
         return;
       }
       const filePath = res.filePath;
-      onLog('Buddhist', `Đang giải mã file PDF cục bộ: ${filePath.split('\\').pop()}...`, 'info');
+      onLog('Buddhist', `Đang nạp PDF cục bộ: ${filePath.split('\\').pop()}...`, 'info');
       
       const parseRes = await ipcRenderer.invoke('buddhist-parse-pdf', { filePath });
       if (!parseRes.success) throw new Error(parseRes.error);
@@ -231,13 +168,43 @@ export default function BuddhistTab({ onLog }) {
     }
   };
 
+  const handleLoadCuratedPdf = async (pdfItem) => {
+    setPdfLoading(true);
+    setError('');
+    setPdfFile({ name: pdfItem.title, url: pdfItem.url });
+    onLog('Buddhist', `Đang tải tài liệu Kinh điển: "${pdfItem.title}"...`, 'info');
+    try {
+      const invokeParams = pdfItem.localFile 
+        ? { localResourceName: pdfItem.localFile }
+        : { fileUrl: pdfItem.url };
+
+      const parseRes = await ipcRenderer.invoke('buddhist-parse-pdf', invokeParams);
+      if (!parseRes.success) throw new Error(parseRes.error);
+      
+      setPdfText(parseRes.text);
+      setPdfPagesCount(parseRes.numpages);
+      setPdfStartPage(1);
+      setPdfEndPage(Math.min(parseRes.numpages, 2));
+      
+      onLog('Buddhist', `Tải & Đọc tài liệu thành công! Gồm ${parseRes.numpages} trang.`, 'success');
+    } catch (e) {
+      setError(`Lỗi tải trực tuyến: ${e.message}. Hãy tải file PDF về máy và nạp cục bộ.`);
+      onLog('Buddhist', `Lỗi tải: ${e.message}`, 'error');
+      setSelectedRefKey('free');
+      setSourceType('prompt');
+    } finally {
+      setPdfLoading(false);
+    }
+  };
+
+  // Triggers generation (runs loop for batch mode)
   const handleGenerate = async () => {
     if (sourceType === 'prompt' && !topic) {
       setError('Vui lòng nhập ý tưởng chủ đề.');
       return;
     }
     if (sourceType === 'pdf' && !extractedExcerpt) {
-      setError('Vui lòng chọn tài liệu tham khảo.');
+      setError('Vui lòng chọn tài liệu tham khảo và trích xuất trang trước.');
       return;
     }
 
@@ -252,7 +219,7 @@ export default function BuddhistTab({ onLog }) {
     setBatchLogs([]);
 
     const totalToGenerate = numVideos;
-    onLog('Buddhist', `Khởi chạy sản xuất hàng loạt ${totalToGenerate} video Phật pháp...`, 'info');
+    onLog('Buddhist', `Bắt đầu tiến trình tạo BATCH gồm ${totalToGenerate} video...`, 'info');
 
     try {
       for (let i = 0; i < totalToGenerate; i++) {
@@ -260,8 +227,8 @@ export default function BuddhistTab({ onLog }) {
         const stagePrefix = `[Video ${i + 1}/${totalToGenerate}]`;
         onLog('Buddhist', `${stagePrefix} Bắt đầu khởi tạo...`, 'info');
 
-        // 1. Gemini script generator
-        setLoadingStage(`${stagePrefix} AI đang biên soạn kịch bản Phật pháp...`);
+        // 1. Generate script
+        setLoadingStage(`${stagePrefix} AI đang biên soạn kịch bản độc lập...`);
         const systemPrompt = `Bạn là một thiền sư hiền triết, am hiểu Phật Pháp sâu sắc. Hãy viết các câu triết lý sống bằng tiếng Việt mang tính thanh tịnh, chậm rãi, thư thái và bình yên. Trả về cấu trúc JSON bắt buộc.`;
         
         let moodVisualDetail = '';
@@ -278,7 +245,7 @@ export default function BuddhistTab({ onLog }) {
         let userPrompt = '';
         if (sourceType === 'prompt') {
           userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) về chủ đề "${topic}". 
-Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video độc lập. Hãy viết kịch bản này khai thác một khía cạnh riêng biệt, hoàn toàn không trùng lặp ý tưởng với các video khác trong chuỗi.
+Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video độc lập. Hãy viết kịch bản này khai thác một khía cạnh riêng biệt, hoàn toàn không trùng lặp ý tưởng với các video khác.
 Chia bài viết làm 4 phân đoạn. Với mỗi phân đoạn, hãy cung cấp một mô tả hình ảnh tiếng Anh chi tiết để tạo ảnh thiền định.
 Hãy luôn kết hợp các phân cảnh hình ảnh với phong cách không gian trực quan sau: "${moodVisualDetail}".
 
@@ -293,15 +260,14 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
   ]
 }`;
         } else {
-          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) đúc kết các triết lý sâu sắc nhất từ tài liệu Phật pháp trích dẫn dưới đây:
-
+          userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên tài liệu Phật pháp trích dẫn dưới đây:
 NỘI DUNG TÀI LIỆU TRÍCH DẪN:
 """
 ${extractedExcerpt.substring(0, 1500)}
 """
 
-Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video. Hãy đúc kết một chủ đề, câu kệ hoặc bài học sâu sắc riêng biệt trong tài liệu trích dẫn để soạn bài giảng này, tránh trùng lặp nội dung với các video khác.
-Hãy chia bài viết làm 4 phân đoạn ngắn gọn. Với mỗi phân đoạn cung cấp mô tả hình ảnh tiếng Anh chi tiết.
+Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video. Hãy đúc kết một chủ đề/bài học hoặc câu kinh cốt lõi khác biệt trong tài liệu trích dẫn để soạn bài giảng này, tránh trùng lặp nội dung với các phần khác.
+Hãy chia bài viết làm 4 phân đoạn. Với mỗi phân đoạn cung cấp mô tả hình ảnh tiếng Anh chi tiết.
 Hãy kết hợp hình ảnh với phong cách không gian sau: "${moodVisualDetail}".
 
 Trả về duy nhất định dạng JSON có cấu trúc sau:
@@ -321,7 +287,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         if (!geminiRes.success) throw new Error(geminiRes.error);
         const generatedData = geminiRes.data.script;
 
-        // 2. Synthesize Vocals
+        // 2. TTS Voiceover
         setLoadingStage(`${stagePrefix} Đang lồng tiếng thiền sư...`);
         const fullText = generatedData.map(item => item.text).join(' ');
         const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { 
@@ -331,8 +297,8 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         if (!ttsRes.success) throw new Error(ttsRes.error);
         const localAudioUrl = ttsRes.filePath;
 
-        // 3. Caption sync
-        setLoadingStage(`${stagePrefix} Đang đồng bộ phụ đề karaoke...`);
+        // 3. ASR Syncing
+        setLoadingStage(`${stagePrefix} Đang chạy phụ đề karaoke...`);
         const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
           audioPath: localAudioUrl,
           options: { language: 'vi-VN', needWordTimestamp: true }
@@ -341,7 +307,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         const asrSegments = asrRes.segments;
 
         // 4. Image downloads
-        setLoadingStage(`${stagePrefix} Đang kết xuất ảnh thiền AI...`);
+        setLoadingStage(`${stagePrefix} Đang tạo & tải ảnh thiền AI...`);
         const localImages = [];
         for (let j = 0; j < generatedData.length; j++) {
           const rawPrompt = generatedData[j].imagePrompt;
@@ -352,11 +318,11 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           if (dlRes.success) {
             localImages.push(dlRes.filePath);
           } else {
-            localImages.push(localImages[0] || '');
+            localImages.push(localImages[0] || ''); // fallback
           }
         }
 
-        // 5. Slide mapping
+        // 5. Build Slide timings
         const lastWordSeg = asrSegments[asrSegments.length - 1];
         const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 15000;
         const audioDurationFrames = Math.ceil((audioDurationMs / 1000) * 30);
@@ -376,17 +342,17 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           currentFrame += segmentDurationFrames;
         });
 
-        // Update preview panel states
+        // Set to local states (enables real-time preview of the LAST generated video)
         setSlides(computedSlides);
         setSubtitles(asrSegments);
         setAudioUrl(localAudioUrl);
 
-        onLog('Buddhist', `${stagePrefix} Tạo thành công cấu trúc video!`, 'success');
+        onLog('Buddhist', `${stagePrefix} Khởi tạo thành công cấu trúc video!`, 'success');
 
-        // 6. Bulk compilation to MP4 file
+        // 6. IF batch size > 1, we automatically render/export to MP4 file on the fly!
         if (totalToGenerate > 1) {
-          setLoadingStage(`${stagePrefix} Đang lưu video thành tệp MP4...`);
-          onLog('Buddhist', `${stagePrefix} Đang kết xuất video MP4 tự động...`, 'info');
+          setLoadingStage(`${stagePrefix} Đang kết xuất video thành tệp MP4...`);
+          onLog('Buddhist', `${stagePrefix} Bắt đầu kết xuất video MP4 tự động...`, 'info');
 
           const inputProps = {
             slides: computedSlides,
@@ -416,16 +382,17 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         }
       }
 
+      // Finish notification
       if (totalToGenerate > 1) {
-        onLog('Buddhist', `Sản xuất hàng loạt hoàn thành! Số lượng: ${totalToGenerate} video.`, 'success');
-        alert(`Đã hoàn tất sản xuất hàng loạt ${totalToGenerate} video!\nTất cả tệp MP4 đã được lưu trữ trong thư mục tạm.`);
+        onLog('Buddhist', `Hoàn tất sản xuất hàng loạt ${totalToGenerate} video Phật pháp!`, 'success');
+        alert(`Đã hoàn tất sản xuất hàng loạt ${totalToGenerate} video!\nTất cả file MP4 đã được lưu trữ trong thư mục tạm.`);
       } else {
-        onLog('Buddhist', `Khởi tạo video Phật pháp thành công! Bấm 'Xuất Video MP4' ở bên phải để lưu.`, 'success');
+        onLog('Buddhist', `Khởi tạo video Phật pháp thành công! Nhấp 'Xuất Video MP4' ở bên phải để lưu file.`, 'success');
       }
 
     } catch (err) {
       setError(err.message);
-      onLog('Buddhist', `Lỗi: ${err.message}`, 'error');
+      onLog('Buddhist', `Gặp lỗi trong tiến trình: ${err.message}`, 'error');
     } finally {
       setLoading(false);
       setLoadingStage('');
@@ -496,7 +463,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
       <div className="workspace-left">
         <div className="glass-panel">
           <h2 style={{ fontSize: 18, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
-            <Compass size={20} style={{ color: 'var(--success)' }} /> Sản Xuất Video Phật Pháp Hàng Loạt
+            <Compass size={20} style={{ color: 'var(--success)' }} /> Tạo Hàng Loạt Video Phật Pháp & Triết Lý
           </h2>
 
           {/* 1. Batch Quantity Selector */}
@@ -521,7 +488,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                     fontWeight: 700,
                     cursor: 'pointer',
                     fontSize: 13,
-                    transition: 'all 200ms'
+                    transition: 'all 200s'
                   }}
                 >
                   {num} Video{num > 1 ? 's' : ''}
@@ -533,7 +500,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           {/* 2. Unified Reference Materials Dropdown Selector */}
           <div className="form-group">
             <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <BookOpen size={14} /> Chọn tài liệu Kinh điển Phật Pháp
+              <BookOpen size={14} /> Chọn tài liệu tham khảo Phật Pháp
             </label>
             <select
               className="form-input"
@@ -542,9 +509,9 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
               disabled={loading || pdfLoading}
             >
               <option value="free">✍️ Ý tưởng tự do (Không dùng tài liệu, tự gõ chủ đề)</option>
-              <option value="local">📂 Nạp tệp PDF cục bộ từ máy tính của bạn...</option>
-              <optgroup label="Tủ Sách Kinh Điển Phật Giáo Tích Hợp Sẵn (Chạy Offline 100%)">
-                {CURATED_SCRIPTURES.map((item, idx) => (
+              <option value="local">📂 Sử dụng tệp PDF cục bộ từ máy tính của bạn...</option>
+              <optgroup label="Thư viện Ebook Kinh điển Phật giáo online">
+                {CURATED_PDFS.map((item, idx) => (
                   <option key={idx} value={idx}>
                     📖 {item.title}
                   </option>
@@ -553,87 +520,65 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             </select>
           </div>
 
-          {/* Chapter select dropdown (only show if integrated book selected) */}
-          {selectedRefKey !== 'free' && selectedRefKey !== 'local' && (
-            <div className="form-group">
-              <label className="form-label">Chọn Chương / Phân đoạn Kinh</label>
-              <select
-                className="form-input"
-                value={selectedChapterIdx}
-                onChange={(e) => setSelectedChapterIdx(parseInt(e.target.value))}
-                disabled={loading}
-              >
-                {CURATED_SCRIPTURES[parseInt(selectedRefKey)]?.chapters.map((ch, idx) => (
-                  <option key={idx} value={idx}>
-                    📌 {ch.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          {/* Prompt free text input */}
+          {/* Prompt description input (only show if free topic selected) */}
           {selectedRefKey === 'free' && (
             <div className="form-group">
-              <label className="form-label">Chủ đề bài giảng chi tiết (Gõ ý tưởng tự do)</label>
+              <label className="form-label">Ý tưởng / Chủ đề bài giảng chi tiết</label>
               <input
                 type="text"
                 className="form-input"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 disabled={loading}
-                placeholder="Nhập chủ đề triết lý..."
+                placeholder="Nhập chủ đề triết lý (ví dụ: Sự buông bỏ, luật nhân quả...)"
               />
             </div>
           )}
 
-          {/* Excerpt text box (shows read-only preview of selected/parsed text) */}
-          {selectedRefKey !== 'free' && (
+          {/* PDF Details Panel (only show if reference type is PDF) */}
+          {sourceType === 'pdf' && pdfFile && (
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 16, padding: 16, marginBottom: 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12, borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--success)' }}>
-                  📄 Tài liệu tham khảo đang dùng:
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--success)', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden', maxWidth: '70%' }}>
+                  📄 File: {pdfFile.name}
                 </span>
-                {selectedRefKey === 'local' && (
-                  <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-                    Tổng: {pdfPagesCount} trang
-                  </span>
-                )}
+                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                  Tổng: {pdfPagesCount} trang
+                </span>
               </div>
 
-              {selectedRefKey === 'local' && (
-                <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Từ trang:</span>
-                    <input 
-                      type="number" 
-                      min="1" 
-                      max={pdfPagesCount} 
-                      value={pdfStartPage}
-                      onChange={(e) => setPdfStartPage(parseInt(e.target.value) || 1)}
-                      style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
-                    />
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Đến trang:</span>
-                    <input 
-                      type="number" 
-                      min={pdfStartPage} 
-                      max={pdfPagesCount} 
-                      value={pdfEndPage}
-                      onChange={(e) => setPdfEndPage(parseInt(e.target.value) || pdfStartPage)}
-                      style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
-                    />
-                  </div>
+              <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Từ trang:</span>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    max={pdfPagesCount} 
+                    value={pdfStartPage}
+                    onChange={(e) => setPdfStartPage(parseInt(e.target.value) || 1)}
+                    style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
+                  />
                 </div>
-              )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Đến trang:</span>
+                  <input 
+                    type="number" 
+                    min={pdfStartPage} 
+                    max={pdfPagesCount} 
+                    value={pdfEndPage}
+                    onChange={(e) => setPdfEndPage(parseInt(e.target.value) || pdfStartPage)}
+                    style={{ width: 60, padding: 6, background: 'var(--bg-dark)', border: '1px solid var(--border)', borderRadius: 8, color: '#fff', fontSize: 12 }}
+                  />
+                </div>
+              </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Nội dung trích xuất làm tư liệu tham khảo:</span>
                 <textarea
                   className="form-input"
                   value={extractedExcerpt}
                   readOnly
-                  style={{ height: 100, fontSize: 11, background: 'var(--bg-dark)', resize: 'none', padding: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}
+                  style={{ height: 100, fontSize: 11, background: 'var(--bg-dark)', resize: 'none', padding: 12, color: 'var(--text-secondary)' }}
                   placeholder="Không có dữ liệu trích xuất."
                 />
               </div>
@@ -642,11 +587,11 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
 
           {pdfLoading && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: 12, color: 'var(--success)', fontSize: 13, marginBottom: 20 }}>
-              <Loader size={16} className="spin" /> Đang giải mã file PDF của bạn...
+              <Loader size={16} className="spin" /> Đang tải và phân tích cú pháp Ebook PDF...
             </div>
           )}
 
-          {/* Visual configurations */}
+          {/* Visual settings */}
           <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
             <div className="form-group" style={{ flex: 1 }}>
               <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -681,7 +626,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             </div>
           </div>
 
-          {/* Audio ambient and particle selections */}
+          {/* Audio mixing and particles */}
           <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
             <div className="form-group" style={{ flex: 1 }}>
               <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -716,7 +661,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             </div>
           </div>
 
-          {/* Voice configuration */}
+          {/* Voice and background music */}
           <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
             <div className="form-group" style={{ flex: 1 }}>
               <label className="form-label">Giọng thiền sư</label>
@@ -766,13 +711,13 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           {batchLogs.length > 0 && (
             <div style={{ marginTop: 20, background: 'rgba(0,0,0,0.2)', padding: 14, borderRadius: 12, border: '1px solid var(--border)' }}>
               <strong style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'block', marginBottom: 8 }}>
-                BÁO CÁO SẢN XUẤT HÀNG LOẠT:
+                BÁO CÁO KẾT XUẤT HÀNG LOẠT:
               </strong>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 100, overflowY: 'auto', fontSize: 11, fontFamily: 'var(--font-mono)' }}>
                 {batchLogs.map((log, idx) => (
                   <div key={idx} style={{ color: log.success ? 'var(--success)' : '#ef4444' }}>
                     {log.success 
-                      ? `✓ Video ${idx + 1}: Thành công -> ${log.path.split('/').pop() || log.path.split('\\').pop()}` 
+                      ? `✓ Video ${idx + 1}: Xuất thành công -> ${log.path.split('/').pop()}` 
                       : `✗ Video ${idx + 1}: Thất bại -> ${log.error}`
                     }
                   </div>
