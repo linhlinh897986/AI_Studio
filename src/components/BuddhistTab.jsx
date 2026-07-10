@@ -190,7 +190,12 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
 }`;
         } else {
           pdfFilePath = pdfFile?.path || pdfFile?.localFile || null;
+          let focusInstruction = '';
+          if (topic.trim()) {
+            focusInstruction = `Hãy ưu tiên tập trung khai thác nội dung tài liệu xoay quanh ý tưởng/chủ đề sau: "${topic}".`;
+          }
           userPrompt = `Hãy viết một bài giảng thiền ngắn gọn (khoảng 80-100 từ) dựa trên tài liệu Phật pháp đính kèm.
+${focusInstruction}
 
 Đây là video số ${i + 1} trên tổng số ${totalToGenerate} video. Hãy đúc kết một chủ đề/bài học hoặc câu kinh cốt lõi khác biệt trong tài liệu đính kèm để soạn bài giảng này, tránh trùng lặp nội dung với các phần khác.
 Hãy chia bài viết làm 4 phân đoạn.
@@ -456,20 +461,24 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             </select>
           </div>
 
-          {/* Prompt description input (only show if free topic selected) */}
-          {selectedRefKey === 'free' && (
-            <div className="form-group">
-              <label className="form-label">Ý tưởng / Chủ đề bài giảng chi tiết</label>
-              <input
-                type="text"
-                className="form-input"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                disabled={loading}
-                placeholder="Nhập chủ đề triết lý (ví dụ: Sự buông bỏ, luật nhân quả...)"
-              />
-            </div>
-          )}
+          {/* Prompt description input */}
+          <div className="form-group">
+            <label className="form-label">
+              {selectedRefKey === 'free' 
+                ? 'Ý tưởng / Chủ đề bài giảng chi tiết (Bắt buộc)' 
+                : 'Hướng tập trung / Ý tưởng bài viết (Tùy chọn)'}
+            </label>
+            <input
+              type="text"
+              className="form-input"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              disabled={loading}
+              placeholder={selectedRefKey === 'free' 
+                ? 'Nhập chủ đề triết lý (ví dụ: Sự buông bỏ, luật nhân quả...)' 
+                : 'Ví dụ: Tập trung vào chữ Hiếu, về sự Vô thường... (để trống AI sẽ tự do khai thác)'}
+            />
+          </div>
 
           {/* PDF Details Panel (only show if reference type is PDF) */}
           {sourceType === 'pdf' && pdfFile && (
