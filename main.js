@@ -31,7 +31,14 @@ function createWindow() {
       });
     };
     loadURLWithRetry('http://localhost:5173');
-    mainWindow.webContents.openDevTools();
+    
+    // Toggle DevTools with F12 or Ctrl+Shift+I to speed up window startup
+    mainWindow.webContents.on('before-input-event', (event, input) => {
+      if (input.key === 'F12' || (input.control && input.shift && input.key.toLowerCase() === 'i')) {
+        mainWindow.webContents.toggleDevTools();
+        event.preventDefault();
+      }
+    });
   } else {
     mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
   }
