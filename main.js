@@ -51,9 +51,9 @@ const ensureAmbientSounds = async () => {
   }
 
   const filesToDownload = [
-    { name: 'bell.wav', url: 'https://assets.mixkit.co/active_storage/sfx/1659/1659-84.wav' },
-    { name: 'stream.wav', url: 'https://assets.mixkit.co/active_storage/sfx/2433/2433-84.wav' },
-    { name: 'rain.wav', url: 'https://assets.mixkit.co/active_storage/sfx/2526/2526-84.wav' }
+    { name: 'bell.wav', url: 'https://raw.githubusercontent.com/nyulachan/nyula/main/Sounds/bell.wav' },
+    { name: 'stream.wav', url: 'https://raw.githubusercontent.com/karolpiczak/ESC-50/master/audio/1-28135-A-11.wav' },
+    { name: 'rain.wav', url: 'https://raw.githubusercontent.com/karolpiczak/ESC-50/master/audio/1-17367-A-10.wav' }
   ];
 
   for (const item of filesToDownload) {
@@ -315,8 +315,37 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
     if (clonedProps.type === 'buddhist' && clonedProps.shopeeProps && clonedProps.shopeeProps.ambientSfx) {
       const sfx = clonedProps.shopeeProps.ambientSfx;
       const sfxNames = { bell: 'bell.wav', stream: 'stream.wav', rain: 'rain.wav' };
-      if (sfxNames[sfx]) {
-        const localSfxPath = path.join(__dirname, 'resources', 'ambient', sfxNames[sfx]);
+      const ambientUrls = {
+        bell: 'https://raw.githubusercontent.com/nyulachan/nyula/main/Sounds/bell.wav',
+        stream: 'https://raw.githubusercontent.com/karolpiczak/ESC-50/master/audio/1-28135-A-11.wav',
+        rain: 'https://raw.githubusercontent.com/karolpiczak/ESC-50/master/audio/1-17367-A-10.wav'
+      };
+
+      if (sfxNames[sfx] && ambientUrls[sfx]) {
+        const ambientDir = path.join(__dirname, 'resources', 'ambient');
+        if (!fs.existsSync(ambientDir)) {
+          fs.mkdirSync(ambientDir, { recursive: true });
+        }
+        const localSfxPath = path.join(ambientDir, sfxNames[sfx]);
+        if (!fs.existsSync(localSfxPath)) {
+          mainWindow.webContents.send('render-progress', { stage: 'localising', percent: 12, message: 'Đang tải âm thanh hiệu ứng về máy...' });
+          try {
+            const response = await axios({
+              method: 'GET',
+              url: ambientUrls[sfx],
+              responseType: 'stream',
+              timeout: 15000
+            });
+            const writer = fs.createWriteStream(localSfxPath);
+            response.data.pipe(writer);
+            await new Promise((resolve, reject) => {
+              writer.on('finish', resolve);
+              writer.on('error', reject);
+            });
+          } catch (e) {
+            console.error(`Failed to download ambient sound ${sfx}:`, e.message);
+          }
+        }
         if (fs.existsSync(localSfxPath)) {
           clonedProps.shopeeProps.localAmbientUrl = `file://${localSfxPath.replace(/\\/g, '/')}`;
         }

@@ -18,11 +18,11 @@ export const VideoComposition = ({
   const subtitleStyle = isBuddhist ? (shopeeProps.subtitleStyle || 'modern') : 'modern';
   const subtitleY = shopeeProps.subtitleY !== undefined ? shopeeProps.subtitleY : 220;
 
-  // Map ambient audio keys to their Mixkit royalty-free SFX links
+  // Map ambient audio keys to stable raw GitHub CDN links
   const ambientUrls = {
-    bell: 'https://assets.mixkit.co/active_storage/sfx/1659/1659-84.wav',
-    stream: 'https://assets.mixkit.co/active_storage/sfx/2433/2433-84.wav',
-    rain: 'https://assets.mixkit.co/active_storage/sfx/2526/2526-84.wav'
+    bell: 'https://raw.githubusercontent.com/nyulachan/nyula/main/Sounds/bell.wav',
+    stream: 'https://raw.githubusercontent.com/karolpiczak/ESC-50/master/audio/1-28135-A-11.wav',
+    rain: 'https://raw.githubusercontent.com/karolpiczak/ESC-50/master/audio/1-17367-A-10.wav'
   };
 
   const selectedAmbientUrl = shopeeProps.localAmbientUrl || ambientUrls[ambientSfx];
