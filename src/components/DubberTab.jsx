@@ -7,7 +7,19 @@ export default function DubberTab({ onLog }) {
   const [videoPath, setVideoPath] = useState('');
   const [sourceLang, setSourceLang] = useState('en-US');
   const [targetVoice, setTargetVoice] = useState('vi-VN-NamMinhNeural');
+  const [refAudioPath, setRefAudioPath] = useState('');
   
+  const handleSelectRefAudio = async () => {
+    try {
+      const res = await ipcRenderer.invoke('select-audio-file');
+      if (res.success) {
+        setRefAudioPath(res.filePath);
+      }
+    } catch (err) {
+      console.error('Failed to select audio file:', err);
+    }
+  };
+
   const [loading, setLoading] = useState(false);
   const [loadingStage, setLoadingStage] = useState('');
   const [error, setError] = useState('');
@@ -104,7 +116,7 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
         // Synthesize single segment
         const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', {
           text: seg.text,
-          options: { voice: targetVoice, rate: '+0%' }
+          options: { voice: targetVoice, rate: '+0%', refAudioPath }
         });
 
         if (ttsRes.success) {
@@ -193,11 +205,50 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
                 onChange={(e) => setTargetVoice(e.target.value)}
                 disabled={loading}
               >
-                <option value="vi-VN-NamMinhNeural">Nam Minh (Giọng nam rõ ràng - Phù hợp vlog)</option>
-                <option value="vi-VN-HoaiMyNeural">Hoài My (Giọng nữ hoạt ngôn - Phù hợp review)</option>
+                <optgroup label="Microsoft Edge TTS (Online)">
+                  <option value="vi-VN-NamMinhNeural">Nam Minh (Giọng nam rõ ràng - Phù hợp vlog)</option>
+                  <option value="vi-VN-HoaiMyNeural">Hoài My (Giọng nữ hoạt ngôn - Phù hợp review)</option>
+                </optgroup>
+                <optgroup label="VieNeu-TTS ONNX (Local)">
+                  <option value="vieneu-local-trucly">Trúc Ly (Giọng nữ truyền cảm)</option>
+                  <option value="vieneu-local-hoainam">Hoài Nam (Giọng nam trầm ấm)</option>
+                  <option value="vieneu-local-nhamy">Nhã My (Giọng nữ nhẹ nhàng)</option>
+                  <option value="vieneu-local-phuongtrinh">Phương Trinh (Giọng nữ ấm áp)</option>
+                  <option value="vieneu-local-minhquan">Minh Quân (Giọng nam rõ ràng)</option>
+                  <option value="vieneu-local-clone">🎙️ Clone giọng tự chọn (.wav)...</option>
+                </optgroup>
               </select>
             </div>
           </div>
+
+          {targetVoice === 'vieneu-local-clone' && (
+            <div className="form-group" style={{ marginBottom: 20, animation: 'fadeIn 0.3s ease' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                <label className="form-label" style={{ marginBottom: 0 }}>Chọn tệp âm thanh mẫu (.wav)</label>
+                <span style={{ fontSize: 10, color: 'var(--secondary)' }}>⚠️ Thời lượng tốt nhất: 3 - 5 giây</span>
+              </div>
+              <div style={{ display: 'flex', gap: 10 }}>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  placeholder="Đường dẫn tệp .wav hoặc bấm nút chọn..." 
+                  value={refAudioPath || ''}
+                  onChange={(e) => setRefAudioPath(e.target.value)}
+                  style={{ flex: 1 }}
+                  disabled={loading}
+                />
+                <button 
+                  type="button" 
+                  className="btn btn-secondary" 
+                  onClick={handleSelectRefAudio}
+                  style={{ padding: '0 16px', height: 40, whiteSpace: 'nowrap' }}
+                  disabled={loading}
+                >
+                  📁 Chọn file
+                </button>
+              </div>
+            </div>
+          )}
 
           <button
             className="btn btn-primary"

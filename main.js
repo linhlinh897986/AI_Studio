@@ -152,10 +152,35 @@ ipcMain.handle('gemini-generate', async (event, { apiKey, systemPrompt, userProm
   }
 });
 
-// 4. Microsoft Edge TTS Synthesis
+// 4. Microsoft Edge / VieNeu Local TTS Synthesis
 ipcMain.handle('edge-tts-synthesize', async (event, { text, options }) => {
   try {
     const tempDir = getTempDir();
+    
+    // Check if local VieNeu voice is selected
+    if (options && options.voice && options.voice.startsWith('vieneu-local-')) {
+      const { synthesizeLocalTts } = require('./backend/vieneu_helper');
+      const voiceKey = options.voice.replace('vieneu-local-', '');
+      const voiceNameMap = {
+        'trucly': 'Trúc Ly',
+        'hoainam': 'Hoài Nam',
+        'nhamy': 'Nhã My',
+        'phuongtrinh': 'Phương Trinh',
+        'minhquan': 'Minh Quân'
+      };
+      
+      const localTtsOptions = {
+        voice: voiceNameMap[voiceKey] || null,
+        refAudioPath: options.refAudioPath || null
+      };
+      
+      const filename = `speech_${Date.now()}_${Math.floor(Math.random() * 1000)}.wav`;
+      const outputPath = path.join(tempDir, filename);
+      
+      await synthesizeLocalTts(text, outputPath, localTtsOptions);
+      return { success: true, filePath: `file://${outputPath.replace(/\\/g, '/')}` };
+    }
+    
     const filename = `speech_${Date.now()}_${Math.floor(Math.random() * 1000)}.mp3`;
     const outputPath = path.join(tempDir, filename);
     
@@ -163,6 +188,24 @@ ipcMain.handle('edge-tts-synthesize', async (event, { text, options }) => {
     
     // Return the path using file:// protocol so React player can play it locally
     return { success: true, filePath: `file://${outputPath.replace(/\\/g, '/')}` };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+// 4.5. Audio File Selection Dialog (for Voice Cloning)
+ipcMain.handle('select-audio-file', async () => {
+  try {
+    const result = await dialog.showOpenDialog(mainWindow, {
+      properties: ['openFile'],
+      filters: [{ name: 'Audio Files', extensions: ['wav', 'mp3', 'm4a'] }]
+    });
+
+    if (result.canceled || result.filePaths.length === 0) {
+      return { success: false, error: "Đã hủy chọn file." };
+    }
+
+    return { success: true, filePath: result.filePaths[0] };
   } catch (err) {
     return { success: false, error: err.message };
   }

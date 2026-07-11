@@ -60,6 +60,7 @@ export default function BuddhistTab({
   const [sourceType, setSourceType] = useState('prompt'); // prompt, pdf
   const [topic, setTopic] = useState('');
   const [voice, setVoice] = useState('vi-VN-NamMinhNeural');
+  const [refAudioPath, setRefAudioPath] = useState('');
   const [bgMusic, setBgMusic] = useState('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3');
   
   // Custom mechanisms states
@@ -118,6 +119,17 @@ export default function BuddhistTab({
       await ipcRenderer.invoke('open-path', { filePath: musicFolderPath });
     } catch (e) {
       alert(`Không thể mở thư mục nhạc: ${e.message}`);
+    }
+  };
+
+  const handleSelectRefAudio = async () => {
+    try {
+      const res = await ipcRenderer.invoke('select-audio-file');
+      if (res.success) {
+        setRefAudioPath(res.filePath);
+      }
+    } catch (err) {
+      console.error('Failed to select audio file:', err);
     }
   };
 
@@ -338,7 +350,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         const fullText = generatedData.map(item => item.text).join(' ');
         const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { 
           text: fullText, 
-          options: { voice, rate: '-15%' }
+          options: { voice, rate: '-15%', refAudioPath }
         });
         if (!ttsRes.success) {
           updateProcess(processId, { status: 'failed', error: ttsRes.error });
@@ -780,8 +792,18 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                 onChange={(e) => setVoice(e.target.value)}
                 disabled={loading}
               >
-                <option value="vi-VN-NamMinhNeural">Nam Minh (Giọng nam trầm ấm - Khuyên dùng)</option>
-                <option value="vi-VN-HoaiMyNeural">Hoài My (Giọng nữ chậm rãi, nhẹ nhàng)</option>
+                <optgroup label="Microsoft Edge TTS (Online)">
+                  <option value="vi-VN-NamMinhNeural">Nam Minh (Giọng nam trầm ấm - Khuyên dùng)</option>
+                  <option value="vi-VN-HoaiMyNeural">Hoài My (Giọng nữ chậm rãi, nhẹ nhàng)</option>
+                </optgroup>
+                <optgroup label="VieNeu-TTS ONNX (Local)">
+                  <option value="vieneu-local-trucly">Trúc Ly (Giọng nữ truyền cảm)</option>
+                  <option value="vieneu-local-hoainam">Hoài Nam (Giọng nam trầm ấm)</option>
+                  <option value="vieneu-local-nhamy">Nhã My (Giọng nữ nhẹ nhàng)</option>
+                  <option value="vieneu-local-phuongtrinh">Phương Trinh (Giọng nữ ấm áp)</option>
+                  <option value="vieneu-local-minhquan">Minh Quân (Giọng nam rõ ràng)</option>
+                  <option value="vieneu-local-clone">🎙️ Clone giọng tự chọn (.wav)...</option>
+                </optgroup>
               </select>
             </div>
 
@@ -821,6 +843,35 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
               </select>
             </div>
           </div>
+
+          {voice === 'vieneu-local-clone' && (
+            <div className="form-group" style={{ marginBottom: 20, animation: 'fadeIn 0.3s ease' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                <label className="form-label" style={{ marginBottom: 0 }}>Chọn tệp âm thanh mẫu (.wav)</label>
+                <span style={{ fontSize: 10, color: 'var(--success)' }}>⚠️ Thời lượng tốt nhất: 3 - 5 giây</span>
+              </div>
+              <div style={{ display: 'flex', gap: 10 }}>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  placeholder="Đường dẫn tệp .wav hoặc bấm nút chọn..." 
+                  value={refAudioPath || ''}
+                  onChange={(e) => setRefAudioPath(e.target.value)}
+                  style={{ flex: 1 }}
+                  disabled={loading}
+                />
+                <button 
+                  type="button" 
+                  className="btn btn-secondary" 
+                  onClick={handleSelectRefAudio}
+                  style={{ padding: '0 16px', height: 40, whiteSpace: 'nowrap' }}
+                  disabled={loading}
+                >
+                  📁 Chọn file
+                </button>
+              </div>
+            </div>
+          )}
 
           <button
             className="btn btn-primary"
