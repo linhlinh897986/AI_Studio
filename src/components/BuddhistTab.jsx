@@ -67,6 +67,7 @@ export default function BuddhistTab({
   const [ambientSfx, setAmbientSfx] = useState('bell');
   const [particleType, setParticleType] = useState('dust');
   const [subtitleStyle, setSubtitleStyle] = useState('modern');
+  const [subtitleY, setSubtitleY] = useState(220);
 
   // PDF specific states
   const [pdfFile, setPdfFile] = useState(null); // { name, path, url, localFile }
@@ -434,7 +435,8 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             shopeeProps: {
               ambientSfx,
               particleType,
-              subtitleStyle
+              subtitleStyle,
+              subtitleY
             }
           };
 
@@ -509,7 +511,8 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         shopeeProps: {
           ambientSfx,
           particleType,
-          subtitleStyle
+          subtitleStyle,
+          subtitleY
         }
       };
 
@@ -676,20 +679,40 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             </div>
           )}
 
-          {/* Visual settings - subtitle style only */}
-          <div className="form-group" style={{ marginBottom: 20 }}>
-            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Type size={14} /> Kiểu chữ phụ đề
-            </label>
-            <select 
-              className="form-input"
-              value={subtitleStyle}
-              onChange={(e) => setSubtitleStyle(e.target.value)}
-              disabled={loading}
-            >
-              <option value="modern">Hiện đại (TikTok Karaoke nằm ngang)</option>
-              <option value="calligraphy">Cổ kính (Thư pháp cuộn chạy dọc)</option>
-            </select>
+          {/* Visual settings - Subtitle Style & Subtitle Y Coordinate */}
+          <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
+            <div className="form-group" style={{ flex: 1 }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Type size={14} /> Kiểu chữ phụ đề
+              </label>
+              <select 
+                className="form-input"
+                value={subtitleStyle}
+                onChange={(e) => setSubtitleStyle(e.target.value)}
+                disabled={loading}
+              >
+                <option value="modern">Hiện đại (TikTok Karaoke nằm ngang)</option>
+                <option value="calligraphy">Cổ kính (Thư pháp cuộn chạy dọc)</option>
+              </select>
+            </div>
+
+            <div className="form-group" style={{ flex: 1 }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>↕️ Tọa độ Y phụ đề</span>
+                <span style={{ color: 'var(--success)', fontWeight: 'bold' }}>{subtitleY}px</span>
+              </label>
+              <div style={{ display: 'flex', alignItems: 'center', height: '38px' }}>
+                <input 
+                  type="range" 
+                  min="50" 
+                  max="800" 
+                  value={subtitleY} 
+                  onChange={(e) => setSubtitleY(Number(e.target.value))}
+                  disabled={loading}
+                  style={{ width: '100%', cursor: 'pointer', accentColor: 'var(--success)' }}
+                />
+              </div>
+            </div>
           </div>
 
           {/* Audio mixing and particles */}
@@ -834,7 +857,8 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           shopeeProps={{
             ambientSfx,
             particleType,
-            subtitleStyle
+            subtitleStyle,
+            subtitleY
           }}
           onSubtitleUpdate={handleSubtitleUpdate}
           onExport={handleExport}

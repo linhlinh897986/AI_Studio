@@ -1,6 +1,6 @@
 import { useCurrentFrame, useVideoConfig } from 'remotion';
 
-export const Subtitles = ({ subtitles = [], styleType = 'modern' }) => {
+export const Subtitles = ({ subtitles = [], styleType = 'modern', yPos = 220 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const currentTimeMs = (frame / fps) * 1000;
@@ -41,8 +41,7 @@ export const Subtitles = ({ subtitles = [], styleType = 'modern' }) => {
           .vertical-calligraphy-container {
             position: absolute;
             right: 80px;
-            top: 25%;
-            bottom: 25%;
+            bottom: ${yPos}px;
             display: flex;
             align-items: center;
             z-index: 20;
@@ -50,31 +49,29 @@ export const Subtitles = ({ subtitles = [], styleType = 'modern' }) => {
             animation: fade-slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
           }
           .calligraphy-parchment {
-            background: rgba(15, 12, 29, 0.85); /* dark scroll */
+            background: rgba(10, 8, 20, 0.85); /* dark scroll */
             backdrop-filter: blur(8px);
             border: 2px solid #d97706; /* Golden Amber border */
             border-radius: 16px;
-            padding: 40px 24px;
+            padding: 32px 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(217, 119, 6, 0.15);
-            max-height: 100%;
             display: flex;
             justify-content: center;
           }
           .calligraphy-text-wrapper {
             writing-mode: vertical-rl; /* Crucial vertical text standard */
-            text-orientation: mixed;
+            text-orientation: upright; /* Keep characters standing straight */
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
             align-items: center;
-            height: 100%;
           }
           .calligraphy-word {
-            font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-            font-size: 38px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 34px;
             font-weight: 700;
-            color: rgba(255, 255, 255, 0.75);
-            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: 0.05em;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
             transition: all 180ms ease;
             transform: scale(0.95);
@@ -87,8 +84,8 @@ export const Subtitles = ({ subtitles = [], styleType = 'modern' }) => {
             text-shadow: 0 0 12px rgba(245, 158, 11, 0.5), 2px 2px 2px rgba(0,0,0,0.9);
           }
           .calligraphy-text-fallback {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 36px;
+            font-family: 'Georgia', serif;
+            font-size: 32px;
             font-weight: 700;
             color: #f59e0b;
             letter-spacing: 0.06em;
@@ -129,7 +126,7 @@ export const Subtitles = ({ subtitles = [], styleType = 'modern' }) => {
       <style>{`
         .subtitles-overlay-container {
           position: absolute;
-          bottom: 220px;
+          bottom: ${yPos}px;
           width: 100%;
           display: flex;
           justify-content: center;

@@ -16,6 +16,7 @@ export const VideoComposition = ({
   const ambientSfx = isBuddhist ? (shopeeProps.ambientSfx || 'bell') : 'none';
   const particleType = isBuddhist ? (shopeeProps.particleType || 'dust') : 'none';
   const subtitleStyle = isBuddhist ? (shopeeProps.subtitleStyle || 'modern') : 'modern';
+  const subtitleY = shopeeProps.subtitleY !== undefined ? shopeeProps.subtitleY : 220;
 
   // Map ambient audio keys to their Mixkit royalty-free SFX links
   const ambientUrls = {
@@ -95,6 +96,7 @@ export const VideoComposition = ({
       <Subtitles 
         subtitles={subtitles} 
         styleType={subtitleStyle} 
+        yPos={subtitleY}
       />
       
     </AbsoluteFill>
