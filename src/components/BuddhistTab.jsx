@@ -874,6 +874,11 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                   📁 Chọn file
                 </button>
               </div>
+              {voice === 'omnivoice' && !localStorage.getItem('colab_api_url') && (
+                <div style={{ color: '#ef4444', fontSize: 11, marginTop: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <span>⚠️ Bạn chưa cấu hình Google Colab API URL trong tab <strong>Cài đặt</strong>!</span>
+                </div>
+              )}
             </div>
           )}
 

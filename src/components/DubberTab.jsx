@@ -251,6 +251,11 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
                   📁 Chọn file
                 </button>
               </div>
+              {targetVoice === 'omnivoice' && !localStorage.getItem('colab_api_url') && (
+                <div style={{ color: '#ef4444', fontSize: 11, marginTop: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <span>⚠️ Bạn chưa cấu hình Google Colab API URL trong tab <strong>Cài đặt</strong>!</span>
+                </div>
+              )}
             </div>
           )}
 
