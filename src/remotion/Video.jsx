@@ -25,7 +25,7 @@ export const VideoComposition = ({
     rain: 'https://assets.mixkit.co/active_storage/sfx/2526/2526-84.wav'
   };
 
-  const selectedAmbientUrl = ambientUrls[ambientSfx];
+  const selectedAmbientUrl = shopeeProps.localAmbientUrl || ambientUrls[ambientSfx];
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#03010a', overflow: 'hidden' }}>

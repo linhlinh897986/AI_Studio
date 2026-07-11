@@ -44,12 +44,52 @@ function createWindow() {
   }
 }
 
-app.whenReady().then(() => {
+const ensureAmbientSounds = async () => {
+  const ambientDir = path.join(__dirname, 'resources', 'ambient');
+  if (!fs.existsSync(ambientDir)) {
+    fs.mkdirSync(ambientDir, { recursive: true });
+  }
+
+  const filesToDownload = [
+    { name: 'bell.wav', url: 'https://assets.mixkit.co/active_storage/sfx/1659/1659-84.wav' },
+    { name: 'stream.wav', url: 'https://assets.mixkit.co/active_storage/sfx/2433/2433-84.wav' },
+    { name: 'rain.wav', url: 'https://assets.mixkit.co/active_storage/sfx/2526/2526-84.wav' }
+  ];
+
+  for (const item of filesToDownload) {
+    const destPath = path.join(ambientDir, item.name);
+    if (!fs.existsSync(destPath)) {
+      console.log(`Downloading ambient sound: ${item.name}...`);
+      try {
+        const response = await axios({
+          method: 'GET',
+          url: item.url,
+          responseType: 'stream',
+          timeout: 15000
+        });
+        const writer = fs.createWriteStream(destPath);
+        response.data.pipe(writer);
+        await new Promise((resolve, reject) => {
+          writer.on('finish', resolve);
+          writer.on('error', reject);
+        });
+        console.log(`Downloaded ${item.name} successfully.`);
+      } catch (err) {
+        console.error(`Failed to download ${item.name}: ${err.message}`);
+      }
+    }
+  }
+};
+
+app.whenReady().then(async () => {
   // Ensure resources/music directory exists
   const musicDir = path.join(__dirname, 'resources', 'music');
   if (!fs.existsSync(musicDir)) {
     fs.mkdirSync(musicDir, { recursive: true });
   }
+
+  // Pre-download ambient sounds to prevent Remotion MediaError
+  ensureAmbientSounds().catch(err => console.error("Error ensuring ambient sounds:", err));
 
   createWindow();
 
@@ -213,6 +253,28 @@ ipcMain.handle('select-video-file', async () => {
   }
 });
 
+// Helper to convert local files to Base64 data URIs to bypass Chrome security blocks during headless render
+const pathToBase64 = (filePathOrUrl) => {
+  if (!filePathOrUrl) return '';
+  const cleanPath = filePathOrUrl.replace(/^file:\/\/\/?/, '').replace(/\//g, '\\');
+  if (!fs.existsSync(cleanPath)) {
+    console.warn(`File not found for base64 conversion: ${cleanPath}`);
+    return filePathOrUrl;
+  }
+  const ext = path.extname(cleanPath).toLowerCase();
+  let mimeType = 'image/jpeg';
+  if (ext === '.png') mimeType = 'image/png';
+  else if (ext === '.webp') mimeType = 'image/webp';
+  else if (ext === '.gif') mimeType = 'image/gif';
+  else if (ext === '.mp3') mimeType = 'audio/mp3';
+  else if (ext === '.wav') mimeType = 'audio/wav';
+  else if (ext === '.ogg') mimeType = 'audio/ogg';
+  else if (ext === '.m4a') mimeType = 'audio/x-m4a';
+
+  const buffer = fs.readFileSync(cleanPath);
+  return `data:${mimeType};base64,${buffer.toString('base64')}`;
+};
+
 // 8. Remotion Video Rendering to Local MP4
 ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) => {
   try {
@@ -222,6 +284,62 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
     const tempDir = getTempDir();
     const outputFilename = `vigen_render_${Date.now()}.mp4`;
     const outputPath = path.join(tempDir, outputFilename);
+
+    // Localize remote audio assets to prevent Puppeteer network playback errors (MediaError)
+    const clonedProps = JSON.parse(JSON.stringify(inputProps));
+    
+    // 1. Download background music if remote HTTPS
+    if (clonedProps.bgMusicUrl && clonedProps.bgMusicUrl.startsWith('http')) {
+      mainWindow.webContents.send('render-progress', { stage: 'localising', percent: 10, message: 'Đang tải nhạc nền về máy để tối ưu...' });
+      const localBgMusicPath = path.join(tempDir, `bgmusic_${Date.now()}.mp3`);
+      try {
+        const response = await axios({
+          method: 'GET',
+          url: clonedProps.bgMusicUrl,
+          responseType: 'stream',
+          timeout: 25000
+        });
+        const writer = fs.createWriteStream(localBgMusicPath);
+        response.data.pipe(writer);
+        await new Promise((resolve, reject) => {
+          writer.on('finish', resolve);
+          writer.on('error', reject);
+        });
+        clonedProps.bgMusicUrl = `file://${localBgMusicPath.replace(/\\/g, '/')}`;
+      } catch (e) {
+        console.warn(`Failed to localise bg music: ${e.message}, falling back to remote URL`);
+      }
+    }
+
+    // 2. Map Buddhist ambient sounds to pre-downloaded local paths
+    if (clonedProps.type === 'buddhist' && clonedProps.shopeeProps && clonedProps.shopeeProps.ambientSfx) {
+      const sfx = clonedProps.shopeeProps.ambientSfx;
+      const sfxNames = { bell: 'bell.wav', stream: 'stream.wav', rain: 'rain.wav' };
+      if (sfxNames[sfx]) {
+        const localSfxPath = path.join(__dirname, 'resources', 'ambient', sfxNames[sfx]);
+        if (fs.existsSync(localSfxPath)) {
+          clonedProps.shopeeProps.localAmbientUrl = `file://${localSfxPath.replace(/\\/g, '/')}`;
+        }
+      }
+    }
+
+    // 3. Convert all local assets to Base64 to bypass Puppeteer file:// security blocks
+    mainWindow.webContents.send('render-progress', { stage: 'base64', percent: 15, message: 'Đang tối ưu hóa tài nguyên hình ảnh & âm thanh...' });
+    if (clonedProps.audioUrl) {
+      clonedProps.audioUrl = pathToBase64(clonedProps.audioUrl);
+    }
+    if (clonedProps.bgMusicUrl) {
+      clonedProps.bgMusicUrl = pathToBase64(clonedProps.bgMusicUrl);
+    }
+    if (clonedProps.shopeeProps && clonedProps.shopeeProps.localAmbientUrl) {
+      clonedProps.shopeeProps.localAmbientUrl = pathToBase64(clonedProps.shopeeProps.localAmbientUrl);
+    }
+    if (Array.isArray(clonedProps.slides)) {
+      clonedProps.slides = clonedProps.slides.map(slide => ({
+        ...slide,
+        imageUrl: slide.imageUrl ? pathToBase64(slide.imageUrl) : ''
+      }));
+    }
 
     // Bundle the Remotion entrypoint
     // In our project layout, remotion entrypoint is inside src/remotion/index.js
@@ -240,7 +358,7 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
     const composition = await selectComposition({
       serveUrl: bundleLocation,
       id: compositionId,
-      inputProps: inputProps,
+      inputProps: clonedProps,
     });
 
     mainWindow.webContents.send('render-progress', { stage: 'rendering', percent: 60, message: 'Đang kết xuất khung hình và âm thanh...' });
@@ -250,7 +368,7 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
       serveUrl: bundleLocation,
       codec: 'h264',
       outputLocation: outputPath,
-      inputProps: inputProps,
+      inputProps: clonedProps,
       onProgress: ({ progress }) => {
         mainWindow.webContents.send('render-progress', { 
           stage: 'rendering', 
