@@ -691,8 +691,11 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                 onChange={(e) => setSubtitleStyle(e.target.value)}
                 disabled={loading}
               >
-                <option value="modern">Hiện đại (TikTok Karaoke nằm ngang)</option>
-                <option value="calligraphy">Cổ kính (Thư pháp cuộn chạy dọc)</option>
+                <option value="modern">Hiện đại (TikTok Karaoke)</option>
+                <option value="minimalist">Tối giản (Aesthetic Zen)</option>
+                <option value="capsule">Viên thuốc (Modern Reel Capsule)</option>
+                <option value="neon">Neon phát sáng (Glowing Cyan)</option>
+                <option value="banner">Thanh điện ảnh (Classic Movie Banner)</option>
               </select>
             </div>
 
