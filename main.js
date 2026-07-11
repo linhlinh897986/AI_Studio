@@ -596,9 +596,6 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
   try {
     const crypto = require('crypto');
     const axios = require('axios');
-    const tempDir = getTempDir();
-    const filename = `vibes_${Date.now()}_${Math.floor(Math.random() * 1000)}.jpg`;
-    const outputPath = path.join(tempDir, filename);
 
     const headers = {
       'accept': '*/*',
@@ -694,7 +691,7 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
     }
 
     // Step 4: Poll for completion
-    let imageUrl = null;
+    let imageUrls = [];
     const maxRetries = 25;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       await new Promise(resolve => setTimeout(resolve, 3000));
@@ -704,21 +701,14 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
         const targetBatch = batches.find(b => b.id === batchId);
 
         if (targetBatch) {
-          // If any generated content item already has a completed image URL, use it
-          const completedItem = targetBatch.content.find(c => c.imageUrl);
-          if (completedItem) {
-            imageUrl = completedItem.imageUrl;
-            break;
+          const completedItems = targetBatch.content.filter(c => c.imageUrl);
+          if (completedItems.length > 0) {
+            imageUrls = completedItems.map(c => c.imageUrl);
+            // Break early if we have all 4 or the batch reports completion
+            if (completedItems.length === targetBatch.content.length || targetBatch.isComplete) {
+              break;
+            }
           }
-          
-          // Fallback check: if all content items are loaded (not loading)
-          const allLoaded = targetBatch.content.every(c => !c.isLoading);
-          if (allLoaded && targetBatch.content.length > 0) {
-            imageUrl = targetBatch.content[0].imageUrl;
-            break;
-          }
-          
-          // If the batch failed or has error, abort polling
           if (targetBatch.hasError || targetBatch.error) {
             console.warn("[Vibes.ai] Batch status reported error:", targetBatch.error);
             break;
@@ -732,28 +722,32 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
       }
     }
 
-    if (!imageUrl) {
+    if (imageUrls.length === 0) {
       throw new Error("Vượt quá thời gian chờ (Timeout) hoặc không lấy được liên kết ảnh từ Vibes.ai.");
     }
 
-    // Step 5: Download the generated image locally
-    const response = await axios({
-      url: imageUrl,
-      method: 'GET',
-      responseType: 'stream',
-      timeout: 20000
-    });
-
-    const writer = fs.createWriteStream(outputPath);
-    response.data.pipe(writer);
-
-    await new Promise((resolve, reject) => {
-      writer.on('finish', resolve);
-      writer.on('error', reject);
-    });
-
-    return { success: true, filePath: `file://${outputPath.replace(/\\/g, '/')}` };
+    return { success: true, imageUrls, projectId };
   } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('vibes-delete-project', async (event, { projectId, metaSession }) => {
+  try {
+    const axios = require('axios');
+    const headers = {
+      'accept': '*/*',
+      'accept-language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7',
+      'content-type': 'application/json',
+      'cookie': `cookie_ack=true; meta_session=${metaSession}`,
+      'Referer': 'https://vibes.ai/',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    };
+    await axios.delete(`https://vibes.ai/api/projects/${projectId}?deleteAssets=true`, { headers });
+    console.log(`[Vibes.ai] Cleaned up temporary project: ${projectId}`);
+    return { success: true };
+  } catch (err) {
+    console.warn(`[Vibes.ai] Cleanup of project ${projectId} failed:`, err.message);
     return { success: false, error: err.message };
   }
 });

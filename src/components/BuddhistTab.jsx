@@ -53,6 +53,7 @@ export default function BuddhistTab({
   const [numVideos, setNumVideos] = useState(1); // 1, 5, 10, 15
   const [videoDuration, setVideoDuration] = useState(3); // minutes: 2, 3, 5, 8, 10, 15
   const [selectedRefKey, setSelectedRefKey] = useState('free'); // free, local, or index of CURATED_PDFS
+  const [manualImageSelect, setManualImageSelect] = useState(false);
 
   // Duration → approximate word count (Vietnamese TTS at -15% speed ≈ 80 words/min)
   const DURATION_WORD_MAP = { 2: 160, 3: 240, 5: 400, 8: 640, 10: 800, 15: 1200 };
@@ -81,6 +82,11 @@ export default function BuddhistTab({
   // Batch rendering states
   const [batchLogs, setBatchLogs] = useState([]);
   const [currentBatchIdx, setCurrentBatchIdx] = useState(null); // null if not batching
+
+  // Image Selection Modal States
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [modalImages, setModalImages] = useState([]);
+  const [imageSelectCallback, setImageSelectCallback] = useState(null);
 
   // Preview panel states (corresponds to the currently loaded/generated video)
   const [slides, setSlides] = useState([]);
@@ -416,9 +422,39 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           addProcessLog(processId, 'Đang kết nối API Vibes.ai...', 'info');
           const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
           if (vibeRes.success) {
-            imagePath = vibeRes.filePath;
-            onLog('Buddhist', `${stagePrefix} Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!`, 'success');
-            addProcessLog(processId, 'Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!', 'success');
+            const { imageUrls, projectId } = vibeRes;
+            let selectedImageUrl = imageUrls[0];
+            
+            if (manualImageSelect && imageUrls.length > 1) {
+              onLog('Buddhist', `${stagePrefix} Đang chờ bạn chọn ảnh trong hộp thoại...`, 'info');
+              addProcessLog(processId, 'Đang chờ người dùng chọn ảnh...', 'info');
+              
+              // Pause flow and wait for user selection
+              selectedImageUrl = await new Promise((resolve) => {
+                setModalImages(imageUrls);
+                setShowImageModal(true);
+                setImageSelectCallback(() => (url) => {
+                  setShowImageModal(false);
+                  resolve(url);
+                });
+              });
+            }
+            
+            // Download the chosen image
+            onLog('Buddhist', `${stagePrefix} Đang tải xuống ảnh đã chọn...`, 'info');
+            addProcessLog(processId, 'Đang tải xuống ảnh đã chọn...', 'info');
+            const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: selectedImageUrl });
+            
+            // Cleanup Vibes project in the background asynchronously
+            ipcRenderer.invoke('vibes-delete-project', { projectId, metaSession: vibesCookie });
+            
+            if (dlRes.success) {
+              imagePath = dlRes.filePath;
+              onLog('Buddhist', `${stagePrefix} Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!`, 'success');
+              addProcessLog(processId, 'Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!', 'success');
+            } else {
+              throw new Error(`Lỗi tải ảnh đã chọn: ${dlRes.error}`);
+            }
           } else {
             throw new Error(vibeRes.error);
           }
@@ -675,6 +711,20 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                 ))}
               </div>
             </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.02)', padding: '10px 14px', borderRadius: 12, border: '1px solid var(--border)', marginBottom: 20 }}>
+            <input 
+              type="checkbox" 
+              id="manual-image-select" 
+              checked={manualImageSelect} 
+              onChange={(e) => setManualImageSelect(e.target.checked)}
+              disabled={loading}
+              style={{ cursor: 'pointer', width: 16, height: 16 }}
+            />
+            <label htmlFor="manual-image-select" style={{ cursor: 'pointer', fontSize: 13, fontWeight: '500', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 6, userSelect: 'none' }}>
+              🎨 Tự tay chọn 1 trong 4 ảnh sinh ra từ Vibes.ai
+            </label>
           </div>
 
           {/* 2. Unified Reference Materials Dropdown Selector */}
@@ -967,6 +1017,115 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           exportProgress={exportProgress}
         />
       </div>
+
+      {/* 4-Image Selection Modal */}
+      {showImageModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.85)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 99999,
+          backdropFilter: 'blur(8px)',
+          animation: 'fadeIn 0.25s ease'
+        }}>
+          <div style={{
+            background: 'var(--bg-surface)',
+            border: '1px solid var(--border)',
+            borderRadius: 20,
+            padding: 24,
+            width: '90%',
+            maxWidth: 850,
+            maxHeight: '90vh',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 16,
+            boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+          }}>
+            <div>
+              <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                🎨 Chọn Ảnh Nền Cho Video
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: 13, margin: '6px 0 0 0' }}>
+                Vibes.ai đã tạo ra 4 mẫu ảnh khác nhau dựa trên ý tưởng của kịch bản. Hãy click chọn bức ảnh bạn thích nhất dưới đây để tiếp tục dựng video:
+              </p>
+            </div>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: 16,
+              overflowY: 'auto',
+              padding: '8px 2px'
+            }}>
+              {modalImages.map((url, idx) => (
+                <div 
+                  key={idx}
+                  onClick={() => {
+                    if (imageSelectCallback) imageSelectCallback(url);
+                  }}
+                  style={{
+                    position: 'relative',
+                    aspectRatio: '9/16',
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    border: '3px solid transparent',
+                    cursor: 'pointer',
+                    background: 'var(--bg-surface-secondary)',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--success)';
+                    e.currentTarget.style.transform = 'scale(1.03)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'transparent';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                >
+                  <img 
+                    src={url} 
+                    alt={`Option ${idx + 1}`}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 8,
+                    left: 8,
+                    background: 'rgba(0,0,0,0.6)',
+                    color: '#fff',
+                    padding: '2px 8px',
+                    borderRadius: 20,
+                    fontSize: 10,
+                    fontWeight: 'bold',
+                    backdropFilter: 'blur(4px)'
+                  }}>
+                    Mẫu #{idx + 1}
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
+              <button 
+                className="btn btn-secondary" 
+                onClick={() => {
+                  if (imageSelectCallback) imageSelectCallback(modalImages[0]);
+                }}
+                style={{ padding: '8px 20px', fontSize: 13 }}
+              >
+                Bỏ qua (Chọn mẫu #1)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
