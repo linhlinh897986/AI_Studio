@@ -372,26 +372,41 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         const imagePrompt = geminiRes.data.imagePrompt || `a serene Buddha meditating, traditional East Asian Buddhist art style, vertical 9:16`;
         const formattedPrompt = `${imagePrompt}, vertical aspect ratio, 9:16, photorealistic, highly detailed, masterpiece`;
 
-        const vibesCookie = localStorage.getItem('vibes_meta_session') || '';
-        if (!vibesCookie) {
-          const errMsg = 'Chưa cấu hình Vibes.ai Meta Session. Vui lòng vào Cài Đặt để nhập token.';
-          addProcessLog(processId, errMsg, 'error');
-          updateProcess(processId, { status: 'failed', error: errMsg });
-          throw new Error(errMsg);
+        let imagePath = '';
+        try {
+          const vibesCookie = localStorage.getItem('vibes_meta_session') || '';
+          if (!vibesCookie) {
+            throw new Error('Chưa cấu hình Vibes.ai Meta Session trong Cài đặt.');
+          }
+          onLog('Buddhist', `${stagePrefix} Đang gọi API Vibes.ai tạo ảnh Phật/Nhà sư...`, 'info');
+          addProcessLog(processId, 'Đang kết nối API Vibes.ai...', 'info');
+          const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
+          if (vibeRes.success) {
+            imagePath = vibeRes.filePath;
+            onLog('Buddhist', `${stagePrefix} Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!`, 'success');
+            addProcessLog(processId, 'Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!', 'success');
+          } else {
+            throw new Error(vibeRes.error);
+          }
+        } catch (vibeErr) {
+          const warnMsg = `Không tạo được ảnh trên Vibes.ai (${vibeErr.message}). Chuyển sang vẽ ảnh dự phòng miễn phí qua Pollinations...`;
+          onLog('Buddhist', warnMsg, 'warning');
+          addProcessLog(processId, warnMsg, 'warning');
+          
+          const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=1080&height=1920&nologo=true`;
+          const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
+          if (dlRes.success) {
+            imagePath = dlRes.filePath;
+            onLog('Buddhist', `${stagePrefix} Vẽ ảnh dự phòng thành công!`, 'success');
+            addProcessLog(processId, 'Vẽ ảnh dự phòng thành công!', 'success');
+          } else {
+            const errMsg = `Không thể tạo ảnh Phật giáo (Vibes.ai & Pollinations đều lỗi): ${dlRes.error}`;
+            addProcessLog(processId, errMsg, 'error');
+            updateProcess(processId, { status: 'failed', error: errMsg });
+            throw new Error(errMsg);
+          }
         }
-        onLog('Buddhist', `${stagePrefix} Đang gọi API Vibes.ai tạo ảnh Phật/Nhà sư...`, 'info');
-        addProcessLog(processId, 'Đang kết nối API Vibes.ai...', 'info');
-        const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
-        if (vibeRes.success) {
-          localImages.push(vibeRes.filePath);
-          onLog('Buddhist', `${stagePrefix} Tạo ảnh Phật/Nhà sư thành công!`, 'success');
-          addProcessLog(processId, 'Tạo ảnh Phật/Nhà sư thành công!', 'success');
-        } else {
-          const errMsg = `Vibes.ai lỗi: ${vibeRes.error}`;
-          addProcessLog(processId, errMsg, 'error');
-          updateProcess(processId, { status: 'failed', error: errMsg });
-          throw new Error(errMsg);
-        }
+        localImages.push(imagePath);
 
         // 5. Build Slide timings (one single slide for the entire video!)
         const lastWordSeg = asrSegments[asrSegments.length - 1];
