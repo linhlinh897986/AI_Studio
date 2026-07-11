@@ -275,6 +275,7 @@ Tiêu đề: ${currentTopic.title}
 Trọng tâm: ${currentTopic.description}
 
 YÊU CẦU QUAN TRỌNG:
+- CÂU MỞ ĐẦU (Câu thứ nhất trong mảng "script") PHẢI là một câu hỏi chạm đúng nỗi đau, một sự thực bất ngờ hoặc một lời cảnh tỉnh sâu sắc để thu hút sự chú ý ngay trong 3 giây đầu tiên (ví dụ: "Có bao giờ bạn thấy...", "Tại sao càng níu giữ lại càng mệt mỏi?", "Nghiệp quả lớn nhất đời người là...", "Bí mật lớn nhất của tâm an yên chính là..."). Tuyệt đối không chào hỏi, giới thiệu dông dài.
 - KHÔNG chia đoạn, KHÔNG đánh số, KHÔNG tiêu đề phụ. Viết liền mạch như một bài pháp thoại tự nhiên.
 - Giọng văn thiền định, chậm rãi, bình an, mỗi câu khoảng 15-25 từ.
 - Tổng cộng khoảng ${sentenceCount} câu, đủ để lấp đầy ${videoDuration} phút.
@@ -296,6 +297,7 @@ Tiêu đề: ${currentTopic.title}
 Trọng tâm: ${currentTopic.description}
 
 YÊU CẦU QUAN TRỌNG:
+- CÂU MỞ ĐẦU (Câu thứ nhất trong mảng "script") PHẢI là một câu hỏi chạm đúng nỗi đau, một sự thực bất ngờ hoặc một lời cảnh tỉnh sâu sắc để thu hút sự chú ý ngay trong 3 giây đầu tiên (ví dụ: "Có bao giờ bạn thấy...", "Tại sao càng níu giữ lại càng mệt mỏi?", "Nghiệp quả lớn nhất đời người là...", "Bí mật lớn nhất của tâm an yên chính là..."). Tuyệt đối không chào hỏi, giới thiệu dông dài.
 - KHÔNG chia đoạn, KHÔNG đánh số, KHÔNG tiêu đề phụ. Viết liền mạch như một bài pháp thoại tự nhiên.
 - Giọng văn thiền định, chậm rãi, bình an, mỗi câu khoảng 15-25 từ.
 - Tổng cộng khoảng ${sentenceCount} câu, đủ để lấp đầy ${videoDuration} phút.
