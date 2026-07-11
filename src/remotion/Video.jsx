@@ -1,4 +1,4 @@
-import { AbsoluteFill, Sequence, Audio } from 'remotion';
+import { AbsoluteFill, Sequence, Audio, useCurrentFrame, useVideoConfig } from 'remotion';
 import { Slide } from './Slide';
 import { Subtitles } from './Subtitles';
 
@@ -111,6 +111,9 @@ const getSeededRandom = (seed) => {
 
 // ── Multi-Effect Ambient Particles Overlay ───────────────────────────────────
 const ZenParticlesOverlay = ({ particleType = 'dust' }) => {
+  const frame = useCurrentFrame();
+  const { width = 1080, height = 1920 } = useVideoConfig();
+
   return (
     <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 5 }}>
       <div className={`zen-particles-container ${particleType}`}>
@@ -119,31 +122,69 @@ const ZenParticlesOverlay = ({ particleType = 'dust' }) => {
         {(particleType === 'dust' || particleType === 'lotus') && (
           [...Array(15)].map((_, i) => {
             const seedLeft = getSeededRandom(i * 12 + 1.5);
-            const seedDelay = getSeededRandom(i * 24 + 3.8);
-            const seedDuration = getSeededRandom(i * 36 + 5.9);
-            const seedScale = getSeededRandom(i * 48 + 7.2);
-            const seedOpacity = getSeededRandom(i * 60 + 9.1);
+            const seedSpeed = getSeededRandom(i * 24 + 3.8);
+            const seedSwayRange = getSeededRandom(i * 36 + 5.9);
+            const seedSwayFreq = getSeededRandom(i * 48 + 7.2);
+            const seedScale = getSeededRandom(i * 60 + 9.1);
+            const seedYOffset = getSeededRandom(i * 72 + 11.3);
 
-            const left = `${seedLeft * 100}%`;
-            const delay = particleType === 'lotus' 
-              ? `${seedDelay * 20}s` 
-              : `${seedDelay * 8}s`;
-            const duration = particleType === 'lotus' 
-              ? `${25 + seedDuration * 25}s` 
-              : `${15 + seedDuration * 12}s`;
-            const scale = 0.4 + seedScale * 0.9;
-            const opacity = 0.15 + seedOpacity * 0.45;
+            // Calculate stable initial horizontal position
+            const initialXPercent = 5 + seedLeft * 90;
+            const initialXPos = (initialXPercent / 100) * width;
+
+            // Speed: 1.0 to 2.2 pixels per frame for extremely slow, graceful falling
+            const speed = particleType === 'lotus' 
+              ? 0.8 + seedSpeed * 0.8 
+              : 1.2 + seedSpeed * 1.5;
+
+            // Stagger particles vertically. Wrap around screen height + padding
+            const startY = -80;
+            const totalTravel = height + 160;
+            const staggeredStart = seedYOffset * totalTravel;
+            const yPos = (startY + (frame * speed + staggeredStart)) % totalTravel;
+
+            // Sinuous horizontal sway (slow sine wave)
+            const swayRange = particleType === 'lotus'
+              ? 40 + seedSwayRange * 60 
+              : 15 + seedSwayRange * 25;
+            
+            const swayFreq = 0.008 + seedSwayFreq * 0.012; // slow frequency
+            const swayX = Math.sin(frame * swayFreq + i) * swayRange;
+
+            // Smooth slow rotation for lotus petals
+            const rotationSpeed = particleType === 'lotus' ? 0.2 + seedSwayRange * 0.3 : 0;
+            const rotation = particleType === 'lotus'
+              ? (frame * rotationSpeed + i * 45) % 360
+              : 0;
+
+            const scale = particleType === 'lotus'
+              ? 0.5 + seedScale * 0.7
+              : 0.3 + seedScale * 0.5;
+
+            const opacity = particleType === 'lotus'
+              ? 0.15 + seedScale * 0.4
+              : 0.1 + seedScale * 0.3;
+
+            const x = initialXPos + swayX;
+            const y = yPos;
 
             return (
               <div 
                 key={i} 
                 className={`zen-element ${particleType === 'lotus' ? 'lotus-petal' : 'dust-spec'}`}
                 style={{
-                  left,
-                  animationDelay: delay,
-                  animationDuration: duration,
-                  transform: `scale(${scale})`,
-                  opacity
+                  position: 'absolute',
+                  transform: `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`,
+                  opacity,
+                  width: particleType === 'lotus' ? '30px' : '6px',
+                  height: particleType === 'lotus' ? '42px' : '6px',
+                  background: particleType === 'lotus' 
+                    ? 'radial-gradient(circle, #fbcfe8 0%, #ec4899 100%)' 
+                    : '#fbbf24',
+                  borderRadius: particleType === 'lotus' 
+                    ? '80% 0 85% 50% / 80% 0 85% 50%' 
+                    : '50%',
+                  filter: particleType === 'dust' ? 'blur(1px)' : 'none'
                 }}
               />
             );
@@ -163,43 +204,7 @@ const ZenParticlesOverlay = ({ particleType = 'dust' }) => {
           overflow: hidden;
         }
 
-        /* 1. Golden Dust Specs Animation */
-        .dust-spec {
-          position: absolute;
-          bottom: -20px;
-          width: 8px;
-          height: 8px;
-          background: #fbbf24; /* Golden glow */
-          border-radius: 50%;
-          filter: blur(2px);
-          animation: float-up-dust linear infinite;
-        }
-        @keyframes float-up-dust {
-          0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
-          10% { opacity: 0.7; }
-          90% { opacity: 0.5; }
-          100% { transform: translateY(-110vh) translateX(40px) scale(1.3); opacity: 0; }
-        }
-
-        /* 2. Pink Lotus Petals Falling Animation */
-        .lotus-petal {
-          position: absolute;
-          top: -20px;
-          width: 14px;
-          height: 20px;
-          background: radial-gradient(circle, #fbcfe8 0%, #ec4899 100%); /* Pink rose */
-          border-radius: 80% 0 85% 50% / 80% 0 85% 50%;
-          transform: rotate(45deg);
-          animation: fall-sway-lotus linear infinite;
-        }
-        @keyframes fall-sway-lotus {
-          0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-          10% { opacity: 0.8; }
-          90% { opacity: 0.6; }
-          100% { transform: translateY(110vh) translateX(-80px) rotate(360deg); opacity: 0; }
-        }
-
-        /* 3. Sunlight Rays Breathing Animation */
+        /* Sunlight Rays Breathing Animation */
         .sun-rays-overlay {
           position: absolute;
           inset: 0;
