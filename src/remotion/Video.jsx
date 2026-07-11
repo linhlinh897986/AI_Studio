@@ -115,8 +115,8 @@ const ZenParticlesOverlay = ({ particleType = 'dust' }) => {
               className={`zen-element ${particleType === 'lotus' ? 'lotus-petal' : 'dust-spec'}`}
               style={{
                 left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 8}s`,
-                animationDuration: particleType === 'lotus' ? `${8 + Math.random() * 10}s` : `${10 + Math.random() * 12}s`,
+                animationDelay: particleType === 'lotus' ? `${Math.random() * 15}s` : `${Math.random() * 8}s`,
+                animationDuration: particleType === 'lotus' ? `${25 + Math.random() * 20}s` : `${10 + Math.random() * 12}s`,
                 transform: `scale(${0.4 + Math.random() * 1.2})`,
                 opacity: 0.1 + Math.random() * 0.5
               }}

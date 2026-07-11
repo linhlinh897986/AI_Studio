@@ -87,6 +87,38 @@ export default function BuddhistTab({
 
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(null);
+  
+  const [localMusicFiles, setLocalMusicFiles] = useState([]);
+  const [musicFolderPath, setMusicFolderPath] = useState('');
+
+  // Fetch local music files from resources/music folder on mount
+  useEffect(() => {
+    const fetchLocalMusic = async () => {
+      try {
+        const res = await ipcRenderer.invoke('list-local-music');
+        if (res.success) {
+          if (Array.isArray(res.musicFiles)) {
+            setLocalMusicFiles(res.musicFiles);
+          }
+          if (res.musicDir) {
+            setMusicFolderPath(res.musicDir);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load local music list:', e);
+      }
+    };
+    fetchLocalMusic();
+  }, []);
+
+  const handleOpenMusicFolder = async () => {
+    if (!musicFolderPath) return;
+    try {
+      await ipcRenderer.invoke('open-path', { filePath: musicFolderPath });
+    } catch (e) {
+      alert(`Không thể mở thư mục nhạc: ${e.message}`);
+    }
+  };
 
   // Handle reference material dropdown change
   const handleRefMaterialChange = async (val) => {
@@ -711,16 +743,38 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             </div>
 
             <div className="form-group" style={{ flex: 1 }}>
-              <label className="form-label">Nhạc nền (Zen Music)</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                <label className="form-label" style={{ marginBottom: 0 }}>Nhạc nền (Zen Music)</label>
+                <button 
+                  type="button"
+                  onClick={handleOpenMusicFolder}
+                  style={{ background: 'none', border: 'none', color: 'var(--success)', fontSize: 11, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}
+                  title="Mở thư mục nhạc nền để thêm file MP3 của riêng bạn"
+                >
+                  📂 Thêm nhạc
+                </button>
+              </div>
               <select 
                 className="form-input"
                 value={bgMusic}
                 onChange={(e) => setBgMusic(e.target.value)}
                 disabled={loading}
               >
-                <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">Thiền tịch thanh tao 1</option>
-                <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3">Suối thiền tĩnh tâm 2</option>
-                <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3">Chuông chùa an nhiên 3</option>
+                <option value="">🔇 Không sử dụng nhạc nền</option>
+                <optgroup label="Nhạc mặc định (Online)">
+                  <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">Thiền tịch thanh tao 1</option>
+                  <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3">Suối thiền tĩnh tâm 2</option>
+                  <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3">Chuông chùa an nhiên 3</option>
+                </optgroup>
+                {localMusicFiles.length > 0 && (
+                  <optgroup label="Nhạc nền tự chọn (Thư mục local)">
+                    {localMusicFiles.map((file, idx) => (
+                      <option key={idx} value={file.fileUrl}>
+                        🎵 {file.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
               </select>
             </div>
           </div>

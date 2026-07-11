@@ -45,6 +45,12 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  // Ensure resources/music directory exists
+  const musicDir = path.join(__dirname, 'resources', 'music');
+  if (!fs.existsSync(musicDir)) {
+    fs.mkdirSync(musicDir, { recursive: true });
+  }
+
   createWindow();
 
   app.on('activate', function () {
@@ -506,5 +512,30 @@ ipcMain.handle('show-item-in-folder', async (event, { filePath }) => {
     return { success: false, error: err.message };
   }
 });
+
+ipcMain.handle('list-local-music', async () => {
+  try {
+    const musicDir = path.join(__dirname, 'resources', 'music');
+    if (!fs.existsSync(musicDir)) {
+      fs.mkdirSync(musicDir, { recursive: true });
+    }
+    const files = fs.readdirSync(musicDir);
+    const audioExtensions = ['.mp3', '.wav', '.ogg', '.m4a', '.aac'];
+    const musicFiles = files
+      .filter(file => audioExtensions.includes(path.extname(file).toLowerCase()))
+      .map(file => {
+        const fullPath = path.join(musicDir, file);
+        return {
+          name: file,
+          filePath: fullPath,
+          fileUrl: `file://${fullPath.replace(/\\/g, '/')}`
+        };
+      });
+    return { success: true, musicFiles, musicDir };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
 
 
