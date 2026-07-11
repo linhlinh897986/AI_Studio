@@ -11,6 +11,11 @@ export default function SettingsTab() {
   const [status, setStatus] = useState('idle'); // idle, checking, success, error
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Vibes check variables
+  const [vibesCheckStatus, setVibesCheckStatus] = useState('idle'); // idle, checking, success, error
+  const [vibesUsername, setVibesUsername] = useState('');
+  const [vibesError, setVibesError] = useState('');
+
   // Local model status variables
   const [modelStatus, setModelStatus] = useState({ vieneu: false, omnivoice: false });
   const [installingModel, setInstallingModel] = useState(null);
@@ -24,6 +29,31 @@ export default function SettingsTab() {
       }
     } catch (e) {
       console.error('Failed to check local models status:', e);
+    }
+  };
+
+  const handleCheckVibesToken = async () => {
+    if (!vibesSession) {
+      setVibesCheckStatus('error');
+      setVibesError('Vui lòng nhập token Vibes.ai trước.');
+      return;
+    }
+    setVibesCheckStatus('checking');
+    setVibesError('');
+    try {
+      const res = await ipcRenderer.invoke('check-vibes-token', { metaSession: vibesSession });
+      if (res.success) {
+        setVibesCheckStatus('success');
+        setVibesUsername(res.username);
+        // Automatically save if valid
+        localStorage.setItem('vibes_meta_session', vibesSession);
+      } else {
+        setVibesCheckStatus('error');
+        setVibesError(res.error || 'Token không hợp lệ.');
+      }
+    } catch (e) {
+      setVibesCheckStatus('error');
+      setVibesError(e.message);
     }
   };
 
@@ -203,15 +233,39 @@ export default function SettingsTab() {
           <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <Key size={14} /> Vibes.ai Session Token (meta_session)
           </label>
-          <input
-            type="text"
-            className="form-input"
-            placeholder="Nhập cookie meta_session..."
-            value={vibesSession}
-            onChange={(e) => setVibesSession(e.target.value)}
-            disabled={status === 'checking'}
-            style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}
-          />
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+            <input
+              type="text"
+              className="form-input"
+              placeholder="Nhập cookie meta_session..."
+              value={vibesSession}
+              onChange={(e) => setVibesSession(e.target.value)}
+              disabled={status === 'checking'}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: 12, flexGrow: 1 }}
+            />
+            <button
+              className="btn btn-secondary"
+              onClick={handleCheckVibesToken}
+              disabled={vibesCheckStatus === 'checking'}
+              style={{ minWidth: 120, padding: '12px 20px', fontSize: 13 }}
+            >
+              {vibesCheckStatus === 'checking' ? (
+                <RefreshCw size={14} className="spin" />
+              ) : (
+                'Kiểm tra Token'
+              )}
+            </button>
+          </div>
+          {vibesCheckStatus === 'success' && (
+            <div style={{ color: 'var(--success-zen)', fontSize: 12, marginTop: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+              <Check size={12} /> <span>Token hoạt động tốt! (User: <strong>{vibesUsername}</strong>)</span>
+            </div>
+          )}
+          {vibesCheckStatus === 'error' && (
+            <div style={{ color: '#ef4444', fontSize: 12, marginTop: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+              <X size={12} /> <span>{vibesError}</span>
+            </div>
+          )}
           <div style={{ color: 'var(--text-muted)', fontSize: 11, marginTop: 4 }}>
             Cookie dùng để tạo ảnh chất lượng cao miễn phí trên Vibes.ai. Hãy lấy từ DevTools trên trang web vibes.ai.
           </div>

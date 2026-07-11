@@ -566,6 +566,30 @@ ipcMain.handle('video-dub-merge', async (event, { videoPath, segments }) => {
   }
 });
 
+ipcMain.handle('check-vibes-token', async (event, { metaSession }) => {
+  try {
+    const axios = require('axios');
+    const headers = {
+      'accept': '*/*',
+      'accept-language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7',
+      'content-type': 'application/json',
+      'cookie': `cookie_ack=true; meta_session=${metaSession}`,
+      'Referer': 'https://vibes.ai/',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    };
+    const res = await axios.get("https://vibes.ai/api/auth/me", { headers, timeout: 10000 });
+    if (res.status === 200 && res.data && res.data.user) {
+      return { success: true, username: res.data.user.username, accountStatus: res.data.user.accountStatus };
+    }
+    return { success: false, error: 'Không lấy được thông tin người dùng.' };
+  } catch (err) {
+    let errorMsg = err.message;
+    if (err.response && err.response.status === 401) {
+      errorMsg = 'Token hết hạn hoặc không hợp lệ (Unauthorized 401).';
+    }
+    return { success: false, error: errorMsg };
+  }
+});
 
 // 7. Vibes.ai Image Generation & Download
 ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) => {

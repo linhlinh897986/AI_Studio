@@ -202,6 +202,27 @@ export default function BuddhistTab({
     const totalToGenerate = numVideos;
     onLog('Buddhist', `Bắt đầu tiến trình tạo BATCH gồm ${totalToGenerate} video...`, 'info');
 
+    // Pre-check Vibes.ai token status before starting
+    const vibesCookie = localStorage.getItem('vibes_meta_session') || '';
+    if (vibesCookie) {
+      onLog('Buddhist', 'Đang kiểm tra trạng thái hoạt động của tài khoản Vibes.ai...', 'info');
+      try {
+        const checkRes = await ipcRenderer.invoke('check-vibes-token', { metaSession: vibesCookie });
+        if (checkRes.success) {
+          onLog('Buddhist', `Tài khoản Vibes.ai hợp lệ! (Người dùng: ${checkRes.username})`, 'success');
+        } else {
+          onLog('Buddhist', `Tài khoản Vibes.ai không khả dụng: ${checkRes.error}`, 'warning');
+          const proceed = confirm(`⚠️ Token Vibes.ai đã hết hạn hoặc không hợp lệ: "${checkRes.error}"\n\nBạn có muốn tự động chuyển sang chế độ sử dụng bộ vẽ ảnh dự phòng miễn phí (Pollinations.ai) không?`);
+          if (!proceed) {
+            setLoading(false);
+            return;
+          }
+        }
+      } catch (err) {
+        onLog('Buddhist', `Lỗi kiểm tra Vibes.ai: ${err.message}`, 'warning');
+      }
+    }
+
     try {
       const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
       const pdfFilePath = sourceType === 'pdf' ? (pdfFile?.path || pdfFile?.localFile || null) : null;
