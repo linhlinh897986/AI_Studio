@@ -592,28 +592,50 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
       projectId: projectId
     };
 
-    await axios.post('https://vibes.ai/api/generate/images', generatePayload, { headers });
+    try {
+      await axios.post('https://vibes.ai/api/generate/images', generatePayload, { headers });
+    } catch (e) {
+      console.warn(`[Vibes.ai] Generate POST returned error: ${e.message}. Attempting to poll batch regardless.`);
+    }
 
     // Step 4: Poll for completion
     let imageUrl = null;
-    const maxRetries = 20;
+    const maxRetries = 25;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       await new Promise(resolve => setTimeout(resolve, 3000));
-      const pollRes = await axios.get('https://vibes.ai/api/generation-batches', { headers });
-      const batches = pollRes.data?.batches || [];
-      const targetBatch = batches.find(b => b.id === batchId);
+      try {
+        const pollRes = await axios.get('https://vibes.ai/api/generation-batches', { headers });
+        const batches = pollRes.data?.batches || [];
+        const targetBatch = batches.find(b => b.id === batchId);
 
-      if (targetBatch) {
-        const allLoaded = targetBatch.content.every(c => !c.isLoading);
-        if (allLoaded) {
-          imageUrl = targetBatch.content[0].imageUrl;
-          break;
+        if (targetBatch) {
+          // If any generated content item already has a completed image URL, use it
+          const completedItem = targetBatch.content.find(c => c.imageUrl);
+          if (completedItem) {
+            imageUrl = completedItem.imageUrl;
+            break;
+          }
+          
+          // Fallback check: if all content items are loaded (not loading)
+          const allLoaded = targetBatch.content.every(c => !c.isLoading);
+          if (allLoaded && targetBatch.content.length > 0) {
+            imageUrl = targetBatch.content[0].imageUrl;
+            break;
+          }
+          
+          // If the batch failed or has error, abort polling
+          if (targetBatch.hasError || targetBatch.error) {
+            console.warn("[Vibes.ai] Batch status reported error:", targetBatch.error);
+            break;
+          }
         }
+      } catch (pollErr) {
+        console.warn(`[Vibes.ai] Polling attempt ${attempt} failed:`, pollErr.message);
       }
     }
 
     if (!imageUrl) {
-      throw new Error("Vượt quá thời gian chờ (Timeout) tạo ảnh trên Vibes.ai.");
+      throw new Error("Vượt quá thời gian chờ (Timeout) hoặc không lấy được liên kết ảnh từ Vibes.ai.");
     }
 
     // Step 5: Download the generated image locally
