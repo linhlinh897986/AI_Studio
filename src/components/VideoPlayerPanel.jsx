@@ -116,26 +116,55 @@ export default function VideoPlayerPanel({
 
       {/* Custom Player Controls */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
-        <button 
-          className="btn btn-secondary" 
-          onClick={() => {
-            const player = playerRef.current;
-            if (player) {
-              if (isPlaying) player.pause();
-              else player.play();
-            }
-          }}
-          disabled={slides.length === 0}
-          style={{ padding: '10px 20px', flexGrow: 1 }}
-        >
-          {isPlaying ? <Pause size={16} /> : <Play size={16} />} {isPlaying ? 'Tạm Dừng' : 'Xem Trước'}
-        </button>
+        <div style={{ display: 'flex', gap: 8, flexGrow: 1 }}>
+          <button 
+            className="btn btn-secondary" 
+            onClick={() => {
+              const player = playerRef.current;
+              if (player) player.play();
+            }}
+            disabled={slides.length === 0 || isPlaying}
+            style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center', flex: 1 }}
+            title="Phát video"
+          >
+            <Play size={15} /> <span>Phát</span>
+          </button>
+
+          <button 
+            className="btn btn-secondary" 
+            onClick={() => {
+              const player = playerRef.current;
+              if (player) player.pause();
+            }}
+            disabled={slides.length === 0 || !isPlaying}
+            style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center', flex: 1 }}
+            title="Tạm dừng phát"
+          >
+            <Pause size={15} /> <span>Tạm dừng</span>
+          </button>
+
+          <button 
+            className="btn btn-secondary" 
+            onClick={() => {
+              const player = playerRef.current;
+              if (player) {
+                player.pause();
+                player.seekToTime(0);
+              }
+            }}
+            disabled={slides.length === 0}
+            style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            title="Dừng và đặt lại về 0"
+          >
+            <div style={{ width: 10, height: 10, backgroundColor: 'currentColor', borderRadius: 1 }} />
+          </button>
+        </div>
 
         <button 
           className="btn btn-primary"
           onClick={onExport}
           disabled={slides.length === 0 || isExporting}
-          style={{ padding: '10px 24px' }}
+          style={{ padding: '10px 24px', display: 'flex', alignItems: 'center', gap: 8 }}
         >
           <Download size={16} /> {isExporting ? 'Đang Xuất...' : 'Xuất MP4'}
         </button>

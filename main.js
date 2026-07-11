@@ -586,7 +586,15 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
     };
 
     // Step 1: Create a temporary project to acquire a valid projectId
-    const projectRes = await axios.post('https://vibes.ai/api/projects', { name: 'Chưa đặt tên' }, { headers });
+    let projectRes;
+    try {
+      projectRes = await axios.post('https://vibes.ai/api/projects', { name: 'Chưa đặt tên' }, { headers });
+    } catch (e) {
+      if (e.response && (e.response.status === 401 || e.response.status === 403)) {
+        throw new Error("Phiên làm việc Vibes.ai hết hạn hoặc không hợp lệ (Unauthorized 401/403). Hãy lấy token meta_session mới.");
+      }
+      throw e;
+    }
     if (!projectRes.data || !projectRes.data.success || !projectRes.data.project) {
       throw new Error("Không thể tạo dự án tạm thời trên Vibes.ai. Hãy kiểm tra Meta Session Cookie.");
     }
@@ -626,7 +634,14 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
       projectId: projectId
     };
 
-    await axios.post('https://vibes.ai/api/generation-batches', registerPayload, { headers });
+    try {
+      await axios.post('https://vibes.ai/api/generation-batches', registerPayload, { headers });
+    } catch (e) {
+      if (e.response && (e.response.status === 401 || e.response.status === 403)) {
+        throw new Error("Phiên làm việc Vibes.ai hết hạn hoặc không hợp lệ (Unauthorized 401/403). Hãy lấy token meta_session mới.");
+      }
+      throw e;
+    }
 
     // Step 3: Trigger the image generation
     const generatePayload = {
@@ -648,6 +663,9 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
     try {
       await axios.post('https://vibes.ai/api/generate/images', generatePayload, { headers });
     } catch (e) {
+      if (e.response && (e.response.status === 401 || e.response.status === 403)) {
+        throw new Error("Phiên làm việc Vibes.ai hết hạn hoặc không hợp lệ (Unauthorized 401/403). Hãy lấy token meta_session mới.");
+      }
       console.warn(`[Vibes.ai] Generate POST returned error: ${e.message}. Attempting to poll batch regardless.`);
     }
 
@@ -684,6 +702,9 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
         }
       } catch (pollErr) {
         console.warn(`[Vibes.ai] Polling attempt ${attempt} failed:`, pollErr.message);
+        if (pollErr.response && (pollErr.response.status === 401 || pollErr.response.status === 403)) {
+          throw new Error("Phiên làm việc Vibes.ai hết hạn hoặc không hợp lệ (Unauthorized 401/403). Hãy lấy token meta_session mới.");
+        }
       }
     }
 
