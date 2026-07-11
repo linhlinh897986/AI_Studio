@@ -127,8 +127,9 @@ export default function SettingsTab() {
   };
 
   return (
-    <div style={{ maxWidth: 680, display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <div className="glass-panel active">
+    <div style={{ width: '100%', height: '100%', overflowY: 'auto', padding: '12px 24px 40px 24px' }}>
+      <div style={{ maxWidth: 800, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div className="glass-panel active">
         <h2 style={{ fontSize: 18, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
           <Shield size={20} style={{ color: 'var(--primary)' }} /> Cấu hình Hệ thống
         </h2>
@@ -398,6 +399,7 @@ export default function SettingsTab() {
           100% { transform: rotate(360deg); }
         }
       `}</style>
+      </div>
     </div>
   );
 }
