@@ -14,6 +14,41 @@ function synthesizeSpeech(text, outputPath, options = {}) {
   const rate = options.rate || '+0%';
 
   return new Promise((resolve, reject) => {
+    // Check if the text has any speakable alphanumeric characters
+    // Using Unicode property escapes (\p{L} for letters, \p{N} for numbers)
+    const hasAlphaNumeric = /[\p{L}\p{N}]/u.test(text);
+    if (!hasAlphaNumeric) {
+      console.log(`TTS input contains no alphanumeric characters ("${text}"). Generating 1.0s silent WAV file as fallback.`);
+      try {
+        const numChannels = 1;
+        const bitsPerSample = 16;
+        const sampleRate = 16000;
+        const blockAlign = numChannels * (bitsPerSample / 8); 
+        const byteRate = sampleRate * blockAlign; 
+        const dataSize = Math.floor(1.0 * byteRate); // 1.0 second of silence
+        const buffer = Buffer.alloc(44 + dataSize);
+
+        buffer.write('RIFF', 0);
+        buffer.writeUInt32LE(36 + dataSize, 4);
+        buffer.write('WAVE', 8);
+        buffer.write('fmt ', 12);
+        buffer.writeUInt32LE(16, 16);
+        buffer.writeUInt16LE(1, 20);
+        buffer.writeUInt16LE(numChannels, 22);
+        buffer.writeUInt32LE(sampleRate, 24);
+        buffer.writeUInt32LE(byteRate, 28);
+        buffer.writeUInt16LE(blockAlign, 32);
+        buffer.writeUInt16LE(bitsPerSample, 34);
+        buffer.write('data', 36);
+        buffer.writeUInt32LE(dataSize, 40);
+
+        fs.writeFileSync(outputPath, buffer);
+        return resolve(outputPath);
+      } catch (err) {
+        return reject(new Error('Không thể tạo âm thanh tĩnh: ' + err.message));
+      }
+    }
+
     // Edge-tts python script path on user's machine
     const edgeTtsPath = 'C:\\Users\\linhl\\AppData\\Local\\Python\\pythoncore-3.14-64\\Scripts\\edge-tts.exe';
     
