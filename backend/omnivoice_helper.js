@@ -83,14 +83,46 @@ function uploadRefAudio(colabUrl, refAudioPath) {
 function synthesizeOmniVoice(text, outputPath, options = {}) {
   return new Promise(async (resolve, reject) => {
     try {
-      const colabUrl = options.colabApiUrl || '';
-      if (!colabUrl) {
-        return reject(new Error('Chưa cấu hình đường dẫn API Google Colab trong Cài đặt hệ thống.'));
-      }
-
       const refAudioPath = options.refAudioPath;
       if (!refAudioPath || !fs.existsSync(refAudioPath)) {
         return reject(new Error('OmniVoice yêu cầu chọn một tệp âm thanh mẫu (.wav) để clone giọng.'));
+      }
+
+      // Check if local installation exists
+      const { checkOmniVoiceStatus, getVenvPythonCommand } = require('./local_models_manager');
+      if (checkOmniVoiceStatus()) {
+        console.log("[OmniVoice] Local installation detected. Running local synthesis...");
+        const pyCmd = getVenvPythonCommand();
+        const scriptPath = path.join(__dirname, 'python', 'omnivoice_local.py');
+        const child = spawn(pyCmd, [scriptPath, '--text', text, '--output', outputPath, '--ref_audio', refAudioPath]);
+        
+        let stdout = '';
+        let stderr = '';
+        
+        child.stdout.on('data', data => stdout += data.toString());
+        child.stderr.on('data', data => stderr += data.toString());
+        
+        child.on('close', (code) => {
+          if (code !== 0) {
+            return reject(new Error(`OmniVoice Local failed with code ${code}. Details: ${stderr}`));
+          }
+          if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 0) {
+            resolve(outputPath);
+          } else {
+            reject(new Error("OmniVoice synthesized successfully but output file is missing or empty."));
+          }
+        });
+        
+        child.on('error', (err) => {
+          reject(new Error(`Failed to start OmniVoice local python process: ${err.message}`));
+        });
+        return;
+      }
+
+      // Fallback: Google Colab Synthesis
+      const colabUrl = options.colabApiUrl || '';
+      if (!colabUrl) {
+        return reject(new Error('Chưa cấu hình đường dẫn API Google Colab trong Cài đặt hệ thống.'));
       }
 
       // Try uploading reference file first to optimize

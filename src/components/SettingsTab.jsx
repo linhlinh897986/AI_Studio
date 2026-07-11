@@ -11,6 +11,22 @@ export default function SettingsTab() {
   const [status, setStatus] = useState('idle'); // idle, checking, success, error
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Local model status variables
+  const [modelStatus, setModelStatus] = useState({ vieneu: false, omnivoice: false });
+  const [installingModel, setInstallingModel] = useState(null);
+  const [logOutput, setLogOutput] = useState('');
+
+  const checkModelsStatus = async () => {
+    try {
+      const res = await ipcRenderer.invoke('check-local-models-status');
+      if (res.success) {
+        setModelStatus(res.status);
+      }
+    } catch (e) {
+      console.error('Failed to check local models status:', e);
+    }
+  };
+
   useEffect(() => {
     const savedKey = localStorage.getItem('gemini_api_key') || '';
     const savedModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
@@ -23,6 +39,19 @@ export default function SettingsTab() {
     if (savedKey) {
       testApiKey(savedKey, savedModel);
     }
+
+    // Check models status
+    checkModelsStatus();
+
+    // Register log listener
+    const handleLog = (event, { modelName, msg }) => {
+      setLogOutput(prev => prev + msg);
+    };
+    ipcRenderer.on('model-install-log', handleLog);
+
+    return () => {
+      ipcRenderer.removeListener('model-install-log', handleLog);
+    };
   }, []);
 
   const testApiKey = async (keyToTest, modelToTest = model) => {
@@ -62,6 +91,39 @@ export default function SettingsTab() {
     localStorage.setItem('vibes_meta_session', vibesSession);
     localStorage.setItem('colab_api_url', colabApiUrl);
     setStatus('success');
+  };
+
+  const handleInstallModel = async (modelName) => {
+    setLogOutput('');
+    setInstallingModel(modelName);
+    try {
+      const res = await ipcRenderer.invoke('install-local-model', { modelName });
+      if (!res.success) {
+        alert(`Lỗi cài đặt: ${res.error}`);
+      }
+    } catch (e) {
+      alert(`Lỗi kết nối IPC: ${e.message}`);
+    } finally {
+      setInstallingModel(null);
+      checkModelsStatus();
+    }
+  };
+
+  const handleUninstallModel = async (modelName) => {
+    if (!confirm(`Bạn có chắc chắn muốn gỡ cài đặt mô hình ${modelName} cục bộ?`)) return;
+    setLogOutput('');
+    setInstallingModel(modelName);
+    try {
+      const res = await ipcRenderer.invoke('uninstall-local-model', { modelName });
+      if (!res.success) {
+        alert(`Lỗi gỡ cài đặt: ${res.error}`);
+      }
+    } catch (e) {
+      alert(`Lỗi kết nối IPC: ${e.message}`);
+    } finally {
+      setInstallingModel(null);
+      checkModelsStatus();
+    }
   };
 
   return (
@@ -203,6 +265,119 @@ export default function SettingsTab() {
         {status === 'idle' && !apiKey && (
           <div style={{ color: 'var(--text-muted)', fontSize: 12 }}>
             * Chưa lưu khóa API. Vui lòng nhập khóa của bạn để kích hoạt AI.
+          </div>
+        )}
+      </div>
+
+      <div className="glass-panel active" style={{ marginTop: 24 }}>
+        <h2 style={{ fontSize: 18, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+          🎙️ Quản lý Mô hình Local (TTS Models Manager)
+        </h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
+          Để sử dụng tính năng lồng tiếng và nhân bản giọng nói (voice cloning) hoàn toàn ngoại tuyến (offline) trên thiết bị của bạn mà không cần Google Colab, bạn có thể tải và cài đặt các mô hình trực tiếp vào môi trường ảo của ứng dụng.
+        </p>
+
+        {/* Model 1: VieNeu-TTS */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 12, marginBottom: 16 }}>
+          <div>
+            <div style={{ fontWeight: 'bold', fontSize: 15, display: 'flex', alignItems: 'center', gap: 8 }}>
+              VieNeu-TTS (ONNX Runtime)
+              {modelStatus.vieneu ? (
+                <span style={{ fontSize: 11, background: 'rgba(16, 185, 129, 0.1)', color: 'var(--success-zen)', padding: '2px 8px', borderRadius: 20, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <Check size={10} /> Đã cài đặt
+                </span>
+              ) : (
+                <span style={{ fontSize: 11, background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '2px 8px', borderRadius: 20, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <X size={10} /> Chưa cài đặt
+                </span>
+              )}
+            </div>
+            <div style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 4 }}>
+              Mô hình lồng tiếng Việt chất lượng cao chạy trực tiếp trên CPU/GPU local.
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 12 }}>
+            <button 
+              className="btn btn-primary"
+              onClick={() => handleInstallModel('vieneu')}
+              disabled={installingModel !== null}
+              style={{ padding: '8px 16px', fontSize: 13 }}
+            >
+              {installingModel === 'vieneu' ? <RefreshCw size={14} className="spin" /> : 'Cài đặt Local'}
+            </button>
+            {modelStatus.vieneu && (
+              <button 
+                className="btn btn-secondary"
+                onClick={() => handleUninstallModel('vieneu')}
+                disabled={installingModel !== null}
+                style={{ padding: '8px 16px', fontSize: 13, borderColor: 'rgba(239, 68, 68, 0.3)', color: '#ef4444' }}
+              >
+                Gỡ cài đặt
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Model 2: OmniVoice */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 12, marginBottom: 16 }}>
+          <div>
+            <div style={{ fontWeight: 'bold', fontSize: 15, display: 'flex', alignItems: 'center', gap: 8 }}>
+              OmniVoice (Zero-Shot Clone)
+              {modelStatus.omnivoice ? (
+                <span style={{ fontSize: 11, background: 'rgba(16, 185, 129, 0.1)', color: 'var(--success-zen)', padding: '2px 8px', borderRadius: 20, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <Check size={10} /> Đã cài đặt
+                </span>
+              ) : (
+                <span style={{ fontSize: 11, background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '2px 8px', borderRadius: 20, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <X size={10} /> Chưa cài đặt
+                </span>
+              )}
+            </div>
+            <div style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 4 }}>
+              Mô hình clone giọng nói đa ngôn ngữ nâng cao chạy trực tiếp trên local.
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 12 }}>
+            <button 
+              className="btn btn-primary"
+              onClick={() => handleInstallModel('omnivoice')}
+              disabled={installingModel !== null}
+              style={{ padding: '8px 16px', fontSize: 13 }}
+            >
+              {installingModel === 'omnivoice' ? <RefreshCw size={14} className="spin" /> : 'Cài đặt Local'}
+            </button>
+            {modelStatus.omnivoice && (
+              <button 
+                className="btn btn-secondary"
+                onClick={() => handleUninstallModel('omnivoice')}
+                disabled={installingModel !== null}
+                style={{ padding: '8px 16px', fontSize: 13, borderColor: 'rgba(239, 68, 68, 0.3)', color: '#ef4444' }}
+              >
+                Gỡ cài đặt
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Real-time terminal log for installation */}
+        {logOutput && (
+          <div style={{ marginTop: 20 }}>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 6 }}>Bảng điều khiển Tiến trình cài đặt:</div>
+            <pre style={{
+              background: '#0a0813',
+              color: '#34d399',
+              padding: '16px',
+              borderRadius: 8,
+              fontFamily: 'var(--font-mono)',
+              fontSize: 11,
+              maxHeight: 250,
+              overflowY: 'auto',
+              border: '1px solid rgba(255,255,255,0.05)',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-all'
+            }}>
+              {logOutput}
+            </pre>
           </div>
         )}
       </div>

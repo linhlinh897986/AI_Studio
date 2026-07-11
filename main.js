@@ -759,5 +759,44 @@ ipcMain.handle('list-local-music', async () => {
   }
 });
 
+// 9. Model Management IPC Routes
+const modelsManager = require('./backend/local_models_manager');
+
+ipcMain.handle('check-local-models-status', async () => {
+  try {
+    const vieneu = modelsManager.checkVieNeuStatus();
+    const omnivoice = modelsManager.checkOmniVoiceStatus();
+    return { success: true, status: { vieneu, omnivoice } };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('install-local-model', async (event, { modelName }) => {
+  try {
+    await modelsManager.installLocalModel(modelName, (msg) => {
+      if (mainWindow) {
+        mainWindow.webContents.send('model-install-log', { modelName, msg });
+      }
+    });
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('uninstall-local-model', async (event, { modelName }) => {
+  try {
+    await modelsManager.uninstallLocalModel(modelName, (msg) => {
+      if (mainWindow) {
+        mainWindow.webContents.send('model-install-log', { modelName, msg });
+      }
+    });
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
 
 
