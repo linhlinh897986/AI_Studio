@@ -58,7 +58,7 @@ export default function BuddhistTab({
   const DURATION_WORD_MAP = { 2: 160, 3: 240, 5: 400, 8: 640, 10: 800, 15: 1200 };
   
   const [sourceType, setSourceType] = useState('prompt'); // prompt, pdf
-  const [topic, setTopic] = useState('Sự buông bỏ trong cuộc sống để tâm an nhiên, không tranh giành đố kỵ');
+  const [topic, setTopic] = useState('');
   const [voice, setVoice] = useState('vi-VN-NamMinhNeural');
   const [bgMusic, setBgMusic] = useState('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3');
   
