@@ -348,9 +348,10 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         updateProcess(processId, { progress: 30, stage: 'Đang lồng tiếng thiền sư...' });
         addProcessLog(processId, 'Bắt đầu gọi Edge-TTS lồng tiếng Việt...', 'info');
         const fullText = generatedData.map(item => item.text).join(' ');
+        const colabApiUrl = localStorage.getItem('colab_api_url') || '';
         const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { 
           text: fullText, 
-          options: { voice, rate: '-15%', refAudioPath }
+          options: { voice, rate: '-15%', refAudioPath, colabApiUrl }
         });
         if (!ttsRes.success) {
           updateProcess(processId, { status: 'failed', error: ttsRes.error });
@@ -804,6 +805,9 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                   <option value="vieneu-local-minhquan">Minh Quân (Giọng nam rõ ràng)</option>
                   <option value="vieneu-local-clone">🎙️ Clone giọng tự chọn (.wav)...</option>
                 </optgroup>
+                <optgroup label="OmniVoice Model (Cloud/Colab)">
+                  <option value="omnivoice">🎙️ Clone giọng qua Google Colab API (.wav)...</option>
+                </optgroup>
               </select>
             </div>
 
@@ -844,7 +848,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             </div>
           </div>
 
-          {voice === 'vieneu-local-clone' && (
+          {(voice === 'vieneu-local-clone' || voice === 'omnivoice') && (
             <div className="form-group" style={{ marginBottom: 20, animation: 'fadeIn 0.3s ease' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <label className="form-label" style={{ marginBottom: 0 }}>Chọn tệp âm thanh mẫu (.wav)</label>

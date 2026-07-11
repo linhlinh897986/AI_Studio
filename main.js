@@ -181,6 +181,16 @@ ipcMain.handle('edge-tts-synthesize', async (event, { text, options }) => {
       return { success: true, filePath: `file://${outputPath.replace(/\\/g, '/')}` };
     }
     
+    // Check if OmniVoice voice is selected
+    if (options && options.voice === 'omnivoice') {
+      const { synthesizeOmniVoice } = require('./backend/omnivoice_helper');
+      const filename = `speech_${Date.now()}_${Math.floor(Math.random() * 1000)}.wav`;
+      const outputPath = path.join(tempDir, filename);
+      
+      await synthesizeOmniVoice(text, outputPath, options);
+      return { success: true, filePath: `file://${outputPath.replace(/\\/g, '/')}` };
+    }
+    
     const filename = `speech_${Date.now()}_${Math.floor(Math.random() * 1000)}.mp3`;
     const outputPath = path.join(tempDir, filename);
     

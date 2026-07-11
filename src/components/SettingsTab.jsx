@@ -7,6 +7,7 @@ export default function SettingsTab() {
   const [showKey, setShowKey] = useState(false);
   const [model, setModel] = useState('gemini-3.1-flash-lite');
   const [vibesSession, setVibesSession] = useState('');
+  const [colabApiUrl, setColabApiUrl] = useState('');
   const [status, setStatus] = useState('idle'); // idle, checking, success, error
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -14,9 +15,11 @@ export default function SettingsTab() {
     const savedKey = localStorage.getItem('gemini_api_key') || '';
     const savedModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
     const savedVibes = localStorage.getItem('vibes_meta_session') || '';
+    const savedColab = localStorage.getItem('colab_api_url') || '';
     setApiKey(savedKey);
     setModel(savedModel);
     setVibesSession(savedVibes);
+    setColabApiUrl(savedColab);
     if (savedKey) {
       testApiKey(savedKey, savedModel);
     }
@@ -44,6 +47,7 @@ export default function SettingsTab() {
   const handleSave = () => {
     localStorage.setItem('gemini_model', model);
     localStorage.setItem('vibes_meta_session', vibesSession);
+    localStorage.setItem('colab_api_url', colabApiUrl);
     if (!apiKey) {
       localStorage.removeItem('gemini_api_key');
       setStatus('idle');
@@ -56,6 +60,7 @@ export default function SettingsTab() {
     localStorage.setItem('gemini_api_key', apiKey);
     localStorage.setItem('gemini_model', model);
     localStorage.setItem('vibes_meta_session', vibesSession);
+    localStorage.setItem('colab_api_url', colabApiUrl);
     setStatus('success');
   };
 
@@ -146,6 +151,24 @@ export default function SettingsTab() {
           />
           <div style={{ color: 'var(--text-muted)', fontSize: 11, marginTop: 4 }}>
             Cookie dùng để tạo ảnh chất lượng cao miễn phí trên Vibes.ai. Hãy lấy từ DevTools trên trang web vibes.ai.
+          </div>
+        </div>
+
+        <div className="form-group" style={{ marginTop: 20 }}>
+          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            🌐 Google Colab / Local API URL
+          </label>
+          <input
+            type="text"
+            className="form-input"
+            placeholder="http://localhost:39828 hoặc link ngrok/cloudflare..."
+            value={colabApiUrl}
+            onChange={(e) => setColabApiUrl(e.target.value)}
+            disabled={status === 'checking'}
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}
+          />
+          <div style={{ color: 'var(--text-muted)', fontSize: 11, marginTop: 4 }}>
+            Đường dẫn API chạy OmniVoice hoặc VieNeu-TTS (mặc định cổng 39828 trên Colab hoặc Local server).
           </div>
         </div>
 

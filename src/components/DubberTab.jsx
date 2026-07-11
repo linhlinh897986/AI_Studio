@@ -106,6 +106,7 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
       setLoadingStage('Đang lồng tiếng Việt từng câu khớp thời gian gốc...');
       onLog('Dubber', 'Đang tạo giọng nói lồng tiếng từng câu thông qua Edge-TTS...', 'info');
       
+      const colabApiUrl = localStorage.getItem('colab_api_url') || '';
       const dubbedSegments = [];
       for (let i = 0; i < translations.length; i++) {
         const seg = translations[i];
@@ -116,7 +117,7 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
         // Synthesize single segment
         const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', {
           text: seg.text,
-          options: { voice: targetVoice, rate: '+0%', refAudioPath }
+          options: { voice: targetVoice, rate: '+0%', refAudioPath, colabApiUrl }
         });
 
         if (ttsRes.success) {
@@ -217,11 +218,14 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
                   <option value="vieneu-local-minhquan">Minh Quân (Giọng nam rõ ràng)</option>
                   <option value="vieneu-local-clone">🎙️ Clone giọng tự chọn (.wav)...</option>
                 </optgroup>
+                <optgroup label="OmniVoice Model (Cloud/Colab)">
+                  <option value="omnivoice">🎙️ Clone giọng qua Google Colab API (.wav)...</option>
+                </optgroup>
               </select>
             </div>
           </div>
 
-          {targetVoice === 'vieneu-local-clone' && (
+          {(targetVoice === 'vieneu-local-clone' || targetVoice === 'omnivoice') && (
             <div className="form-group" style={{ marginBottom: 20, animation: 'fadeIn 0.3s ease' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <label className="form-label" style={{ marginBottom: 0 }}>Chọn tệp âm thanh mẫu (.wav)</label>
