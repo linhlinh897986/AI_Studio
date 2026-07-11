@@ -103,6 +103,12 @@ export const VideoComposition = ({
   );
 };
 
+// Simple deterministic seeded random generator to prevent re-render flashing/teleporting
+const getSeededRandom = (seed) => {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+};
+
 // ── Multi-Effect Ambient Particles Overlay ───────────────────────────────────
 const ZenParticlesOverlay = ({ particleType = 'dust' }) => {
   return (
@@ -111,19 +117,37 @@ const ZenParticlesOverlay = ({ particleType = 'dust' }) => {
         
         {/* Render dust or lotus floating elements */}
         {(particleType === 'dust' || particleType === 'lotus') && (
-          [...Array(15)].map((_, i) => (
-            <div 
-              key={i} 
-              className={`zen-element ${particleType === 'lotus' ? 'lotus-petal' : 'dust-spec'}`}
-              style={{
-                left: `${Math.random() * 100}%`,
-                animationDelay: particleType === 'lotus' ? `${Math.random() * 15}s` : `${Math.random() * 8}s`,
-                animationDuration: particleType === 'lotus' ? `${25 + Math.random() * 20}s` : `${10 + Math.random() * 12}s`,
-                transform: `scale(${0.4 + Math.random() * 1.2})`,
-                opacity: 0.1 + Math.random() * 0.5
-              }}
-            />
-          ))
+          [...Array(15)].map((_, i) => {
+            const seedLeft = getSeededRandom(i * 12 + 1.5);
+            const seedDelay = getSeededRandom(i * 24 + 3.8);
+            const seedDuration = getSeededRandom(i * 36 + 5.9);
+            const seedScale = getSeededRandom(i * 48 + 7.2);
+            const seedOpacity = getSeededRandom(i * 60 + 9.1);
+
+            const left = `${seedLeft * 100}%`;
+            const delay = particleType === 'lotus' 
+              ? `${seedDelay * 20}s` 
+              : `${seedDelay * 8}s`;
+            const duration = particleType === 'lotus' 
+              ? `${25 + seedDuration * 25}s` 
+              : `${15 + seedDuration * 12}s`;
+            const scale = 0.4 + seedScale * 0.9;
+            const opacity = 0.15 + seedOpacity * 0.45;
+
+            return (
+              <div 
+                key={i} 
+                className={`zen-element ${particleType === 'lotus' ? 'lotus-petal' : 'dust-spec'}`}
+                style={{
+                  left,
+                  animationDelay: delay,
+                  animationDuration: duration,
+                  transform: `scale(${scale})`,
+                  opacity
+                }}
+              />
+            );
+          })
         )}
 
         {/* Render misty sun rays overlay */}
