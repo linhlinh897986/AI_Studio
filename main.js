@@ -423,44 +423,42 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
       }));
     }
 
-    // Bundle the Remotion entrypoint
-    // In our project layout, remotion entrypoint is inside src/remotion/index.js
-    const entry = path.join(__dirname, 'src', 'remotion', 'index.js');
-    
-    // Update loading dialog progress in UI
-    mainWindow.webContents.send('render-progress', { stage: 'bundling', percent: 20, message: 'Đang đóng gói mã nguồn Remotion...' });
+    // Fork the Remotion rendering operation to a separate background child process to avoid blocking the main UI thread.
+    const { fork } = require('child_process');
+    const workerPath = path.join(__dirname, 'backend', 'render_worker.js');
+    const child = fork(workerPath);
 
-    const bundleLocation = await bundle({
-      entryPoint: entry,
-      // webpackConfig parameter or defaults
+    return new Promise((resolve) => {
+      child.on('message', (msg) => {
+        if (msg.type === 'progress') {
+          mainWindow.webContents.send('render-progress', { 
+            stage: msg.stage, 
+            percent: msg.percent, 
+            message: msg.message 
+          });
+        } else if (msg.type === 'success') {
+          child.kill();
+          resolve({ success: true, filePath: `file://${msg.filePath.replace(/\\/g, '/')}` });
+        } else if (msg.type === 'error') {
+          child.kill();
+          resolve({ success: false, error: msg.error });
+        }
+      });
+
+      child.on('error', (err) => {
+        child.kill();
+        resolve({ success: false, error: err.message });
+      });
+
+      child.on('exit', (code) => {
+        if (code !== 0) {
+          resolve({ success: false, error: `Tiến trình kết xuất Remotion thoát đột ngột với mã ${code}` });
+        }
+      });
+
+      // Start the render operation in background
+      child.send({ clonedProps, compositionId, outputPath });
     });
-
-    mainWindow.webContents.send('render-progress', { stage: 'selecting', percent: 40, message: 'Đang khởi tạo Composition...' });
-
-    const composition = await selectComposition({
-      serveUrl: bundleLocation,
-      id: compositionId,
-      inputProps: clonedProps,
-    });
-
-    mainWindow.webContents.send('render-progress', { stage: 'rendering', percent: 60, message: 'Đang kết xuất khung hình và âm thanh...' });
-
-    await renderMedia({
-      composition,
-      serveUrl: bundleLocation,
-      codec: 'h264',
-      outputLocation: outputPath,
-      inputProps: clonedProps,
-      onProgress: ({ progress }) => {
-        mainWindow.webContents.send('render-progress', { 
-          stage: 'rendering', 
-          percent: Math.floor(60 + (progress * 40)), 
-          message: `Đang kết xuất video: ${Math.floor(progress * 100)}%` 
-        });
-      }
-    });
-
-    return { success: true, filePath: `file://${outputPath.replace(/\\/g, '/')}` };
   } catch (err) {
     console.error("Remotion render error:", err);
     return { success: false, error: err.message };

@@ -1,13 +1,21 @@
-import { registerRoot, Composition } from 'remotion';
+import { registerRoot, Composition, getInputProps } from 'remotion';
 import { VideoComposition } from './Video';
 
 registerRoot(() => {
+  const inputProps = getInputProps() || {};
+  
+  // Calculate dynamic duration in frames based on slides.
+  // If slides array is empty, fallback to 900 frames (30s)
+  const totalDurationFrames = inputProps.slides && inputProps.slides.length > 0
+    ? inputProps.slides[inputProps.slides.length - 1].startFrame + inputProps.slides[inputProps.slides.length - 1].durationFrames
+    : 900;
+
   return (
     <>
       <Composition
         id="ShopeeVideo"
         component={VideoComposition}
-        durationInFrames={900} // Override dynamically
+        durationInFrames={totalDurationFrames}
         fps={30}
         width={1080}
         height={1920}
@@ -27,7 +35,7 @@ registerRoot(() => {
       <Composition
         id="BuddhistVideo"
         component={VideoComposition}
-        durationInFrames={900}
+        durationInFrames={totalDurationFrames}
         fps={30}
         width={1080}
         height={1920}
@@ -42,7 +50,7 @@ registerRoot(() => {
       <Composition
         id="StickmanVideo"
         component={VideoComposition}
-        durationInFrames={900}
+        durationInFrames={totalDurationFrames}
         fps={30}
         width={1080}
         height={1920}
