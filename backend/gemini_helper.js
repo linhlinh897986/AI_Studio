@@ -88,9 +88,21 @@ async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = 
       result = await model.generateContent(contents);
       break;
     } catch (e) {
-      const isRateLimit = e.message.includes('429') || e.message.includes('Too Many Requests') || e.message.includes('quota');
-      if (isRateLimit && attempt < maxRetries) {
-        console.warn(`[Gemini API] Rate limit (429) hoặc quá giới hạn hạn mức (Quota exceeded). Đang thử lại sau ${retryDelay / 1000} giây... (Lần ${attempt}/${maxRetries})`);
+      const errMsg = e.message.toLowerCase();
+      const isTransient = 
+        errMsg.includes('429') || 
+        errMsg.includes('too many requests') || 
+        errMsg.includes('quota') || 
+        errMsg.includes('fetch failed') || 
+        errMsg.includes('network') || 
+        errMsg.includes('econnreset') || 
+        errMsg.includes('etimedout') || 
+        errMsg.includes('timeout') || 
+        errMsg.includes('500') || 
+        errMsg.includes('503');
+
+      if (isTransient && attempt < maxRetries) {
+        console.warn(`[Gemini API] Phát hiện lỗi tạm thời (${e.message}). Đang tự động kết nối lại sau ${retryDelay / 1000} giây... (Lần ${attempt}/${maxRetries})`);
         await new Promise(resolve => setTimeout(resolve, retryDelay));
         retryDelay *= 2;
       } else {
