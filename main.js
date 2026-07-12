@@ -22,7 +22,7 @@ function createWindow() {
     }
   });
 
-  const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
+  const isDev = process.env.NODE_ENV !== 'production' && !app.isPackaged;
   if (isDev) {
     const loadURLWithRetry = (url) => {
       mainWindow.loadURL(url).catch((err) => {
