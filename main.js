@@ -32,16 +32,17 @@ function createWindow() {
     };
     loadURLWithRetry('http://localhost:5173');
     
-    // Toggle DevTools with F12 or Ctrl+Shift+I to speed up window startup
-    mainWindow.webContents.on('before-input-event', (event, input) => {
-      if (input.key === 'F12' || (input.control && input.shift && input.key.toLowerCase() === 'i')) {
-        mainWindow.webContents.toggleDevTools();
-        event.preventDefault();
-      }
-    });
   } else {
     mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
   }
+
+  // Toggle DevTools with F12 or Ctrl+Shift+I in all modes (development and production) to debug issues
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.key === 'F12' || (input.control && input.shift && input.key.toLowerCase() === 'i')) {
+      mainWindow.webContents.toggleDevTools();
+      event.preventDefault();
+    }
+  });
 }
 
 const ensureAmbientSounds = async () => {

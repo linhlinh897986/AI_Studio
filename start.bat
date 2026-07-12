@@ -15,4 +15,4 @@ echo (Vui long khong dong cua so nay khi dang su dung phan mem)
 echo.
 
 set NODE_ENV=production
-call npx electron .
+call npm start

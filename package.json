@@ -4,8 +4,8 @@
   "description": "All-in-One AI Video Generator Desktop App",
   "main": "main.js",
   "scripts": {
-    "dev": "vite",
-    "start": "concurrently \"vite\" \"electron .\"",
+    "dev": "concurrently \"vite\" \"electron .\"",
+    "start": "electron .",
     "build": "vite build",
     "preview": "vite preview"
   },
