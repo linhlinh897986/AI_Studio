@@ -30,6 +30,17 @@ process.on('message', async (payload) => {
       codec: 'h264',
       outputLocation: outputPath,
       inputProps: clonedProps,
+      chromiumOptions: {
+        gl: 'angle',
+        ignoreDefaultArgs: ['--disable-gpu'],
+        args: [
+          '--enable-gpu',
+          '--disable-gpu-sandbox',
+          '--ignore-gpu-blocklist',
+          '--disable-web-security',
+          '--use-gl=desktop'
+        ]
+      },
       onProgress: ({ progress }) => {
         process.send({
           type: 'progress',
