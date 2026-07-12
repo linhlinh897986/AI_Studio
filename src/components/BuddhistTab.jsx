@@ -422,39 +422,31 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           addProcessLog(processId, 'Đang kết nối API Vibes.ai...', 'info');
           const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
           if (vibeRes.success) {
-            const { imageUrls, projectId } = vibeRes;
-            let selectedImageUrl = imageUrls[0];
+            const { localPaths, projectId } = vibeRes;
+            let selectedImagePath = localPaths[0];
             
-            if (manualImageSelect && imageUrls.length > 1) {
+            if (manualImageSelect && localPaths.length > 1) {
               onLog('Buddhist', `${stagePrefix} Đang chờ bạn chọn ảnh trong hộp thoại...`, 'info');
               addProcessLog(processId, 'Đang chờ người dùng chọn ảnh...', 'info');
               
               // Pause flow and wait for user selection
-              selectedImageUrl = await new Promise((resolve) => {
-                setModalImages(imageUrls);
+              selectedImagePath = await new Promise((resolve) => {
+                setModalImages(localPaths);
                 setShowImageModal(true);
-                setImageSelectCallback(() => (url) => {
+                setImageSelectCallback(() => (filePath) => {
                   setShowImageModal(false);
-                  resolve(url);
+                  resolve(filePath);
                 });
               });
             }
             
-            // Download the chosen image
-            onLog('Buddhist', `${stagePrefix} Đang tải xuống ảnh đã chọn...`, 'info');
-            addProcessLog(processId, 'Đang tải xuống ảnh đã chọn...', 'info');
-            const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: selectedImageUrl });
+            imagePath = selectedImagePath;
             
             // Cleanup Vibes project in the background asynchronously
             ipcRenderer.invoke('vibes-delete-project', { projectId, metaSession: vibesCookie });
             
-            if (dlRes.success) {
-              imagePath = dlRes.filePath;
-              onLog('Buddhist', `${stagePrefix} Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!`, 'success');
-              addProcessLog(processId, 'Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!', 'success');
-            } else {
-              throw new Error(`Lỗi tải ảnh đã chọn: ${dlRes.error}`);
-            }
+            onLog('Buddhist', `${stagePrefix} Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!`, 'success');
+            addProcessLog(processId, 'Tạo ảnh Phật/Nhà sư thành công qua Vibes.ai!', 'success');
           } else {
             throw new Error(vibeRes.error);
           }

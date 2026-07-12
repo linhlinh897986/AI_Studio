@@ -726,7 +726,40 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
       throw new Error("Vượt quá thời gian chờ (Timeout) hoặc không lấy được liên kết ảnh từ Vibes.ai.");
     }
 
-    return { success: true, imageUrls, projectId };
+    // Step 5: Download all completed images locally to bypass browser Cookie validation
+    const tempDir = getTempDir();
+    const localPaths = [];
+    
+    // Concurrently download all generated options
+    await Promise.all(imageUrls.map(async (url, idx) => {
+      const filename = `vibes_${Date.now()}_${idx}_${Math.floor(Math.random() * 1000)}.jpg`;
+      const outputPath = path.join(tempDir, filename);
+      
+      let absoluteUrl = url;
+      if (absoluteUrl.startsWith('/')) {
+        absoluteUrl = `https://vibes.ai${absoluteUrl}`;
+      }
+      
+      const response = await axios({
+        url: absoluteUrl,
+        method: 'GET',
+        headers: headers,
+        responseType: 'stream',
+        timeout: 20000
+      });
+      
+      const writer = fs.createWriteStream(outputPath);
+      response.data.pipe(writer);
+      
+      await new Promise((resolve, reject) => {
+        writer.on('finish', resolve);
+        writer.on('error', reject);
+      });
+      
+      localPaths.push(`file://${outputPath.replace(/\\/g, '/')}`);
+    }));
+
+    return { success: true, localPaths, projectId };
   } catch (err) {
     return { success: false, error: err.message };
   }
