@@ -80,7 +80,24 @@ async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = 
 
   contents.push({ text: userPrompt });
 
-  const result = await model.generateContent(contents);
+  let result;
+  const maxRetries = 4;
+  let retryDelay = 3500;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      result = await model.generateContent(contents);
+      break;
+    } catch (e) {
+      const isRateLimit = e.message.includes('429') || e.message.includes('Too Many Requests') || e.message.includes('quota');
+      if (isRateLimit && attempt < maxRetries) {
+        console.warn(`[Gemini API] Rate limit (429) hoặc quá giới hạn hạn mức (Quota exceeded). Đang thử lại sau ${retryDelay / 1000} giây... (Lần ${attempt}/${maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, retryDelay));
+        retryDelay *= 2;
+      } else {
+        throw e;
+      }
+    }
+  }
   const responseText = result.response.text();
   
   try {
