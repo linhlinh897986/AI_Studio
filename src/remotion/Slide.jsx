@@ -1,4 +1,4 @@
-import { useCurrentFrame, useVideoConfig, interpolate, Img } from 'remotion';
+import { useCurrentFrame, useVideoConfig, interpolate, Img, Video } from 'remotion';
 
 export const Slide = ({ imageUrl, index, type }) => {
   const frame = useCurrentFrame();
@@ -33,18 +33,35 @@ export const Slide = ({ imageUrl, index, type }) => {
     { extrapolateRight: 'clamp' }
   );
 
+  const isVideo = imageUrl && (imageUrl.endsWith('.mp4') || imageUrl.includes('.mp4') || imageUrl.includes('veo_web_render') || imageUrl.includes('video'));
+
   return (
-    <div style={{ width: '1080px', height: '1920px', overflow: 'hidden', position: 'relative' }}>
-      <Img
-        src={imageUrl}
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          transform: `scale(${scale}) translateX(${translateX}px)`,
-          opacity: opacity,
-        }}
-      />
+    <div style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }}>
+      {isVideo ? (
+        <Video
+          src={imageUrl}
+          muted
+          loop
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transform: `scale(${scale}) translateX(${translateX}px)`,
+            opacity: opacity,
+          }}
+        />
+      ) : (
+        <Img
+          src={imageUrl}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transform: `scale(${scale}) translateX(${translateX}px)`,
+            opacity: opacity,
+          }}
+        />
+      )}
     </div>
   );
 };

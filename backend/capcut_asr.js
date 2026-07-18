@@ -579,21 +579,16 @@ async function transcribeCapCut(filePath, options = {}) {
   const segments = [];
   if (taskResult.utterances) {
     for (const u of taskResult.utterances) {
-      if (needWordTimestamp && u.words) {
-        for (const w of u.words) {
-          segments.push({
-            text: (w.text || "").trim(),
-            start_time: w.start_time,
-            end_time: w.end_time
-          });
-        }
-      } else {
-        segments.push({
-          text: (u.text || "").trim(),
-          start_time: u.start_time,
-          end_time: u.end_time
-        });
-      }
+      segments.push({
+        text: (u.text || "").trim(),
+        start_time: u.start_time,
+        end_time: u.end_time,
+        words: u.words ? u.words.map(w => ({
+          text: (w.text || "").trim(),
+          start_time: w.start_time,
+          end_time: w.end_time
+        })) : []
+      });
     }
   }
 

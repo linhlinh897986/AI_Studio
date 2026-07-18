@@ -11,7 +11,8 @@ import {
   Search,
   Bell,
   User,
-  Activity
+  Activity,
+  Tv
 } from 'lucide-react';
 
 import Dashboard from './components/Dashboard';
@@ -26,7 +27,44 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [logs, setLogs] = useState([]);
   const [hasApiKey, setHasApiKey] = useState(false);
-  const [processes, setProcesses] = useState([]);
+  const [processes, setProcesses] = useState(() => {
+    try {
+      const saved = localStorage.getItem('vigen_processes');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Automatically mark previously 'running' tasks as interrupted (failed) on reload/restart
+        return parsed.map((proc) => {
+          if (proc.status === 'running') {
+            const timestamp = new Date().toLocaleTimeString();
+            return {
+              ...proc,
+              status: 'failed',
+              error: 'Tiến trình bị gián đoạn do tắt ứng dụng hoặc tải lại.',
+              endTime: timestamp,
+              logs: [
+                { timestamp, text: 'Tiến trình bị gián đoạn do ứng dụng khởi động lại.', type: 'error' },
+                ...proc.logs
+              ]
+            };
+          }
+          return proc;
+        });
+      }
+      return [];
+    } catch (e) {
+      console.error("Failed to load processes from localStorage", e);
+      return [];
+    }
+  });
+
+  // Save processes list to localStorage on change
+  useEffect(() => {
+    try {
+      localStorage.setItem('vigen_processes', JSON.stringify(processes));
+    } catch (e) {
+      console.error("Failed to save processes to localStorage", e);
+    }
+  }, [processes]);
 
   // Poll localStorage to check if API key exists for visual warning badges
   useEffect(() => {
@@ -253,13 +291,13 @@ export default function App() {
         </header>
 
         {/* Always-mounted tabs — hidden with display:none to preserve component state */}
-        <div style={{ display: activeTab === 'dashboard' ? 'contents' : 'none' }}>
+        <div style={{ display: activeTab === 'dashboard' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <Dashboard activeTab={activeTab} setActiveTab={setActiveTab} logs={logs} />
         </div>
-        <div style={{ display: activeTab === 'shopee' ? 'contents' : 'none' }}>
+        <div style={{ display: activeTab === 'shopee' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <ShopeeTab onLog={addLog} />
         </div>
-        <div style={{ display: activeTab === 'buddhist' ? 'contents' : 'none' }}>
+        <div style={{ display: activeTab === 'buddhist' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <BuddhistTab
             onLog={addLog}
             registerProcess={registerProcess}
@@ -267,16 +305,16 @@ export default function App() {
             addProcessLog={addProcessLog}
           />
         </div>
-        <div style={{ display: activeTab === 'stickman' ? 'contents' : 'none' }}>
+        <div style={{ display: activeTab === 'stickman' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <StickmanTab onLog={addLog} />
         </div>
-        <div style={{ display: activeTab === 'dubber' ? 'contents' : 'none' }}>
+        <div style={{ display: activeTab === 'dubber' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <DubberTab onLog={addLog} />
         </div>
-        <div style={{ display: activeTab === 'processes' ? 'contents' : 'none' }}>
+        <div style={{ display: activeTab === 'processes' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <ProcessesTab processes={processes} setProcesses={setProcesses} />
         </div>
-        <div style={{ display: activeTab === 'settings' ? 'contents' : 'none' }}>
+        <div style={{ display: activeTab === 'settings' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <SettingsTab />
         </div>
       </main>

@@ -210,8 +210,16 @@ function synthesizeSpeech(text, outputPath, options = {}) {
               rejectStream(new Error("Received empty audio stream (size = 0)"));
             }
           });
-          ws.on('error', rejectStream);
-          audioStream.on('error', rejectStream);
+
+          const handleError = (err) => {
+            try {
+              ws.destroy();
+            } catch (e) {}
+            rejectStream(err);
+          };
+
+          ws.on('error', handleError);
+          audioStream.on('error', handleError);
         });
 
         // Resolve on success
@@ -220,12 +228,15 @@ function synthesizeSpeech(text, outputPath, options = {}) {
       } catch (err) {
         lastError = err;
         console.error(`[Edge TTS Node] Attempt ${attempt}/${maxRetries} failed: ${err.message}`);
-        // Clean up failed file chunk if exists
+        // Clean up failed file chunk if exists, with a short delay to release OS lock
         try {
+          await new Promise(r => setTimeout(r, 150));
           if (fs.existsSync(outputPath)) {
             fs.unlinkSync(outputPath);
           }
-        } catch (e) {}
+        } catch (e) {
+          console.warn(`[Edge TTS Node] Failed to unlink temp file: ${e.message}`);
+        }
       }
     }
 

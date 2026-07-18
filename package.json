@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"electron .\"",
     "start": "electron .",
-    "build": "vite build",
+    "build": "node build.js",
+    "vite-build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -15,6 +16,7 @@
     "@remotion/player": "^4.0.190",
     "@remotion/renderer": "^4.0.190",
     "axios": "^1.7.9",
+    "electron-updater": "^6.8.9",
     "lucide-react": "^0.475.0",
     "msedge-tts": "^2.0.7",
     "pdfkit": "^0.19.1",
@@ -27,8 +29,50 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "bytenode": "^1.6.0",
     "concurrently": "^10.0.3",
     "electron": "^33.2.0",
+    "electron-builder": "^26.15.3",
+    "javascript-obfuscator": "^5.4.3",
+    "jimp": "^1.6.1",
+    "png-to-ico": "^3.0.1",
     "vite": "^6.0.7"
+  },
+  "build": {
+    "appId": "com.vigen.aio.studio",
+    "productName": "ViGen AIO Studio",
+    "directories": {
+      "app": "dist-build",
+      "output": "dist"
+    },
+    "files": [
+      "**/*"
+    ],
+    "asar": true,
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis"
+      ],
+      "publish": [
+        {
+          "provider": "github",
+          "owner": "linhlinh897986",
+          "repo": "AI_Studio-Releases",
+          "releaseType": "draft"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "ViGen AIO Studio",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico"
+    }
   }
 }
+

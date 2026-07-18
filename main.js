@@ -2,10 +2,12 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
+const { autoUpdater } = require('electron-updater');
 const { synthesizeSpeech } = require('./backend/edge_tts_helper');
 const { fetchShopeeProduct } = require('./backend/shopee_helper');
 const { generateJsonScript } = require('./backend/gemini_helper');
 const { transcribeCapCut, segmentsToSrt } = require('./backend/capcut_asr');
+
 
 let mainWindow;
 
@@ -24,10 +26,18 @@ function createWindow() {
 
   const isDev = process.env.NODE_ENV !== 'production' && !app.isPackaged;
   if (isDev) {
+    let retryCount = 0;
+    const maxRetries = 3;
     const loadURLWithRetry = (url) => {
       mainWindow.loadURL(url).catch((err) => {
-        console.log("Vite server is not ready yet, retrying in 1s...");
-        setTimeout(() => loadURLWithRetry(url), 1000);
+        retryCount++;
+        if (retryCount >= maxRetries && fs.existsSync(path.join(__dirname, 'dist', 'index.html'))) {
+          console.log("Vite server is not ready, falling back to local built file (dist/index.html)...");
+          mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
+        } else {
+          console.log(`Vite server is not ready yet (attempt ${retryCount}/${maxRetries}), retrying in 1s...`);
+          setTimeout(() => loadURLWithRetry(url), 1000);
+        }
       });
     };
     loadURLWithRetry('http://localhost:5173');
@@ -82,6 +92,88 @@ const ensureAmbientSounds = async () => {
   }
 };
 
+// Configure AutoUpdater
+function setupAutoUpdater() {
+  autoUpdater.logger = console;
+  autoUpdater.autoDownload = false; // Manual download trigger after user clicks update
+
+  autoUpdater.on('checking-for-update', () => {
+    console.log('[Updater] Đang kiểm tra bản cập nhật...');
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('update-status', { type: 'checking' });
+  });
+  autoUpdater.on('update-available', (info) => {
+    console.log('[Updater] Phát hiện bản cập nhật mới:', info.version);
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('update-status', {
+      type: 'available',
+      version: info.version,
+      releaseDate: info.releaseDate || null,
+      releaseNotes: info.releaseNotes || null
+    });
+  });
+  autoUpdater.on('update-not-available', () => {
+    console.log('[Updater] Ứng dụng đã là phiên bản mới nhất.');
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('update-status', { type: 'not-available' });
+  });
+  autoUpdater.on('error', (err) => {
+    console.error('[Updater Error] Lỗi kiểm tra cập nhật:', err.message);
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('update-status', { type: 'error', message: err.message });
+  });
+  autoUpdater.on('download-progress', (progressObj) => {
+    const percent = Math.round(progressObj.percent);
+    const speedKB = (progressObj.bytesPerSecond / 1024).toFixed(1);
+    console.log(`[Updater] Đang tải: ${percent}% (${speedKB} KB/s)`);
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('update-status', {
+      type: 'downloading',
+      percent,
+      speedKB,
+      transferred: progressObj.transferred,
+      total: progressObj.total
+    });
+  });
+  autoUpdater.on('update-downloaded', (info) => {
+    console.log('[Updater] Bản cập nhật đã được tải xuống.');
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('update-status', {
+      type: 'downloaded',
+      version: info.version
+    });
+  });
+}
+
+// IPC Handlers for AutoUpdater
+ipcMain.handle('check-for-updates', async () => {
+  try {
+    const result = await autoUpdater.checkForUpdatesAndNotify();
+    if (result && result.updateInfo) {
+      const info = result.updateInfo;
+      return {
+        success: true,
+        updateInfo: {
+          version: info.version || null,
+          releaseNotes: info.releaseNotes || null,
+          releaseDate: info.releaseDate || null,
+          releaseName: info.releaseName || null
+        }
+      };
+    }
+    return { success: true, updateInfo: null };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('download-update', async () => {
+  try {
+    autoUpdater.downloadUpdate();
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.on('quit-and-install', () => {
+  autoUpdater.quitAndInstall();
+});
+
 app.whenReady().then(async () => {
   // Ensure resources/music directory exists
   const musicDir = path.join(__dirname, 'resources', 'music');
@@ -89,15 +181,21 @@ app.whenReady().then(async () => {
     fs.mkdirSync(musicDir, { recursive: true });
   }
 
-  // Pre-download ambient sounds to prevent Remotion MediaError
-  ensureAmbientSounds().catch(err => console.error("Error ensuring ambient sounds:", err));
-
   createWindow();
+  setupAutoUpdater();
+
+  // Check for updates automatically 5s after start
+  setTimeout(() => {
+    autoUpdater.checkForUpdatesAndNotify().catch(err => {
+      console.error('[Updater Error] Lỗi khi chạy kiểm tra cập nhật:', err.message);
+    });
+  }, 5000);
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
@@ -112,7 +210,64 @@ const getTempDir = () => {
   return dir;
 };
 
+// Automatically clean up redundant temporary files (downloaded images, TTS audio, intermediate ASR/remotion bundles)
+const cleanupTempFiles = (keepFilePath = null) => {
+  try {
+    const tempDir = getTempDir();
+    if (!fs.existsSync(tempDir)) return { success: true, deletedCount: 0 };
+
+    const cleanKeepPath = keepFilePath ? keepFilePath.replace(/^file:\/\/\/?/, '').replace(/\//g, '\\') : null;
+    const files = fs.readdirSync(tempDir);
+    let deletedCount = 0;
+
+    files.forEach((file) => {
+      const filePath = path.join(tempDir, file);
+      if (cleanKeepPath && filePath.toLowerCase() === cleanKeepPath.toLowerCase()) {
+        return; // Preserve final rendered MP4 video file
+      }
+
+      try {
+        const stat = fs.statSync(filePath);
+        if (stat.isFile()) {
+          const lowerName = file.toLowerCase();
+          // Delete temporary downloaded images, TTS audio, JSON transcripts, bgmusic, or old temp renders
+          const isTempAsset = lowerName.startsWith('bgmusic_') || 
+                              lowerName.startsWith('download_') || 
+                              lowerName.startsWith('tts_') || 
+                              lowerName.startsWith('edge_') || 
+                              lowerName.startsWith('asr_') || 
+                              lowerName.startsWith('meta_') || 
+                              lowerName.startsWith('vibe_') ||
+                              lowerName.startsWith('extracted_') ||
+                              (lowerName.startsWith('vigen_render_') && filePath !== cleanKeepPath) ||
+                              lowerName.endsWith('.tmp') || 
+                              (lowerName.endsWith('.json') && lowerName.startsWith('asr_'));
+
+          if (isTempAsset) {
+            fs.unlinkSync(filePath);
+            deletedCount++;
+          }
+        }
+      } catch (e) {
+        console.warn(`Could not delete temp file ${file}: ${e.message}`);
+      }
+    });
+
+    console.log(`[Temp Cleanup] Deleted ${deletedCount} redundant temporary files from ${tempDir}`);
+    return { success: true, deletedCount };
+  } catch (err) {
+    console.error(`[Temp Cleanup Error]: ${err.message}`);
+    return { success: false, error: err.message };
+  }
+};
+
 // ── IPC Handlers ────────────────────────────────────────────────────────────
+
+// Cleanup Temp Files Handler
+ipcMain.handle('clean-temp-files', async (event, { keepFilePath }) => {
+  return cleanupTempFiles(keepFilePath);
+});
+
 
 // 1. Save and Verify Settings (API Keys)
 ipcMain.handle('settings-verify', async (event, { geminiApiKey, geminiModel }) => {
@@ -153,6 +308,81 @@ ipcMain.handle('gemini-generate', async (event, { apiKey, systemPrompt, userProm
   }
 });
 
+// 3a. Gemini Multi-Agentic Script Generation
+ipcMain.handle('gemini-agentic-generate', async (event, { apiKey, topic, geminiModel, pdfFilePath, duration, style, aspectRatio }) => {
+  try {
+    const { runMultiAgentPipeline } = require('./backend/script_agent_pipeline');
+    
+    // Setup log forwarder
+    const onProgress = (progressData) => {
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.webContents.send('script-agent-progress', progressData);
+      }
+    };
+    
+    let resolvedPath = pdfFilePath;
+    if (pdfFilePath && !path.isAbsolute(pdfFilePath)) {
+      resolvedPath = path.join(__dirname, 'resources', 'scriptures', pdfFilePath);
+    }
+    
+    const result = await runMultiAgentPipeline({
+      apiKey,
+      topic,
+      geminiModel,
+      pdfFilePath: resolvedPath,
+      duration,
+      style,
+      aspectRatio,
+      onProgress
+    });
+
+    
+    return result;
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+
+// 3b. Google Labs Flow Video/Image Generation
+ipcMain.handle('veo-web-generate-video', async (event, { cookieText, options }) => {
+  try {
+    const { generateVeoWebVideo } = require('./backend/veo_web_helper');
+    
+    const onLog = (message, type) => {
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.webContents.send('veo-web-log', { message, type });
+      }
+    };
+    
+    const result = await generateVeoWebVideo(cookieText, options, onLog);
+    return result;
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+// 3c. Export Media File to Custom Location
+ipcMain.handle('export-file', async (event, { srcPath, defaultName }) => {
+  try {
+    const cleanSrcPath = srcPath.replace(/^file:\/\/\/?/, '').replace(/\//g, '\\');
+    const ext = path.extname(cleanSrcPath);
+    const { filePath } = await dialog.showSaveDialog(mainWindow, {
+      defaultPath: path.join(app.getPath('desktop'), defaultName || `export_${Date.now()}${ext}`),
+      filters: [
+        { name: ext === '.mp4' ? 'Video MP4' : 'Hình ảnh JPEG', extensions: [ext.replace('.', '')] }
+      ]
+    });
+    if (filePath) {
+      fs.copyFileSync(cleanSrcPath, filePath);
+      return { success: true, filePath };
+    }
+    return { success: false, error: 'Cancelled' };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
 // 4. Microsoft Edge / VieNeu Local TTS Synthesis
 ipcMain.handle('edge-tts-synthesize', async (event, { text, options }) => {
   try {
@@ -172,7 +402,8 @@ ipcMain.handle('edge-tts-synthesize', async (event, { text, options }) => {
       
       const localTtsOptions = {
         voice: voiceNameMap[voiceKey] || null,
-        refAudioPath: options.refAudioPath || null
+        refAudioPath: options.refAudioPath || null,
+        colabApiUrl: options.colabApiUrl || null
       };
       
       const filename = `speech_${Date.now()}_${Math.floor(Math.random() * 1000)}.wav`;
@@ -439,8 +670,14 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
           });
         } else if (msg.type === 'success') {
           child.kill();
-          resolve({ success: true, filePath: `file://${msg.filePath.replace(/\\/g, '/')}` });
+          const finalFilePath = msg.filePath;
+          // Automatically clean up all temporary images, audio & transcript files, keeping only the final output MP4!
+          setTimeout(() => {
+            cleanupTempFiles(finalFilePath);
+          }, 1000);
+          resolve({ success: true, filePath: `file://${finalFilePath.replace(/\\/g, '/')}` });
         } else if (msg.type === 'error') {
+
           child.kill();
           resolve({ success: false, error: msg.error });
         }
@@ -754,6 +991,15 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
         writer.on('finish', resolve);
         writer.on('error', reject);
       });
+
+      // Automatically remove Meta AI logo/watermark using Pillow
+      try {
+        const { execSync } = require('child_process');
+        const scriptPath = path.join(__dirname, 'backend', 'image_cleaner.py');
+        execSync(`python "${scriptPath}" "${outputPath}"`, { stdio: 'ignore' });
+      } catch (cleanErr) {
+        console.warn("[Vibes.ai] Logo removal failed:", cleanErr.message);
+      }
       
       localPaths.push(`file://${outputPath.replace(/\\/g, '/')}`);
     }));
@@ -763,6 +1009,260 @@ ipcMain.handle('vibes-generate-image', async (event, { prompt, metaSession }) =>
     return { success: false, error: err.message };
   }
 });
+
+
+// Helper to parse Netscape or raw Cookie string
+function parseCookies(text) {
+  const cookies = [];
+  if (!text) return cookies;
+  
+  if (text.includes('\t')) {
+    // Netscape format
+    const lines = text.split('\n');
+    for (const line of lines) {
+      const cleanLine = line.trim();
+      if (!cleanLine || cleanLine.startsWith('#')) continue;
+      const parts = cleanLine.split('\t');
+      if (parts.length >= 7) {
+        cookies.push({
+          domain: parts[0],
+          httpOnly: parts[3] === 'TRUE',
+          secure: parts[3] === 'TRUE',
+          expirationDate: parseInt(parts[4]),
+          name: parts[5],
+          value: parts[6].trim(),
+          path: parts[2]
+        });
+      }
+    }
+  } else {
+    // Key-value format like: name=value; name2=value2
+    const pairs = text.split(';');
+    for (const pair of pairs) {
+      const parts = pair.split('=');
+      if (parts.length >= 2) {
+        const name = parts[0].trim();
+        const value = parts.slice(1).join('=').trim();
+        if (name && value) {
+          cookies.push({
+            domain: '.meta.ai',
+            path: '/',
+            secure: true,
+            httpOnly: false,
+            name: name,
+            value: value
+          });
+        }
+      }
+    }
+  }
+  return cookies;
+}
+
+// 7b. Meta AI Direct Image Generation via Browser Window
+ipcMain.handle('meta-direct-generate-image', async (event, { prompt, cookieText }) => {
+  let win = null;
+  try {
+    const fs = require('fs');
+    const path = require('path');
+
+    const cookies = parseCookies(cookieText);
+    if (cookies.length === 0) {
+      throw new Error('Không thể phân tích cookie. Hãy đảm bảo copy đúng định dạng Netscape hoặc chuỗi cookie raw.');
+    }
+
+    const tempDir = path.join(app.getPath('userData'), 'temp_images');
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
+    const filename = `meta_direct_${Date.now()}_${Math.floor(Math.random() * 1000)}.jpg`;
+    const outputPath = path.join(tempDir, filename);
+
+    // Headless window - no UI displayed, saves resources
+    win = new BrowserWindow({
+      width: 1280,
+      height: 900,
+      show: false,
+      webPreferences: {
+        nodeIntegration: false,
+        contextIsolation: true
+      }
+    });
+
+    const ses = win.webContents.session;
+
+    // Clear cookies individually to avoid HttpOnly overwrite errors
+    try {
+      const allCookies = await ses.cookies.get({ url: 'https://meta.ai' });
+      for (const c of allCookies) {
+        await ses.cookies.remove('https://meta.ai', c.name);
+      }
+    } catch (clearErr) {
+      console.warn('[Meta AI Direct] Cookie clear warning:', clearErr.message);
+    }
+
+    // Set cookies with try/catch per cookie
+    for (const c of cookies) {
+      let domain = c.domain;
+      if (!domain.startsWith('.')) domain = '.' + domain;
+      try {
+        await ses.cookies.set({
+          url: 'https://meta.ai',
+          name: c.name,
+          value: c.value,
+          domain: domain,
+          path: c.path || '/',
+          secure: true
+        });
+      } catch (cookieErr) {
+        console.warn(`[Meta AI Direct] Skip cookie ${c.name}:`, cookieErr.message);
+      }
+    }
+
+    // ── Setup webRequest interceptor BEFORE loadURL ──
+    let capturedImageUrl = null;
+    const seenUrls = new Set();
+    let promptSent = false;
+
+    ses.webRequest.onResponseStarted((details) => {
+      const url = details.url;
+      const type = details.resourceType;
+      const contentType = (details.responseHeaders?.['content-type'] || details.responseHeaders?.['Content-Type'] || [''])[0];
+
+      if (!promptSent) {
+        seenUrls.add(url);
+        return;
+      }
+
+      if (
+        !capturedImageUrl &&
+        (type === 'image' || contentType.includes('image')) &&
+        url.includes('scontent') &&
+        !url.includes('rsrc.php') &&
+        !seenUrls.has(url)
+      ) {
+        console.log('[Meta AI Direct] Captured image via webRequest:', url.substring(0, 80) + '...');
+        capturedImageUrl = url;
+      }
+    });
+
+    console.log('[Meta AI Direct] Loading meta.ai...');
+    await win.loadURL('https://meta.ai/');
+    await new Promise(r => setTimeout(r, 8000));
+    console.log(`[Meta AI Direct] Pre-existing URLs recorded: ${seenUrls.size}`);
+
+    console.log('[Meta AI Direct] Submitting prompt:', prompt);
+
+    // Đợi input element xuất hiện
+    const inputFound = await win.webContents.executeJavaScript(`
+      (async () => {
+        for (let i = 0; i < 15; i++) {
+          const el = document.querySelector('div[contenteditable="true"]') || document.querySelector('textarea');
+          if (el) { el.focus(); return true; }
+          await new Promise(r => setTimeout(r, 500));
+        }
+        return false;
+      })()
+    `);
+    if (!inputFound) throw new Error('Input element not found');
+
+    // Gõ text bằng sendInputEvent - bypass OS focus, hoạt động headless
+    for (const char of prompt) {
+      win.webContents.sendInputEvent({ type: 'char', keyCode: char });
+      await new Promise(r => setTimeout(r, 8));
+    }
+    await new Promise(r => setTimeout(r, 1500));
+
+    // Tìm và click nút Send
+    const result = await win.webContents.executeJavaScript(`
+      (() => {
+        const buttons = Array.from(document.querySelectorAll('button'));
+        let sendBtn = buttons.find(btn => btn.getAttribute('aria-label')?.toLowerCase().includes('send'));
+        if (!sendBtn) sendBtn = document.querySelector('button[type="submit"]');
+        if (!sendBtn) {
+          const enabledSvgBtns = buttons.filter(b => !b.disabled && b.querySelector('svg'));
+          sendBtn = enabledSvgBtns[enabledSvgBtns.length - 1];
+        }
+        if (!sendBtn) return { success: false, error: 'Send button not found' };
+        if (sendBtn.disabled) return { success: false, error: 'Send button is disabled' };
+        sendBtn.click();
+        return { success: true };
+      })()
+    `);
+
+    if (!result || !result.success) {
+      throw new Error(result ? result.error : 'Failed to submit prompt');
+    }
+
+    // Bắt đầu lắng nghe từ đây
+    promptSent = true;
+    console.log('[Meta AI Direct] Prompt sent! Waiting for image via request interceptor (max 90s)...');
+
+    // Chờ interceptor bắt được URL ảnh
+    let waited = 0;
+    while (!capturedImageUrl && waited < 90) {
+      await new Promise(r => setTimeout(r, 1000));
+      waited++;
+    }
+
+    let imageUrl = capturedImageUrl;
+    if (!imageUrl) {
+      throw new Error('Không tìm thấy ảnh sau 90 giây. Kiểm tra cookie có còn hiệu lực không.');
+    }
+    console.log('[Meta AI Direct] Image URL captured after', waited, 'seconds.');
+
+    // Download image
+    console.log('[Meta AI Direct] Downloading image...');
+    const downloadFile = (url, dest) => {
+      return new Promise((resolve, reject) => {
+        const https = require('https');
+        const file = fs.createWriteStream(dest);
+        const parsedUrl = new URL(url);
+        const options = {
+          hostname: parsedUrl.hostname,
+          port: 443,
+          path: parsedUrl.pathname + parsedUrl.search,
+          method: 'GET',
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8'
+          }
+        };
+        const request = https.get(options, (response) => {
+          if (response.statusCode !== 200) {
+            reject(new Error('Download failed: status ' + response.statusCode));
+            return;
+          }
+          response.pipe(file);
+          file.on('finish', () => file.close(resolve));
+        });
+        request.on('error', (err) => { fs.unlink(dest, () => {}); reject(err); });
+        file.on('error', (err) => { fs.unlink(dest, () => {}); reject(err); });
+      });
+    };
+
+    await downloadFile(imageUrl, outputPath);
+
+    // Remove Meta AI logo/watermark
+    try {
+      const { execSync } = require('child_process');
+      const scriptPath = path.join(__dirname, 'backend', 'image_cleaner.py');
+      execSync(`python "${scriptPath}" "${outputPath}"`, { stdio: 'ignore' });
+    } catch (cleanErr) {
+      console.warn('[Meta AI Direct] Logo removal skipped:', cleanErr.message);
+    }
+
+    console.log('[Meta AI Direct] Done!');
+    return { success: true, localPaths: [`file://${outputPath.replace(/\\/g, '/')}`] };
+
+  } catch (err) {
+    console.error('[Meta AI Direct] Error:', err.message);
+    return { success: false, error: err.message };
+  } finally {
+    if (win) win.destroy();
+  }
+});
+
 
 ipcMain.handle('vibes-delete-project', async (event, { projectId, metaSession }) => {
   try {
@@ -830,6 +1330,68 @@ ipcMain.handle('list-local-music', async () => {
   }
 });
 
+ipcMain.handle('save-used-idea', async (event, { title, description, source }) => {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const filePath = path.join(__dirname, 'used_ideas.md');
+    
+    // Create file if it doesn't exist
+    if (!fs.existsSync(filePath)) {
+      const header = `# Danh Sách Ý Tưởng & Chủ Đề Đã Sử Dụng\n\nTệp này tự động lưu các chủ đề và ý tưởng video đã sản xuất để bạn tránh làm nội dung trùng lặp.\n\n| Ngày tạo | Tiêu đề video | Khía cạnh phân tích | Nguồn tài liệu |\n| --- | --- | --- | --- |\n`;
+      fs.writeFileSync(filePath, header, 'utf8');
+    }
+    
+    const now = new Date();
+    const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    
+    // Format values to avoid pipe conflicts in markdown table
+    const safeTitle = (title || '').replace(/\|/g, '\\|').replace(/\n/g, ' ').trim();
+    const safeDesc = (description || '').replace(/\|/g, '\\|').replace(/\n/g, ' ').trim();
+    const safeSource = (source || '').replace(/\|/g, '\\|').replace(/\n/g, ' ').trim();
+    
+    const newRow = `| ${dateStr} | ${safeTitle} | ${safeDesc} | ${safeSource} |\n`;
+    fs.appendFileSync(filePath, newRow, 'utf8');
+    
+    return { success: true };
+  } catch (err) {
+    console.error("Failed to save used idea:", err.message);
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('open-used-ideas', async () => {
+  try {
+    const fs = require('fs');
+    const { shell } = require('electron');
+    const path = require('path');
+    const filePath = path.join(__dirname, 'used_ideas.md');
+    if (!fs.existsSync(filePath)) {
+      const header = `# Danh Sách Ý Tưởng & Chủ Đề Đã Sử Dụng\n\nTệp này tự động lưu các chủ đề và ý tưởng video đã sản xuất để bạn tránh làm nội dung trùng lặp.\n\n| Ngày tạo | Tiêu đề video | Khía cạnh phân tích | Nguồn tài liệu |\n| --- | --- | --- | --- |\n`;
+      fs.writeFileSync(filePath, header, 'utf8');
+    }
+    await shell.openPath(filePath);
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('read-used-ideas', async () => {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const filePath = path.join(__dirname, 'used_ideas.md');
+    if (!fs.existsSync(filePath)) {
+      return { success: true, content: '' };
+    }
+    const content = fs.readFileSync(filePath, 'utf8');
+    return { success: true, content };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
 // 9. Model Management IPC Routes
 const modelsManager = require('./backend/local_models_manager');
 
@@ -868,6 +1430,113 @@ ipcMain.handle('uninstall-local-model', async (event, { modelName }) => {
     return { success: false, error: err.message };
   }
 });
+
+// 10. Load and Save Configuration to .env File
+const envPath = path.join(__dirname, '.env');
+
+function readEnv() {
+  const settings = {
+    geminiApiKey: '',
+    geminiModel: '',
+    vibesMetaSession: '',
+    colabApiUrl: ''
+  };
+  if (fs.existsSync(envPath)) {
+    const content = fs.readFileSync(envPath, 'utf8');
+    const lines = content.split('\n');
+    for (const line of lines) {
+      const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+      if (match) {
+        const key = match[1];
+        let value = match[2] ? match[2].trim() : '';
+        // Remove quotes if present
+        if (value.startsWith('"') && value.endsWith('"')) {
+          value = value.slice(1, -1);
+        } else if (value.startsWith("'") && value.endsWith("'")) {
+          value = value.slice(1, -1);
+        }
+        
+        if (key === 'GEMINI_API_KEY') settings.geminiApiKey = value;
+        else if (key === 'GEMINI_MODEL') settings.geminiModel = value;
+        else if (key === 'VIBES_META_SESSION') settings.vibesMetaSession = value;
+        else if (key === 'COLAB_API_URL') settings.colabApiUrl = value;
+      }
+    }
+  }
+  return settings;
+}
+
+function writeEnv(settings) {
+  let content = '';
+  content += `GEMINI_API_KEY="${settings.geminiApiKey || ''}"\n`;
+  content += `GEMINI_MODEL="${settings.geminiModel || ''}"\n`;
+  content += `VIBES_META_SESSION="${settings.vibesMetaSession || ''}"\n`;
+  content += `COLAB_API_URL="${settings.colabApiUrl || ''}"\n`;
+  fs.writeFileSync(envPath, content, 'utf8');
+  
+  // Set in process.env so backend can reference it directly if needed
+  process.env.GEMINI_API_KEY = settings.geminiApiKey || '';
+  process.env.GEMINI_MODEL = settings.geminiModel || '';
+  process.env.VIBES_META_SESSION = settings.vibesMetaSession || '';
+  process.env.COLAB_API_URL = settings.colabApiUrl || '';
+}
+
+ipcMain.handle('load-env-settings', async () => {
+  try {
+    const data = readEnv();
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('save-env-settings', async (event, settings) => {
+  try {
+    writeEnv(settings);
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('load-lucylab-voices', async () => {
+  try {
+    const lucylabDir = path.join(__dirname, 'resources', 'ref_audios', 'lucylab');
+    const metadataPath = path.join(lucylabDir, 'metadata.json');
+    if (!fs.existsSync(metadataPath)) {
+      return { success: false, error: 'Không tìm thấy tệp metadata.json của LucyLab.' };
+    }
+    const rawData = fs.readFileSync(metadataPath, 'utf8');
+    const voices = JSON.parse(rawData);
+    
+    const files = fs.readdirSync(lucylabDir);
+    
+    // Map each voice to its file path
+    const mappedVoices = voices.map(voice => {
+      // Find the file that starts with the voice ID (e.g., mhsL3CPLxmLYdSTKp3GANz)
+      const matchingFile = files.find(file => file.startsWith(voice.id));
+      if (matchingFile) {
+        const fullPath = path.join(lucylabDir, matchingFile);
+        return {
+          id: voice.id,
+          name: voice.name,
+          description: voice.description || '',
+          tags: voice.tags || [],
+          filePath: fullPath,
+          fileUrl: `file://${fullPath.replace(/\\/g, '/')}`,
+          transcription: voice.transcribedRefText || ''
+        };
+      }
+      return null;
+    }).filter(v => v !== null);
+    
+    return { success: true, voices: mappedVoices };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+
 
 
 

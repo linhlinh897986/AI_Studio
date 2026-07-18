@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Loader, AlertTriangle, Play } from 'lucide-react';
+import { ShoppingBag, Loader, AlertTriangle, Play, Sliders } from 'lucide-react';
 import VideoPlayerPanel from './VideoPlayerPanel';
 
 const { ipcRenderer } = window.require('electron');
@@ -21,6 +21,7 @@ export default function ShopeeTab({ onLog }) {
 
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   const handleGenerate = async () => {
     if (!shopeeLink) {
@@ -91,7 +92,7 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
       onLog('Shopee', 'Đang tải âm thanh lên CapCut ASR để tách từ khóa động...', 'info');
       const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
         audioPath: localAudioUrl,
-        options: { language: 'vi-VN', needWordTimestamp: true }
+        options: { language: 'vi-VN', needWordTimestamp: false }
       });
       if (!asrRes.success) throw new Error(asrRes.error);
       
@@ -115,22 +116,14 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
       onLog('Shopee', `Đã tải xuống ${localImages.length} hình ảnh cục bộ.`, 'success');
 
       // Stage 6: Calculate slide sequence timings
-      // Find duration of the voiceover audio. Let's look at the end_time of the last ASR segment
       const lastWordSeg = asrSegments[asrSegments.length - 1];
       const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 10000;
       const audioDurationFrames = Math.ceil((audioDurationMs / 1000) * 30);
 
-      // Now align slides to their corresponding image indices
-      // We will map segments to slides. Since Gemini associated each segment with a specific "imageIndex",
-      // we can map the timing of each segment directly to the display of that image!
       const computedSlides = [];
       let currentFrame = 0;
 
       scriptData.forEach((item, index) => {
-        // Calculate sentence duration based on text length percentage or divide evenly
-        // Let's divide audioDurationFrames based on word timing mapping!
-        // We find the words in this sentence segment to get exact start and end frame.
-        // If we just divide evenly for N segments:
         const segmentDurationFrames = Math.floor(audioDurationFrames / scriptData.length);
         
         computedSlides.push({
@@ -146,6 +139,7 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
       setSlides(computedSlides);
       onLog('Shopee', 'Đã đồng bộ hóa hình ảnh sản phẩm với âm thanh.', 'success');
       onLog('Shopee', 'Khởi tạo Video thành công! Bạn có thể xem trước.', 'success');
+      setShowPreview(true);
 
     } catch (err) {
       setError(err.message);
@@ -198,44 +192,51 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
     }
   };
 
-  const handleSubtitleUpdate = (segmentIdx, wordIdx, newValue) => {
+  const handleSubtitleUpdate = (segmentIdx, newValue) => {
     const updatedSubtitles = [...subtitles];
-    if (updatedSubtitles[segmentIdx] && updatedSubtitles[segmentIdx].words[wordIdx]) {
-      updatedSubtitles[segmentIdx].words[wordIdx].text = newValue;
+    const segment = updatedSubtitles[segmentIdx];
+    if (segment) {
+      segment.text = newValue;
       
-      // Also reconstruct the full text for the segment
-      updatedSubtitles[segmentIdx].text = updatedSubtitles[segmentIdx].words
-        .map(w => w.text)
-        .join(' ');
+      // Update individual word items
+      const words = newValue.trim().split(/\s+/);
+      const totalDuration = segment.end_time - segment.start_time;
+      const wordDuration = totalDuration / Math.max(1, words.length);
+      
+      segment.words = words.map((word, idx) => ({
+        text: word,
+        start_time: Math.floor(segment.start_time + idx * wordDuration),
+        end_time: Math.floor(segment.start_time + (idx + 1) * wordDuration)
+      }));
 
       setSubtitles(updatedSubtitles);
-      onLog('Editor', `Đã cập nhật từ tại câu ${segmentIdx + 1}: "${newValue}"`, 'info');
+      onLog('Editor', `Đã cập nhật phụ đề câu ${segmentIdx + 1}: "${newValue}"`, 'info');
     }
   };
 
   return (
-    <div className="tab-content">
+    <div className="tab-content" style={{ justifyContent: 'center' }}>
       {/* Configuration Column */}
-      <div className="workspace-left">
-        <div className="glass-panel">
-          <h2 style={{ fontSize: 18, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div className="workspace-left" style={{ maxWidth: 720, width: '100%', margin: '0 auto', flex: 'none' }}>
+        <div className="glass-panel" style={{ padding: 32 }}>
+          <h2 style={{ fontSize: 18, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
             <ShoppingBag size={20} style={{ color: 'var(--shpee-orange)' }} /> Tạo Video Shopee Review
           </h2>
 
-          <div className="form-group">
-            <label className="form-label">Liên kết sản phẩm Shopee</label>
-            <input
-              type="text"
-              className="form-input"
-              placeholder="Nhập link Shopee VN (ví dụ: https://shopee.vn/...)"
-              value={shopeeLink}
-              onChange={(e) => setShopeeLink(e.target.value)}
-              disabled={loading}
-            />
-          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 20 }}>
+            <div className="form-group" style={{ marginBottom: 0 }}>
+              <label className="form-label">Liên kết sản phẩm Shopee</label>
+              <input
+                type="text"
+                className="form-input"
+                placeholder="Nhập link Shopee VN (ví dụ: https://shopee.vn/...)"
+                value={shopeeLink}
+                onChange={(e) => setShopeeLink(e.target.value)}
+                disabled={loading}
+              />
+            </div>
 
-          <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
-            <div className="form-group" style={{ flex: 1 }}>
+            <div className="form-group" style={{ marginBottom: 0 }}>
               <label className="form-label">Chọn Giọng Đọc</label>
               <select 
                 className="form-input"
@@ -247,37 +248,57 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
                 <option value="vi-VN-NamMinhNeural">Nam Minh (Nam tính, rõ ràng)</option>
               </select>
             </div>
-
-            <div className="form-group" style={{ flex: 1 }}>
-              <label className="form-label">Nhạc Nền</label>
-              <select 
-                className="form-input"
-                value={bgMusic}
-                onChange={(e) => setBgMusic(e.target.value)}
-                disabled={loading}
-              >
-                <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Năng động sôi nổi 1</option>
-                <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">Thúc đẩy tươi vui 2</option>
-                <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">Hiphop vui tươi 3</option>
-              </select>
-            </div>
           </div>
+          <div style={{ display: 'flex', gap: 16, marginTop: 16 }}>
+            <button
+              className="btn btn-primary"
+              onClick={handleGenerate}
+              disabled={loading}
+              style={{ 
+                flex: 1, 
+                padding: '16px', 
+                background: 'linear-gradient(135deg, var(--shpee-orange) 0%, #ea580c 100%)', 
+                boxShadow: '0 4px 15px rgba(249, 115, 22, 0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8
+              }}
+            >
+              {loading ? (
+                <>
+                  <Loader size={18} className="spin" />
+                  <span>{loadingStage}</span>
+                </>
+              ) : (
+                'Bắt đầu Tạo Video AI Shopee'
+              )}
+            </button>
 
-          <button
-            className="btn btn-primary"
-            onClick={handleGenerate}
-            disabled={loading}
-            style={{ width: '100%', padding: '16px', background: 'linear-gradient(135deg, var(--shpee-orange) 0%, #ea580c 100%)', boxShadow: '0 4px 15px rgba(249, 115, 22, 0.3)' }}
-          >
-            {loading ? (
-              <>
-                <Loader size={18} className="spin" style={{ marginRight: 8 }} />
-                <span>{loadingStage}</span>
-              </>
-            ) : (
-              'Bắt đầu Tạo Video AI Shopee'
+            {slides.length > 0 && (
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowPreview(true)}
+                style={{ 
+                  flex: 1, 
+                  padding: '16px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: 8,
+                  borderColor: 'var(--shpee-orange)',
+                  color: 'var(--shpee-orange)',
+                  background: 'transparent',
+                  borderWidth: 1.5,
+                  fontSize: 14,
+                  fontWeight: 600
+                }}
+              >
+                <Sliders size={18} />
+                <span>Xem Video & Phụ Đề</span>
+              </button>
             )}
-          </button>
+          </div>
 
           {error && (
             <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 8, color: '#ef4444', fontSize: 13, background: 'rgba(239, 68, 68, 0.08)', padding: '10px 16px', borderRadius: 8, border: '1px solid rgba(239, 68, 68, 0.2)' }}>
@@ -287,22 +308,27 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
           )}
         </div>
       </div>
-
-      {/* Preview Player & Subtitle Editor Column */}
-      <div className="workspace-right">
-        <VideoPlayerPanel 
-          slides={slides}
-          subtitles={subtitles}
-          audioUrl={audioUrl}
-          bgMusicUrl={bgMusic}
-          type="shopee"
-          shopeeProps={shopeeProps}
-          onSubtitleUpdate={handleSubtitleUpdate}
-          onExport={handleExport}
-          isExporting={isExporting}
-          exportProgress={exportProgress}
-        />
-      </div>
+      {/* VideoPlayerPanel Modal */}
+      <VideoPlayerPanel 
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+        slides={slides}
+        subtitles={subtitles}
+        audioUrl={audioUrl}
+        bgMusicUrl={bgMusic}
+        type="shopee"
+        shopeeProps={shopeeProps}
+        onSubtitleUpdate={handleSubtitleUpdate}
+        onExport={handleExport}
+        isExporting={isExporting}
+        exportProgress={exportProgress}
+        
+        // Pass states and setters for settings tab inside the modal
+        voice={voice}
+        onVoiceChange={setVoice}
+        bgMusic={bgMusic}
+        onBgMusicChange={setBgMusic}
+      />
       <style>{`
         .spin {
           animation: spin 1.2s linear infinite;

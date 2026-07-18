@@ -1,0 +1,5038 @@
+[
+  {
+    "id": "mhsL3CPLxmLYdSTKp3GANz",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Truyện Audio (Giá tiết kiệm)",
+    "slug": "truyen-audio",
+    "description": "Truyện dài, sách nói, video review, giọng nữ đa chức năng",
+    "tags": [
+      "nữ",
+      "miền bắc",
+      "review",
+      "vlog"
+    ],
+    "modelInfo": {
+      "model": "lucyV1",
+      "referenceUrl": "",
+      "assetId": "oAbde5DeMnqsDKDhmHVuHH",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1,
+        "language": "VI-NORTH",
+        "speaker_name": "Vbee"
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 10000,
+    "createdAt": "2026-01-15T09:19:45.400Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "oAbde5DeMnqsDKDhmHVuHH",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "oAbde5DeMnqsDKDhmHVuHH",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_8ZkJuFuoUtzdkTk2Ph52eT.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_8ZkJuFuoUtzdkTk2Ph52eT_1772348821536.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "jEPhqwjkTxUhHuAXspg6Je",
+        "exportId": "8ZkJuFuoUtzdkTk2Ph52eT",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-03-01T07:07:01.536Z",
+      "updatedAt": "2026-03-01T07:07:02.067Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào quý vị và các bạn nhé"
+  },
+  {
+    "id": "5r2MVjMfzwsSDzTpaLjbY9",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Adam 3",
+    "slug": "adam-3",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "miền nam",
+      "nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV4",
+      "referenceUrl": "",
+      "assetId": "5XRVpRnnffHv9gpS9VZ7Q1",
+      "transcription": ""
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 4800,
+    "createdAt": "2026-05-21T10:08:37.343Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "5XRVpRnnffHv9gpS9VZ7Q1",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "5XRVpRnnffHv9gpS9VZ7Q1",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_sqTaRQvfaydYPvn7ddQ3f8.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_sqTaRQvfaydYPvn7ddQ3f8_1779358167223.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "i8fwVvdCk4t8NHrRJZnHrz",
+        "exportId": "sqTaRQvfaydYPvn7ddQ3f8",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-05-21T10:09:27.224Z",
+      "updatedAt": "2026-05-21T10:09:27.760Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "hế lô các con vợ của anh hôm nay chúng mày có khỏe không có ăn uống điều độ không nè mấy con vợ"
+  },
+  {
+    "id": "vobfq29MDccJJPpsVLHZxV",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Cổ nhân",
+    "slug": "co-nhan",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV4",
+      "referenceUrl": "",
+      "assetId": "5S2AUw2LF3jiiCnzR7FYK4",
+      "transcription": ""
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 4500,
+    "createdAt": "2026-06-02T04:40:32.951Z",
+    "updatedAt": "2026-06-14T08:44:52.528Z",
+    "sampleAssetId": "5S2AUw2LF3jiiCnzR7FYK4",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "5S2AUw2LF3jiiCnzR7FYK4",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_vzpzbcDCGMDLd73jnuAF8A.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_vzpzbcDCGMDLd73jnuAF8A_1781426691893.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "oAVdcgCmJFN9pVHVDEaQMu",
+        "exportId": "vzpzbcDCGMDLd73jnuAF8A",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-06-14T08:44:51.894Z",
+      "updatedAt": "2026-06-14T08:44:52.453Z"
+    },
+    "avatar": null,
+    "transcribedRefText": "họa hổ họa bì Nan họa cốt tri nhân tri diện bất tri tâm nghĩa là vẽ hổ chỉ vẽ được bề ngoài khó vẽ được bộ xương kết cấu bên trong của nó biết người chỉ biết được bề ngoài của họ khó biết trong lòng tâm địa bản chất họ thế nào"
+  },
+  {
+    "id": "mhsL3CPLxmLYdSTKp3GANj",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Giọng adam (Giá tiết kiệm)",
+    "slug": "giong-adam",
+    "description": "Làm vlog, lồng tiếng Tiktok, vô tri, hài hước, lựa chọn hạt dẻ nhất trên thị trường",
+    "tags": [
+      "nam",
+      "miền bắc",
+      "review",
+      "vlog"
+    ],
+    "modelInfo": {
+      "model": "lucyV1",
+      "referenceUrl": "",
+      "assetId": "nq4jYvvCVfkKHmY4FFdeCh",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1,
+        "language": "VI-NORTH",
+        "speaker_name": "Chú Thập Nhất"
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 1300,
+    "createdAt": "2026-01-15T09:19:45.400Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "nq4jYvvCVfkKHmY4FFdeCh",
+    "avatarId": "sCvLmKpsAaqtL9opQdGL3G",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "nq4jYvvCVfkKHmY4FFdeCh",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_1ddunMZsHipjd8CNUdPX2o.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_1ddunMZsHipjd8CNUdPX2o_1772186659944.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "jEPhqwjkTxUhHuAXspg6Je",
+        "exportId": "1ddunMZsHipjd8CNUdPX2o",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-02-27T10:04:19.951Z",
+      "updatedAt": "2026-02-27T10:04:20.435Z"
+    },
+    "avatar": {
+      "id": "sCvLmKpsAaqtL9opQdGL3G",
+      "userId": "admin",
+      "name": "adamold.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/adamold_1779866026855.webp",
+      "createdAt": "2026-05-27T07:13:47.318Z",
+      "updatedAt": "2026-05-27T07:13:47.318Z"
+    },
+    "transcribedRefText": "Xin chào các con vợ của anh hôm nay chúng mày có khỏe không nè"
+  },
+  {
+    "id": "nqak8C85bsAG5mihyunRkj",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Chi Chi",
+    "slug": "chi-chi",
+    "description": "Giọng nữ ngọt ngào, review quán ăn, du lịch, lồng tiếng phim",
+    "tags": [
+      "nữ",
+      "miền nam",
+      "review"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "aX77ziVQPouQ9TxgEkw1rJ",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 1200,
+    "createdAt": "2026-01-13T09:22:36.321Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "aX77ziVQPouQ9TxgEkw1rJ",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/nqak8C85bsAG5mihyunRkj_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "aX77ziVQPouQ9TxgEkw1rJ",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_wuxMscwxbpjg2iAUsBe6qw.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_wuxMscwxbpjg2iAUsBe6qw_1768296224402.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "wuxMscwxbpjg2iAUsBe6qw",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-01-13T09:23:44.402Z",
+      "updatedAt": "2026-01-13T09:23:45.194Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "đúng chuẩn vị ngon nhà làm tuy chỉ là một quán nhỏ ven đường nhưng lúc nào cũng tấp nập khách 8 mì bưng Ra thơm phức nước dùng thanh ngọt tự nhiên chứ không bị nồng mùi mì chính cô chủ thì siêu nhiệt tình Xin thêm rau hay nước lèo đều thoải mái đơn giản ấm bụng mà giá lại cực kỳ hạt dẻ"
+  },
+  {
+    "id": "24oEtXGic7NhDjXzmDbDvt",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Quang Anh",
+    "slug": "quang-anh",
+    "description": "Style thời sự, VTV, đọc báo",
+    "tags": [
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "cFTzzFcAKXUH9tL7japzGk",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 1200,
+    "createdAt": "2026-01-13T09:10:52.771Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "cFTzzFcAKXUH9tL7japzGk",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/24oEtXGic7NhDjXzmDbDvt_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "cFTzzFcAKXUH9tL7japzGk",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_6Rpm1jGH8ZoYUeT4XJaMb1.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_6Rpm1jGH8ZoYUeT4XJaMb1_1768295622571.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "6Rpm1jGH8ZoYUeT4XJaMb1",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-01-13T09:13:42.572Z",
+      "updatedAt": "2026-01-13T09:13:43.284Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Việt Nam sút ít hơn đáng kể chỉ 4 lần nhưng là đội ghi bàn duy nhất và rời sân với trọn vẹn BA điểm thắng lợi ấy Cho thấy sự khác biệt giữa làm nhiều và làm đúng"
+  },
+  {
+    "id": "7Tb4dvGZyJMPjnnfxVBgth",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Đức Trung 3",
+    "description": "Là giọng nam quyền lực, trầm, làm quảng cáo, podcast",
+    "tags": [
+      "podcast",
+      "vlog",
+      "quảng cáo",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "uFjZqyHZattfigtXFJzvj8",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 20,
+        "feat_scale": 0.105,
+        "guidance_scale": 0.8
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 1200,
+    "sampleAssetId": "dqZhXqJnTDPyief6QgTf5g",
+    "createdAt": "2025-11-01T03:51:48.807Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "duc-trung",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/7Tb4dvGZyJMPjnnfxVBgik_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "dqZhXqJnTDPyief6QgTf5g",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_7Tb4dvGZyJMPjnnfxVBgik_1763347371599.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_7Tb4dvGZyJMPjnnfxVBgik_1763347371599_1763347371846.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "7Tb4dvGZyJMPjnnfxVBgik",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:51.847Z",
+      "updatedAt": "2025-11-17T02:42:52.133Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "7Tb4dvGZyJMPjnnfxVBgik",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Đức Trung",
+    "description": "Là giọng nam quyền lực, trầm, làm quảng cáo, podcast",
+    "tags": [
+      "podcast",
+      "vlog",
+      "quảng cáo",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "uFjZqyHZattfigtXFJzvj8",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 1200,
+    "sampleAssetId": "dqZhXqJnTDPyief6QgTf5g",
+    "createdAt": "2025-11-01T03:51:48.807Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "duc-trung",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/7Tb4dvGZyJMPjnnfxVBgik_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "dqZhXqJnTDPyief6QgTf5g",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_7Tb4dvGZyJMPjnnfxVBgik_1763347371599.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_7Tb4dvGZyJMPjnnfxVBgik_1763347371599_1763347371846.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "7Tb4dvGZyJMPjnnfxVBgik",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:51.847Z",
+      "updatedAt": "2025-11-17T02:42:52.133Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "2LLtWibYKJaiLFeqVkzPGY",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Trung Quân",
+    "slug": "trung-quan",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "3aejA3CVVnwcC84japbhdY",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 1000,
+    "createdAt": "2026-01-13T09:16:56.929Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "3aejA3CVVnwcC84japbhdY",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/2LLtWibYKJaiLFeqVkzPGY_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "3aejA3CVVnwcC84japbhdY",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_q6qJNLD5pzNBPKkn3j5f8E.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_q6qJNLD5pzNBPKkn3j5f8E_1768296191324.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "q6qJNLD5pzNBPKkn3j5f8E",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-01-13T09:23:11.324Z",
+      "updatedAt": "2026-01-13T09:23:12.171Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "đúng chuẩn vị ngon nhà làm tuy chỉ là một quán nhỏ ven đường nhưng lúc nào cũng tấp nập khách 8 mì bưng Ra thơm phức nước dùng thanh ngọt tự nhiên chứ không bị nồng mùi mì chính cô chủ thì siêu nhiệt tình Xin thêm rau Xiêm rau hay nước lèo đều thoải mái đơn giản ấm bụng mà giá lại cực kỳ hạt dẻ"
+  },
+  {
+    "id": "8GNXzqzEk4AXq64rmSwqtW",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Vy Tin Tức",
+    "slug": "vy-tin-tuc",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "tin tức",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "chvMustT19CbB9CkJV4zxx",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 20,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 1000,
+    "createdAt": "2025-12-18T02:58:17.575Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "chvMustT19CbB9CkJV4zxx",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/8GNXzqzEk4AXq64rmSwqtW_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "subvoicesCount": 3,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "chvMustT19CbB9CkJV4zxx",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_eSm1v73WseNmDsyauvxAiu.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_eSm1v73WseNmDsyauvxAiu_1774767432883.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "gnSJNjx4mqzoTj4fAoAgLL",
+        "exportId": "eSm1v73WseNmDsyauvxAiu",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-03-29T06:57:12.883Z",
+      "updatedAt": "2026-03-29T06:57:13.928Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi và bạn trai quen nhau gần 2 năm dự định cuối năm sẽ tính chuyện cưới Xin anh làm kỹ thuật Cho một công ty xây dựng còn tôi làm kế toán cuộc sống của 2 đứa khá ổn định cuối tuần về thăm gia đình hoặc đi ăn uống đơn giản mọi chuyện vẫn bình thường Cho đến khi người yêu cũ của anh liên lạc lại một hôm đang ăn tối điện thoại anh hiện tin nhắn anh nói thẳng là người yêu cũ vừa nhắn tin hỏi thăm 2 người từng yêu nhau gần 4 năm sau đó cô ấy đi lấy chồng Theo ý gia đình rồi mất liên lạc gần đây cô ấy ly hôn gia đình xảy Ra nhiều biến cố nên chủ động tìm lại anh"
+  },
+  {
+    "id": "cLZiqtzLcKYqwYrWJemAJH",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Chi Mai",
+    "description": "Giọng nhẹ, thầm thì, trẻ con",
+    "tags": [
+      "lồng tiếng",
+      "đọc truyện",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "jNBi8s8XcqyUp4q4mhyqQU",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 1000,
+    "sampleAssetId": "8ahhDhLu3ew8vXeRp8N7BN",
+    "createdAt": "2025-11-01T03:51:51.259Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "chi-mai",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/cLZiqtzLcKYqwYrWJemAJH_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "8ahhDhLu3ew8vXeRp8N7BN",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_cLZiqtzLcKYqwYrWJemAJH_1763347369680.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_cLZiqtzLcKYqwYrWJemAJH_1763347369680_1763347369935.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "cLZiqtzLcKYqwYrWJemAJH",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:49.935Z",
+      "updatedAt": "2025-11-17T02:42:50.238Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "cACFxDTEUiNBcCSpmJbgwj",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Bảo Anh",
+    "description": "Giọng dịu dàng, chữa lành",
+    "tags": [
+      "lồng tiếng",
+      "đọc truyện",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "3uLCtyN3KH1ivQk1BWCTJ7",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 1.3
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 1000,
+    "sampleAssetId": "s2V2n3274DaxPS36fbE37e",
+    "createdAt": "2025-11-01T03:50:16.779Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "bao-anh",
+    "subvoicesCount": 2,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/cACFxDTEUiNBcCSpmJbgwj_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "s2V2n3274DaxPS36fbE37e",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_cACFxDTEUiNBcCSpmJbgwj_1763347406458.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_cACFxDTEUiNBcCSpmJbgwj_1763347406458_1763347406746.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "cACFxDTEUiNBcCSpmJbgwj",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:26.746Z",
+      "updatedAt": "2025-11-17T02:43:27.058Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "2rECfs5gZFwLVmbGyfNDrE",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Đức Anh",
+    "description": "Giọng hài, phỏng vấn, loa phường, đa nội dung",
+    "tags": [
+      "review",
+      "podcast",
+      "quảng cáo",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "4LEtJYpvHKjFFdCsRL4hWq",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 1000,
+    "sampleAssetId": "eUZSRDqgU8T9iAwGwbjVjp",
+    "createdAt": "2025-11-01T03:49:18.766Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "duc-anh",
+    "subvoicesCount": 1,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/2rECfs5gZFwLVmbGyfNDrE_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "eUZSRDqgU8T9iAwGwbjVjp",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_2rECfs5gZFwLVmbGyfNDrE_1763347415845.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_2rECfs5gZFwLVmbGyfNDrE_1763347415845_1763347416127.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "2rECfs5gZFwLVmbGyfNDrE",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:36.127Z",
+      "updatedAt": "2025-11-17T02:43:36.564Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "vcXEe1p3FxPfpswf3BhwbG",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "My Review",
+    "slug": "my-review",
+    "description": "Giọng nhanh, review sản phẩm, trải nghiệm",
+    "tags": [
+      "review",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "qXgSjhYpqvphKjpcqLVUgr",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 970,
+    "createdAt": "2025-12-17T09:18:19.841Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "qXgSjhYpqvphKjpcqLVUgr",
+    "subvoicesCount": 1,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/vcXEe1p3FxPfpswf3BhwbG_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "qXgSjhYpqvphKjpcqLVUgr",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_bbybYYcAZrajhJo37aLDV9.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_bbybYYcAZrajhJo37aLDV9_1766468728001.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "9eitgqheUBEncjLAWzaJuq",
+        "exportId": "bbybYYcAZrajhJo37aLDV9",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-23T05:45:28.002Z",
+      "updatedAt": "2025-12-23T05:45:29.242Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "mình cực kỳ ưng ý với chiếc áo này chất vải cotton dày dặn thấm hút mồ hôi tốt chứ không bị mỏng dính đâu form áo mặc lên rất chuẩn giống hệt hình mẫu đường may tỉ mỉ không có chỉ thừa với mức giá này thì thực sự quá chất lượng sẽ tiếp tục ủng hộ shop"
+  },
+  {
+    "id": "8u97ewbLyV5dwePspwJY1w",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Trường An (Phật Pháp)",
+    "description": "Giọng trung trầm, ấm áp và truyền cảm, mang phong thái tự sự, chiêm nghiệm, phù hợp để đọc sách nói về triết lý, tôn giáo, dẫn podcast có chiều sâu và thuyết minh phim tài liệu lịch sử, văn hóa.",
+    "tags": [
+      "đọc sách",
+      "podcast",
+      "thuyết minh",
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "uiKGLKoQ2PrZbLe1FmcaGX",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 14,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 970,
+    "sampleAssetId": "83ZUG9sLnQVhsPCGf7MnQ2",
+    "createdAt": "2025-11-01T03:55:44.080Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "truong-an",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/8u97ewbLyV5dwePspwJY1w_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "83ZUG9sLnQVhsPCGf7MnQ2",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_8u97ewbLyV5dwePspwJY1w_1763347336475.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_8u97ewbLyV5dwePspwJY1w_1763347336475_1763347336733.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "8u97ewbLyV5dwePspwJY1w",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:16.734Z",
+      "updatedAt": "2025-11-17T02:42:17.036Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "bZfWWwQVbQZpAsqH93ofCX",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Dung Lồng Tiếng",
+    "slug": "dung-long-tieng",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nữ",
+      "miền bắc",
+      "lồng tiếng"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "ooupa7P3PPkskLmZhZhWiU",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 10,
+        "guidance_scale": 1.5,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 960,
+    "createdAt": "2025-12-24T07:48:24.030Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "ooupa7P3PPkskLmZhZhWiU",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/bZfWWwQVbQZpAsqH93ofCX_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "ooupa7P3PPkskLmZhZhWiU",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_h5NizBaT9UbiiWywjahBKH.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_h5NizBaT9UbiiWywjahBKH_1766563728745.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "h5NizBaT9UbiiWywjahBKH",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-24T08:08:48.745Z",
+      "updatedAt": "2025-12-24T08:08:49.475Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "cảnh này thật quen thuộc ta đã thấy nó ở đâu rồi"
+  },
+  {
+    "id": "18wiGQWRzVqJ1G63xncLmq",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "TVC 4",
+    "slug": "tvc-4",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "quảng cáo",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "imdx5LJCyiQhyQs8WFwbxz",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 950,
+    "createdAt": "2025-12-18T03:44:58.443Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "gc54ugT4Mxydsdpvuc8F1d",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/18wiGQWRzVqJ1G63xncLmq_short_sample.wav",
+    "avatarId": "dxtU22Ax3Xrvp1YCJrTsG4",
+    "subvoicesCount": 4,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "gc54ugT4Mxydsdpvuc8F1d",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "voice_sample_18wiGQWRzVqJ1G63xncLmq_1766029799750.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/voice_sample_18wiGQWRzVqJ1G63xncLmq_1766029799750_1766029800039.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "18wiGQWRzVqJ1G63xncLmq",
+        "text": "Xin chào, đây là giọng đọc mẫu của tôi",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-12-18T03:50:00.039Z",
+      "updatedAt": "2025-12-18T03:50:00.293Z"
+    },
+    "avatar": {
+      "id": "dxtU22Ax3Xrvp1YCJrTsG4",
+      "userId": "admin",
+      "name": "nam1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam1_1779866027381.webp",
+      "createdAt": "2026-05-27T07:13:47.842Z",
+      "updatedAt": "2026-05-27T07:13:47.842Z"
+    },
+    "transcribedRefText": "Xin chào đây là giọng đọc mẫu của tôi"
+  },
+  {
+    "id": "uCMfUVPwStduZMyFC7iuQv",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Trinh Review",
+    "slug": "trinh-review",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "review",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "3UMQnu7SkFq3rtW5HTDQeJ",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 20,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 950,
+    "createdAt": "2025-12-18T03:20:12.163Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "3UMQnu7SkFq3rtW5HTDQeJ",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/uCMfUVPwStduZMyFC7iuQv_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "subvoicesCount": 1,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "3UMQnu7SkFq3rtW5HTDQeJ",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_9w4GRqWAozMhzAjVvwjkC1.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_9w4GRqWAozMhzAjVvwjkC1_1766029201817.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "9w4GRqWAozMhzAjVvwjkC1",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-18T03:40:01.818Z",
+      "updatedAt": "2025-12-18T03:40:02.569Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "quần đẹp xuất sắc nha mọi người form dáng ôm vừa vặn tôn dáng cực kỳ chất vải co giãn nhẹ nên mặc đi làm hay đi chơi đều thấy thoải mái không bị gò bó màu sắc y hình giặt không bị Ra màu hay xù lông shop tư vấn size rất chuẩn giao hàng cũng nhanh nữa"
+  },
+  {
+    "id": "88sut1iKjfwLAzGv8PmVyA",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Quốc Bảo",
+    "description": "Đây là giọng nam trầm ấm, hơi nghẹt mũi, có thể dùng làm podcast",
+    "tags": [
+      "thuyết minh",
+      "podcast",
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "evRczNnhf8CjrkVJ5Xvdf1",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 912,
+    "sampleAssetId": "kQKBzWmbzFT5cCECgpSc1H",
+    "createdAt": "2025-11-01T03:55:39.671Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "quoc-bao",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/88sut1iKjfwLAzGv8PmVyA_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "kQKBzWmbzFT5cCECgpSc1H",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_88sut1iKjfwLAzGv8PmVyA_1763347342576.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_88sut1iKjfwLAzGv8PmVyA_1763347342576_1763347342872.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "88sut1iKjfwLAzGv8PmVyA",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:22.872Z",
+      "updatedAt": "2025-11-17T02:42:23.561Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "97zRSQPtS6Fg3KEKekxssu",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Quỳnh Giao (nữ đọc thơ)",
+    "slug": "quynh-giao-nu-doc-tho",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nữ",
+      "miền bắc",
+      "đọc thơ"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "vJYCvQrNWKpmCvt54PmYKm",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 900,
+    "createdAt": "2025-12-20T10:07:14.134Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "vJYCvQrNWKpmCvt54PmYKm",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/97zRSQPtS6Fg3KEKekxssu_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "subvoicesCount": 2,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "vJYCvQrNWKpmCvt54PmYKm",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_99rEwGTNf4uUyTnr3urT6X.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_99rEwGTNf4uUyTnr3urT6X_1766225700873.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "99rEwGTNf4uUyTnr3urT6X",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-20T10:15:00.873Z",
+      "updatedAt": "2025-12-20T10:15:01.453Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "núi nào lại muốn vắng mây mây đi nhớ núi dáng bay bồn chồn Xin chào các bạn"
+  },
+  {
+    "id": "8VXsCLxU7Pn55ADXQc6sAf",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Chinh Review",
+    "slug": "chinh-review",
+    "description": "Đây là một giọng nói review hay",
+    "tags": [
+      "nữ",
+      "miền bắc",
+      "review"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "hGrv9cm697rWvycJBRoq7F",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 20,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 900,
+    "createdAt": "2025-12-20T09:22:07.090Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "hGrv9cm697rWvycJBRoq7F",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/8VXsCLxU7Pn55ADXQc6sAf_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "hGrv9cm697rWvycJBRoq7F",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_woGeqF1SPixdgn9ddvxgYb.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_woGeqF1SPixdgn9ddvxgYb_1766222864683.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "woGeqF1SPixdgn9ddvxgYb",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-20T09:27:44.683Z",
+      "updatedAt": "2025-12-20T09:27:45.551Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "chị em ơi đã quá chán túi xách cũ xấu nhanh hỏng cầm không thoải mái chưa giới Thiệu ngay túi xách mới đẹp mê ly vừa lên kệ dành Cho AI muốn phong cách chất lượng tiện lợi trong từng Chi tiết"
+  },
+  {
+    "id": "qfxyZH7dQWRd7mYdR3JZdS",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "TVC 3",
+    "slug": "tvc-3",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nam",
+      "miền bắc",
+      "tvc",
+      "quảng cáo"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "enZqYygxcxQadgWbV1wLxh",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 900,
+    "createdAt": "2025-12-17T08:11:03.271Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "g5f8DYNbq5ThK2qZ62uhxf",
+    "subvoicesCount": 3,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/qfxyZH7dQWRd7mYdR3JZdS_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "g5f8DYNbq5ThK2qZ62uhxf",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "voice_sample_qfxyZH7dQWRd7mYdR3JZdS_1765959139361.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/voice_sample_qfxyZH7dQWRd7mYdR3JZdS_1765959139361_1765959139936.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "qfxyZH7dQWRd7mYdR3JZdS",
+        "text": "Xin chào, đây là giọng đọc mẫu của tôi",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-12-17T08:12:19.937Z",
+      "updatedAt": "2025-12-17T08:12:20.681Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào đây là giọng đọc mẫu của tôi"
+  },
+  {
+    "id": "rzAA5scQLEhorKHTJ99166",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "TVC 2",
+    "slug": "tvc-2",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nữ",
+      "miền bắc",
+      "tvc",
+      "quảng cáo"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "hNyDeUPAeXd2BLWs6hGV4p",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 900,
+    "createdAt": "2025-12-17T07:43:45.739Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "gWHJQYZEKfy7AeLhUiVN7M",
+    "subvoicesCount": 3,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/rzAA5scQLEhorKHTJ99166_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "gWHJQYZEKfy7AeLhUiVN7M",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "voice_sample_rzAA5scQLEhorKHTJ99166_1765957527871.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/voice_sample_rzAA5scQLEhorKHTJ99166_1765957527871_1765957528166.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "rzAA5scQLEhorKHTJ99166",
+        "text": "Xin chào, đây là giọng đọc mẫu của tôi",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-12-17T07:45:28.167Z",
+      "updatedAt": "2025-12-17T07:45:28.453Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào đây là giọng đọc mẫu của tôi"
+  },
+  {
+    "id": "6T54QXUULgyptBA1nMz6HV",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "TVC 1",
+    "slug": "tvc-1",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "quảng cáo",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "jbzo8eFK8yfNXCeH4py9kv",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 900,
+    "createdAt": "2025-12-17T07:31:38.073Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "2drbHZPegGkDvrG5KTTdei",
+    "subvoicesCount": 5,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/6T54QXUULgyptBA1nMz6HV_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "2drbHZPegGkDvrG5KTTdei",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "voice_sample_6T54QXUULgyptBA1nMz6HV_1765956743015.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/voice_sample_6T54QXUULgyptBA1nMz6HV_1765956743015_1765956743345.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "6T54QXUULgyptBA1nMz6HV",
+        "text": "Xin chào, đây là giọng đọc mẫu của tôi",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-12-17T07:32:23.345Z",
+      "updatedAt": "2025-12-17T07:32:24.013Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "Xin chào đây là giọng đọc mẫu của tôi"
+  },
+  {
+    "id": "26ys7wicEUR9exGcq8GoTb",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Nguyệt Ánh",
+    "description": "Giọng nữ voice over video, tự sự, phát thanh, thông tin trung tính",
+    "tags": [
+      "tin tức",
+      "thuyết minh",
+      "lồng tiếng",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "xdLeRMr1Y363upjBBRAcyq",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 14,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 877,
+    "sampleAssetId": "4wp5SSnDxphL2pBkofSMUe",
+    "createdAt": "2025-11-01T04:15:19.672Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "nguyet-anh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/26ys7wicEUR9exGcq8GoTb_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "4wp5SSnDxphL2pBkofSMUe",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_26ys7wicEUR9exGcq8GoTb_1763347310729.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_26ys7wicEUR9exGcq8GoTb_1763347310729_1763347310996.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "26ys7wicEUR9exGcq8GoTb",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:41:50.997Z",
+      "updatedAt": "2025-11-17T02:41:51.358Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người thôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "8hCU4VeN3b74zsWUDvTH2K",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Hoài Nam",
+    "description": "Trầm ấm, giọng tử vi, triết học cuộc sống",
+    "tags": [
+      "podcast",
+      "sách nói",
+      "lồng tiếng"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "2xKRptsGV9vfFzeFf23Kbd",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 871,
+    "sampleAssetId": "g1r48ZEFATwBbS1qmhFtCs",
+    "createdAt": "2025-11-01T04:04:33.853Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "hoai-nam",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/8hCU4VeN3b74zsWUDvTH2K_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "g1r48ZEFATwBbS1qmhFtCs",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_8hCU4VeN3b74zsWUDvTH2K_1763347330176.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_8hCU4VeN3b74zsWUDvTH2K_1763347330176_1763347330451.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "8hCU4VeN3b74zsWUDvTH2K",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:10.452Z",
+      "updatedAt": "2025-11-17T02:42:10.712Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "un7ZPTWAwwYAMNdpgMwHjf",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Adam 2",
+    "slug": "adam-2",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV4",
+      "referenceUrl": "",
+      "assetId": "c16EdKA4aua5ozxQkzDk53",
+      "transcription": ""
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 800,
+    "createdAt": "2026-05-21T09:56:28.552Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "c16EdKA4aua5ozxQkzDk53",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "c16EdKA4aua5ozxQkzDk53",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_18sr6ksuMHX38RjzDHT65g.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_18sr6ksuMHX38RjzDHT65g_1779357813262.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "i8fwVvdCk4t8NHrRJZnHrz",
+        "exportId": "18sr6ksuMHX38RjzDHT65g",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-05-21T10:03:33.263Z",
+      "updatedAt": "2026-05-21T10:03:33.838Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "hế lô các con vợ của anh hôm nay chúng mày có khỏe không có ăn uống điều độ không nè mấy con vợ"
+  },
+  {
+    "id": "tc8nXdEtGoa3iNmoBd9Fih",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Adam Trà Đá",
+    "slug": "adam-tra-da-2",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV4",
+      "referenceUrl": "",
+      "assetId": "u86YY25CWuHPYaZ4nxe2dw",
+      "transcription": ""
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 800,
+    "createdAt": "2026-05-21T03:39:06.000Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "u86YY25CWuHPYaZ4nxe2dw",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "u86YY25CWuHPYaZ4nxe2dw",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_dMUrVcW9c748968bwimbbk.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_dMUrVcW9c748968bwimbbk_1779336374963.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "i8fwVvdCk4t8NHrRJZnHrz",
+        "exportId": "dMUrVcW9c748968bwimbbk",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2026-05-21T04:06:14.964Z",
+      "updatedAt": "2026-05-21T04:06:15.237Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "ối giồi ơi hê lô các con vợ hôm nay chúng mày có khỏe không có ăn uống điều độ không nè mấy con vợ"
+  },
+  {
+    "id": "8pnEtqZhpNr2wJnCrmVjq5",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Ly Tâm Lý",
+    "slug": "ly-tam-ly",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "8cySAupRtCjgoTwG1bFoNW",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 10,
+        "guidance_scale": 1.5,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 800,
+    "createdAt": "2025-12-22T13:45:13.518Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "8cySAupRtCjgoTwG1bFoNW",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/8pnEtqZhpNr2wJnCrmVjq5_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "8cySAupRtCjgoTwG1bFoNW",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_3TSxpjj13aoQ3rUPSFRGLj.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_3TSxpjj13aoQ3rUPSFRGLj_1766411567606.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "3TSxpjj13aoQ3rUPSFRGLj",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-22T13:52:47.607Z",
+      "updatedAt": "2025-12-22T13:52:48.251Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "tại SAO có những người luôn cảm thấy mình xấu xí ngay cả khi người khác thấy họ rất đẹp với nhiều người đây là dấu hiệu của chứng mặc cảm ngoại hình"
+  },
+  {
+    "id": "shAfRJNufJUhQSgJUL8NST",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Hà Review",
+    "slug": "ha-review",
+    "description": "Đây là một giọng review hay",
+    "tags": [
+      "nữ",
+      "miền bắc",
+      "review"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "awX9LCp6pfTzG4ZKrtZ92e",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 800,
+    "createdAt": "2025-12-20T10:24:09.189Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "awX9LCp6pfTzG4ZKrtZ92e",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/shAfRJNufJUhQSgJUL8NST_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "subvoicesCount": 0,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "awX9LCp6pfTzG4ZKrtZ92e",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_d3713qAPubhNZfzHY3bKqj.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_d3713qAPubhNZfzHY3bKqj_1766226372519.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "d3713qAPubhNZfzHY3bKqj",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-20T10:26:12.519Z",
+      "updatedAt": "2025-12-20T10:26:13.366Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "chị em ơi đã có dự định mua túi xách gì vào cuối năm nay chưa nếu chưa thì nhanh nhanh Tay ấn vào giỏ hàng bên dưới giúp em Hà nha"
+  },
+  {
+    "id": "6QzFMn95VAXF32Yg3HxEMj",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Quang Review",
+    "slug": "quang-review",
+    "description": "Đây là một giọng nói review chân thực",
+    "tags": [
+      "nam",
+      "miền bắc",
+      "review"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "qgnKAsPJr2G6y7UTT56j2Z",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 800,
+    "createdAt": "2025-12-20T10:03:56.721Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "qgnKAsPJr2G6y7UTT56j2Z",
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/6QzFMn95VAXF32Yg3HxEMj_short_sample.wav",
+    "avatarId": "dxtU22Ax3Xrvp1YCJrTsG4",
+    "subvoicesCount": 1,
+    "favorited": false,
+    "sampleAsset": {
+      "id": "qgnKAsPJr2G6y7UTT56j2Z",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_m4T45jFLuhxTVVX6pwTGuX.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_m4T45jFLuhxTVVX6pwTGuX_1766225110595.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "m4T45jFLuhxTVVX6pwTGuX",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-20T10:05:10.595Z",
+      "updatedAt": "2025-12-20T10:05:11.452Z"
+    },
+    "avatar": {
+      "id": "dxtU22Ax3Xrvp1YCJrTsG4",
+      "userId": "admin",
+      "name": "nam1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam1_1779866027381.webp",
+      "createdAt": "2026-05-27T07:13:47.842Z",
+      "updatedAt": "2026-05-27T07:13:47.842Z"
+    },
+    "transcribedRefText": "chị em ơi đã quá chán túi xách cũ xấu nhanh hỏng cầm không thoải mái chưa giới Thiệu ngay túi xách mới đẹp mê ly vừa lên kệ dành Cho AI muốn phong cách chất lượng tiện lợi trong từng Chi tiết"
+  },
+  {
+    "id": "hruBcESGYx2AUWRppNacCd",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Huy Vũ",
+    "description": "Giọng nam gần gũi, thân mật, nhẹ nhàng",
+    "tags": [
+      "podcast",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "ssbrXxxKw4uy6oc2XzQoEu",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 783,
+    "sampleAssetId": "vhP2qYGEkMsFiRBMurY7vy",
+    "createdAt": "2025-11-10T07:39:26.874Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "slug": "huy-vu",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/hruBcESGYx2AUWRppNacCd_short_sample.wav",
+    "avatarId": "dxtU22Ax3Xrvp1YCJrTsG4",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "vhP2qYGEkMsFiRBMurY7vy",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_hruBcESGYx2AUWRppNacCd_1763347226972.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_hruBcESGYx2AUWRppNacCd_1763347226972_1763347227242.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "hruBcESGYx2AUWRppNacCd",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:40:27.243Z",
+      "updatedAt": "2025-11-17T02:40:27.555Z"
+    },
+    "avatar": {
+      "id": "dxtU22Ax3Xrvp1YCJrTsG4",
+      "userId": "admin",
+      "name": "nam1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam1_1779866027381.webp",
+      "createdAt": "2026-05-27T07:13:47.842Z",
+      "updatedAt": "2026-05-27T07:13:47.842Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "vpx8W1mXrSR62VsbdMCpbu",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Phương Thảo",
+    "description": "Giọng trẻ, nghe ấm áp, yêu thương phù hợp để làm podcast chữa lành hoặc kể chuyện",
+    "tags": [
+      "podcast",
+      "kể chuyện",
+      "quảng cáo",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "ujQ3w4Enov8bY2sH12cUXS",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1.3,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 740,
+    "sampleAssetId": "dnFZgycQzXsBdDWhtC7xEA",
+    "createdAt": "2025-11-01T04:06:17.272Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "phuong-thao",
+    "subvoicesCount": 1,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/vpx8W1mXrSR62VsbdMCpbu_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "dnFZgycQzXsBdDWhtC7xEA",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_vpx8W1mXrSR62VsbdMCpbu_1763347328216.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_vpx8W1mXrSR62VsbdMCpbu_1763347328216_1763347328482.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "vpx8W1mXrSR62VsbdMCpbu",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:08.483Z",
+      "updatedAt": "2025-11-17T02:42:08.747Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "tvz7DUQmcbNCVEbZXZzPUm",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Ngọc Nhi",
+    "description": "Giọng nữ trẻ tự nhiên làm các nội dung về đời sống",
+    "tags": [
+      "podcast",
+      "vlog",
+      "review",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "jxqFGR6RT9n26NqqNZrE7f",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 722,
+    "sampleAssetId": "fXHLHUALpQk2eF8m6MYNU2",
+    "createdAt": "2025-11-01T03:55:35.072Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "ngoc-nhi",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/tvz7DUQmcbNCVEbZXZzPUm_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "fXHLHUALpQk2eF8m6MYNU2",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_tvz7DUQmcbNCVEbZXZzPUm_1763347350493.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_tvz7DUQmcbNCVEbZXZzPUm_1763347350493_1763347350788.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "tvz7DUQmcbNCVEbZXZzPUm",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:30.789Z",
+      "updatedAt": "2025-11-17T02:42:31.565Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "u9YQjS2CfEJ3foHemQrm8j",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Bách Tùng",
+    "description": "Loa phường thập niên 80",
+    "tags": [
+      "lồng tiếng",
+      "kể chuyện",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "vDmnsh5uKydhd5D6yVKMKY",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 590,
+    "sampleAssetId": "q4KM4p8qLYwZL9qDfc4UGe",
+    "createdAt": "2025-11-01T03:51:15.560Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "bach-tung",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/u9YQjS2CfEJ3foHemQrm8j_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "q4KM4p8qLYwZL9qDfc4UGe",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_u9YQjS2CfEJ3foHemQrm8j_1763347402549.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_u9YQjS2CfEJ3foHemQrm8j_1763347402549_1763347402828.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "u9YQjS2CfEJ3foHemQrm8j",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:22.829Z",
+      "updatedAt": "2025-11-17T02:43:23.136Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "6qPHWB2qhn9QK8QjrPPSHz",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thu Hà",
+    "description": "Giọng trầm ấm để đọc sách, kể chuyện, thuyết minh",
+    "tags": [
+      "đọc sách",
+      "podcast",
+      "thuyết minh",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "mMhqBXNwRh18xbpa46wxjs",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 584,
+    "sampleAssetId": "c54e1WicPDX8nAgKkSBEbN",
+    "createdAt": "2025-11-01T03:55:31.879Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "thu-ha",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/6qPHWB2qhn9QK8QjrPPSHz_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "c54e1WicPDX8nAgKkSBEbN",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_6qPHWB2qhn9QK8QjrPPSHz_1763347355223.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_6qPHWB2qhn9QK8QjrPPSHz_1763347355223_1763347355518.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "6qPHWB2qhn9QK8QjrPPSHz",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:35.518Z",
+      "updatedAt": "2025-11-17T02:42:35.892Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "dbwVPnyiUDVFczZUJSBm8R",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Trùng Dương (nữ đọc thơ)",
+    "slug": "trung-duong",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nữ",
+      "miền bắc",
+      "podcast",
+      "đọc thơ"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "cCgLxANtcB7zmXbCVNfkPV",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 500,
+    "createdAt": "2025-12-17T08:23:25.834Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "cCgLxANtcB7zmXbCVNfkPV",
+    "subvoicesCount": 6,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/dbwVPnyiUDVFczZUJSBm8R_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "cCgLxANtcB7zmXbCVNfkPV",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_mt9dM9h1RGGxP3MbWunDE5.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_mt9dM9h1RGGxP3MbWunDE5_1766023739437.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "9eitgqheUBEncjLAWzaJuq",
+        "exportId": "mt9dM9h1RGGxP3MbWunDE5",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-18T02:08:59.438Z",
+      "updatedAt": "2025-12-18T02:09:00.140Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "anh đi anh rất nhớ nhà nhớ canh rau muốn nhớ cả dầm tương"
+  },
+  {
+    "id": "5sP6NjV9vZ2DM4gpZrfVjy",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Kim Oanh",
+    "description": "Giọng nữ rõ ràng, rành mạnh, đa chức năng",
+    "tags": [
+      "lồng tiếng",
+      "đọc truyện",
+      "podcast",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "2awPr41co6TjStcz9xGyPW",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 477,
+    "sampleAssetId": "jfv8r5pKqpSMPuzzpNiGeA",
+    "createdAt": "2025-11-01T03:51:19.738Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "kim-oanh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/5sP6NjV9vZ2DM4gpZrfVjy_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "jfv8r5pKqpSMPuzzpNiGeA",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_5sP6NjV9vZ2DM4gpZrfVjy_1763347399908.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_5sP6NjV9vZ2DM4gpZrfVjy_1763347399908_1763347400197.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "5sP6NjV9vZ2DM4gpZrfVjy",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:20.198Z",
+      "updatedAt": "2025-11-17T02:43:20.505Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "g6UxV41VXepKGjpBDnPEfr",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Minh Trang",
+    "description": "Đây là giọng của người già, phù hợp làm những nội dung liên quan đến kể chuyện và tin tức",
+    "tags": [
+      "tin tức",
+      "thuyết minh",
+      "nữ",
+      "miền bắc",
+      "người già"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "8qBMKtm1CV6NAyaAb3Ku5S",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 428,
+    "sampleAssetId": "47tP2ambSoPuDt8arRfCiE",
+    "createdAt": "2025-11-01T03:55:45.572Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "minh-trang",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/g6UxV41VXepKGjpBDnPEfr_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "47tP2ambSoPuDt8arRfCiE",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_g6UxV41VXepKGjpBDnPEfr_1763347334160.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_g6UxV41VXepKGjpBDnPEfr_1763347334160_1763347334435.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "g6UxV41VXepKGjpBDnPEfr",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:14.436Z",
+      "updatedAt": "2025-11-17T02:42:15.030Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "fKyPyzozYVrwQhv728Kf4B",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Hùng Dũng",
+    "description": "Đây là giọng nam trung niên, rất thích hợp để làm các thể loại như phim kiếm hiệp",
+    "tags": [
+      "lồng tiếng",
+      "thuyết minh",
+      "đọc truyện",
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "vxryfBNPoVPp78BXrJEthM",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 415,
+    "sampleAssetId": "7tmshTxawEssgSixK3dc7B",
+    "createdAt": "2025-11-01T03:51:34.474Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "hung-dung",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/fKyPyzozYVrwQhv728Kf4B_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "7tmshTxawEssgSixK3dc7B",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_fKyPyzozYVrwQhv728Kf4B_1763347385614.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_fKyPyzozYVrwQhv728Kf4B_1763347385614_1763347385888.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "fKyPyzozYVrwQhv728Kf4B",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:05.889Z",
+      "updatedAt": "2025-11-17T02:43:06.478Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "q5PHWcYGpPNKAzBt25zdkY",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "An Nhiên",
+    "description": "Giọng nữ trẻ, trong, có nhấn nhá thích hợp kể chuyện chữa lành hay đọc sách nói.",
+    "tags": [
+      "podcast",
+      "kể chuyện",
+      "sách nói",
+      "nữ"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "aAa2eaSBpiqDKf251NGTRG",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 379,
+    "sampleAssetId": "fTJ4Np9ieEiPvj3JuWEjgc",
+    "createdAt": "2025-11-01T03:48:24.915Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "an-nhien",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/q5PHWcYGpPNKAzBt25zdkY_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "fTJ4Np9ieEiPvj3JuWEjgc",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_q5PHWcYGpPNKAzBt25zdkY_1763347417288.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_q5PHWcYGpPNKAzBt25zdkY_1763347417288_1763347417570.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "q5PHWcYGpPNKAzBt25zdkY",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:37.570Z",
+      "updatedAt": "2025-11-17T02:43:38.210Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "hAe3oYGr4VX4Xy9hGQoTP1",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thanh Vân",
+    "description": "Hợp đa thể loại như podcast, kể chuyện, lồng tiếng vì giọng cao và dễ nghe",
+    "tags": [
+      "podcast",
+      "vlog",
+      "review",
+      "lồng tiếng",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "tdDdVKvWrHzo1er3GY5pjp",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 373,
+    "sampleAssetId": "rU6XjqhY75khfLUT2ZeP6K",
+    "createdAt": "2025-11-01T04:14:15.039Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "thanh-van",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/hAe3oYGr4VX4Xy9hGQoTP1_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "rU6XjqhY75khfLUT2ZeP6K",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_hAe3oYGr4VX4Xy9hGQoTP1_1763347315236.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_hAe3oYGr4VX4Xy9hGQoTP1_1763347315236_1763347315497.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "hAe3oYGr4VX4Xy9hGQoTP1",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:41:55.497Z",
+      "updatedAt": "2025-11-17T02:41:55.808Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "a9zRq7uxbKU9xZGZZuiXyv",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Minh Đàm",
+    "description": "Chất giọng trầm ấm và có duyên kể chuyện, rất phù hợp để đọc truyện kinh dị, trinh thám hay các hồi ký cần sự sâu sắc",
+    "tags": [
+      "đọc truyện",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "oGg1Nfn4s9HfEV4XPtv4T2",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 358,
+    "sampleAssetId": "uEWkV8hzTCVnZXQ4o3oBtC",
+    "createdAt": "2025-11-01T04:46:11.247Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "minh-dam",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/a9zRq7uxbKU9xZGZZuiXyv_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "uEWkV8hzTCVnZXQ4o3oBtC",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_a9zRq7uxbKU9xZGZZuiXyv_1763347308750.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_a9zRq7uxbKU9xZGZZuiXyv_1763347308750_1763347309039.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "a9zRq7uxbKU9xZGZZuiXyv",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:41:49.039Z",
+      "updatedAt": "2025-11-17T02:41:49.330Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "hKHXND5SU1srscKrYiUHFZ",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Quang Minh",
+    "description": "Giọng này nghe rõ và tự tin, phù hợp đọc các bản tin hoặc các quảng cáo cần sự tin tưởng.",
+    "tags": [
+      "tin tức",
+      "podcast",
+      "quảng cáo",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "icFFfhGDJbwoGdcaJvj2dc",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 288,
+    "sampleAssetId": "axqWAUACQCbm9DRAXsVncH",
+    "createdAt": "2025-11-01T03:50:19.558Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "quang-minh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/hKHXND5SU1srscKrYiUHFZ_short_sample.wav",
+    "avatarId": "dxtU22Ax3Xrvp1YCJrTsG4",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "axqWAUACQCbm9DRAXsVncH",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_hKHXND5SU1srscKrYiUHFZ_1763347404557.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_hKHXND5SU1srscKrYiUHFZ_1763347404557_1763347404811.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "hKHXND5SU1srscKrYiUHFZ",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:24.812Z",
+      "updatedAt": "2025-11-17T02:43:25.095Z"
+    },
+    "avatar": {
+      "id": "dxtU22Ax3Xrvp1YCJrTsG4",
+      "userId": "admin",
+      "name": "nam1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam1_1779866027381.webp",
+      "createdAt": "2026-05-27T07:13:47.842Z",
+      "updatedAt": "2026-05-27T07:13:47.842Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "oyCEdMyAxLfEccXnucJLLz",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thanh Mai",
+    "description": "Đây là giọng nữ có tông giọng cao nhưng có xu hướng thủ thỉ nên dùng làm podcast hay đọc truyện lãng mạn.",
+    "tags": [
+      "đọc truyện",
+      "podcast",
+      "lồng tiếng",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "rh92Eu7tuVHKztcobuBbJN",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.08,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 282,
+    "sampleAssetId": "ruwXXT5GaAgWQ12Sbyj1TZ",
+    "createdAt": "2025-11-01T03:49:23.386Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "thanh-mai",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/oyCEdMyAxLfEccXnucJLLz_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "ruwXXT5GaAgWQ12Sbyj1TZ",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_oyCEdMyAxLfEccXnucJLLz_1763347408424.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_oyCEdMyAxLfEccXnucJLLz_1763347408424_1763347408703.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "oyCEdMyAxLfEccXnucJLLz",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:28.703Z",
+      "updatedAt": "2025-11-17T02:43:28.993Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "u4ZCcxDX4FJScdJ97iN8pr",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Tùng Sơn",
+    "description": "Giọng trung trầm, gằn nhẹ và tự tin, phù hợp để lồng tiếng phim hành động, game và dẫn các kênh review, podcast mạnh mẽ.",
+    "tags": [
+      "lồng tiếng",
+      "review",
+      "podcast",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "2aqsDvZTwMP9Zrw42a1wcr",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 281,
+    "sampleAssetId": "kJL7qjntrAvEKyEUpoEgSM",
+    "createdAt": "2025-11-01T03:53:39.589Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "tung-son",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/u4ZCcxDX4FJScdJ97iN8pr_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "kJL7qjntrAvEKyEUpoEgSM",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_u4ZCcxDX4FJScdJ97iN8pr_1763347363865.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_u4ZCcxDX4FJScdJ97iN8pr_1763347363865_1763347364127.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "u4ZCcxDX4FJScdJ97iN8pr",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:44.127Z",
+      "updatedAt": "2025-11-17T02:42:44.447Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "iZfLW5F2GNy72XZ3gQc4xE",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Quốc Khánh",
+    "description": "Đây là giọng chuyên nghiệp, phfu hợp quảng cáo, đọc tin tức",
+    "tags": [
+      "tin tức",
+      "podcast",
+      "lồng tiếng",
+      "quảng cáo",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "ucGwCij2BXxhZ9RwcEgkE7",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 276,
+    "sampleAssetId": "xuJzS79kKgD5pnq93iw6Yb",
+    "createdAt": "2025-11-01T04:07:05.473Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "quoc-khanh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/iZfLW5F2GNy72XZ3gQc4xE_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "xuJzS79kKgD5pnq93iw6Yb",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_iZfLW5F2GNy72XZ3gQc4xE_1763347326284.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_iZfLW5F2GNy72XZ3gQc4xE_1763347326284_1763347326544.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "iZfLW5F2GNy72XZ3gQc4xE",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:06.544Z",
+      "updatedAt": "2025-11-17T02:42:06.840Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "gfZKvP9A2mmReyBci9h4pH",
+    "userId": "Vj3Gs2AYqtP4uUlxjWLeYnkligJ2",
+    "name": "Hoàng Minh 2",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV3",
+      "referenceUrl": "",
+      "assetId": "dWwmEc6jjQ2AuyxxRXtHFo",
+      "transcription": ""
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 270,
+    "sampleAssetId": "ub6BTxB1g9ya56PU1aTeSX",
+    "createdAt": "2025-11-10T07:22:25.484Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "slug": "hoang-minh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/gfZKvP9A2mmReyBci9h4pQ_short_sample.wav",
+    "avatarId": "dxtU22Ax3Xrvp1YCJrTsG4",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "ub6BTxB1g9ya56PU1aTeSX",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_gfZKvP9A2mmReyBci9h4pQ_1763347228992.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_gfZKvP9A2mmReyBci9h4pQ_1763347228992_1763347229249.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "gfZKvP9A2mmReyBci9h4pQ",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:40:29.250Z",
+      "updatedAt": "2025-11-17T02:40:29.553Z"
+    },
+    "avatar": {
+      "id": "dxtU22Ax3Xrvp1YCJrTsG4",
+      "userId": "admin",
+      "name": "nam1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam1_1779866027381.webp",
+      "createdAt": "2026-05-27T07:13:47.842Z",
+      "updatedAt": "2026-05-27T07:13:47.842Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "gfZKvP9A2mmReyBci9h4pQ",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Hoàng Minh",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "dWwmEc6jjQ2AuyxxRXtHFo",
+      "transcription": ""
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 270,
+    "sampleAssetId": "ub6BTxB1g9ya56PU1aTeSX",
+    "createdAt": "2025-11-10T07:22:25.484Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "slug": "hoang-minh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/gfZKvP9A2mmReyBci9h4pQ_short_sample.wav",
+    "avatarId": "dxtU22Ax3Xrvp1YCJrTsG4",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "ub6BTxB1g9ya56PU1aTeSX",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_gfZKvP9A2mmReyBci9h4pQ_1763347228992.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_gfZKvP9A2mmReyBci9h4pQ_1763347228992_1763347229249.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "gfZKvP9A2mmReyBci9h4pQ",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:40:29.250Z",
+      "updatedAt": "2025-11-17T02:40:29.553Z"
+    },
+    "avatar": {
+      "id": "dxtU22Ax3Xrvp1YCJrTsG4",
+      "userId": "admin",
+      "name": "nam1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam1_1779866027381.webp",
+      "createdAt": "2026-05-27T07:13:47.842Z",
+      "updatedAt": "2026-05-27T07:13:47.842Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "6ucdzNGUe4AMtKVTu3w5Lm",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Trung Kiên",
+    "description": "Giọng nam trung lập, kể chuyện, đa chức năng",
+    "tags": [
+      "tin tức",
+      "podcast",
+      "thuyết minh",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "tPvomowo4bQ4Y1MDZUHBaw",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 269,
+    "sampleAssetId": "67dkoQzGBQdd43bUYCSsXr",
+    "createdAt": "2025-11-01T03:51:25.751Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "trung-kien",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/6ucdzNGUe4AMtKVTu3w5Lm_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "67dkoQzGBQdd43bUYCSsXr",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_6ucdzNGUe4AMtKVTu3w5Lm_1763347393744.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_6ucdzNGUe4AMtKVTu3w5Lm_1763347393744_1763347393999.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "6ucdzNGUe4AMtKVTu3w5Lm",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:13.999Z",
+      "updatedAt": "2025-11-17T02:43:14.360Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "6H2RWte9TZSMLevdb6KZYS",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Minh Triết",
+    "description": "Là giọng nam nhẹ nhàng, tông giọng rất phù hợp dùng để quảng cáo, đọc sách",
+    "tags": [
+      "thuyết minh",
+      "đọc sách",
+      "quảng cáo",
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "rmcthRicfDwiJ5ZMfvUQP5",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 250,
+    "sampleAssetId": "bEi4ce71KDGfPktdjhGiRg",
+    "createdAt": "2025-11-01T04:11:07.866Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "minh-triet",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/6H2RWte9TZSMLevdb6KZYS_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "bEi4ce71KDGfPktdjhGiRg",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_6H2RWte9TZSMLevdb6KZYS_1763347319191.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_6H2RWte9TZSMLevdb6KZYS_1763347319191_1763347319480.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "6H2RWte9TZSMLevdb6KZYS",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:41:59.480Z",
+      "updatedAt": "2025-11-17T02:41:59.802Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "ryt8K5sfHdpHJPS15e1NbR",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Gia Khiêm",
+    "description": "Chất giọng trầm ấm, điềm đạm, hợp với kiểu tự sự như làm podcast tâm sự, đọc sách về cuộc sống, hay lồng tiếng cho vai nội tâm.",
+    "tags": [
+      "podcast",
+      "đọc sách",
+      "lồng tiếng",
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "qCFSHDuigXET8SpdZ2eZBY",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 244,
+    "sampleAssetId": "3xErfDupqpk4YcduqnLsEf",
+    "createdAt": "2025-11-01T03:51:30.657Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "gia-khiem",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/ryt8K5sfHdpHJPS15e1NbR_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "3xErfDupqpk4YcduqnLsEf",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_ryt8K5sfHdpHJPS15e1NbR_1763347389799.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_ryt8K5sfHdpHJPS15e1NbR_1763347389799_1763347390108.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "ryt8K5sfHdpHJPS15e1NbR",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:10.108Z",
+      "updatedAt": "2025-11-17T02:43:10.399Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "v7jDD4YGUAxweJ2YGrpwB6",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "An Chi",
+    "description": "Giọng rất dịu dàng, nhẹ nhàng, ngọt ngào, phù hợp làm các nội dung như đọc truyện, kể chuyện, lồng tiếng các chủ đề dễ thương",
+    "tags": [
+      "lồng tiếng",
+      "đọc truyện",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "psWCQ1UQMM5YwtEHiVTbZS",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 230,
+    "sampleAssetId": "65swoyjZYv51QzMMZDdAh4",
+    "createdAt": "2025-11-01T03:55:28.355Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "an-chi",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/v7jDD4YGUAxweJ2YGrpwB6_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "65swoyjZYv51QzMMZDdAh4",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_v7jDD4YGUAxweJ2YGrpwB6_1763347359297.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_v7jDD4YGUAxweJ2YGrpwB6_1763347359297_1763347359594.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "v7jDD4YGUAxweJ2YGrpwB6",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:39.594Z",
+      "updatedAt": "2025-11-17T02:42:40.399Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "tyWCP19hE5Wdegixi1qHak",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thanh Tâm",
+    "description": "Giọng ngọt ngào, dễ nghe, mát tai, có thể hợp đọc sách, kể chuyện những chủ đề chữa lành",
+    "tags": [
+      "thuyết minh",
+      "đọc sách",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "3QgGXexYNwqpLLrswSemTg",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 186,
+    "sampleAssetId": "6XUgZ5hV63X6rXBdUUzcuY",
+    "createdAt": "2025-11-01T03:55:41.051Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "thanh-tam",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/tyWCP19hE5Wdegixi1qHak_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "6XUgZ5hV63X6rXBdUUzcuY",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_tyWCP19hE5Wdegixi1qHak_1763347340379.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_tyWCP19hE5Wdegixi1qHak_1763347340379_1763347340705.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "tyWCP19hE5Wdegixi1qHak",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:20.705Z",
+      "updatedAt": "2025-11-17T02:42:21.219Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "gnoVdXi4baD2jcWqGp29KF",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Hà My",
+    "description": "Giọng nữ, chuyên nghiệp rất phù hợp để dẫn chương trình, kể chuyện đa thể loại",
+    "tags": [
+      "lồng tiếng",
+      "podcast",
+      "kể chuyện",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "xjmF81JpHVYisKaewGCJb6",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 177,
+    "sampleAssetId": "mEzvA5kwgnB523JHFqd84v",
+    "createdAt": "2025-11-01T03:51:36.982Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "ha-my",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/gnoVdXi4baD2jcWqGp29KF_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "mEzvA5kwgnB523JHFqd84v",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_gnoVdXi4baD2jcWqGp29KF_1763347383569.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_gnoVdXi4baD2jcWqGp29KF_1763347383569_1763347383830.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "gnoVdXi4baD2jcWqGp29KF",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:03.831Z",
+      "updatedAt": "2025-11-17T02:43:04.261Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "dpxHYxJGqiAiHCg9D4JBk4",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Anh Khoa",
+    "description": "Giọng miền Nam, mộc mạc gần gũi làm nội dung kể chuyện đời sống hang ngày",
+    "tags": [
+      "vlog",
+      "podcast",
+      "giải trí",
+      "miền nam",
+      "nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "hEBv3YnreqY5ohdEeZgtgM",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 170,
+    "sampleAssetId": "385Z6Koaj7cDJpMMRjUCKS",
+    "createdAt": "2025-11-01T03:51:47.392Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "anh-khoa",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/dpxHYxJGqiAiHCg9D4JBk4_short_sample.wav",
+    "avatarId": "dxtU22Ax3Xrvp1YCJrTsG4",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "385Z6Koaj7cDJpMMRjUCKS",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_dpxHYxJGqiAiHCg9D4JBk4_1763347373532.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_dpxHYxJGqiAiHCg9D4JBk4_1763347373532_1763347373793.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "dpxHYxJGqiAiHCg9D4JBk4",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:53.793Z",
+      "updatedAt": "2025-11-17T02:42:54.130Z"
+    },
+    "avatar": {
+      "id": "dxtU22Ax3Xrvp1YCJrTsG4",
+      "userId": "admin",
+      "name": "nam1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam1_1779866027381.webp",
+      "createdAt": "2026-05-27T07:13:47.842Z",
+      "updatedAt": "2026-05-27T07:13:47.842Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "jLqsf4SyLPEc4QgVvUNqX7",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Tú Anh",
+    "description": "Chất giọng nữ trung cao, trong trẻo và chuyên nghiệp, phù hợp để thuyết minh video khoa học, y tế, đọc sách chuyên ngành và quảng cáo dược phẩm.",
+    "tags": [
+      "thuyết minh",
+      "đọc sách",
+      "quảng cáo",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "csvUMazTPhSRgUcGAGsjwE",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 166,
+    "sampleAssetId": "b9T4DQKuzES96NoyGweQtk",
+    "createdAt": "2025-11-01T03:55:29.819Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "tu-anh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/jLqsf4SyLPEc4QgVvUNqX7_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "b9T4DQKuzES96NoyGweQtk",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_jLqsf4SyLPEc4QgVvUNqX7_1763347357282.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_jLqsf4SyLPEc4QgVvUNqX7_1763347357282_1763347357573.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "jLqsf4SyLPEc4QgVvUNqX7",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:37.574Z",
+      "updatedAt": "2025-11-17T02:42:37.882Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "2cBibQ9vdfBzjXGRzmpQb1",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thục Đoan",
+    "description": "Giọng trung cao, trong trẻo và dịu dàng, phù hợp để thuyết minh các video kiến thức, đọc truyện thiếu nhi và lồng tiếng cho các nhân vật ôn hòa.",
+    "tags": [
+      "thuyết minh",
+      "đọc truyện",
+      "lồng tiếng",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "dfk5kC3guAV217DHdk1BRB",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 151,
+    "sampleAssetId": "iJuWfZha2rmKhifGk8qfpd",
+    "createdAt": "2025-11-01T03:55:36.640Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "thuc-doan",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/2cBibQ9vdfBzjXGRzmpQb1_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "iJuWfZha2rmKhifGk8qfpd",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_2cBibQ9vdfBzjXGRzmpQb1_1763347346936.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_2cBibQ9vdfBzjXGRzmpQb1_1763347346936_1763347347223.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "2cBibQ9vdfBzjXGRzmpQb1",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:27.223Z",
+      "updatedAt": "2025-11-17T02:42:29.138Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "djopdg7AzJ2C9JpGkg9jyA",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thế Anh",
+    "description": "Đây là giọng nam mang xu hướng thủ thỉ, có thể làm các nội dung như kể chuyện, đọc truyện",
+    "tags": [
+      "podcast",
+      "đọc sách",
+      "thuyết minh",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "endNNkSvMsaNz3Wb7XNz3d",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 14,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 138,
+    "sampleAssetId": "vDcp4vr2eHe7BkK5KaZJbZ",
+    "createdAt": "2025-11-01T04:14:53.827Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "the-anh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/djopdg7AzJ2C9JpGkg9jyA_short_sample.wav",
+    "avatarId": "dxtU22Ax3Xrvp1YCJrTsG4",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "vDcp4vr2eHe7BkK5KaZJbZ",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_djopdg7AzJ2C9JpGkg9jyA_1763347312762.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_djopdg7AzJ2C9JpGkg9jyA_1763347312762_1763347313036.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "djopdg7AzJ2C9JpGkg9jyA",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:41:53.037Z",
+      "updatedAt": "2025-11-17T02:41:53.782Z"
+    },
+    "avatar": {
+      "id": "dxtU22Ax3Xrvp1YCJrTsG4",
+      "userId": "admin",
+      "name": "nam1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam1_1779866027381.webp",
+      "createdAt": "2026-05-27T07:13:47.842Z",
+      "updatedAt": "2026-05-27T07:13:47.842Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "8qoSogmhCAZA2Rgvgss56M",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Minh Nguyệt",
+    "description": "Giọng nữ cao, chuyên nghiệp",
+    "tags": [
+      "dẫn chương trình",
+      "lồng tiếng",
+      "podcast",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "n7iZb3zgQdMsXqsASjhGha",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.08,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 104,
+    "sampleAssetId": "1kRZ6XFjyGu1oP3LLGwQzU",
+    "createdAt": "2025-11-01T03:51:23.604Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "minh-nguyet",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/8qoSogmhCAZA2Rgvgss56M_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "1kRZ6XFjyGu1oP3LLGwQzU",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_8qoSogmhCAZA2Rgvgss56M_1763347395705.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_8qoSogmhCAZA2Rgvgss56M_1763347395705_1763347395991.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "8qoSogmhCAZA2Rgvgss56M",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:15.992Z",
+      "updatedAt": "2025-11-17T02:43:16.629Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "2TaxcHbtNNqJGpTRyJLjff",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Bảo Trân",
+    "description": "Giọng tôi trong và giàu biểu cảm, phù hợp để lồng tiếng nhân vật cá tính và dẫn dắt các nội dung đời sống như vlog hay kể chuyện",
+    "tags": [
+      "lồng tiếng",
+      "kể chuyện",
+      "vlog",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "bohzfwdWXLaDCv7Jxjq14B",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 103,
+    "sampleAssetId": "ikUJGqu2cdVoRX5FEbXP33",
+    "createdAt": "2025-11-01T03:51:43.580Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "bao-tran",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/2TaxcHbtNNqJGpTRyJLjff_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "ikUJGqu2cdVoRX5FEbXP33",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_2TaxcHbtNNqJGpTRyJLjff_1763347377701.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_2TaxcHbtNNqJGpTRyJLjff_1763347377701_1763347377977.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "2TaxcHbtNNqJGpTRyJLjff",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:57.978Z",
+      "updatedAt": "2025-11-17T02:42:58.280Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "3b7Shbr2LFkFCju4vifNKE",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thế Phong",
+    "description": "Giọng này ấm áp, có thể làm các nội dung liên quan về cảm xúc như kể chuyện",
+    "tags": [
+      "podcast",
+      "đọc truyện",
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "6ZhjykrvD8VmQ9YtvVjr68",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 94,
+    "sampleAssetId": "r4EzW5LqLU5gGdZswRjRa5",
+    "createdAt": "2025-11-01T03:53:37.998Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "the-phong",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/3b7Shbr2LFkFCju4vifNKE_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "r4EzW5LqLU5gGdZswRjRa5",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_3b7Shbr2LFkFCju4vifNKE_1763347365816.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_3b7Shbr2LFkFCju4vifNKE_1763347365816_1763347366095.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "3b7Shbr2LFkFCju4vifNKE",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:46.096Z",
+      "updatedAt": "2025-11-17T02:42:46.401Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "rihUkmHsXzRcv8iKH4qdhU",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Ngọc Bích",
+    "description": "Giọng phụ nữ miền Nam, hợp thuyết minh phim",
+    "tags": [
+      "thuyết minh",
+      "đọc sách",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "u1xh83ovwwiFDE18fpfonS",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 91,
+    "sampleAssetId": "8wHGXGFNDfPPFMmG3fs9Fy",
+    "createdAt": "2025-11-01T03:55:47.070Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "ngoc-bich",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/rihUkmHsXzRcv8iKH4qdhU_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "8wHGXGFNDfPPFMmG3fs9Fy",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_rihUkmHsXzRcv8iKH4qdhU_1763347332096.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_rihUkmHsXzRcv8iKH4qdhU_1763347332096_1763347332400.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "rihUkmHsXzRcv8iKH4qdhU",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:12.401Z",
+      "updatedAt": "2025-11-17T02:42:12.779Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "ohroJGFD8rCxMTre6daVmk",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Minh Tuệ",
+    "description": "Là giọng của phụ nữ trung niên, nghe quyền lực, phù hợp lồng tiếng cho các nhân vật quyền lực trong phim, hoặc có thể đọc tin tức",
+    "tags": [
+      "lồng tiếng",
+      "tin tức",
+      "podcast",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "mud1vvHicQJC9oDRbWr4Ai",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 84,
+    "sampleAssetId": "hLh56HtrC1FUs2cbW6yj6Y",
+    "createdAt": "2025-11-01T03:49:21.884Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "minh-tue",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/ohroJGFD8rCxMTre6daVmk_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "hLh56HtrC1FUs2cbW6yj6Y",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_ohroJGFD8rCxMTre6daVmk_1763347410353.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_ohroJGFD8rCxMTre6daVmk_1763347410353_1763347410628.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "ohroJGFD8rCxMTre6daVmk",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:30.629Z",
+      "updatedAt": "2025-11-17T02:43:30.907Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "cZZToMe2miwmrrDK9zKQSr",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thế Vinh",
+    "description": "Giọng đàn ông trưởng thành, dễ nghe, nhẹ nhàng, phù hợp với review và podcast",
+    "tags": [
+      "tin tức",
+      "thuyết minh",
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "q17Ay7S8J2tqmedqTiz6wg",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 14,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 83,
+    "sampleAssetId": "2yvnFDMEUFeDa9TberyzPS",
+    "createdAt": "2025-11-01T04:13:13.831Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "the-vinh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/cZZToMe2miwmrrDK9zKQSr_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "2yvnFDMEUFeDa9TberyzPS",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_cZZToMe2miwmrrDK9zKQSr_1763347317191.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_cZZToMe2miwmrrDK9zKQSr_1763347317191_1763347317478.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "cZZToMe2miwmrrDK9zKQSr",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:41:57.479Z",
+      "updatedAt": "2025-11-17T02:41:57.796Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "tYEo3Q6Ef8pBhYMKgnNh5U",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Phương Khanh",
+    "description": "Giọng nữ miền Nam, nhẹ nhàng, ngọt ngào, dễ nghe, có thể dùng làm giọng tổng đài hoặc thuyết minh",
+    "tags": [
+      "thuyết minh",
+      "tổng đài",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "cQPMSbCP2oi21sKr6tkdUz",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 12,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 83,
+    "sampleAssetId": "sgQ8q1GeEMsp4E54MEuFpP",
+    "createdAt": "2025-11-01T03:55:26.589Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "phuong-khanh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/tYEo3Q6Ef8pBhYMKgnNh5U_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "sgQ8q1GeEMsp4E54MEuFpP",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_tYEo3Q6Ef8pBhYMKgnNh5U_1763347361742.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_tYEo3Q6Ef8pBhYMKgnNh5U_1763347361742_1763347362024.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "tYEo3Q6Ef8pBhYMKgnNh5U",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:42.025Z",
+      "updatedAt": "2025-11-17T02:42:42.501Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "r3rhqaWHRsNdnhCuirkerA",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thành Trung",
+    "description": "Giọng này trầm ấm, kiểu kể chuyện có nhấn nhá. Hợp nhất là đọc mấy truyện xưa, hay thuyết minh phim tài liệu, lịch sử.",
+    "tags": [
+      "tiểu thuyết",
+      "lồng tiếng",
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "oja67fvuGCoRNiWtvNf65F",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 74,
+    "sampleAssetId": "g1tqej1UT8UPU8fjt1rKLw",
+    "createdAt": "2025-11-01T03:51:28.561Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "thanh-trung",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/r3rhqaWHRsNdnhCuirkerA_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "g1tqej1UT8UPU8fjt1rKLw",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_r3rhqaWHRsNdnhCuirkerA_1763347391787.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_r3rhqaWHRsNdnhCuirkerA_1763347391787_1763347392078.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "r3rhqaWHRsNdnhCuirkerA",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:12.078Z",
+      "updatedAt": "2025-11-17T02:43:12.377Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "1c4rf849izGf7zztcGtXA7",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Khánh Vy",
+    "description": "Giọng này cao, nghe hơi đanh đá một chút, rất phù hợp để kể chuyện và các nội dung về giải trí",
+    "tags": [
+      "lồng tiếng",
+      "giải trí",
+      "vlog",
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "ujhXqWBaMAHvBRcFN9Z2fS",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 71,
+    "sampleAssetId": "j3E6tMW4uWokhJZv5thqeR",
+    "createdAt": "2025-11-01T03:51:45.571Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "khanh-vy",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/1c4rf849izGf7zztcGtXA7_short_sample.wav",
+    "avatarId": "12FPjZ7vFXMcA6VJRTywMJ",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "j3E6tMW4uWokhJZv5thqeR",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_1c4rf849izGf7zztcGtXA7_1763347375484.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_1c4rf849izGf7zztcGtXA7_1763347375484_1763347375743.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "1c4rf849izGf7zztcGtXA7",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:55.743Z",
+      "updatedAt": "2025-11-17T02:42:56.336Z"
+    },
+    "avatar": {
+      "id": "12FPjZ7vFXMcA6VJRTywMJ",
+      "userId": "admin",
+      "name": "nu1.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu1_1779866029482.webp",
+      "createdAt": "2026-05-27T07:13:50.011Z",
+      "updatedAt": "2026-05-27T07:13:50.011Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "2VbzfSGG7i95RpgWZnLZe8",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Minh Khôi",
+    "description": "Giọng uy tín, có lực phù hợp để dẫn bản tin, podcast liên quan về kiến thức.",
+    "tags": [
+      "tin tức",
+      "podcast",
+      "review",
+      "quảng cáo",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "8mmt1AAAZsx5F1tobGDXk2",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 69,
+    "sampleAssetId": "v7ftgSgimj5ZG2c47Jd1hM",
+    "createdAt": "2025-11-01T03:52:44.498Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "minh-khoi",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/2VbzfSGG7i95RpgWZnLZe8_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "v7ftgSgimj5ZG2c47Jd1hM",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_2VbzfSGG7i95RpgWZnLZe8_1763347367761.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_2VbzfSGG7i95RpgWZnLZe8_1763347367761_1763347368024.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "2VbzfSGG7i95RpgWZnLZe8",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:48.024Z",
+      "updatedAt": "2025-11-17T02:42:48.343Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "dk2HpvcBQdGXemGDC4tPVG",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Quang Dũng",
+    "description": "Giọng chuyên nghiệp, miền Nam, rất lý tưởng để dẫn chương trình, đọc sách",
+    "tags": [
+      "dẫn chương trình",
+      "đọc sách",
+      "lồng tiếng",
+      "quảng cáo",
+      "miền nam",
+      "nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "dKt4CZckppVGV3AyyFjbE8",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 46,
+    "sampleAssetId": "nP3Nic6Rzr6gn5YP8QeDzn",
+    "createdAt": "2025-11-01T03:51:41.297Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "quang-dung",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/dk2HpvcBQdGXemGDC4tPVG_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "nP3Nic6Rzr6gn5YP8QeDzn",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_dk2HpvcBQdGXemGDC4tPVG_1763347379646.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_dk2HpvcBQdGXemGDC4tPVG_1763347379646_1763347379926.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "dk2HpvcBQdGXemGDC4tPVG",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:59.927Z",
+      "updatedAt": "2025-11-17T02:43:00.226Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "mrkX7Bmzt7tZaLNFkk7C4k",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Tô Minh",
+    "slug": "to-minh",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "nzbeTHGwU3cVC13RRBJmCW",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 39,
+    "createdAt": "2025-12-17T12:37:32.301Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "fCibtaDrpR3GCbkpYoB9ZY",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/mrkX7Bmzt7tZaLNFkk7C4k_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "fCibtaDrpR3GCbkpYoB9ZY",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "voice_sample_mrkX7Bmzt7tZaLNFkk7C4k_1765975223616.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/voice_sample_mrkX7Bmzt7tZaLNFkk7C4k_1765975223616_1765975224176.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "mrkX7Bmzt7tZaLNFkk7C4k",
+        "text": "Xin chào, đây là giọng đọc mẫu của tôi",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-12-17T12:40:24.177Z",
+      "updatedAt": "2025-12-17T12:40:35.366Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào đây là giọng đọc mẫu của tôi"
+  },
+  {
+    "id": "ftLgD4USbTRjx3yStK5SbW",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thái Sơn",
+    "description": "Giọng đàn ông, hơi đục, kể chuyện và lồng tiếng thì lý tưởng",
+    "tags": [
+      "lồng tiếng",
+      "review",
+      "dẫn chương trình",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "fWiinwKxEuru19KpQy4Bis",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 35,
+    "sampleAssetId": "wVZLpyp8HKAPBdCwXUNfJi",
+    "createdAt": "2025-11-01T03:51:32.555Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "thai-son",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/ftLgD4USbTRjx3yStK5SbW_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "wVZLpyp8HKAPBdCwXUNfJi",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_ftLgD4USbTRjx3yStK5SbW_1763347387854.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_ftLgD4USbTRjx3yStK5SbW_1763347387854_1763347388109.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "ftLgD4USbTRjx3yStK5SbW",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:08.109Z",
+      "updatedAt": "2025-11-17T02:43:08.422Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "cWW2JNHiUALxNeuxGrGis3",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Khả Ngân",
+    "description": "Giọng tự nhiên, nhanh nhẹn, năng động, các bạn có thể dùng để làm review, làm phim",
+    "tags": [
+      "lồng tiếng",
+      "vj",
+      "review"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "pb9jsG8394BdzHW79S48sT",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 35,
+    "sampleAssetId": "kFZYEPD2M7qCUaNFYkBvhj",
+    "createdAt": "2025-11-01T03:49:20.419Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "kha-ngan",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/cWW2JNHiUALxNeuxGrGis3_short_sample.wav",
+    "avatarId": "coYzYY9xtCg6k9DU95dnuw",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "kFZYEPD2M7qCUaNFYkBvhj",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_cWW2JNHiUALxNeuxGrGis3_1763347413919.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_cWW2JNHiUALxNeuxGrGis3_1763347413919_1763347414195.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "cWW2JNHiUALxNeuxGrGis3",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:34.196Z",
+      "updatedAt": "2025-11-17T02:43:34.468Z"
+    },
+    "avatar": {
+      "id": "coYzYY9xtCg6k9DU95dnuw",
+      "userId": "admin",
+      "name": "nam3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam3_1779866028414.webp",
+      "createdAt": "2026-05-27T07:13:48.786Z",
+      "updatedAt": "2026-05-27T07:13:48.786Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "sw6XnKjGD6jbz6T3gYYn2z",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Minh Thư",
+    "description": "Giọng cao, hơi ngang dùng đọc sách hoặc thuyết minh",
+    "tags": [
+      "thuyết minh",
+      "đọc sách",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "4VfRL96Js9cCNuz2CtQdz3",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 31,
+    "sampleAssetId": "gQPQvRvMNJJ55zMcDnGBte",
+    "createdAt": "2025-11-01T03:55:42.736Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "minh-thu",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/sw6XnKjGD6jbz6T3gYYn2z_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "gQPQvRvMNJJ55zMcDnGBte",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_sw6XnKjGD6jbz6T3gYYn2z_1763347338433.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_sw6XnKjGD6jbz6T3gYYn2z_1763347338433_1763347338698.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "sw6XnKjGD6jbz6T3gYYn2z",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:18.698Z",
+      "updatedAt": "2025-11-17T02:42:18.982Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "5htEMY5LX9fGb6GVWsb4f4",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thu Hằng",
+    "description": "Giọng phụ nữ lớn tuổi, hơi vang, uy tín dùng đọc tin tức và thuyết minh",
+    "tags": [
+      "tin tức",
+      "thuyết minh",
+      "nữ",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "dUj3npe9tR8VJyYGcTzXu2",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 29,
+    "sampleAssetId": "fT2EaWFH2XbJjDLfg5JU31",
+    "createdAt": "2025-11-01T03:55:38.109Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "thu-hang",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/5htEMY5LX9fGb6GVWsb4f4_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "fT2EaWFH2XbJjDLfg5JU31",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_5htEMY5LX9fGb6GVWsb4f4_1763347344934.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_5htEMY5LX9fGb6GVWsb4f4_1763347344934_1763347345219.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "5htEMY5LX9fGb6GVWsb4f4",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:25.220Z",
+      "updatedAt": "2025-11-17T02:42:25.571Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "3M2CtRTrbR6t88TcXMvosD",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Bé Minh Anh",
+    "slug": "be-minh-anh",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "trẻ em",
+      "nam",
+      "miền bắc"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "nhZ337heyx9j7fE4sTeXZF",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1.5,
+        "feat_scale": 0.1,
+        "punct_duration_ms": 0
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 27,
+    "createdAt": "2025-12-17T07:12:30.914Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "99SM1z1vSv32PD65N4uFGh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/3M2CtRTrbR6t88TcXMvosD_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "99SM1z1vSv32PD65N4uFGh",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "voice_sample_3M2CtRTrbR6t88TcXMvosD_1765956622177.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/voice_sample_3M2CtRTrbR6t88TcXMvosD_1765956622177_1765956622483.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "3M2CtRTrbR6t88TcXMvosD",
+        "text": "Xin chào, đây là giọng đọc mẫu của tôi",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-12-17T07:30:22.485Z",
+      "updatedAt": "2025-12-17T07:30:22.858Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào đây là giọng đọc mẫu của tôi"
+  },
+  {
+    "id": "haNNK2N88aJUAo4zYvD4LX",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Thục Quyên",
+    "description": "Giọng nữ trung niên, nghe chững chạc hợp lồng tiếng",
+    "tags": [
+      "tin tức",
+      "podcast",
+      "lồng tiếng"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "xw3wVgA38pFyHiEJY7ieNF",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 25,
+    "sampleAssetId": "5PcXVhPf7LixB5HX1rgSWT",
+    "createdAt": "2025-11-01T04:10:28.300Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "thuc-quyen",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/haNNK2N88aJUAo4zYvD4LX_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "5PcXVhPf7LixB5HX1rgSWT",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_haNNK2N88aJUAo4zYvD4LX_1763347323736.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_haNNK2N88aJUAo4zYvD4LX_1763347323736_1763347324033.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "haNNK2N88aJUAo4zYvD4LX",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:04.034Z",
+      "updatedAt": "2025-11-17T02:42:04.834Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "uobbZcxkiZkiswFWyBjuAb",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Mỹ Linh",
+    "description": "Là giọng miền Nam, giản dị, mộc mạc, có thể dùng cho các nội dung về tin tức hoặc kể chuyện",
+    "tags": [
+      "tin tức",
+      "podcast",
+      "thuyết minh",
+      "miền nam",
+      "nữ"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "2NaaR8KZLscKYAPknyZvQ4",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 13,
+        "feat_scale": 0.1,
+        "guidance_scale": 0.9
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 22,
+    "sampleAssetId": "rTKScJiiYeVE59ZvNALB29",
+    "createdAt": "2025-11-01T03:51:39.326Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "my-linh",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/uobbZcxkiZkiswFWyBjuAb_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "rTKScJiiYeVE59ZvNALB29",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_uobbZcxkiZkiswFWyBjuAb_1763347381611.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_uobbZcxkiZkiswFWyBjuAb_1763347381611_1763347381903.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "uobbZcxkiZkiswFWyBjuAb",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:43:01.904Z",
+      "updatedAt": "2025-11-17T02:43:02.200Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "iRWdJ2BybYdbGvunPPAx8e",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Minh Đức",
+    "description": "Chất giọng hơi đục và nghiêm túc, có thể sử dụng để làm các nội dung về kiến thức, khoa học và chuyên ngành",
+    "tags": [
+      "thuyết minh",
+      "đọc sách",
+      "nam",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "u6hvcddz2UDKeYmfmA9c1R",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "guidance_scale": 1,
+        "feat_scale": 0.1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "score": 14,
+    "sampleAssetId": "rN8c1tH9kPx94FPLgYV9kp",
+    "createdAt": "2025-11-01T03:55:33.658Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "isVerified": true,
+    "slug": "minh-duc",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/iRWdJ2BybYdbGvunPPAx8e_short_sample.wav",
+    "avatarId": "jbnUjC6GTFtbYRMyzCyyjb",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "rN8c1tH9kPx94FPLgYV9kp",
+      "userId": "XxVOOmJSksShykpgjyedgqddJWg2",
+      "name": "voice_sample_iRWdJ2BybYdbGvunPPAx8e_1763347352980.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/XxVOOmJSksShykpgjyedgqddJWg2/assets/voice_sample_iRWdJ2BybYdbGvunPPAx8e_1763347352980_1763347353275.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "iRWdJ2BybYdbGvunPPAx8e",
+        "text": "Xin chào mọi người , tôi là trợ lí giọng đọc, rất vui được gặp bạn.",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-11-17T02:42:33.275Z",
+      "updatedAt": "2025-11-17T02:42:33.754Z"
+    },
+    "avatar": {
+      "id": "jbnUjC6GTFtbYRMyzCyyjb",
+      "userId": "admin",
+      "name": "nam2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nam2_1779866027904.webp",
+      "createdAt": "2026-05-27T07:13:48.271Z",
+      "updatedAt": "2026-05-27T07:13:48.271Z"
+    },
+    "transcribedRefText": "Xin chào mọi người tôi là trợ lý giọng đọc rất vui được gặp bạn"
+  },
+  {
+    "id": "wZtg5gNqQB8YTqHmE64KM2",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Khởi My",
+    "slug": "khoi-my",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "vAsGxAf7oCdidVm5UxcD7z",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 11,
+    "createdAt": "2025-12-17T12:33:59.584Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "vAsGxAf7oCdidVm5UxcD7z",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/wZtg5gNqQB8YTqHmE64KM2_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "vAsGxAf7oCdidVm5UxcD7z",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_jMhMoUAtgDj9mDXS54epWu.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_jMhMoUAtgDj9mDXS54epWu_1765976072654.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "jMhMoUAtgDj9mDXS54epWu",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-17T12:54:32.654Z",
+      "updatedAt": "2025-12-17T12:54:34.698Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "vợ sắp cưới phản đối tôi đứng tên khoản vay giúp vợ chồng chị gái tôi 7 vọng vì em 0đ hành cùng tôi không hiểu đạo lý uống nước nhớ nguồn"
+  },
+  {
+    "id": "336CuLzQzfJKh1zwzQdd4B",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Mỹ Nhân",
+    "slug": "my-nhan",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "qcF58mRPoFemCpmHUNSA3e",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 9,
+    "createdAt": "2025-12-17T12:34:55.405Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "qcF58mRPoFemCpmHUNSA3e",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/336CuLzQzfJKh1zwzQdd4B_short_sample.wav",
+    "avatarId": "2Pds5XM8j811gEXpJq4DLd",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "qcF58mRPoFemCpmHUNSA3e",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "export_shAEDmd8B6RPj84Nw6c4iQ.wav",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/export_shAEDmd8B6RPj84Nw6c4iQ_1765976152237.wav",
+      "duration": 0,
+      "metadata": {
+        "projectId": "sZ9Ejqx9PCApNj9tKNmhG4",
+        "exportId": "shAEDmd8B6RPj84Nw6c4iQ",
+        "uploadedBy": "admin"
+      },
+      "createdAt": "2025-12-17T12:55:52.237Z",
+      "updatedAt": "2025-12-17T12:55:53.839Z"
+    },
+    "avatar": {
+      "id": "2Pds5XM8j811gEXpJq4DLd",
+      "userId": "admin",
+      "name": "nu3.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu3_1779866030596.webp",
+      "createdAt": "2026-05-27T07:13:51.110Z",
+      "updatedAt": "2026-05-27T07:13:51.110Z"
+    },
+    "transcribedRefText": "vợ sắp cưới phản đối tôi đứng tên khoản vay giúp vợ chồng chị gái tôi 7 vọng vì em 0đ hành cùng tôi không hiểu đạo lý uống nước nhớ nguồn"
+  },
+  {
+    "id": "nN8wUkxT5rBzcGUQgu1yJR",
+    "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+    "name": "Hoàng Vy",
+    "slug": "hoang-vy",
+    "description": "Đây là một giọng nói hay và tự nhiên",
+    "tags": [
+      "nữ",
+      "miền nam"
+    ],
+    "modelInfo": {
+      "model": "lucyV2",
+      "referenceUrl": "",
+      "assetId": "6ScqXemK12SGqyu3Emu8pk",
+      "transcription": "",
+      "apiParams": {
+        "num_step": 16,
+        "feat_scale": 0.1,
+        "guidance_scale": 1
+      }
+    },
+    "isActive": true,
+    "isPublic": true,
+    "isVerified": true,
+    "score": 0,
+    "createdAt": "2025-12-17T12:32:22.746Z",
+    "updatedAt": "2026-05-27T07:14:51.286Z",
+    "sampleAssetId": "rvLC5kaGeXaKEEbNCrHdca",
+    "subvoicesCount": 0,
+    "shortSample": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/short-samples/nN8wUkxT5rBzcGUQgu1yJR_short_sample.wav",
+    "avatarId": "jhH2zchYCVRnfEthLUX1RD",
+    "favorited": false,
+    "sampleAsset": {
+      "id": "rvLC5kaGeXaKEEbNCrHdca",
+      "userId": "kqBmDc7Lwsh9g1dY8DxJJFW8WTC3",
+      "name": "voice_sample_nN8wUkxT5rBzcGUQgu1yJR_1765975243077.mp3",
+      "type": "audio",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/kqBmDc7Lwsh9g1dY8DxJJFW8WTC3/assets/voice_sample_nN8wUkxT5rBzcGUQgu1yJR_1765975243077_1765975244313.mp3",
+      "duration": 0,
+      "metadata": {
+        "userVoiceId": "nN8wUkxT5rBzcGUQgu1yJR",
+        "text": "Xin chào, đây là giọng đọc mẫu của tôi",
+        "generatedBy": "generateVoiceSample"
+      },
+      "createdAt": "2025-12-17T12:40:44.314Z",
+      "updatedAt": "2025-12-17T12:40:45.281Z"
+    },
+    "avatar": {
+      "id": "jhH2zchYCVRnfEthLUX1RD",
+      "userId": "admin",
+      "name": "nu2.webp",
+      "type": "image",
+      "status": "ready",
+      "cdnUrl": "https://spoonx.b-cdn.net/users/admin/assets/nu2_1779866030073.webp",
+      "createdAt": "2026-05-27T07:13:50.522Z",
+      "updatedAt": "2026-05-27T07:13:50.522Z"
+    },
+    "transcribedRefText": "Xin chào đây là giọng đọc mẫu của tôi"
+  }
+]

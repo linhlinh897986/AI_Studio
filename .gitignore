@@ -1,12 +1,17 @@
 # Dependency directories
 node_modules/
+.venv/
+test_venv/
 
 # Production build artifacts
 dist/
+dist-build/
 dist-electron/
 
 # Temp folders
 temp/
+scratch/
+build/temp_*
 *.log
 
 # Local environment files
@@ -19,3 +24,4 @@ temp/
 # OS files
 .DS_Store
 Thumbs.db
+

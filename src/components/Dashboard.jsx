@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Compass, Smile, Video, ArrowRight, Settings, Terminal, Activity } from 'lucide-react';
+import { ShoppingBag, Compass, Smile, Video, ArrowRight, Settings, Terminal, Activity, Tv } from 'lucide-react';
 
 export default function Dashboard({ activeTab, setActiveTab, logs = [] }) {
   const stats = [

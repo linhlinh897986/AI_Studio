@@ -1,6 +1,11 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
+const BACKUP_API_KEYS = process.env.GEMINI_API_KEY ? [process.env.GEMINI_API_KEY] : [];
+let keyIndex = 0;
+
+
 /**
+
  * Extracts the first valid JSON object from a string.
  * Handles common Gemini quirks: extra braces, markdown code fences, trailing text.
  */
@@ -47,8 +52,6 @@ function extractFirstJson(text) {
  * @returns {Promise<object>}
  */
 async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = "gemini-2.0-flash", pdfFilePath = null) {
-  const genAI = new GoogleGenerativeAI(apiKey);
-  
   const modelOptions = { 
     model: modelName,
     generationConfig: {
@@ -60,7 +63,6 @@ async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = 
     modelOptions.systemInstruction = systemPrompt;
   }
 
-  const model = genAI.getGenerativeModel(modelOptions);
 
   const contents = [];
   if (pdfFilePath) {
@@ -80,36 +82,37 @@ async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = 
 
   contents.push({ text: userPrompt });
 
+  const pool = [];
+  if (apiKey && apiKey.trim()) {
+    pool.push(apiKey.trim());
+  }
+  BACKUP_API_KEYS.forEach(k => {
+    if (!pool.includes(k)) pool.push(k);
+  });
+
   let result;
-  const maxRetries = 4;
-  let retryDelay = 3500;
+  const maxRetries = pool.length > 1 ? Math.min(6, pool.length) : 4;
+  let retryDelay = 1500;
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    const currentKey = pool[(keyIndex + attempt - 1) % pool.length];
     try {
+      const genAI = new GoogleGenerativeAI(currentKey);
+      const model = genAI.getGenerativeModel(modelOptions);
       result = await model.generateContent(contents);
+      
+      keyIndex = (keyIndex + attempt) % pool.length;
       break;
     } catch (e) {
-      const errMsg = e.message.toLowerCase();
-      const isTransient = 
-        errMsg.includes('429') || 
-        errMsg.includes('too many requests') || 
-        errMsg.includes('quota') || 
-        errMsg.includes('fetch failed') || 
-        errMsg.includes('network') || 
-        errMsg.includes('econnreset') || 
-        errMsg.includes('etimedout') || 
-        errMsg.includes('timeout') || 
-        errMsg.includes('500') || 
-        errMsg.includes('503');
-
-      if (isTransient && attempt < maxRetries) {
-        console.warn(`[Gemini API] Phát hiện lỗi tạm thời (${e.message}). Đang tự động kết nối lại sau ${retryDelay / 1000} giây... (Lần ${attempt}/${maxRetries})`);
-        await new Promise(resolve => setTimeout(resolve, retryDelay));
-        retryDelay *= 2;
-      } else {
+      console.warn(`[Gemini Attempt ${attempt} failed with key ${currentKey.substring(0, 10)}...]: ${e.message}`);
+      if (attempt === maxRetries) {
         throw e;
       }
+      await new Promise(resolve => setTimeout(resolve, retryDelay));
+      retryDelay = Math.min(8000, retryDelay * 1.5);
     }
   }
+
   const responseText = result.response.text();
   
   try {

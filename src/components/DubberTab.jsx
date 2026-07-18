@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Video, Loader, AlertTriangle, Play, FileVideo, CheckCircle2 } from 'lucide-react';
+import LucyLabModal from './LucyLabModal';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -8,6 +9,8 @@ export default function DubberTab({ onLog }) {
   const [sourceLang, setSourceLang] = useState('en-US');
   const [targetVoice, setTargetVoice] = useState('vi-VN-NamMinhNeural');
   const [refAudioPath, setRefAudioPath] = useState('');
+  const [isLucyModalOpen, setIsLucyModalOpen] = useState(false);
+  const [lucyVoiceName, setLucyVoiceName] = useState('');
   
   const handleSelectRefAudio = async () => {
     try {
@@ -228,7 +231,14 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
           {(targetVoice === 'vieneu-local-clone' || targetVoice === 'omnivoice') && (
             <div className="form-group" style={{ marginBottom: 20, animation: 'fadeIn 0.3s ease' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <label className="form-label" style={{ marginBottom: 0 }}>Chọn tệp âm thanh mẫu (.wav)</label>
+                <label className="form-label" style={{ marginBottom: 0 }}>
+                  Chọn tệp âm thanh mẫu (.wav)
+                  {lucyVoiceName && (
+                    <span style={{ marginLeft: 8, color: 'var(--primary)', fontWeight: 'bold' }}>
+                      [Đang chọn: 🎙️ LucyLab - {lucyVoiceName}]
+                    </span>
+                  )}
+                </label>
                 <span style={{ fontSize: 10, color: 'var(--secondary)' }}>⚠️ Thời lượng tốt nhất: 3 - 5 giây</span>
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
@@ -237,7 +247,10 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
                   className="form-input" 
                   placeholder="Đường dẫn tệp .wav hoặc bấm nút chọn..." 
                   value={refAudioPath || ''}
-                  onChange={(e) => setRefAudioPath(e.target.value)}
+                  onChange={(e) => {
+                    setRefAudioPath(e.target.value);
+                    setLucyVoiceName('');
+                  }}
                   style={{ flex: 1 }}
                   disabled={loading}
                 />
@@ -249,6 +262,15 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
                   disabled={loading}
                 >
                   📁 Chọn file
+                </button>
+                <button 
+                  type="button" 
+                  className="btn btn-primary" 
+                  onClick={() => setIsLucyModalOpen(true)}
+                  style={{ padding: '0 16px', height: 40, whiteSpace: 'nowrap', background: 'linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%)' }}
+                  disabled={loading}
+                >
+                  🎙️ Thư viện LucyLab
                 </button>
               </div>
               {targetVoice === 'omnivoice' && !localStorage.getItem('colab_api_url') && (
@@ -341,6 +363,16 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
           )}
         </div>
       </div>
+
+      <LucyLabModal
+        isOpen={isLucyModalOpen}
+        onClose={() => setIsLucyModalOpen(false)}
+        onSelect={(path, name) => {
+          setRefAudioPath(path);
+          setLucyVoiceName(name);
+        }}
+        selectedPath={refAudioPath}
+      />
     </div>
   );
 }

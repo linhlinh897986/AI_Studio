@@ -12,7 +12,7 @@ function uploadRefAudio(colabUrl, refAudioPath) {
       console.log(`[OmniVoice Colab] Uploading reference audio: ${path.basename(refAudioPath)}`);
       const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
       const fileBuffer = fs.readFileSync(refAudioPath);
-      const fileName = path.basename(refAudioPath);
+      const fileName = 'reference.wav';
 
       let fileHeader = `--${boundary}\r\n`;
       fileHeader += `Content-Disposition: form-data; name="file"; filename="${fileName}"\r\n`;
@@ -159,7 +159,7 @@ function synthesizeOmniVoice(text, outputPath, options = {}) {
         requestBody = Buffer.from(payload, 'utf-8');
       } else {
         const fileBuffer = fs.readFileSync(refAudioPath);
-        const fileName = path.basename(refAudioPath);
+        const fileName = 'reference.wav';
 
         let fileHeader = `--${boundary}\r\n`;
         fileHeader += `Content-Disposition: form-data; name="file"; filename="${fileName}"\r\n`;
