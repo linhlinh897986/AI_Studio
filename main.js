@@ -24,27 +24,15 @@ function createWindow() {
     }
   });
 
-  const isDev = process.env.NODE_ENV !== 'production' && !app.isPackaged;
+  const isDev = process.env.NODE_ENV === 'development';
   if (isDev) {
-    let retryCount = 0;
-    const maxRetries = 3;
-    const loadURLWithRetry = (url) => {
-      mainWindow.loadURL(url).catch((err) => {
-        retryCount++;
-        if (retryCount >= maxRetries && fs.existsSync(path.join(__dirname, 'dist', 'index.html'))) {
-          console.log("Vite server is not ready, falling back to local built file (dist/index.html)...");
-          mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
-        } else {
-          console.log(`Vite server is not ready yet (attempt ${retryCount}/${maxRetries}), retrying in 1s...`);
-          setTimeout(() => loadURLWithRetry(url), 1000);
-        }
-      });
-    };
-    loadURLWithRetry('http://localhost:5173');
-    
+    mainWindow.loadURL('http://localhost:5173').catch(() => {
+      mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
+    });
   } else {
     mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
   }
+
 
   // Toggle DevTools with F12 or Ctrl+Shift+I in all modes (development and production) to debug issues
   mainWindow.webContents.on('before-input-event', (event, input) => {

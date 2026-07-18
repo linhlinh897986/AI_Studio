@@ -1,6 +1,7 @@
 {
   "name": "vigen-aio",
-  "version": "1.0.0",
+  "version": "1.0.1",
+
   "description": "All-in-One AI Video Generator Desktop App",
   "main": "main.js",
   "scripts": {

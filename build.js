@@ -75,6 +75,7 @@ const srcDir = __dirname;
     /[\\/]node_modules([\\/]|$)/,
     /[\\/]\.venv([\\/]|$)/,
     /[\\/]dist-build([\\/]|$)/,
+    /[\\/]dist([\\/]|$)/,
     /[\\/]\.git([\\/]|$)/,
     /[\\/]\.agents([\\/]|$)/,
     /[\\/]\.gemini([\\/]|$)/,
@@ -138,14 +139,16 @@ const srcDir = __dirname;
       const filePath = path.join(dir, file);
       const stat = fs.statSync(filePath);
       if (stat.isDirectory()) {
-        if (file !== 'node_modules' && file !== 'src') {
+        if (file !== 'node_modules' && file !== 'src' && file !== 'dist') {
           obfuscateDir(filePath);
         }
+
       } else if (file.endsWith('.js')) {
         const relative = path.relative(tempDir, filePath);
-        if (relative === 'compile-in-electron.js') {
+        if (relative === 'compile-in-electron.js' || relative === 'vite.config.js') {
           continue;
         }
+
         
         const code = fs.readFileSync(filePath, 'utf8');
         try {
@@ -171,6 +174,14 @@ const srcDir = __dirname;
 
   obfuscateDir(tempDir);
   console.log('✅ Đã làm rối mã nguồn JavaScript.');
+
+  // Copy clean Vite dist/ into dist-build/dist/ AFTER obfuscation (untouched React bundle)
+  console.log('📦 Sao chép bản build Vite vào dist-build/dist/ (không qua obfuscate)...');
+  const distSrc = path.join(srcDir, 'dist');
+  const distDest = path.join(tempDir, 'dist');
+  if (fs.existsSync(distDest)) fs.rmSync(distDest, { recursive: true, force: true });
+  fs.cpSync(distSrc, distDest, { recursive: true });
+  console.log('✅ Đã sao chép dist/ vào dist-build/dist/.');
 
   // 4. Create bytecode compilation script using Electron
   console.log('🛠️ Tạo script biên dịch bytecode...');
