@@ -29,7 +29,8 @@ if (!token) {
 console.log('GH_TOKEN loaded:', token.substring(0, 15) + '...');
 
 const axios = require('axios');
-const pkgVersion = '1.0.1';
+const pkgVersion = '1.0.2';
+
 const owner = 'linhlinh897986';
 const repo = 'AI_Studio-Releases';
 const url = `https://api.github.com/repos/${owner}/${repo}/releases`;
@@ -71,9 +72,10 @@ const headers = {
 
     const exeName = `ViGen AIO Studio Setup ${pkgVersion}.exe`;
     const filesToUpload = [
-      { local: path.join(__dirname, 'dist', exeName), remote: exeName, contentType: 'application/x-msdownload' },
-      { local: path.join(__dirname, 'dist', `${exeName}.blockmap`), remote: `${exeName}.blockmap`, contentType: 'application/octet-stream' },
-      { local: path.join(__dirname, 'dist', 'latest.yml'), remote: 'latest.yml', contentType: 'text/yaml' }
+      { local: path.join(__dirname, 'dist-installer', exeName), remote: exeName, contentType: 'application/x-msdownload' },
+      { local: path.join(__dirname, 'dist-installer', `${exeName}.blockmap`), remote: `${exeName}.blockmap`, contentType: 'application/octet-stream' },
+      { local: path.join(__dirname, 'dist-installer', 'latest.yml'), remote: 'latest.yml', contentType: 'text/yaml' }
+
     ];
 
     for (const file of filesToUpload) {

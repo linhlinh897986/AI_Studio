@@ -1,6 +1,6 @@
 {
   "name": "vigen-aio",
-  "version": "1.0.1",
+  "version": "1.0.2",
 
   "description": "All-in-One AI Video Generator Desktop App",
   "main": "main.js",
@@ -45,8 +45,9 @@
     "productName": "ViGen AIO Studio",
     "directories": {
       "app": "dist-build",
-      "output": "dist"
+      "output": "dist-installer"
     },
+
     "files": [
       "**/*"
     ],

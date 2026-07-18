@@ -25,15 +25,17 @@ const srcDir = __dirname;
     });
   }
 
-  // 0. Build Vite frontend bundle
+  // 0. Build Vite frontend bundle to dist-frontend/ to avoid conflict with electron-builder dist/ output
+  const frontendDistDir = path.join(__dirname, 'dist-frontend');
   console.log('⚡ Đang biên dịch frontend Vite (npx vite build)...');
   try {
-    execSync('npx vite build', { stdio: 'inherit', cwd: __dirname });
-    console.log('✅ Đã tạo thư mục dist (Vite build success).');
+    execSync(`npx vite build --outDir dist-frontend --emptyOutDir`, { stdio: 'inherit', cwd: __dirname });
+    console.log('✅ Vite build xong, output tại dist-frontend/.');
   } catch (err) {
     console.error('❌ Lỗi biên dịch Vite frontend:', err.message);
     process.exit(1);
   }
+
 
 
   // Convert PNG to ICO for Windows installer
@@ -75,15 +77,23 @@ const srcDir = __dirname;
     /[\\/]node_modules([\\/]|$)/,
     /[\\/]\.venv([\\/]|$)/,
     /[\\/]dist-build([\\/]|$)/,
-    /[\\/]dist([\\/]|$)/,
+    /[\\/]dist-frontend([\\/]|$)/,
     /[\\/]\.git([\\/]|$)/,
     /[\\/]\.agents([\\/]|$)/,
     /[\\/]\.gemini([\\/]|$)/,
     /[\\/]scratch([\\/]|$)/,
-    /[\\/]build\.js$/
+    /[\\/]build\.js$/,
+    /[\\/]publish_release\.js$/
   ];
 
+  // Separate check: skip top-level dist/ folder from source copy
+  function isTopLevelDist(srcPath) {
+    const rel = path.relative(srcDir, srcPath);
+    return rel === 'dist' || rel.startsWith('dist' + path.sep) || rel.startsWith('dist/');
+  }
+
   function filterCopy(srcPath) {
+    if (isTopLevelDist(srcPath)) return false;
     for (const pattern of excludePatterns) {
       if (pattern.test(srcPath)) {
         return false;
@@ -91,6 +101,7 @@ const srcDir = __dirname;
     }
     return true;
   }
+
 
   function copyFolderSync(from, to) {
     if (!fs.existsSync(from)) return;
@@ -177,11 +188,12 @@ const srcDir = __dirname;
 
   // Copy clean Vite dist/ into dist-build/dist/ AFTER obfuscation (untouched React bundle)
   console.log('📦 Sao chép bản build Vite vào dist-build/dist/ (không qua obfuscate)...');
-  const distSrc = path.join(srcDir, 'dist');
+  const distSrc = frontendDistDir; // use dist-frontend/ output from Vite
   const distDest = path.join(tempDir, 'dist');
   if (fs.existsSync(distDest)) fs.rmSync(distDest, { recursive: true, force: true });
   fs.cpSync(distSrc, distDest, { recursive: true });
-  console.log('✅ Đã sao chép dist/ vào dist-build/dist/.');
+  console.log('✅ Đã sao chép dist-frontend/ vào dist-build/dist/.');
+
 
   // 4. Create bytecode compilation script using Electron
   console.log('🛠️ Tạo script biên dịch bytecode...');
@@ -269,6 +281,16 @@ process.exit(0);
   }
 
   // 6. Package application with electron-builder
+  // Clear old win-unpacked to avoid EBUSY lock errors
+  const winUnpackedDir = path.join(__dirname, 'dist-installer', 'win-unpacked');
+  if (fs.existsSync(winUnpackedDir)) {
+    try {
+      fs.rmSync(winUnpackedDir, { recursive: true, force: true });
+      console.log('🧹 Đã xóa dist/win-unpacked cũ trước khi đóng gói.');
+    } catch (e) {
+      console.warn('⚠️ Không thể xóa dist/win-unpacked:', e.message);
+    }
+  }
   console.log('📦 Đang đóng gói ứng dụng bằng electron-builder...');
   const builder = require('electron-builder');
 
@@ -331,17 +353,17 @@ process.exit(0);
         const exeName = `ViGen AIO Studio Setup ${pkgVersion}.exe`;
         const filesToUpload = [
           { 
-            local: path.join(__dirname, 'dist', exeName), 
+            local: path.join(__dirname, 'dist-installer', exeName), 
             remote: exeName, 
             contentType: 'application/x-msdownload' 
           },
           { 
-            local: path.join(__dirname, 'dist', `${exeName}.blockmap`), 
+            local: path.join(__dirname, 'dist-installer', `${exeName}.blockmap`), 
             remote: `${exeName}.blockmap`, 
             contentType: 'application/octet-stream' 
           },
           { 
-            local: path.join(__dirname, 'dist', 'latest.yml'), 
+            local: path.join(__dirname, 'dist-installer', 'latest.yml'), 
             remote: 'latest.yml', 
             contentType: 'text/yaml' 
           }
