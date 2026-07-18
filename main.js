@@ -24,14 +24,19 @@ function createWindow() {
     }
   });
 
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
   if (isDev) {
-    mainWindow.loadURL('http://localhost:5173').catch(() => {
-      mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
-    });
+    const loadDevServer = () => {
+      mainWindow.loadURL('http://localhost:5173').catch(() => {
+        console.log('⚡ Đang chờ Vite dev server (localhost:5173) sẵn sàng...');
+        setTimeout(loadDevServer, 1000);
+      });
+    };
+    loadDevServer();
   } else {
     mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
   }
+
 
 
   // Toggle DevTools with F12 or Ctrl+Shift+I in all modes (development and production) to debug issues
@@ -1427,7 +1432,9 @@ function readEnv() {
     geminiApiKey: '',
     geminiModel: '',
     vibesMetaSession: '',
-    colabApiUrl: ''
+    colabApiUrl: '',
+    metaDirectCookie: '',
+    labsGoogleCookie: ''
   };
   if (fs.existsSync(envPath)) {
     const content = fs.readFileSync(envPath, 'utf8');
@@ -1444,10 +1451,15 @@ function readEnv() {
           value = value.slice(1, -1);
         }
         
+        // Convert escaped newlines back
+        value = value.replace(/\\n/g, '\n');
+
         if (key === 'GEMINI_API_KEY') settings.geminiApiKey = value;
         else if (key === 'GEMINI_MODEL') settings.geminiModel = value;
         else if (key === 'VIBES_META_SESSION') settings.vibesMetaSession = value;
         else if (key === 'COLAB_API_URL') settings.colabApiUrl = value;
+        else if (key === 'META_DIRECT_COOKIE') settings.metaDirectCookie = value;
+        else if (key === 'LABS_GOOGLE_COOKIE') settings.labsGoogleCookie = value;
       }
     }
   }
@@ -1455,18 +1467,26 @@ function readEnv() {
 }
 
 function writeEnv(settings) {
+  // Read existing settings first to preserve unsupplied fields
+  const existing = readEnv();
+  const merged = { ...existing, ...settings };
+
   let content = '';
-  content += `GEMINI_API_KEY="${settings.geminiApiKey || ''}"\n`;
-  content += `GEMINI_MODEL="${settings.geminiModel || ''}"\n`;
-  content += `VIBES_META_SESSION="${settings.vibesMetaSession || ''}"\n`;
-  content += `COLAB_API_URL="${settings.colabApiUrl || ''}"\n`;
+  content += `GEMINI_API_KEY="${merged.geminiApiKey || ''}"\n`;
+  content += `GEMINI_MODEL="${merged.geminiModel || ''}"\n`;
+  content += `VIBES_META_SESSION="${merged.vibesMetaSession || ''}"\n`;
+  content += `COLAB_API_URL="${merged.colabApiUrl || ''}"\n`;
+  content += `META_DIRECT_COOKIE="${(merged.metaDirectCookie || '').replace(/\r?\n/g, '\\n')}"\n`;
+  content += `LABS_GOOGLE_COOKIE="${(merged.labsGoogleCookie || '').replace(/\r?\n/g, '\\n')}"\n`;
   fs.writeFileSync(envPath, content, 'utf8');
   
   // Set in process.env so backend can reference it directly if needed
-  process.env.GEMINI_API_KEY = settings.geminiApiKey || '';
-  process.env.GEMINI_MODEL = settings.geminiModel || '';
-  process.env.VIBES_META_SESSION = settings.vibesMetaSession || '';
-  process.env.COLAB_API_URL = settings.colabApiUrl || '';
+  process.env.GEMINI_API_KEY = merged.geminiApiKey || '';
+  process.env.GEMINI_MODEL = merged.geminiModel || '';
+  process.env.VIBES_META_SESSION = merged.vibesMetaSession || '';
+  process.env.COLAB_API_URL = merged.colabApiUrl || '';
+  process.env.META_DIRECT_COOKIE = merged.metaDirectCookie || '';
+  process.env.LABS_GOOGLE_COOKIE = merged.labsGoogleCookie || '';
 }
 
 ipcMain.handle('load-env-settings', async () => {
