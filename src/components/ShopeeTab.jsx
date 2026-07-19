@@ -68,7 +68,7 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
 - "text": câu nói tiếp thị vui nhộn, súc tích (khoảng 20-30 từ).
 - "imageIndex": số chỉ mục của ảnh (từ 0 đến ${numImages - 1}).`;
 
-      const geminiModel = localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
+      const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
       const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel });
       if (!geminiRes.success) throw new Error(geminiRes.error);
       const scriptData = geminiRes.data.script;

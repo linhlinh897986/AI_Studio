@@ -7,6 +7,7 @@ const { synthesizeSpeech } = require('./backend/edge_tts_helper');
 const { fetchShopeeProduct } = require('./backend/shopee_helper');
 const { generateJsonScript } = require('./backend/gemini_helper');
 const { transcribeCapCut, segmentsToSrt } = require('./backend/capcut_asr');
+const { analyzeVideoWithGemini, enhanceScenePrompt, extractLastFrame, concatVideoSegments } = require('./backend/video_clone_helper');
 
 
 let mainWindow;
@@ -266,11 +267,28 @@ ipcMain.handle('clean-temp-files', async (event, { keepFilePath }) => {
 ipcMain.handle('settings-verify', async (event, { geminiApiKey, geminiModel }) => {
   try {
     const { GoogleGenerativeAI } = require('@google/generative-ai');
-    const genAI = new GoogleGenerativeAI(geminiApiKey);
-    const modelName = geminiModel || "gemini-2.0-flash";
-    const model = genAI.getGenerativeModel({ model: modelName });
-    await model.generateContent("test");
-    return { success: true };
+    const keys = (geminiApiKey || '').split(/[\n,;]+/).map(k => k.trim()).filter(Boolean);
+    if (keys.length === 0) return { success: false, error: 'Chưa nhập API Key nào.' };
+
+    const modelName = geminiModel || "gemini-3.1-flash-lite";
+    let validCount = 0;
+    let lastErr = null;
+
+    for (const k of keys) {
+      try {
+        const genAI = new GoogleGenerativeAI(k);
+        const model = genAI.getGenerativeModel({ model: modelName });
+        await model.generateContent("test");
+        validCount++;
+      } catch (err) {
+        lastErr = err;
+      }
+    }
+
+    if (validCount > 0) {
+      return { success: true, verifiedCount: validCount, totalCount: keys.length };
+    }
+    return { success: false, error: lastErr ? lastErr.message : 'Tất cả API Key đều không hợp lệ.' };
   } catch (err) {
     return { success: false, error: err.message };
   }
@@ -289,7 +307,7 @@ ipcMain.handle('shopee-fetch', async (event, { shopeeLink }) => {
 // 3. Gemini Prompt Generation
 ipcMain.handle('gemini-generate', async (event, { apiKey, systemPrompt, userPrompt, geminiModel, pdfFilePath }) => {
   try {
-    const modelName = geminiModel || "gemini-2.0-flash";
+    const modelName = geminiModel || "gemini-3.1-flash-lite";
     let resolvedPath = pdfFilePath;
     if (pdfFilePath && !path.isAbsolute(pdfFilePath)) {
       resolvedPath = path.join(__dirname, 'resources', 'scriptures', pdfFilePath);
@@ -301,8 +319,46 @@ ipcMain.handle('gemini-generate', async (event, { apiKey, systemPrompt, userProm
   }
 });
 
+// 3b. Video Clone Handlers
+ipcMain.handle('video-clone-analyze', async (event, { apiKey, videoPath, customPrompt, geminiModel }) => {
+  try {
+    const scenes = await analyzeVideoWithGemini(apiKey, videoPath, customPrompt, geminiModel);
+    return { success: true, scenes };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('video-clone-enhance-scene', async (event, { apiKey, sceneData, targetGenerator, geminiModel }) => {
+  try {
+    const enhanced = await enhanceScenePrompt(apiKey, sceneData, targetGenerator, geminiModel);
+    return { success: true, enhanced };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+
+ipcMain.handle('video-clone-extract-frame', async (event, { videoPath, outputPath }) => {
+  try {
+    const framePath = await extractLastFrame(videoPath, outputPath);
+    return { success: true, framePath };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('video-clone-merge', async (event, { videoPaths, outputPath }) => {
+  try {
+    const finalPath = await concatVideoSegments(videoPaths, outputPath);
+    return { success: true, finalPath };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
 // 3a. Gemini Multi-Agentic Script Generation
-ipcMain.handle('gemini-agentic-generate', async (event, { apiKey, topic, geminiModel, pdfFilePath, duration, style, aspectRatio }) => {
+ipcMain.handle('gemini-agentic-generate', async (event, { apiKey, topic, geminiModel, pdfFilePath, duration, style, aspectRatio, videoLayout }) => {
   try {
     const { runMultiAgentPipeline } = require('./backend/script_agent_pipeline');
     
@@ -326,6 +382,7 @@ ipcMain.handle('gemini-agentic-generate', async (event, { apiKey, topic, geminiM
       duration,
       style,
       aspectRatio,
+      videoLayout,
       onProgress
     });
 
@@ -1277,6 +1334,130 @@ ipcMain.handle('vibes-delete-project', async (event, { projectId, metaSession })
   }
 });
 
+// 7c. 9Router Image Generation IPC Handlers
+ipcMain.handle('ninerouter-fetch-models', async (event, { nineRouterUrl, nineRouterKey }) => {
+  try {
+    const env = readEnv();
+    const baseUrl = (nineRouterUrl || env.nineRouterUrl || process.env.NINEROUTER_URL || 'http://localhost:20128').replace(/\/+$/, '');
+    const apiKey = nineRouterKey !== undefined ? nineRouterKey : (env.nineRouterKey || process.env.NINEROUTER_KEY || '');
+
+    const headers = {};
+    if (apiKey && apiKey.trim()) {
+      headers['Authorization'] = `Bearer ${apiKey.trim()}`;
+    }
+
+    const axios = require('axios');
+    let res;
+    try {
+      res = await axios.get(`${baseUrl}/v1/models/image`, { headers, timeout: 10000 });
+    } catch (e) {
+      res = await axios.get(`${baseUrl}/v1/models`, { headers, timeout: 10000 });
+    }
+
+    if (res.data && Array.isArray(res.data.data)) {
+      const models = res.data.data.map(m => (typeof m === 'string' ? m : m.id || m.name));
+      return { success: true, models };
+    } else if (res.data && Array.isArray(res.data)) {
+      const models = res.data.map(m => (typeof m === 'string' ? m : m.id || m.name));
+      return { success: true, models };
+    }
+    return { success: true, models: ['ag/gemini-3.1-flash-image', 'openai/dall-e-3', 'flux/schnell'] };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('ninerouter-generate-image', async (event, { prompt, nineRouterUrl, nineRouterKey, nineRouterModel, size, quality, background, image_detail, output_format }) => {
+  try {
+    const env = readEnv();
+    const baseUrl = (nineRouterUrl || env.nineRouterUrl || process.env.NINEROUTER_URL || 'http://localhost:20128').replace(/\/+$/, '');
+    const apiKey = nineRouterKey !== undefined ? nineRouterKey : (env.nineRouterKey || process.env.NINEROUTER_KEY || '');
+    const model = nineRouterModel || env.nineRouterModel || process.env.NINEROUTER_MODEL || 'ag/gemini-3.1-flash-image';
+
+    const axios = require('axios');
+    const fs = require('fs');
+    const path = require('path');
+
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    if (apiKey && apiKey.trim()) {
+      headers['Authorization'] = `Bearer ${apiKey.trim()}`;
+    }
+
+    const payload = {
+      model: model,
+      prompt: prompt,
+      n: 1,
+      size: size || "auto",
+      quality: quality || "auto",
+      background: background || "auto",
+      image_detail: image_detail || "high",
+      output_format: output_format || "png"
+    };
+
+    console.log(`[9Router Image Gen] Requesting ${baseUrl}/v1/images/generations with model=${model}...`);
+
+    const tempDir = getTempDir();
+    const timestamp = Date.now();
+    const outputPath = path.join(tempDir, `9router_img_${timestamp}.${output_format || 'png'}`);
+
+    const response = await axios.post(`${baseUrl}/v1/images/generations`, payload, {
+      headers,
+      responseType: 'arraybuffer',
+      timeout: 120000
+    });
+
+    const contentType = response.headers['content-type'] || '';
+
+    if (contentType.includes('application/json')) {
+      const jsonStr = Buffer.from(response.data).toString('utf8');
+      const json = JSON.parse(jsonStr);
+
+      if (json.data && json.data.length > 0) {
+        const item = json.data[0];
+        if (item.url) {
+          const imgRes = await axios.get(item.url, { responseType: 'arraybuffer' });
+          fs.writeFileSync(outputPath, imgRes.data);
+        } else if (item.b64_json) {
+          const buf = Buffer.from(item.b64_json, 'base64');
+          fs.writeFileSync(outputPath, buf);
+        } else {
+          throw new Error('9Router API không trả về URL hoặc base64 image data.');
+        }
+      } else if (json.error) {
+        throw new Error(typeof json.error === 'string' ? json.error : json.error.message || 'Lỗi API 9Router');
+      } else {
+        throw new Error('Định dạng phản hồi JSON từ 9Router không hợp lệ.');
+      }
+    } else {
+      fs.writeFileSync(outputPath, response.data);
+    }
+
+    console.log(`[9Router Image Gen] Success! Saved image to: ${outputPath}`);
+    const fileUrl = `file://${outputPath.replace(/\\/g, '/')}`;
+    return {
+      success: true,
+      localPaths: [fileUrl],
+      localPath: fileUrl
+    };
+
+  } catch (err) {
+    console.error('[9Router Image Gen] Error:', err.message);
+    let errMsg = err.message;
+    if (err.response && err.response.data) {
+      try {
+        const raw = Buffer.isBuffer(err.response.data) ? Buffer.from(err.response.data).toString('utf8') : JSON.stringify(err.response.data);
+        const parsed = JSON.parse(raw);
+        errMsg = parsed.error ? (typeof parsed.error === 'string' ? parsed.error : parsed.error.message) : raw;
+      } catch (e) {
+        errMsg = Buffer.isBuffer(err.response.data) ? Buffer.from(err.response.data).toString('utf8') : err.message;
+      }
+    }
+    return { success: false, error: errMsg };
+  }
+});
+
 ipcMain.handle('open-path', async (event, { filePath }) => {
   try {
     const { shell } = require('electron');
@@ -1460,6 +1641,9 @@ function readEnv() {
         else if (key === 'COLAB_API_URL') settings.colabApiUrl = value;
         else if (key === 'META_DIRECT_COOKIE') settings.metaDirectCookie = value;
         else if (key === 'LABS_GOOGLE_COOKIE') settings.labsGoogleCookie = value;
+        else if (key === 'NINEROUTER_URL') settings.nineRouterUrl = value;
+        else if (key === 'NINEROUTER_KEY') settings.nineRouterKey = value;
+        else if (key === 'NINEROUTER_MODEL') settings.nineRouterModel = value;
       }
     }
   }
@@ -1478,6 +1662,9 @@ function writeEnv(settings) {
   content += `COLAB_API_URL="${merged.colabApiUrl || ''}"\n`;
   content += `META_DIRECT_COOKIE="${(merged.metaDirectCookie || '').replace(/\r?\n/g, '\\n')}"\n`;
   content += `LABS_GOOGLE_COOKIE="${(merged.labsGoogleCookie || '').replace(/\r?\n/g, '\\n')}"\n`;
+  content += `NINEROUTER_URL="${merged.nineRouterUrl || ''}"\n`;
+  content += `NINEROUTER_KEY="${merged.nineRouterKey || ''}"\n`;
+  content += `NINEROUTER_MODEL="${merged.nineRouterModel || ''}"\n`;
   fs.writeFileSync(envPath, content, 'utf8');
   
   // Set in process.env so backend can reference it directly if needed
@@ -1487,6 +1674,9 @@ function writeEnv(settings) {
   process.env.COLAB_API_URL = merged.colabApiUrl || '';
   process.env.META_DIRECT_COOKIE = merged.metaDirectCookie || '';
   process.env.LABS_GOOGLE_COOKIE = merged.labsGoogleCookie || '';
+  process.env.NINEROUTER_URL = merged.nineRouterUrl || '';
+  process.env.NINEROUTER_KEY = merged.nineRouterKey || '';
+  process.env.NINEROUTER_MODEL = merged.nineRouterModel || '';
 }
 
 ipcMain.handle('load-env-settings', async () => {

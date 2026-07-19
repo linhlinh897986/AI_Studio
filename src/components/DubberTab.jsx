@@ -98,7 +98,7 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
 - "end_time": giữ nguyên của câu
 - "text": câu dịch tiếng Việt tương ứng.`;
 
-      const geminiModel = localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
+      const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
       const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel });
       if (!geminiRes.success) throw new Error(geminiRes.error);
       const translations = geminiRes.data.translations;

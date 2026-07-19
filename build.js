@@ -78,19 +78,23 @@ const srcDir = __dirname;
     /[\\/]\.venv([\\/]|$)/,
     /[\\/]dist-build([\\/]|$)/,
     /[\\/]dist-frontend([\\/]|$)/,
+    /[\\/]dist-installer([\\/]|$)/,
     /[\\/]\.git([\\/]|$)/,
     /[\\/]\.agents([\\/]|$)/,
     /[\\/]\.gemini([\\/]|$)/,
     /[\\/]scratch([\\/]|$)/,
     /[\\/]build\.js$/,
-    /[\\/]publish_release\.js$/
+    /[\\/]publish_release\.js$/,
+    /[\\/]\.env$/
   ];
 
-  // Separate check: skip top-level dist/ folder from source copy
+  // Separate check: skip top-level dist/ and dist-installer/ folder from source copy
   function isTopLevelDist(srcPath) {
     const rel = path.relative(srcDir, srcPath);
-    return rel === 'dist' || rel.startsWith('dist' + path.sep) || rel.startsWith('dist/');
+    return rel === 'dist' || rel.startsWith('dist' + path.sep) || rel.startsWith('dist/') ||
+           rel === 'dist-installer' || rel.startsWith('dist-installer' + path.sep) || rel.startsWith('dist-installer/');
   }
+
 
   function filterCopy(srcPath) {
     if (isTopLevelDist(srcPath)) return false;

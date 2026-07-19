@@ -120,6 +120,8 @@ export default function StickmanTab({ onLog }) {
           showBrowser: false
         }
       });
+    } else if (imageGenSource === '9router') {
+      return await ipcRenderer.invoke('ninerouter-generate-image', { prompt: enrichedPrompt });
     } else if (imageGenSource === 'meta_direct') {
       const cookieText = localStorage.getItem('meta_direct_cookie') || '';
       return await ipcRenderer.invoke('meta-direct-generate-image', { prompt: enrichedPrompt, cookieText });
@@ -167,7 +169,7 @@ Hãy chia câu chuyện thành 4 phân cảnh. Trả về cấu trúc JSON sau:
 }
 Hãy viết prompt mô tả bằng tiếng Anh đơn giản, hành động cực kỳ cường điệu hài hước.`;
 
-      const geminiModel = localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
+      const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
       const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel });
       if (!geminiRes.success) throw new Error(geminiRes.error);
       

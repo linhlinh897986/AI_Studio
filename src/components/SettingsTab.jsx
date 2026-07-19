@@ -12,6 +12,11 @@ export default function SettingsTab() {
   const [videoGenSource, setVideoGenSource] = useState('pollinations_video');
   const [metaDirectCookie, setMetaDirectCookie] = useState('');
   const [labsGoogleCookie, setLabsGoogleCookie] = useState('');
+  const [nineRouterUrl, setNineRouterUrl] = useState('http://localhost:20128');
+  const [nineRouterKey, setNineRouterKey] = useState('');
+  const [nineRouterModel, setNineRouterModel] = useState('ag/gemini-3.1-flash-image');
+  const [nineRouterModelsList, setNineRouterModelsList] = useState([]);
+  const [fetching9RModels, setFetching9RModels] = useState(false);
   const [status, setStatus] = useState('idle'); // idle, checking, success, error
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -71,6 +76,28 @@ export default function SettingsTab() {
     }
   };
 
+  const handleFetch9RouterModels = async () => {
+    setFetching9RModels(true);
+    try {
+      const res = await ipcRenderer.invoke('ninerouter-fetch-models', {
+        nineRouterUrl,
+        nineRouterKey
+      });
+      if (res.success && res.models) {
+        setNineRouterModelsList(res.models);
+        if (res.models.length > 0 && !res.models.includes(nineRouterModel)) {
+          setNineRouterModel(res.models[0]);
+        }
+      } else {
+        alert('Không thể kết nối đến 9Router: ' + (res.error || 'Lỗi không xác định'));
+      }
+    } catch (e) {
+      alert('Lỗi gọi 9Router API: ' + e.message);
+    } finally {
+      setFetching9RModels(false);
+    }
+  };
+
   const handleCheckVibesToken = async () => {
     if (!vibesSession) {
       setVibesCheckStatus('error');
@@ -90,7 +117,10 @@ export default function SettingsTab() {
           geminiApiKey: apiKey,
           geminiModel: model,
           vibesMetaSession: vibesSession,
-          colabApiUrl: colabApiUrl
+          colabApiUrl: colabApiUrl,
+          nineRouterUrl: nineRouterUrl,
+          nineRouterKey: nineRouterKey,
+          nineRouterModel: nineRouterModel
         });
       } else {
         setVibesCheckStatus('error');
@@ -107,12 +137,16 @@ export default function SettingsTab() {
       try {
         const res = await ipcRenderer.invoke('load-env-settings');
         if (res.success) {
-          const { geminiApiKey, geminiModel, vibesMetaSession, colabApiUrl } = res.data;
+          const { geminiApiKey, geminiModel, vibesMetaSession, colabApiUrl, metaDirectCookie: envMetaCookie, labsGoogleCookie: envLabsCookie, nineRouterUrl: env9RUrl, nineRouterKey: env9RKey, nineRouterModel: env9RModel } = res.data;
           setApiKey(geminiApiKey || '');
           setModel(geminiModel || 'gemini-3.1-flash-lite');
           setVibesSession(vibesMetaSession || '');
           setColabApiUrl(colabApiUrl || '');
           
+          setNineRouterUrl(env9RUrl || localStorage.getItem('ninerouter_url') || 'http://localhost:20128');
+          setNineRouterKey(env9RKey || localStorage.getItem('ninerouter_key') || '');
+          setNineRouterModel(env9RModel || localStorage.getItem('ninerouter_model') || 'ag/gemini-3.1-flash-image');
+
           if (geminiApiKey) localStorage.setItem('gemini_api_key', geminiApiKey);
           if (geminiModel) localStorage.setItem('gemini_model', geminiModel);
           if (vibesMetaSession) localStorage.setItem('vibes_meta_session', vibesMetaSession);
@@ -120,12 +154,15 @@ export default function SettingsTab() {
 
           const localSource = localStorage.getItem('image_gen_source') || 'meta_direct';
           const localVideoSource = localStorage.getItem('video_gen_source') || 'pollinations_video';
-          const localCookie = localStorage.getItem('meta_direct_cookie') || '';
-          const localLabsCookie = localStorage.getItem('labs_google_cookie') || '';
+          const localCookie = envMetaCookie || localStorage.getItem('meta_direct_cookie') || '';
+          const localLabsCookie = envLabsCookie || localStorage.getItem('labs_google_cookie') || '';
           setImageGenSource(localSource);
           setVideoGenSource(localVideoSource);
           setMetaDirectCookie(localCookie);
           setLabsGoogleCookie(localLabsCookie);
+          if (localCookie) localStorage.setItem('meta_direct_cookie', localCookie);
+          if (localLabsCookie) localStorage.setItem('labs_google_cookie', localLabsCookie);
+
 
           if (geminiApiKey) {
             testApiKey(geminiApiKey, geminiModel);
@@ -165,7 +202,10 @@ export default function SettingsTab() {
           geminiApiKey: keyToTest,
           geminiModel: modelToTest,
           vibesMetaSession: vibesSession,
-          colabApiUrl: colabApiUrl
+          colabApiUrl: colabApiUrl,
+          nineRouterUrl: nineRouterUrl,
+          nineRouterKey: nineRouterKey,
+          nineRouterModel: nineRouterModel
         });
       } else {
         setStatus('error');
@@ -181,11 +221,17 @@ export default function SettingsTab() {
     localStorage.setItem('gemini_model', model);
     localStorage.setItem('vibes_meta_session', vibesSession);
     localStorage.setItem('colab_api_url', colabApiUrl);
+    localStorage.setItem('ninerouter_url', nineRouterUrl);
+    localStorage.setItem('ninerouter_key', nineRouterKey);
+    localStorage.setItem('ninerouter_model', nineRouterModel);
     ipcRenderer.invoke('save-env-settings', {
       geminiApiKey: apiKey,
       geminiModel: model,
       vibesMetaSession: vibesSession,
-      colabApiUrl: colabApiUrl
+      colabApiUrl: colabApiUrl,
+      nineRouterUrl: nineRouterUrl,
+      nineRouterKey: nineRouterKey,
+      nineRouterModel: nineRouterModel
     });
     if (!apiKey) {
       localStorage.removeItem('gemini_api_key');
@@ -200,11 +246,17 @@ export default function SettingsTab() {
     localStorage.setItem('gemini_model', model);
     localStorage.setItem('vibes_meta_session', vibesSession);
     localStorage.setItem('colab_api_url', colabApiUrl);
+    localStorage.setItem('ninerouter_url', nineRouterUrl);
+    localStorage.setItem('ninerouter_key', nineRouterKey);
+    localStorage.setItem('ninerouter_model', nineRouterModel);
     ipcRenderer.invoke('save-env-settings', {
       geminiApiKey: apiKey,
       geminiModel: model,
       vibesMetaSession: vibesSession,
-      colabApiUrl: colabApiUrl
+      colabApiUrl: colabApiUrl,
+      nineRouterUrl: nineRouterUrl,
+      nineRouterKey: nineRouterKey,
+      nineRouterModel: nineRouterModel
     });
     setStatus('success');
   };
@@ -254,42 +306,33 @@ export default function SettingsTab() {
         </p>
 
         <div className="form-group" style={{ position: 'relative' }}>
-          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <Key size={14} /> Google Gemini API Key
+          <label className="form-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Key size={14} /> Google Gemini API Key (Hỗ trợ nhiều Key chia tải)
+            </span>
+            {apiKey && (
+              <span style={{ fontSize: 11, color: 'var(--primary)', fontWeight: 600, background: 'rgba(99, 102, 241, 0.1)', padding: '2px 8px', borderRadius: 10 }}>
+                🔑 {apiKey.split(/[\n,;]+/).map(k => k.trim()).filter(Boolean).length} API Key đã nhập
+              </span>
+            )}
           </label>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
             <div style={{ position: 'relative', flexGrow: 1 }}>
-              <input
-                type={showKey ? 'text' : 'password'}
+              <textarea
+                rows={2}
                 className="form-input"
-                placeholder="AIzaSy..."
+                placeholder="Nhập 1 hoặc nhiều API Key (phân cách bằng dấu phẩy hoặc xuống dòng)...&#10;Ví dụ: AIzaSy1..., AIzaSy2..."
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                style={{ paddingRight: 40 }}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 12, resize: 'vertical', minHeight: 60 }}
               />
-              <button
-                type="button"
-                onClick={() => setShowKey(!showKey)}
-                style={{
-                  position: 'absolute',
-                  right: 12,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--text-muted)',
-                  cursor: 'pointer'
-                }}
-              >
-                {showKey ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
             </div>
             
             <button
               className="btn btn-primary"
               onClick={handleSave}
               disabled={status === 'checking'}
-              style={{ minWidth: 120, padding: '12px 20px' }}
+              style={{ minWidth: 120, padding: '12px 20px', height: 60 }}
             >
               {status === 'checking' ? (
                 <RefreshCw size={16} className="spin" />
@@ -298,6 +341,9 @@ export default function SettingsTab() {
               )}
             </button>
           </div>
+          <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 6, lineHeight: '1.4' }}>
+            💡 <strong>Mẹo chia tải Token:</strong> Bạn có thể dán nhiều API Key (từ các dự án/tài khoản Google khác nhau). Hệ thống sẽ tự động xoay vòng luân phiên giữa các Key để **nhân gấp N lần hạn mức Token miễn phí** và chống nghẽn API tuyệt đối!
+          </p>
         </div>
 
         <div className="form-group" style={{ marginTop: 20 }}>
@@ -310,14 +356,14 @@ export default function SettingsTab() {
           >
             <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash Lite (Mặc định - Mới nhất)</option>
             <option value="gemini-3.5-flash">Gemini 3.5 Flash (Hiệu năng cao)</option>
-            <option value="gemini-2.0-flash">Gemini 2.0 Flash (Chuẩn)</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
             <option value="gemini-1.5-pro">Gemini 1.5 Pro (Xử lý sâu)</option>
           </select>
 
         </div>
 
         <div className="form-group" style={{ marginTop: 20 }}>
-          <label className="form-label">🎨 Bộ công cụ vẽ ảnh nền Phật giáo (Chỉ hỗ trợ Meta AI)</label>
+          <label className="form-label">🎨 Nguồn công cụ tạo ảnh (Image Generation Provider)</label>
           <select
             className="form-input"
             value={imageGenSource}
@@ -329,8 +375,94 @@ export default function SettingsTab() {
           >
             <option value="meta_direct">Meta AI Trực tiếp (Browser — ảnh sạch, không logo)</option>
             <option value="meta_vibes">Meta AI qua Vibes.ai (Yêu cầu token Vibes.ai)</option>
+            <option value="9router">9Router AI Gateway (DALL-E / Gemini Image / FLUX / SDWebUI...)</option>
           </select>
         </div>
+
+        {imageGenSource === '9router' && (
+          <div className="form-group" style={{ marginTop: 20, padding: 16, background: 'rgba(99, 102, 241, 0.05)', borderRadius: 12, border: '1px solid rgba(99, 102, 241, 0.2)' }}>
+            <h4 style={{ fontSize: 14, color: '#818cf8', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+              🚀 Cấu hình 9Router Gateway
+            </h4>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div>
+                <label className="form-label" style={{ fontSize: 12 }}>9Router URL (`NINEROUTER_URL`)</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="http://localhost:20128"
+                  value={nineRouterUrl}
+                  onChange={(e) => {
+                    setNineRouterUrl(e.target.value);
+                    localStorage.setItem('ninerouter_url', e.target.value);
+                  }}
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}
+                />
+              </div>
+
+              <div>
+                <label className="form-label" style={{ fontSize: 12 }}>9Router API Key (`NINEROUTER_KEY` - nếu có)</label>
+                <input
+                  type="password"
+                  className="form-input"
+                  placeholder="sk-..."
+                  value={nineRouterKey}
+                  onChange={(e) => {
+                    setNineRouterKey(e.target.value);
+                    localStorage.setItem('ninerouter_key', e.target.value);
+                  }}
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}
+                />
+              </div>
+
+              <div>
+                <label className="form-label" style={{ fontSize: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>9Router Image Model (`NINEROUTER_MODEL`)</span>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleFetch9RouterModels}
+                    disabled={fetching9RModels}
+                    style={{ padding: '2px 8px', fontSize: 11 }}
+                  >
+                    {fetching9RModels ? <RefreshCw size={12} className="spin" /> : '🔄 Lấy danh sách Model'}
+                  </button>
+                </label>
+                {nineRouterModelsList.length > 0 ? (
+                  <select
+                    className="form-input"
+                    value={nineRouterModel}
+                    onChange={(e) => {
+                      setNineRouterModel(e.target.value);
+                      localStorage.setItem('ninerouter_model', e.target.value);
+                    }}
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}
+                  >
+                    {nineRouterModelsList.map(m => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="ag/gemini-3.1-flash-image hoặc openai/dall-e-3..."
+                    value={nineRouterModel}
+                    onChange={(e) => {
+                      setNineRouterModel(e.target.value);
+                      localStorage.setItem('ninerouter_model', e.target.value);
+                    }}
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}
+                  />
+                )}
+              </div>
+              <div style={{ color: 'var(--text-muted)', fontSize: 11 }}>
+                Hỗ trợ cổng 9Router API tương thích OpenAI: <code>/v1/images/generations</code>. Ví dụ model: <code>ag/gemini-3.1-flash-image</code>, <code>openai/dall-e-3</code>, <code>flux/schnell</code>...
+              </div>
+            </div>
+          </div>
+        )}
 
         {imageGenSource === 'meta_vibes' && (
           <div className="form-group" style={{ marginTop: 20 }}>
@@ -394,8 +526,10 @@ export default function SettingsTab() {
               placeholder={'# Netscape HTTP Cookie File\nhoặc dán chuỗi Cookie thô từ F12 (datr=...; ecto_1_sess=...)'}
               value={metaDirectCookie}
               onChange={(e) => {
-                setMetaDirectCookie(e.target.value);
-                localStorage.setItem('meta_direct_cookie', e.target.value);
+                const val = e.target.value;
+                setMetaDirectCookie(val);
+                localStorage.setItem('meta_direct_cookie', val);
+                ipcRenderer.invoke('save-env-settings', { metaDirectCookie: val });
               }}
               disabled={status === 'checking'}
               style={{ fontFamily: 'var(--font-mono)', fontSize: 11, width: '100%', padding: '10px', resize: 'vertical' }}
@@ -422,9 +556,12 @@ export default function SettingsTab() {
               placeholder={'# Netscape HTTP Cookie File\nhoặc dán chuỗi Cookie thô từ F12...'}
               value={labsGoogleCookie}
               onChange={(e) => {
-                setLabsGoogleCookie(e.target.value);
-                localStorage.setItem('labs_google_cookie', e.target.value);
+                const val = e.target.value;
+                setLabsGoogleCookie(val);
+                localStorage.setItem('labs_google_cookie', val);
+                ipcRenderer.invoke('save-env-settings', { labsGoogleCookie: val });
               }}
+
               style={{ fontFamily: 'var(--font-mono)', fontSize: 11, width: '100%', padding: '10px', resize: 'vertical' }}
             />
             {labsGoogleCookie && (labsGoogleCookie.includes('meta.ai') || labsGoogleCookie.includes('vibes.ai')) && (

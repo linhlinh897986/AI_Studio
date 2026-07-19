@@ -1,5 +1,5 @@
 # ==============================================================================
-# VIGEN AIO STUDIO - GOOGLE COLAB SERVER FOR VIENEU-TTS
+# VIGEN AIO STUDIO - GOOGLE COLAB SERVER FOR VIENEU-TTS (ASYNC TASK SUPPORT)
 # ==============================================================================
 # Hướng dẫn chạy trên Google Colab:
 # 1. Truy cập https://colab.research.google.com và tạo một Notebook mới.
@@ -16,7 +16,9 @@
 import os
 import re
 import time
+import uuid
 import tempfile
+import threading
 import subprocess
 from flask import Flask, request, send_file, jsonify
 
@@ -24,16 +26,29 @@ from flask import Flask, request, send_file, jsonify
 app = Flask(__name__)
 TEMP_DIR = tempfile.gettempdir()
 
+# Task Queue Manager cho Asynchronous Processing
+tasks = {}
+
+def cleanup_old_tasks():
+    now = time.time()
+    for tid in list(tasks.keys()):
+        if now - tasks[tid].get("created_at", 0) > 3600: # 1 hour TTL
+            task_info = tasks.pop(tid, None)
+            if task_info and task_info.get("output_path") and os.path.exists(task_info["output_path"]):
+                try:
+                    os.remove(task_info["output_path"])
+                except Exception:
+                    pass
+
 # Tải mô hình VieNeu-TTS
 print("Đang khởi tạo mô hình VieNeu-TTS...")
 try:
     from vieneu import Vieneu
-    # Mặc định Vieneu sẽ tự động sử dụng GPU/CUDA nếu onnxruntime-gpu được cài đặt
     tts = Vieneu()
     print("Khởi tạo mô hình VieNeu-TTS thành công!")
 except Exception as e:
     print(f"LỖI khởi tạo mô hình VieNeu-TTS: {str(e)}")
-    print("Vui lòng đảm bảo đã chạy: pip install vieneu torch onnxruntime-gpu")
+    print("Vui lòng đảm bảo đã chạy: pip install flask vieneu torch onnxruntime-gpu")
 
 @app.route('/upload_ref', methods=['POST'])
 def upload_ref():
@@ -43,11 +58,81 @@ def upload_ref():
     if file.filename == '':
         return jsonify({"error": "Không có tệp tin nào được chọn."}), 400
     
-    # Lưu tệp tin âm thanh mẫu tạm thời
     file_path = os.path.join(TEMP_DIR, f"vieneu_ref_{os.urandom(4).hex()}.wav")
     file.save(file_path)
     print(f"[VieNeu] Đã lưu tệp mẫu: {file_path}")
     return jsonify({"ref_path": file_path})
+
+@app.route('/synthesize_async', methods=['POST'])
+def synthesize_async():
+    cleanup_old_tasks()
+    text = request.form.get('text', '')
+    voice = request.form.get('voice', '')
+    ref_path = request.form.get('ref_path', '')
+    
+    if not text:
+        return jsonify({"error": "Tham số 'text' không được để trống."}), 400
+        
+    ref_audio_file = None
+    if ref_path and os.path.exists(ref_path):
+        ref_audio_file = ref_path
+    elif 'file' in request.files:
+        file = request.files['file']
+        if file.filename != '':
+            ref_audio_file = os.path.join(TEMP_DIR, f"vieneu_ref_{os.urandom(4).hex()}.wav")
+            file.save(ref_audio_file)
+
+    task_id = str(uuid.uuid4())
+    tasks[task_id] = {
+        "status": "processing",
+        "output_path": None,
+        "error": None,
+        "created_at": time.time()
+    }
+
+    def run_synthesis_job(tid, txt, v_name, r_file):
+        output_path = os.path.join(TEMP_DIR, f"vieneu_out_{tid}.wav")
+        print(f"[VieNeu Async Task {tid}] Bắt đầu tổng hợp. Văn bản: '{txt[:50]}...'")
+        try:
+            if r_file:
+                audio = tts.infer(text=txt, ref_audio=r_file)
+            elif v_name:
+                audio = tts.infer(text=txt, voice=v_name)
+            else:
+                audio = tts.infer(text=txt)
+                
+            tts.save(audio, output_path)
+            print(f"[VieNeu Async Task {tid}] Hoàn thành -> {output_path}")
+            tasks[tid]["status"] = "completed"
+            tasks[tid]["output_path"] = output_path
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            tasks[tid]["status"] = "error"
+            tasks[tid]["error"] = str(e)
+
+    threading.Thread(target=run_synthesis_job, args=(task_id, text, voice, ref_audio_file), daemon=True).start()
+    return jsonify({"task_id": task_id, "status": "processing"})
+
+@app.route('/status/<task_id>', methods=['GET'])
+def get_status(task_id):
+    if task_id not in tasks:
+        return jsonify({"error": "Task ID không tồn tại hoặc đã hết hạn."}), 404
+    info = tasks[task_id]
+    return jsonify({
+        "task_id": task_id,
+        "status": info["status"],
+        "error": info.get("error")
+    })
+
+@app.route('/download/<task_id>', methods=['GET'])
+def download_result(task_id):
+    if task_id not in tasks:
+        return jsonify({"error": "Task ID không tồn tại hoặc đã hết hạn."}), 404
+    info = tasks[task_id]
+    if info["status"] != "completed" or not info.get("output_path") or not os.path.exists(info["output_path"]):
+        return jsonify({"error": f"Tệp âm thanh chưa sẵn sàng hoặc bị lỗi: {info.get('error')}"}), 400
+    return send_file(info["output_path"], mimetype="audio/wav")
 
 @app.route('/synthesize', methods=['POST'])
 def synthesize():
@@ -71,20 +156,14 @@ def synthesize():
     print(f"[VieNeu] Bắt đầu tổng hợp giọng nói. Văn bản: '{text[:50]}...'")
     
     try:
-        # Thực hiện tổng hợp giọng nói dựa theo cấu hình
         if ref_audio_file:
-            print(f"[VieNeu] Chế độ clone giọng nói từ mẫu: {ref_audio_file}")
             audio = tts.infer(text=text, ref_audio=ref_audio_file)
         elif voice:
-            print(f"[VieNeu] Sử dụng giọng mẫu: {voice}")
             audio = tts.infer(text=text, voice=voice)
         else:
-            print("[VieNeu] Sử dụng giọng nói mặc định (Trúc Ly)")
             audio = tts.infer(text=text)
             
-        # Lưu tệp đầu ra
         tts.save(audio, output_path)
-        print(f"[VieNeu] Tổng hợp thành công! Gửi tệp âm thanh phản hồi: {output_path}")
         return send_file(output_path, mimetype="audio/wav")
     except Exception as e:
         import traceback
@@ -92,12 +171,10 @@ def synthesize():
         return jsonify({"error": str(e)}), 500
 
 def start_cloudflare_tunnel():
-    # Tải bộ cài cloudflared
     print("\nĐang cài đặt Cloudflare Tunnel (cloudflared)...")
     subprocess.run(["wget", "-q", "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"])
     subprocess.run(["dpkg", "-i", "cloudflared-linux-amd64.deb"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
-    # Khởi chạy tunnel trên cổng 39828
     print("Đang khởi tạo đường truyền Cloudflare Tunnel...")
     proc = subprocess.Popen(
         ["cloudflared", "tunnel", "--url", "http://127.0.0.1:39828"], 
@@ -106,7 +183,6 @@ def start_cloudflare_tunnel():
         text=True
     )
     
-    # Tìm kiếm liên kết trycloudflare.com
     tunnel_url = None
     for _ in range(30):
         time.sleep(1)
@@ -121,15 +197,8 @@ def start_cloudflare_tunnel():
                 print("="*50 + "\n")
                 print("Hãy sao chép liên kết trên dán vào tab Cấu Hình của ViGen AIO.")
                 break
-    if not tunnel_url:
-        print("\n[CẢNH BÁO] Không lấy được liên kết Cloudflare Tunnel tự động.")
-        print("Hãy chạy cloudflared thủ công hoặc kiểm tra kết nối mạng của Colab.")
 
 if __name__ == '__main__':
-    # Khởi động Cloudflare Tunnel dưới nền
-    import threading
     threading.Thread(target=start_cloudflare_tunnel, daemon=True).start()
-    
-    # Chạy Flask Server
     print("Đang khởi chạy Flask server trên cổng 39828...")
     app.run(port=39828, host='0.0.0.0')

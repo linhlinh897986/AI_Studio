@@ -1,10 +1,22 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const fs = require('fs');
 const path = require('path');
+const { globalKeyPool } = require('./key_manager');
 
-const BACKUP_API_KEYS = process.env.GEMINI_API_KEY ? [process.env.GEMINI_API_KEY] : [];
-let keyIndex = 0;
-
+function getApiKeyPool(apiKey) {
+  const pool = [];
+  if (apiKey && typeof apiKey === 'string') {
+    apiKey.split(/[\n,;]+/).map(k => k.trim()).filter(Boolean).forEach(k => {
+      if (!pool.includes(k)) pool.push(k);
+    });
+  }
+  if (process.env.GEMINI_API_KEY) {
+    process.env.GEMINI_API_KEY.split(/[\n,;]+/).map(k => k.trim()).filter(Boolean).forEach(k => {
+      if (!pool.includes(k)) pool.push(k);
+    });
+  }
+  return pool.length > 0 ? pool : [''];
+}
 
 /**
  * Helper to call an agent using Gemini JSON mode
@@ -51,52 +63,34 @@ async function callAgent({ apiKey, modelName, systemPrompt, userPrompt, jsonSche
     text: `${userPrompt}\n\nIMPORTANT: You MUST return a single, valid JSON object matching this structure/schema description:\n${jsonSchemaDesc}\nEnsure there is no markdown code wrapping (like \`\`\`json ... \`\`\`), just return the raw JSON string.` 
   });
 
-  const pool = [];
-  if (apiKey && apiKey.trim()) {
-    pool.push(apiKey.trim());
-  }
-  BACKUP_API_KEYS.forEach(k => {
-    if (!pool.includes(k)) pool.push(k);
+  const { globalKeyPool } = require('./key_manager');
+  const result = await globalKeyPool.executeWithRetry(apiKey, async (currentKey) => {
+    const genAI = new GoogleGenerativeAI(currentKey);
+    const model = genAI.getGenerativeModel(modelOptions);
+    return await model.generateContent(contents);
   });
 
-  let result;
-  const maxRetries = pool.length > 1 ? Math.min(6, pool.length) : 3;
-  let delay = 1500;
-
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    const currentKey = pool[(keyIndex + attempt - 1) % pool.length];
-    try {
-      const genAI = new GoogleGenerativeAI(currentKey);
-      const model = genAI.getGenerativeModel(modelOptions);
-      result = await model.generateContent(contents);
-      
-      keyIndex = (keyIndex + attempt) % pool.length;
-      break;
-    } catch (e) {
-      console.warn(`[Gemini Attempt ${attempt} failed with key ${currentKey.substring(0, 10)}...]: ${e.message}`);
-      if (attempt === maxRetries) {
-        throw new Error(`[Gemini Error] Thất bại sau ${maxRetries} lần gọi với các API Key khác nhau. Lỗi cuối: ${e.message}`);
-      }
-      await new Promise(resolve => setTimeout(resolve, delay));
-      delay = Math.min(8000, delay * 1.5);
-    }
-  }
-
   const responseText = result.response.text().trim();
+  return parseSafeJson(responseText);
+}
+
+function parseSafeJson(text) {
+  if (!text) throw new Error('Empty response from AI');
+  let clean = text.trim();
+  clean = clean.replace(/```(?:json)?\s*([\s\S]*?)```/gi, '$1').trim();
+
   try {
-    return JSON.parse(responseText);
+    return JSON.parse(clean);
   } catch (err) {
-    try {
-      const fenceMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)```/);
-      if (fenceMatch) {
-        return JSON.parse(fenceMatch[1].trim());
-      }
-      const braceMatch = responseText.match(/\{[\s\S]*\}/);
-      if (braceMatch) {
-        return JSON.parse(braceMatch[0]);
-      }
-    } catch (_) {}
-    throw new Error(`AI returned invalid JSON: ${responseText.substring(0, 300)}...`);
+    const objMatch = clean.match(/\{[\s\S]*\}/);
+    if (objMatch) {
+      try { return JSON.parse(objMatch[0]); } catch (_) {}
+    }
+    const arrMatch = clean.match(/\[[\s\S]*\]/);
+    if (arrMatch) {
+      try { return JSON.parse(arrMatch[0]); } catch (_) {}
+    }
+    throw new Error(`Phản hồi AI không đúng định dạng JSON: ${clean.substring(0, 150)}...`);
   }
 }
 
@@ -106,9 +100,7 @@ async function callAgent({ apiKey, modelName, systemPrompt, userPrompt, jsonSche
  */
 async function generateScenePromptsInChunks({ apiKey, modelName, topic, scenes, aspectRatio = '9:16', onProgress }) {
   const CHUNK_SIZE = 4; // 4 scenes per API call for maximum detail & zero token overflow
-  const pool = [];
-  if (apiKey && apiKey.trim()) pool.push(apiKey.trim());
-  BACKUP_API_KEYS.forEach(k => { if (!pool.includes(k)) pool.push(k); });
+  const pool = getApiKeyPool(apiKey);
 
   const formattedStoryboard = [];
   const ratioText = aspectRatio === '16:9' ? 'horizontal 16:9 landscape aspect ratio' : 'vertical 9:16 aspect ratio';
@@ -205,9 +197,91 @@ Return a JSON array matching this exact format:
 }
 
 /**
+ * Expands script into multiple chapters for long duration videos (5m, 10m, 15m, 30m, 60m, 120m, 180m).
+ * Prevents LLM output truncation by making chunked Gemini API calls across available keys.
+ */
+async function expandLongScriptInChunks({ apiKey, modelName, topic, outline, targetSyllables, styleText, pdfFilePath, onProgress }) {
+  const CHUNK_SYLLABLES = 650; // ~40 sentences per Gemini call
+  const numChapters = Math.max(2, Math.ceil(targetSyllables / CHUNK_SYLLABLES));
+  const pool = getApiKeyPool(apiKey);
+
+  const expandedScript = [];
+
+  for (let i = 0; i < numChapters; i++) {
+    const chapNum = i + 1;
+    const keyIdx = i % pool.length;
+    const currentKey = pool[keyIdx];
+
+    const outlineSection = outline && outline[i % outline.length] 
+      ? `Tên phần: ${outline[i % outline.length].section}. Trọng tâm: ${(outline[i % outline.length].points || []).join(', ')}`
+      : `Phần ${chapNum}: Khai triển chủ đề sâu sắc`;
+
+    if (typeof onProgress === 'function') {
+      onProgress({
+        agent: 'Script Rewriter',
+        status: 'running',
+        message: `⚡ [Worker #${keyIdx + 1}] Đang viết kịch bản chuyên sâu Chương ${chapNum}/${numChapters} (${outlineSection.slice(0, 45)}...)...`
+      });
+    }
+
+    const chapPrompt = `Bạn là đại thiền sư và nhà biên kịch Phật giáo xuất sắc.
+Hãy viết phần kịch bản thoại tiếng Việt cho Chương ${chapNum}/${numChapters} của bài pháp thoại về chủ đề "${topic}".
+
+Bối cảnh chương: ${outlineSection}
+Phong cách giọng văn: ${styleText}
+
+YÊU CẦU QUAN TRỌNG:
+1. Viết khoảng 35-45 câu thoại ngắn (khoảng 600-700 âm tiết tiếng Việt), hành văn mộc mạc, thanh tịnh, chậm rãi.
+2. Tuyệt đối không dùng từ đệm thừa, không tự giới thiệu. Mỗi câu là 1 tư tưởng triết lý hoặc 1 mẩu chuyện/ví dụ thực tế.
+
+Return ONLY a raw JSON array of objects:
+[
+  { "text": "Câu thoại tiếng Việt súc tích thứ nhất..." },
+  { "text": "Câu thoại tiếng Việt thứ hai..." }
+]`;
+
+    try {
+      const responseText = await globalKeyPool.executeWithRetry(apiKey, async (currentKey) => {
+        const genAI = new GoogleGenerativeAI(currentKey);
+        const model = genAI.getGenerativeModel({
+          model: modelName,
+          generationConfig: { responseMimeType: "application/json" }
+        });
+        const res = await model.generateContent([{ text: chapPrompt }]);
+        return res.response.text().trim();
+      });
+
+      let chapData;
+      try {
+        chapData = JSON.parse(responseText);
+      } catch (_) {
+        const match = responseText.match(/\[\s*\{[\s\S]*\}\s*\]/);
+        chapData = match ? JSON.parse(match[0]) : null;
+      }
+
+      if (Array.isArray(chapData) && chapData.length > 0) {
+        chapData.forEach(item => {
+          if (item.text && item.text.trim()) {
+            expandedScript.push({ text: item.text.trim() });
+          }
+        });
+      }
+    } catch (err) {
+      console.error(`[Chapter Worker Failed for Chap ${chapNum}]: ${err.message}`);
+    }
+
+    // Delay 800ms between chapter calls to maintain smooth token throughput
+    await new Promise(resolve => setTimeout(resolve, 800));
+  }
+
+  return expandedScript;
+}
+
+/**
  * Runs the complete multi-agent pipeline with distributed chunked prompt generation.
  */
-async function runMultiAgentPipeline({ apiKey, topic, geminiModel, pdfFilePath, duration, style, aspectRatio = '9:16', onProgress }) {
+async function runMultiAgentPipeline({ apiKey, topic, geminiModel, pdfFilePath, duration, style, aspectRatio = '9:16', videoLayout = 'storyboard', onProgress }) {
+
 
   const log = (agent, status, message, data = null) => {
     if (typeof onProgress === 'function') {
@@ -215,7 +289,7 @@ async function runMultiAgentPipeline({ apiKey, topic, geminiModel, pdfFilePath, 
     }
   };
 
-  const modelName = geminiModel || "gemini-2.0-flash";
+  const modelName = geminiModel || "gemini-2.5-flash";
   const durationText = duration >= 60 ? `${duration / 60} giờ` : (duration === 0.5 ? "30 giây" : `${duration} phút`);
   const styleText = style === 'accessible' 
     ? "Bình dị, đời thường, mộc mạc, dễ hiểu, tránh các từ Hán Việt quá phức tạp hoặc thuật ngữ học thuật khô khan." 
@@ -373,17 +447,70 @@ Hãy nghiên cứu tài liệu đính kèm (nếu có), suy nghĩ tuần tự v�
       log(agent.name, 'success', successMessage, resultData[agentKey] || {});
     }
 
-    // ⚡ CHUNKED PROMPT GENERATION: Split scenes across distributed API calls
-    log('Final Formatter', 'running', '🚀 Bắt đầu phân chia tạo Prompt ảnh theo từng cụm phân cảnh qua các API Worker khác nhau...');
-    const rawScenes = resultData.formatter?.storyboard || resultData.rewriter?.rewrittenScript || [];
-    const chunkedStoryboard = await generateScenePromptsInChunks({
-      apiKey,
-      modelName,
-      topic,
-      scenes: rawScenes,
-      aspectRatio,
-      onProgress
-    });
+    let rawScenes = resultData.formatter?.storyboard || resultData.rewriter?.rewrittenScript || [];
+
+    // ⚡ LONG DURATION SCRIPT EXPANSION: If target duration is long (>= 5 mins), expand script in chunked chapter calls
+    if (duration >= 5 || rawScenes.length < targetSentences * 0.4) {
+      log('Script Rewriter', 'running', `⚡ Thời lượng dài (${durationText}). Đang kích hoạt 10-Worker Chunking để mở rộng bài giảng trọn vẹn ${targetSentences} câu thoại (~${targetSyllables} âm tiết)...`);
+      const longScriptScenes = await expandLongScriptInChunks({
+        apiKey,
+        modelName,
+        topic,
+        outline: resultData.planner?.outline || [],
+        targetSyllables,
+        styleText,
+        pdfFilePath,
+        onProgress
+      });
+      if (longScriptScenes.length > 0) {
+        rawScenes = longScriptScenes;
+        log('Script Rewriter', 'success', `Đã mở rộng thành công bài giảng dài gồm ${rawScenes.length} câu thoại liền mạch!`);
+      }
+    }
+
+    let chunkedStoryboard = [];
+    if (videoLayout === 'static') {
+      log('Final Formatter', 'running', '💡 Bạn chọn [Ảnh nền tĩnh (1 ảnh)]: Bỏ qua lặp 507 cảnh, đang tạo 1 Prompt ảnh duy nhất...');
+      const ratioText = aspectRatio === '16:9' ? 'horizontal 16:9 landscape aspect ratio' : 'vertical 9:16 aspect ratio';
+      let singlePrompt = `Detailed traditional East Asian Buddhist artwork, serene Buddha statue or meditating monk in a peaceful lotus temple garden, ${topic}, ${ratioText}, photorealistic, highly detailed, 8k resolution`;
+      try {
+        const text = await globalKeyPool.executeWithRetry(apiKey, async (currentKey) => {
+          const genAI = new GoogleGenerativeAI(currentKey);
+          const model = genAI.getGenerativeModel({ model: modelName });
+          const res = await model.generateContent([
+            `Create a single detailed English AI image prompt for a video background image.
+Teaching Topic: "${topic}"
+Target Video Format: ${ratioText}
+REQUIREMENTS: Traditional East Asian Buddhist art, serene Buddhist monks, Buddha statues, temple gardens, peaceful nature. English, highly detailed. NO text overlay.
+Return ONLY the prompt text in English.`
+          ]);
+          return res.response.text().trim();
+        });
+        if (text && text.length > 10) singlePrompt = text;
+      } catch (e) {
+        console.warn('Single prompt fallback:', e.message);
+      }
+
+      chunkedStoryboard = rawScenes.map((s, idx) => ({
+        sceneIndex: idx + 1,
+        text: typeof s === 'string' ? s : (s.text || ''),
+        imagePrompt: singlePrompt,
+        voicePrompt: 'Trầm ấm, chiêm nghiệm'
+      }));
+      log('Final Formatter', 'success', `✅ Đã tối ưu! Tạo 1 Prompt ảnh tĩnh dùng chung cho toàn bộ ${chunkedStoryboard.length} câu thoại.`);
+    } else {
+      // ⚡ CHUNKED PROMPT GENERATION: Split scenes across distributed API calls
+      log('Final Formatter', 'running', '🚀 Bắt đầu phân chia tạo Prompt ảnh theo từng cụm phân cảnh qua các API Worker khác nhau...');
+      chunkedStoryboard = await generateScenePromptsInChunks({
+        apiKey,
+        modelName,
+        topic,
+        scenes: rawScenes,
+        aspectRatio,
+        onProgress
+      });
+    }
+
 
     log('Final Formatter', 'success', `Đã phân chia API và tạo thành công ${chunkedStoryboard.length} Phân cảnh kèm Image Prompt đồng bộ!`, {
       title: resultData.formatter?.title,

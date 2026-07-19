@@ -127,7 +127,86 @@ function preprocessTextForTts(text, voiceIdOrLang = 'vi') {
 }
 
 /**
- * Synthesize text to speech using msedge-tts native package
+/**
+ * Helper to split long text into smaller sentence chunks (~400 chars each) to prevent WebSocket timeouts.
+ */
+function splitTextIntoChunks(text, maxChunkLen = 400) {
+  const sentences = text.match(/[^.!?\n]+[.!?\n]*/g) || [text];
+  const chunks = [];
+  let currentChunk = '';
+
+  for (const sentence of sentences) {
+    if ((currentChunk + sentence).length > maxChunkLen && currentChunk.trim()) {
+      chunks.push(currentChunk.trim());
+      currentChunk = sentence;
+    } else {
+      currentChunk += sentence;
+    }
+  }
+
+  if (currentChunk.trim()) {
+    chunks.push(currentChunk.trim());
+  }
+
+  return chunks;
+}
+
+/**
+ * Synthesizes a single short chunk of text with retries.
+ */
+async function synthesizeSingleChunk(cleanText, tempPath, voice, rate) {
+  const maxRetries = 3;
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      if (attempt > 1) {
+        const delay = Math.pow(2, attempt - 1) * 1000;
+        await new Promise(r => setTimeout(r, delay));
+      }
+
+      console.log(`[Edge TTS Node] Synthesizing chunk (${cleanText.length} chars): "${cleanText.substring(0, 35)}..." [Voice: ${voice}]`);
+      const tts = new MsEdgeTTS();
+      await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
+      const { audioStream } = tts.toStream(cleanText, { rate });
+
+      const ws = fs.createWriteStream(tempPath);
+      audioStream.pipe(ws);
+
+      await new Promise((resolveStream, rejectStream) => {
+        ws.on('finish', () => {
+          if (fs.existsSync(tempPath) && fs.statSync(tempPath).size > 0) {
+            resolveStream();
+          } else {
+            rejectStream(new Error("Received empty audio stream (size = 0)"));
+          }
+        });
+
+        const handleError = (err) => {
+          try { ws.destroy(); } catch (e) {}
+          rejectStream(err);
+        };
+
+        ws.on('error', handleError);
+        audioStream.on('error', handleError);
+      });
+
+      return tempPath;
+    } catch (err) {
+      lastError = err;
+      console.warn(`[Edge TTS Chunk Retry ${attempt}/${maxRetries}]: ${err.message}`);
+      try {
+        await new Promise(r => setTimeout(r, 150));
+        if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
+      } catch (e) {}
+    }
+  }
+
+  throw new Error(`Edge TTS Chunk failed: ${lastError ? lastError.message : 'Unknown error'}`);
+}
+
+/**
+ * Synthesize text to speech using msedge-tts native package with automatic chunking for long scripts
  */
 function synthesizeSpeech(text, outputPath, options = {}) {
   const voice = options.voice || 'vi-VN-NamMinhNeural';
@@ -182,65 +261,49 @@ function synthesizeSpeech(text, outputPath, options = {}) {
       fs.mkdirSync(outDir, { recursive: true });
     }
 
-    // 3. Synthesize via MsEdgeTTS with retry logic
-    const maxRetries = 3;
-    let lastError = null;
+    // 3. Chunking for long text to avoid Edge TTS WebSocket disconnection
+    const textChunks = splitTextIntoChunks(cleanText, 450);
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    if (textChunks.length === 1) {
       try {
-        if (attempt > 1) {
-          const delay = Math.pow(2, attempt - 1) * 1000; // 2s, 4s
-          console.log(`[Edge TTS Node] Retrying attempt ${attempt}/${maxRetries} in ${delay / 1000}s...`);
-          await new Promise(r => setTimeout(r, delay));
-        }
-
-        console.log(`[Edge TTS Node] Synthesizing speech: "${cleanText.substring(0, 40)}..." [Voice: ${voice}, Rate: ${rate}]`);
-        const tts = new MsEdgeTTS();
-        await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
-        const { audioStream } = tts.toStream(cleanText, { rate });
-
-        const ws = fs.createWriteStream(outputPath);
-        audioStream.pipe(ws);
-
-        await new Promise((resolveStream, rejectStream) => {
-          ws.on('finish', () => {
-            if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 0) {
-              resolveStream();
-            } else {
-              rejectStream(new Error("Received empty audio stream (size = 0)"));
-            }
-          });
-
-          const handleError = (err) => {
-            try {
-              ws.destroy();
-            } catch (e) {}
-            rejectStream(err);
-          };
-
-          ws.on('error', handleError);
-          audioStream.on('error', handleError);
-        });
-
-        // Resolve on success
+        await synthesizeSingleChunk(textChunks[0], outputPath, voice, rate);
         return resolve(outputPath);
-
       } catch (err) {
-        lastError = err;
-        console.error(`[Edge TTS Node] Attempt ${attempt}/${maxRetries} failed: ${err.message}`);
-        // Clean up failed file chunk if exists, with a short delay to release OS lock
-        try {
-          await new Promise(r => setTimeout(r, 150));
-          if (fs.existsSync(outputPath)) {
-            fs.unlinkSync(outputPath);
-          }
-        } catch (e) {
-          console.warn(`[Edge TTS Node] Failed to unlink temp file: ${e.message}`);
-        }
+        return reject(err);
       }
     }
 
-    reject(new Error(`Edge TTS Node failed after ${maxRetries} attempts: ${lastError ? lastError.message : 'Unknown error'}`));
+    console.log(`[Edge TTS Node] Van ban dai (${cleanText.length} ky tu). Tự động chia làm ${textChunks.length} phần để lồng tiếng...`);
+    const tempFiles = [];
+
+    try {
+      for (let i = 0; i < textChunks.length; i++) {
+        const tempPath = path.join(outDir, `tts_temp_chunk_${Date.now()}_${i}.mp3`);
+        await synthesizeSingleChunk(textChunks[i], tempPath, voice, rate);
+        tempFiles.push(tempPath);
+      }
+
+      // Merge all MP3 chunk buffers into final MP3 file
+      const buffers = tempFiles.map(filePath => fs.readFileSync(filePath));
+      const combinedBuffer = Buffer.concat(buffers);
+      fs.writeFileSync(outputPath, combinedBuffer);
+
+      console.log(`[Edge TTS Node] Lồng tiếng hoàn tất! Đã ghép ${tempFiles.length} phần thành file: ${outputPath}`);
+
+      // Clean up temporary chunk files
+      tempFiles.forEach(f => {
+        try { fs.unlinkSync(f); } catch (e) {}
+      });
+
+      return resolve(outputPath);
+
+    } catch (err) {
+      // Cleanup on failure
+      tempFiles.forEach(f => {
+        try { if (fs.existsSync(f)) fs.unlinkSync(f); } catch (e) {}
+      });
+      return reject(new Error(`Edge TTS Multi-Chunk failed: ${err.message}`));
+    }
   });
 }
 

@@ -7,6 +7,8 @@ test_venv/
 dist/
 dist-build/
 dist-electron/
+dist-frontend/
+dist-installer/
 
 # Temp folders
 temp/

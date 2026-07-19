@@ -12,7 +12,8 @@ import {
   Bell,
   User,
   Activity,
-  Tv
+  Tv,
+  Film
 } from 'lucide-react';
 
 import Dashboard from './components/Dashboard';
@@ -22,6 +23,7 @@ import StickmanTab from './components/StickmanTab';
 import DubberTab from './components/DubberTab';
 import SettingsTab from './components/SettingsTab';
 import ProcessesTab from './components/ProcessesTab';
+import VideoCloneTab from './components/VideoCloneTab';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -201,6 +203,14 @@ export default function App() {
           </div>
 
           <div 
+            className={`nav-item ${activeTab === 'video-clone' ? 'active' : ''}`}
+            onClick={() => setActiveTab('video-clone')}
+          >
+            <Film className="nav-icon" />
+            <span>Clone Video AI</span>
+          </div>
+
+          <div 
             className={`nav-item ${activeTab === 'processes' ? 'active' : ''}`}
             onClick={() => setActiveTab('processes')}
           >
@@ -310,6 +320,9 @@ export default function App() {
         </div>
         <div style={{ display: activeTab === 'dubber' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <DubberTab onLog={addLog} />
+        </div>
+        <div style={{ display: activeTab === 'video-clone' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
+          <VideoCloneTab onLog={addLog} />
         </div>
         <div style={{ display: activeTab === 'processes' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <ProcessesTab processes={processes} setProcesses={setProcesses} />

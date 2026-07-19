@@ -1,7 +1,6 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const BACKUP_API_KEYS = process.env.GEMINI_API_KEY ? [process.env.GEMINI_API_KEY] : [];
-let keyIndex = 0;
 
 
 /**
@@ -44,6 +43,21 @@ function extractFirstJson(text) {
   throw new Error('Unbalanced JSON braces in response');
 }
 
+function getApiKeyPool(apiKey) {
+  const pool = [];
+  if (apiKey && typeof apiKey === 'string') {
+    apiKey.split(/[\n,;]+/).map(k => k.trim()).filter(Boolean).forEach(k => {
+      if (!pool.includes(k)) pool.push(k);
+    });
+  }
+  if (process.env.GEMINI_API_KEY) {
+    process.env.GEMINI_API_KEY.split(/[\n,;]+/).map(k => k.trim()).filter(Boolean).forEach(k => {
+      if (!pool.includes(k)) pool.push(k);
+    });
+  }
+  return pool.length > 0 ? pool : [''];
+}
+
 /**
  * Call Gemini to generate a video script in JSON format
  * @param {string} apiKey 
@@ -51,7 +65,7 @@ function extractFirstJson(text) {
  * @param {string} userPrompt 
  * @returns {Promise<object>}
  */
-async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = "gemini-2.0-flash", pdfFilePath = null) {
+async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = "gemini-3.1-flash-lite", pdfFilePath = null) {
   const modelOptions = { 
     model: modelName,
     generationConfig: {
@@ -82,36 +96,12 @@ async function generateJsonScript(apiKey, systemPrompt, userPrompt, modelName = 
 
   contents.push({ text: userPrompt });
 
-  const pool = [];
-  if (apiKey && apiKey.trim()) {
-    pool.push(apiKey.trim());
-  }
-  BACKUP_API_KEYS.forEach(k => {
-    if (!pool.includes(k)) pool.push(k);
+  const { globalKeyPool } = require('./key_manager');
+  const result = await globalKeyPool.executeWithRetry(apiKey, async (currentKey) => {
+    const genAI = new GoogleGenerativeAI(currentKey);
+    const model = genAI.getGenerativeModel(modelOptions);
+    return await model.generateContent(contents);
   });
-
-  let result;
-  const maxRetries = pool.length > 1 ? Math.min(6, pool.length) : 4;
-  let retryDelay = 1500;
-
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    const currentKey = pool[(keyIndex + attempt - 1) % pool.length];
-    try {
-      const genAI = new GoogleGenerativeAI(currentKey);
-      const model = genAI.getGenerativeModel(modelOptions);
-      result = await model.generateContent(contents);
-      
-      keyIndex = (keyIndex + attempt) % pool.length;
-      break;
-    } catch (e) {
-      console.warn(`[Gemini Attempt ${attempt} failed with key ${currentKey.substring(0, 10)}...]: ${e.message}`);
-      if (attempt === maxRetries) {
-        throw e;
-      }
-      await new Promise(resolve => setTimeout(resolve, retryDelay));
-      retryDelay = Math.min(8000, retryDelay * 1.5);
-    }
-  }
 
   const responseText = result.response.text();
   

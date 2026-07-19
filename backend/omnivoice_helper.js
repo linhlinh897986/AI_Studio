@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const https = require('https');
+const { spawn } = require('child_process');
 
 /**
  * Uploads reference audio to Google Colab / Local server
@@ -40,7 +41,7 @@ function uploadRefAudio(colabUrl, refAudioPath) {
           'Content-Length': requestBody.length,
           'ngrok-skip-browser-warning': 'true'
         },
-        timeout: 45000
+        timeout: 300000 // 5 minutes
       };
 
       const req = clientModule.request(options, (res) => {
@@ -75,6 +76,133 @@ function uploadRefAudio(colabUrl, refAudioPath) {
       reject(err);
     }
   });
+}
+
+/**
+ * Executes Colab Async Polling workflow for OmniVoice to eliminate Cloudflare 524 timeouts.
+ */
+async function executeColabAsyncPolling({ colabUrl, requestBody, boundary, outputPath }) {
+  const parsedUrl = new URL(colabUrl);
+  const clientModule = parsedUrl.protocol === 'https:' ? https : http;
+
+  const submitTask = () => new Promise((resolve, reject) => {
+    const reqOptions = {
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: '/synthesize_async',
+      method: 'POST',
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${boundary}`,
+        'Content-Length': requestBody.length,
+        'ngrok-skip-browser-warning': 'true'
+      },
+      timeout: 30000
+    };
+
+    const req = clientModule.request(reqOptions, (res) => {
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            const json = JSON.parse(body);
+            if (json.task_id) return resolve(json.task_id);
+          } catch (e) {}
+        }
+        const snippet = (body || '').replace(/[\r\n]+/g, ' ').slice(0, 150);
+        reject(new Error(`Endpoint /synthesize_async not supported or returned ${res.statusCode}: ${snippet}`));
+      });
+    });
+
+    req.on('error', (e) => reject(e));
+    req.on('timeout', () => { req.destroy(); reject(new Error('Task submission timeout')); });
+    req.write(requestBody);
+    req.end();
+  });
+
+  const pollStatus = (taskId) => new Promise((resolve, reject) => {
+    const reqOptions = {
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: `/status/${taskId}`,
+      method: 'GET',
+      headers: { 'ngrok-skip-browser-warning': 'true' },
+      timeout: 15000
+    };
+
+    const req = clientModule.request(reqOptions, (res) => {
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            resolve(JSON.parse(body));
+          } catch (e) {
+            const snippet = (body || '').replace(/[\r\n]+/g, ' ').slice(0, 150);
+            reject(new Error(`Máy chủ Colab phản hồi không đúng định dạng JSON: ${snippet}`));
+          }
+        } else {
+          reject(new Error(`Status check failed with code ${res.statusCode}`));
+        }
+      });
+    });
+
+    req.on('error', (e) => reject(e));
+    req.on('timeout', () => { req.destroy(); reject(new Error('Status check timeout')); });
+    req.end();
+  });
+
+  const downloadResult = (taskId) => new Promise((resolve, reject) => {
+    const reqOptions = {
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: `/download/${taskId}`,
+      method: 'GET',
+      headers: { 'ngrok-skip-browser-warning': 'true' },
+      timeout: 120000
+    };
+
+    const req = clientModule.request(reqOptions, (res) => {
+      if (res.statusCode !== 200) {
+        let errData = '';
+        res.on('data', chunk => errData += chunk);
+        res.on('end', () => reject(new Error(`Download error ${res.statusCode}: ${errData}`)));
+        return;
+      }
+      const outStream = fs.createWriteStream(outputPath);
+      res.pipe(outStream);
+      outStream.on('finish', () => resolve(outputPath));
+      outStream.on('error', (err) => reject(err));
+    });
+
+    req.on('error', (e) => reject(e));
+    req.on('timeout', () => { req.destroy(); reject(new Error('Download timeout')); });
+    req.end();
+  });
+
+  const taskId = await submitTask();
+  console.log(`[OmniVoice Colab Async] Started task ID: ${taskId}. Polling every 3s...`);
+
+  const startTime = Date.now();
+  const maxWaitMs = 30 * 60 * 1000; // 30 mins max
+
+  while (Date.now() - startTime < maxWaitMs) {
+    await new Promise(r => setTimeout(r, 3000));
+    try {
+      const statusRes = await pollStatus(taskId);
+      if (statusRes.status === 'completed') {
+        console.log(`[OmniVoice Colab Async] Task ${taskId} completed! Downloading audio...`);
+        return await downloadResult(taskId);
+      } else if (statusRes.status === 'error') {
+        throw new Error(`Colab task failed: ${statusRes.error || 'Unknown error'}`);
+      }
+    } catch (pollErr) {
+      if (pollErr.message.includes('task failed')) throw pollErr;
+      console.warn(`[OmniVoice Async Polling Transient Error]: ${pollErr.message}`);
+    }
+  }
+
+  throw new Error("Colab synthesis task timed out after 30 minutes of polling.");
 }
 
 /**
@@ -140,9 +268,8 @@ function synthesizeOmniVoice(text, outputPath, options = {}) {
       payload += `--${boundary}\r\n`;
       payload += `Content-Disposition: form-data; name="text"\r\n\r\n${text}\r\n`;
       payload += `--${boundary}\r\n`;
-      payload += `Content-Disposition: form-data; name="language"\r\n\r\nvi\r\n`; // Vietnamese language configuration
+      payload += `Content-Disposition: form-data; name="language"\r\n\r\nvi\r\n`;
 
-      // Add generation config parameters if present
       const numStep = options.numStep !== undefined ? options.numStep : 32;
       payload += `--${boundary}\r\n`;
       payload += `Content-Disposition: form-data; name="num_step"\r\n\r\n${numStep}\r\n`;
@@ -176,6 +303,24 @@ function synthesizeOmniVoice(text, outputPath, options = {}) {
         ]);
       }
 
+      // Try Async Polling first (prevents Cloudflare 524 timeouts)
+      try {
+        console.log(`[OmniVoice Colab] Attempting Async Polling workflow on ${colabUrl}...`);
+        const asyncResult = await executeColabAsyncPolling({
+          colabUrl,
+          requestBody,
+          boundary,
+          outputPath
+        });
+        return resolve(asyncResult);
+      } catch (asyncErr) {
+        console.warn(`[OmniVoice Colab] Async polling fallback to direct stream: ${asyncErr.message}`);
+        if (asyncErr.message.includes('task failed')) {
+          return reject(asyncErr);
+        }
+      }
+
+      // Direct Stream Sync Fallback
       const parsedUrl = new URL(colabUrl);
       const clientModule = parsedUrl.protocol === 'https:' ? https : http;
 
@@ -189,7 +334,7 @@ function synthesizeOmniVoice(text, outputPath, options = {}) {
           'Content-Length': requestBody.length,
           'ngrok-skip-browser-warning': 'true'
         },
-        timeout: 120000 // 2 minutes
+        timeout: 1800000 // 30 minutes
       };
 
       const req = clientModule.request(reqOptions, (res) => {
@@ -198,7 +343,9 @@ function synthesizeOmniVoice(text, outputPath, options = {}) {
           res.on('data', chunk => errData += chunk);
           res.on('end', () => {
             let errorMsg = `API trả về mã lỗi ${res.statusCode}`;
-            if (res.statusCode === 502 || errData.includes('ERR_NGROK') || errData.includes('cf-error-details')) {
+            if (res.statusCode === 524 || errData.includes('524')) {
+              errorMsg = `Lỗi Cloudflare 524 (Timeout 100s): Do đoạn văn bản quá dài, Colab xử lý vượt quá 100 giây nên dịch vụ Cloudflare Tunnel đã tự động ngắt kết nối. Vui lòng chuyển sang dùng đường dẫn Ngrok Tunnel trên Colab hoặc chia nhỏ văn bản.`;
+            } else if (res.statusCode === 502 || errData.includes('ERR_NGROK') || errData.includes('cf-error-details')) {
               errorMsg = `Lỗi kết nối Server Colab/Ngrok. Vui lòng kiểm tra lại Google Colab Notebook của bạn đã được khởi chạy toàn bộ các cell chưa.`;
             } else {
               errorMsg += `: ${errData}`;

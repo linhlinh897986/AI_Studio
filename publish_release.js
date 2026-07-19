@@ -29,7 +29,8 @@ if (!token) {
 console.log('GH_TOKEN loaded:', token.substring(0, 15) + '...');
 
 const axios = require('axios');
-const pkgVersion = '1.0.2';
+const pkgVersion = '1.0.3';
+
 
 const owner = 'linhlinh897986';
 const repo = 'AI_Studio-Releases';

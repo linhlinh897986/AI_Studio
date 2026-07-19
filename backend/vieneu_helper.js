@@ -61,7 +61,7 @@ function uploadRefAudio(colabUrl, refAudioPath) {
           'Content-Length': requestBody.length,
           'ngrok-skip-browser-warning': 'true'
         },
-        timeout: 45000
+        timeout: 300000 // 5 minutes
       };
 
       const req = clientModule.request(options, (res) => {
@@ -96,12 +96,185 @@ function uploadRefAudio(colabUrl, refAudioPath) {
       reject(err);
     }
   });
+/**
+ * Executes Colab Async Polling workflow to eliminate Cloudflare 524 timeouts.
+ */
+async function executeColabAsyncPolling({ colabUrl, requestBody, boundary, outputPath }) {
+  const parsedUrl = new URL(colabUrl);
+  const clientModule = parsedUrl.protocol === 'https:' ? https : http;
+
+  const submitTask = () => new Promise((resolve, reject) => {
+    const reqOptions = {
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: '/synthesize_async',
+      method: 'POST',
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${boundary}`,
+        'Content-Length': requestBody.length,
+        'ngrok-skip-browser-warning': 'true'
+      },
+      timeout: 30000
+    };
+
+    const req = clientModule.request(reqOptions, (res) => {
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            const json = JSON.parse(body);
+            if (json.task_id) return resolve(json.task_id);
+          } catch (e) {}
+        }
+        const snippet = (body || '').replace(/[\r\n]+/g, ' ').slice(0, 150);
+        reject(new Error(`Endpoint /synthesize_async not supported or returned ${res.statusCode}: ${snippet}`));
+      });
+    });
+
+    req.on('error', (e) => reject(e));
+    req.on('timeout', () => { req.destroy(); reject(new Error('Task submission timeout')); });
+    req.write(requestBody);
+    req.end();
+  });
+
+  const pollStatus = (taskId) => new Promise((resolve, reject) => {
+    const reqOptions = {
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: `/status/${taskId}`,
+      method: 'GET',
+      headers: { 'ngrok-skip-browser-warning': 'true' },
+      timeout: 15000
+    };
+
+    const req = clientModule.request(reqOptions, (res) => {
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            resolve(JSON.parse(body));
+          } catch (e) {
+            const snippet = (body || '').replace(/[\r\n]+/g, ' ').slice(0, 150);
+            reject(new Error(`Máy chủ Colab phản hồi không đúng định dạng JSON: ${snippet}`));
+          }
+        } else {
+          reject(new Error(`Status check failed with code ${res.statusCode}`));
+        }
+      });
+    });
+
+    req.on('error', (e) => reject(e));
+    req.on('timeout', () => { req.destroy(); reject(new Error('Status check timeout')); });
+    req.end();
+  });
+
+  const downloadResult = (taskId) => new Promise((resolve, reject) => {
+    const reqOptions = {
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: `/download/${taskId}`,
+      method: 'GET',
+      headers: { 'ngrok-skip-browser-warning': 'true' },
+      timeout: 120000
+    };
+
+    const req = clientModule.request(reqOptions, (res) => {
+      if (res.statusCode !== 200) {
+        let errData = '';
+        res.on('data', chunk => errData += chunk);
+        res.on('end', () => reject(new Error(`Download error ${res.statusCode}: ${errData}`)));
+        return;
+      }
+      const outStream = fs.createWriteStream(outputPath);
+      res.pipe(outStream);
+      outStream.on('finish', () => resolve(outputPath));
+      outStream.on('error', (err) => reject(err));
+    });
+
+    req.on('error', (e) => reject(e));
+    req.on('timeout', () => { req.destroy(); reject(new Error('Download timeout')); });
+    req.end();
+  });
+
+  const taskId = await submitTask();
+  console.log(`[VieNeu Colab Async] Started task ID: ${taskId}. Polling every 3s...`);
+
+  const startTime = Date.now();
+  const maxWaitMs = 30 * 60 * 1000; // 30 mins max
+
+  while (Date.now() - startTime < maxWaitMs) {
+    await new Promise(r => setTimeout(r, 3000));
+    try {
+      const statusRes = await pollStatus(taskId);
+      if (statusRes.status === 'completed') {
+        console.log(`[VieNeu Colab Async] Task ${taskId} completed! Downloading audio...`);
+        return await downloadResult(taskId);
+      } else if (statusRes.status === 'error') {
+        throw new Error(`Colab task failed: ${statusRes.error || 'Unknown error'}`);
+      }
+    } catch (pollErr) {
+      if (pollErr.message.includes('task failed')) throw pollErr;
+      console.warn(`[VieNeu Async Polling Transient Error]: ${pollErr.message}`);
+    }
+  }
+
+  throw new Error("Colab synthesis task timed out after 30 minutes of polling.");
 }
 
-/**
- * Synthesizes Vietnamese speech using local VieNeu-TTS (ONNX Runtime)
- */
-function synthesizeLocalTts(text, outputPath, options = {}) {
+function splitTextIntoSentenceChunks(text, maxChars = 500) {
+  if (!text || text.length <= maxChars) return [text];
+  const sentences = text.split(/(?<=[.!?;\n])\s+/);
+  const chunks = [];
+  let current = '';
+
+  for (const s of sentences) {
+    if ((current + ' ' + s).length <= maxChars) {
+      current = (current + ' ' + s).trim();
+    } else {
+      if (current) chunks.push(current);
+      current = s.trim();
+    }
+  }
+  if (current) chunks.push(current);
+  return chunks.length > 0 ? chunks : [text];
+}
+
+function concatWavFiles(wavFilePaths, outputPath) {
+  if (!wavFilePaths || wavFilePaths.length === 0) throw new Error("No WAV files to concat");
+  if (wavFilePaths.length === 1) {
+    fs.copyFileSync(wavFilePaths[0], outputPath);
+    return outputPath;
+  }
+
+  const pcmBuffers = [];
+  let header = null;
+  let totalDataLength = 0;
+
+  for (const fp of wavFilePaths) {
+    if (!fs.existsSync(fp)) continue;
+    const fileBuf = fs.readFileSync(fp);
+    if (fileBuf.length < 44) continue;
+    if (!header) {
+      header = Buffer.from(fileBuf.subarray(0, 44));
+    }
+    const dataChunk = fileBuf.subarray(44);
+    pcmBuffers.push(dataChunk);
+    totalDataLength += dataChunk.length;
+  }
+
+  if (!header || pcmBuffers.length === 0) throw new Error("Lỗi hợp nhất file âm thanh WAV.");
+
+  header.writeUInt32LE(36 + totalDataLength, 4);
+  header.writeUInt32LE(totalDataLength, 40);
+
+  const finalBuffer = Buffer.concat([header, ...pcmBuffers]);
+  fs.writeFileSync(outputPath, finalBuffer);
+  return outputPath;
+}
+
+function synthesizeLocalTtsSingleChunk(text, outputPath, options = {}) {
   return new Promise(async (resolve, reject) => {
     try {
       const { checkVieNeuStatus } = require('./local_models_manager');
@@ -161,9 +334,27 @@ function synthesizeLocalTts(text, outputPath, options = {}) {
           requestBody = Buffer.from(payload, 'utf-8');
         }
 
+        // Try Async Polling first (prevents Cloudflare 524 timeouts)
+        try {
+          console.log(`[VieNeu Colab] Attempting Async Polling workflow on ${colabUrl}...`);
+          const asyncResult = await executeColabAsyncPolling({
+            colabUrl,
+            requestBody,
+            boundary,
+            outputPath
+          });
+          return resolve(asyncResult);
+        } catch (asyncErr) {
+          console.warn(`[VieNeu Colab] Async polling fallback to direct stream: ${asyncErr.message}`);
+          if (asyncErr.message.includes('task failed')) {
+            return reject(asyncErr);
+          }
+        }
+
         const parsedUrl = new URL(colabUrl);
         const clientModule = parsedUrl.protocol === 'https:' ? https : http;
 
+        // Direct Stream Sync Fallback
         const reqOptions = {
           hostname: parsedUrl.hostname,
           port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
@@ -174,7 +365,7 @@ function synthesizeLocalTts(text, outputPath, options = {}) {
             'Content-Length': requestBody.length,
             'ngrok-skip-browser-warning': 'true'
           },
-          timeout: 120000 // 2 minutes
+          timeout: 1800000 // 30 minutes
         };
 
         const req = clientModule.request(reqOptions, (res) => {
@@ -183,7 +374,9 @@ function synthesizeLocalTts(text, outputPath, options = {}) {
             res.on('data', chunk => errData += chunk);
             res.on('end', () => {
               let errorMsg = `API trả về mã lỗi ${res.statusCode}`;
-              if (res.statusCode === 502 || errData.includes('ERR_NGROK') || errData.includes('cf-error-details')) {
+              if (res.statusCode === 524 || errData.includes('524')) {
+                errorMsg = `Lỗi Cloudflare 524 (Timeout 100s): Do đoạn văn bản quá dài, Colab xử lý vượt quá 100 giây nên dịch vụ Cloudflare Tunnel đã tự động ngắt kết nối. Vui lòng chuyển sang dùng đường dẫn Ngrok Tunnel trên Colab hoặc chia nhỏ văn bản.`;
+              } else if (res.statusCode === 502 || errData.includes('ERR_NGROK') || errData.includes('cf-error-details')) {
                 errorMsg = `Lỗi kết nối Server Colab/Ngrok. Vui lòng kiểm tra lại Google Colab Notebook của bạn đã được khởi chạy toàn bộ các cell chưa.`;
               } else {
                 errorMsg += `: ${errData}`;
@@ -210,59 +403,47 @@ function synthesizeLocalTts(text, outputPath, options = {}) {
         return;
       }
 
-      // If not local and no Colab URL
       if (!isLocalInstalled) {
-        return reject(new Error("Mô hình VieNeu chưa được cài đặt cục bộ và bạn chưa cấu hình Google Colab URL trong Cài đặt hệ thống."));
+        return reject(new Error('Chưa cài đặt mô hình VieNeu-TTS cục bộ hoặc chưa mở Server Colab trong Cài đặt hệ thống.'));
       }
 
-      // Local synthesis
-      const pythonPath = getPythonPath();
+      // Execute Python script for local ONNX Runtime inference
+      const { getVenvPythonCommand } = require('./local_models_manager');
+      const pyCmd = getVenvPythonCommand();
       const scriptPath = path.join(__dirname, 'python', 'vieneu_local.py');
-      
-      const args = [
-        scriptPath,
-        '--text', text,
-        '--output', outputPath
-      ];
-      
-      if (options.refAudioPath) {
+
+      const args = [scriptPath, '--text', text, '--output', outputPath];
+      if (options.voice) args.push('--voice', options.voice);
+      if (options.refAudioPath && fs.existsSync(options.refAudioPath)) {
         args.push('--ref_audio', options.refAudioPath);
-      } else if (options.voice && !options.voice.includes('Neural')) {
-        args.push('--voice', options.voice);
       }
-      
-      console.log(`[VieNeu TTS Local] Executing: "${pythonPath}" ${args.map(a => `"${a}"`).join(' ')}`);
-      const child = spawn(pythonPath, args);
-      
+
+      const child = spawn(pyCmd, args);
+
       let stdout = '';
       let stderr = '';
-      
+
       child.stdout.on('data', (data) => {
-        const msg = data.toString();
-        stdout += msg;
-        console.log(`[VieNeu Python STDOUT] ${msg.trim()}`);
+        stdout += data.toString();
+        console.log(`[VieNeu Local Output]: ${data.toString().trim()}`);
       });
-      
+
       child.stderr.on('data', (data) => {
-        const msg = data.toString();
-        stderr += msg;
-        console.error(`[VieNeu Python STDERR] ${msg.trim()}`);
+        stderr += data.toString();
       });
-      
+
       child.on('close', (code) => {
         if (code !== 0) {
-          return reject(new Error(`VieNeu local failed with code ${code}. Details: ${stderr}`));
+          return reject(new Error(`Quá trình lồng tiếng VieNeu thất bại với mã lỗi ${code}. Chi tiết: ${stderr}`));
         }
         if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 0) {
           resolve(outputPath);
         } else {
-          reject(new Error("VieNeu synthesized successfully but the output file is missing or empty."));
+          reject(new Error("Lồng tiếng VieNeu hoàn tất nhưng không tìm thấy file đầu ra hoặc file bị rỗng."));
         }
       });
-      
+
       child.on('error', (err) => {
-        reject(new Error(`Failed to start VieNeu python process: ${err.message}`));
-      });
     } catch (e) {
       reject(e);
     }

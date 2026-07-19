@@ -379,7 +379,7 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
     {
       "index": 1,
       "title": "Tiêu đề ngắn gọn cho video (khoảng 5-8 từ)",
-      "description": "Mô tả khía cạnh hoặc câu kinh cụ thể trong tài liệu mà video này sẽ tập trung phân tích"
+      "description": "Mô tả khía cạnh hoặc lĩnh vực bài giảng cụ thể"
     }
   ]
 }`;
@@ -411,318 +411,155 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
       addProcessLog(planProcessId, `Lập kế hoạch thành công! Đã tạo ${plannedTopics.length} chủ đề độc lập.`, 'success');
       onLog('Buddhist', `Lập kế hoạch thành công! Đã lên danh sách ${plannedTopics.length} chủ đề độc lập.`, 'success');
 
+      // ── BƯỚC 2: Tự động chạy Hàng Đợi Song Song Tối Ưu (Decoupled Batch Queue Engine) ───
+      const withRetry = async (fn, retries = 3, delay = 1500) => {
+        let lastErr;
+        for (let attempt = 1; attempt <= retries; attempt++) {
+          try {
+            return await fn();
+          } catch (err) {
+            lastErr = err;
+            if (attempt < retries) {
+              await new Promise(r => setTimeout(r, delay * Math.pow(1.5, attempt - 1)));
+            }
+          }
+        }
+        throw lastErr;
+      };
 
-      // ── BƯỚC 2: Vòng lặp biên soạn kịch bản chi tiết dựa trên kế hoạch ───────
-      for (let i = 0; i < totalToGenerate; i++) {
+      if (totalToGenerate === 1) {
+        // Single video mode
+        const i = 0;
         setCurrentBatchIdx(i);
-        const stagePrefix = `[Video ${i + 1}/${totalToGenerate}]`;
-        const currentTopic = plannedTopics[i % plannedTopics.length];
+        const stagePrefix = `[Video 1/1]`;
+        const currentTopic = plannedTopics[0];
+        const processId = `buddhist-single-${Date.now()}`;
+        registerProcess(processId, `[Video 1/1] ${currentTopic.title}`, 'buddhist');
+        addProcessLog(processId, `Bắt đầu xử lý chủ đề: "${currentTopic.title}"`, 'info');
 
-        // Register process in background tracker
-        const processId = `buddhist-batch-${Date.now()}-${i}`;
-        registerProcess(processId, `[Video ${i + 1}/${totalToGenerate}] ${currentTopic.title}`, 'buddhist');
-        addProcessLog(processId, `Bắt đầu xử lý chủ đề: "${currentTopic.title}". Trọng tâm: ${currentTopic.description}`, 'info');
-
-        onLog('Buddhist', `${stagePrefix} Bắt đầu khởi tạo chủ đề: "${currentTopic.title}"...`, 'info');
-
-        // 1. Generate script
         let generatedData = [];
         let geminiResData = null;
-        
+
         if (writingMode === 'agentic') {
-          setLoadingStage(`${stagePrefix} Khởi chạy quy trình Multi-Agent (1 API Request)...`);
+          setLoadingStage(`${stagePrefix} Khởi chạy quy trình Multi-Agent...`);
           updateProcess(processId, { progress: 10, stage: 'Đang chạy 1 API Request...' });
-          addProcessLog(processId, 'Khởi chạy quy trình Multi-Agent bằng 1 API Request duy nhất (Idea -> Research -> Audience -> Story Planner -> Writer -> Critic -> Rewriter -> Formatter)...', 'info');
-          
-          setAllAgentLogs(null); // Reset
-          
+
           const progressListener = (event, progressData) => {
             setCurrentAgentProgress(progressData);
             const statusIcon = progressData.status === 'success' ? '✅' : '⏳';
             addProcessLog(processId, `[${progressData.agent}] ${statusIcon} ${progressData.message}`, progressData.status === 'success' ? 'success' : 'info');
             setLoadingStage(`${stagePrefix} [${progressData.agent}] ${progressData.message}`);
           };
-          
           ipcRenderer.on('script-agent-progress', progressListener);
-          
-          const agenticRes = await ipcRenderer.invoke('gemini-agentic-generate', {
-            apiKey,
-            topic: currentTopic.title,
-            geminiModel,
-            pdfFilePath,
-            duration: videoDuration,
-            style: scriptStyle,
-            aspectRatio
-          });
 
-          
+          const agenticRes = await ipcRenderer.invoke('gemini-agentic-generate', {
+            apiKey, topic: currentTopic.title, geminiModel, pdfFilePath, duration: videoDuration, style: scriptStyle, aspectRatio, videoLayout
+          });
           ipcRenderer.removeListener('script-agent-progress', progressListener);
-          
-          if (!agenticRes.success) {
-            updateProcess(processId, { status: 'failed', error: agenticRes.error });
-            addProcessLog(processId, `Lỗi hệ thống 8-Agent: ${agenticRes.error}`, 'error');
-            throw new Error(agenticRes.error);
-          }
-          
+
+          if (!agenticRes.success) throw new Error(agenticRes.error);
           geminiResData = agenticRes.data;
           generatedData = geminiResData.script;
-          setAllAgentLogs(geminiResData.agentLogs); // Store agent logs for visualization
-          addProcessLog(processId, `8-Agent đã hoàn tất kịch bản tối ưu. Số phân cảnh: ${geminiResData.storyboard.length}`, 'success');
+          setAllAgentLogs(geminiResData.agentLogs);
         } else {
-
           setLoadingStage(`${stagePrefix} AI đang biên soạn kịch bản chi tiết...`);
-          updateProcess(processId, { progress: 10, stage: 'AI đang biên soạn kịch bản chi tiết...' });
-          addProcessLog(processId, 'Đang gửi yêu cầu lập kịch bản chi tiết và hình ảnh tới Gemini...', 'info');
+          updateProcess(processId, { progress: 10, stage: 'AI đang biên soạn kịch bản...' });
           
-          const systemPrompt = `Bạn là nhà biên kịch xuất sắc chuyên viết kịch bản video ngắn (Reels, TikTok, Shorts) có tỷ lệ giữ chân người nghe cực kỳ cao. Hãy viết kịch bản pháp thoại bằng tiếng Việt mang tính thanh tịnh nhưng áp dụng các kỹ thuật giữ chân hiện đại để người xem không thể rời mắt.
-Trả về cấu trúc JSON bắt buộc.`;
-          
+          const systemPrompt = `Bạn là nhà biên kịch xuất sắc chuyên viết kịch bản video ngắn. Trả về JSON.`;
           const targetSyllables = DURATION_SYLLABLE_MAP[videoDuration] || 400;
           const durText = videoDuration === 0.5 ? '30 giây' : `${videoDuration} phút`;
-          const styleInstruction = scriptStyle === 'accessible'
-            ? `- GIỌNG VĂN: Bình dị, đời thường, cực kỳ dễ hiểu. Tránh hoàn toàn các từ Hán Việt quá phức tạp hoặc các thuật ngữ Phật học hàn lâm khó hiểu (ví dụ như thay vì nói "vô ngã thụ lãnh" hãy nói "biết học cách chấp nhận", thay vì nói "pháp giới tính không" hãy nói "sự tĩnh lặng của tâm hồn"). Dùng các hình ảnh ẩn dụ đơn giản, gần gũi (như nước trôi, hoa nở, tách trà, mây bay...) để người nghe bình thường có thể cảm nhận trọn vẹn và áp dụng ngay.`
-            : `- GIỌNG VĂN: Mang tính học thuật thiền tông, sâu sắc, trang nghiêm, phản ánh đúng thuật ngữ Phật học chính quy.`;
+          const styleInstruction = scriptStyle === 'accessible' ? `- GIỌNG VĂN: Bình dị.` : `- GIỌNG VĂN: Triết lý.`;
 
-          let userPrompt = '';
-          if (sourceType === 'prompt') {
-            userPrompt = `Hãy viết một bài giảng thiền liền mạch (khoảng ${targetSyllables} âm tiết tiếng Việt, tương đương ${durText} audio giọng đọc chậm rãi) dựa trên chủ đề hoạch định sau:
-Tiêu đề: ${currentTopic.title}
-Trọng tâm: ${currentTopic.description}
-
-CÁC YÊU CẦU QUẬN TRỌNG ĐỂ TĂNG TỶ LỆ GIỮ CHÂN:
-1. MỞ ĐẦU BẰNG HOOK CỰC MẠNH: Câu đầu tiên PHẢI là một câu hỏi chạm đúng nỗi đau sâu thẳm, một sự thật bất ngờ hoặc lời cảnh tỉnh gây sốc thu hút sự chú ý trong 3 giây đầu tiên (Tuyệt đối không chào hỏi, giới thiệu).
-2. TẠO CURIOSITY GAP: Đặt ra một khoảng trống tò mò ngay sau câu mở đầu, hé lộ một bí ẩn sẽ được giải đáp ở cuối.
-3. STORYTELLING THAY VÌ GIẢI THÍCH: Sử dụng các câu kể chuyện ngắn, sống động thay vì thuyết giảng lý thuyết suông.
-4. PATTERN INTERRUPT: Mỗi 2-3 câu phải có một sự chuyển ý, một góc nhìn mới hoặc sự thay đổi nhịp điệu đột ngột để làm mới sự chú ý.
-5. OPEN LOOP: Duy trì các nút thắt chưa giải đáp cho đến gần cuối video.
-6. CONFLICT: Có mâu thuẫn nội tâm hoặc mâu thuẫn cuộc sống rõ ràng.
-7. PLOT TWIST: Có ít nhất một bước ngoặt ý nghĩa thay đổi hoàn toàn góc nhìn ở khoảng 70% video.
-8. CAO TRÀO CẢM XÚC: Tạo điểm chạm cảm xúc mạnh nhất ở 80% thời lượng bài viết.
-9. KẾT THÚC Ý NGHĨA: Khép lại bằng một câu đúc kết sâu sắc khiến người nghe phải lặng người suy nghĩ.
-10. KHÔNG DÙNG CÂU THỪA: Loại bỏ hoàn toàn các từ đệm, từ giải thích dài dòng lê thê.
-11. NHỊP NHANH, CÂU NGẮN: Các câu viết ngắn gọn, súc tích (12-18 âm tiết/tiếng), câu này nối tiếp kích thích người nghe tò mò câu tiếp theo.
-${styleInstruction}
-
-Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết, dùng làm ảnh nền tĩnh cho toàn bộ video. Ảnh PHẢI là hình ảnh Đức Phật hoặc nhà sư đang ngồi thiền/giảng pháp, bối cảnh thanh tịnh liên quan đến chủ đề, phong cách nghệ thuật Phật giáo Á Đông, tỷ lệ dọc 9:16.
-
-Trả về duy nhất định dạng JSON có cấu trúc sau:
-{
-  "title": "${currentTopic.title}",
-  "imagePrompt": "Detailed English image prompt featuring a Buddha or Buddhist monk scene directly related to the video's teaching theme, vertical 9:16 aspect ratio, traditional East Asian Buddhist art style",
-  "script": [
-    { "text": "Một câu thiền định tiếng Việt (ngắn gọn, kịch tính, tự nhiên liền mạch)" }
-  ]
-}`;
-          } else {
-            userPrompt = `Hãy viết một bài giảng thiền liền mạch (khoảng ${targetSyllables} âm tiết tiếng Việt, tương đương ${durText} audio giọng đọc chậm rãi) dựa trên tài liệu Phật pháp đính kèm, tập trung khai thác chính xác chủ đề hoạch định sau:
-Tiêu đề: ${currentTopic.title}
-Trọng tâm: ${currentTopic.description}
-
-CÁC YÊU CẦU QUẬN TRỌNG ĐỂ TĂNG TỶ LỆ GIỮ CHÂN:
-1. MỞ ĐẦU BẰNG HOOK CỰC MẠNH: Câu đầu tiên PHẢI là một câu hỏi chạm đúng nỗi đau sâu thẳm, một sự thật bất ngờ hoặc lời cảnh tỉnh gây sốc thu hút sự chú ý trong 3 giây đầu tiên (Tuyệt đối không chào hỏi, giới thiệu).
-2. TẠO CURIOSITY GAP: Đặt ra một khoảng trống tò mò ngay sau câu mở đầu, hé lộ một bí ẩn sẽ được giải đáp ở cuối.
-3. STORYTELLING THAY VÌ GIẢI THÍCH: Sử dụng các câu kể chuyện ngắn, sống động thay vì thuyết giảng lý thuyết suông.
-4. PATTERN INTERRUPT: Mỗi 2-3 câu phải có một sự chuyển ý, một góc nhìn mới hoặc sự thay đổi nhịp điệu đột ngột để làm mới sự chú ý.
-5. OPEN LOOP: Duy trì các nút thắt chưa giải đáp cho đến gần cuối video.
-6. CONFLICT: Có mâu thuẫn nội tâm hoặc mâu thuẫn cuộc sống rõ ràng.
-7. PLOT TWIST: Có ít nhất một bước ngoặt ý nghĩa thay đổi hoàn toàn góc nhìn ở khoảng 70% video.
-8. CAO TRÀO CẢM XÚC: Tạo điểm chạm cảm xúc mạnh nhất ở 80% thời lượng bài viết.
-9. KẾT THÚC Ý NGHĨA: Khép lại bằng một câu đúc kết sâu sắc khiến người nghe phải lặng người suy nghĩ.
-10. KHÔNG DÙNG CÂU THỪA: Loại bỏ hoàn toàn các từ đệm, từ giải thích dài dòng lê thê.
-11. NHỊP NHANH, CÂU NGẮN: Các câu viết ngắn gọn, súc tích (12-18 âm tiết/tiếng), câu này nối tiếp kích thích người nghe tò mò câu tiếp theo.
-${styleInstruction}
-- Trích dẫn trực tiếp và phân tích sâu từ tài liệu đính kèm.
-
-Hãy thiết kế 1 đoạn mô tả hình ảnh tiếng Anh chi tiết, dùng làm ảnh nền tĩnh cho toàn bộ video. Ảnh PHẢI là hình ảnh Đức Phật hoặc nhà sư đang ngồi thiền/giảng pháp, bối cảnh thanh tịnh liên quan đến chủ đề, phong cách nghệ thuật Phật giáo Á Đông, tỷ lệ dọc 9:16.
-
-Trả về duy nhất định dạng JSON có cấu trúc sau:
-{
-  "title": "${currentTopic.title}",
-  "imagePrompt": "Detailed English image prompt featuring a Buddha or Buddhist monk scene directly related to the video's teaching theme, vertical 9:16 aspect ratio, traditional East Asian Buddhist art style",
-  "script": [
-    { "text": "Một câu thiền định tiếng Việt (15-25 từ, đúc kết từ tài liệu, tự nhiên liền mạch)" }
-  ]
-}`;
-          }
-
-          const geminiRes = await ipcRenderer.invoke('gemini-generate', { 
-            apiKey, 
-            systemPrompt, 
-            userPrompt, 
-            geminiModel,
-            pdfFilePath
-          });
-          if (!geminiRes.success) {
-            updateProcess(processId, { status: 'failed', error: geminiRes.error });
-            addProcessLog(processId, `Lỗi tạo kịch bản Gemini: ${geminiRes.error}`, 'error');
-            throw new Error(geminiRes.error);
-          }
+          const userPrompt = `Hãy viết một bài giảng thiền liền mạch (khoảng ${targetSyllables} âm tiết) về chủ đề: ${currentTopic.title}. ${styleInstruction}`;
+          const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel, pdfFilePath });
+          if (!geminiRes.success) throw new Error(geminiRes.error);
           geminiResData = geminiRes.data;
           generatedData = geminiResData.script;
-          addProcessLog(processId, `AI tạo kịch bản thành công. Số đoạn: ${generatedData.length}`, 'success');
         }
 
-        // 2. TTS Voiceover
+        // Voice
         setLoadingStage(`${stagePrefix} Đang lồng tiếng thiền sư...`);
         updateProcess(processId, { progress: 30, stage: 'Đang lồng tiếng thiền sư...' });
-        addProcessLog(processId, 'Bắt đầu gọi Edge-TTS lồng tiếng Việt...', 'info');
         const fullText = generatedData.map(item => item.text).join(' ');
         const colabApiUrl = localStorage.getItem('colab_api_url') || '';
-        const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { 
-          text: fullText, 
-          options: { voice, rate: '-15%', refAudioPath, colabApiUrl }
-        });
-        if (!ttsRes.success) {
-          updateProcess(processId, { status: 'failed', error: ttsRes.error });
-          addProcessLog(processId, `Lỗi lồng tiếng: ${ttsRes.error}`, 'error');
-          throw new Error(ttsRes.error);
-        }
+        const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { text: fullText, options: { voice, rate: '-15%', refAudioPath, colabApiUrl } });
+        if (!ttsRes.success) throw new Error(ttsRes.error);
         const localAudioUrl = ttsRes.filePath;
-        addProcessLog(processId, 'Lồng tiếng Việt hoàn tất.', 'success');
 
-        // 3. ASR Syncing
+        // ASR
         setLoadingStage(`${stagePrefix} Đang chạy phụ đề karaoke...`);
         updateProcess(processId, { progress: 50, stage: 'Đang chạy phụ đề karaoke...' });
-        addProcessLog(processId, 'Chạy ASR đồng bộ thời gian phụ đề...', 'info');
-        const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
-          audioPath: localAudioUrl,
-          options: { language: 'vi-VN', needWordTimestamp: true }
-        });
-        if (!asrRes.success) {
-          updateProcess(processId, { status: 'failed', error: asrRes.error });
-          addProcessLog(processId, `Lỗi chạy ASR phụ đề: ${asrRes.error}`, 'error');
-          throw new Error(asrRes.error);
-        }
+        const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', { audioPath: localAudioUrl, options: { language: 'vi-VN', needWordTimestamp: true } });
+        if (!asrRes.success) throw new Error(asrRes.error);
         const asrSegments = asrRes.segments;
-        addProcessLog(processId, `Khớp phụ đề thành công (${asrSegments.length} dòng).`, 'success');
 
-        // 4. Image generation via Meta AI (direct or vibes.ai)
+        // Images
         const imageGenSource = localStorage.getItem('image_gen_source') || 'meta_direct';
-        const isVibes = imageGenSource === 'meta_vibes';
-        const stageName = isVibes ? 'Vibes.ai' : 'Meta AI';
-
         const localImages = [];
         const storyboard = (writingMode === 'agentic' && videoLayout === 'storyboard')
           ? geminiResData.storyboard
-          : [
-              {
-                sceneIndex: 1,
-                text: fullText,
-                imagePrompt: (geminiResData.imagePrompt || (geminiResData.storyboard && geminiResData.storyboard[0] && geminiResData.storyboard[0].imagePrompt) || `a serene Buddha meditating, traditional East Asian Buddhist art style, vertical 9:16`)
-              }
-            ];
+          : [{ sceneIndex: 1, text: fullText, imagePrompt: (geminiResData.imagePrompt || (geminiResData.storyboard?.[0]?.imagePrompt) || 'a serene Buddha meditating, vertical 9:16') }];
 
         for (let sIdx = 0; sIdx < storyboard.length; sIdx++) {
           const scene = storyboard[sIdx];
-          const progressPercent = 70 + Math.floor((sIdx / storyboard.length) * 10);
-          setLoadingStage(`${stagePrefix} Đang tạo nền phân cảnh ${sIdx + 1}/${storyboard.length} qua ${stageName}...`);
-          updateProcess(processId, { progress: progressPercent, stage: `Đang tạo nền cảnh ${sIdx + 1}/${storyboard.length}...` });
-          addProcessLog(processId, `Bắt đầu tạo tệp nền cảnh ${sIdx + 1} bằng ${stageName}...`, 'info');
-          
           const ratioPrompt = aspectRatio === '16:9' ? 'horizontal aspect ratio, 16:9 landscape' : 'vertical aspect ratio, 9:16 portrait';
-          const formattedPrompt = `${scene.imagePrompt}, ${ratioPrompt}, photorealistic, highly detailed, masterpiece`;
-          let imagePath = '';
-
+          const formattedPrompt = `${scene.imagePrompt}, ${ratioPrompt}, photorealistic, highly detailed`;
           const imgWidth = aspectRatio === '16:9' ? 1920 : 1080;
           const imgHeight = aspectRatio === '16:9' ? 1080 : 1920;
+          let imagePath = '';
 
-          if (imageGenSource === 'meta_direct') {
+          if (imageGenSource === '9router') {
             try {
-              const cookieText = localStorage.getItem('meta_direct_cookie') || '';
-              if (!cookieText) {
-                throw new Error('Chưa cấu hình Cookie Meta.ai Direct trong Cài đặt.');
-              }
-              onLog('Buddhist', `${stagePrefix} Đang gọi API Meta AI Trực tiếp để tạo ảnh phân cảnh ${sIdx + 1}...`, 'info');
-              addProcessLog(processId, `Đang gọi API Meta AI Trực tiếp (Cảnh ${sIdx + 1})...`, 'info');
-              
-              const metaRes = await ipcRenderer.invoke('meta-direct-generate-image', { prompt: formattedPrompt, cookieText });
-              if (metaRes.success) {
-                imagePath = metaRes.localPaths[0];
-                onLog('Buddhist', `${stagePrefix} Tạo ảnh phân cảnh ${sIdx + 1} thành công qua Meta AI Direct!`, 'success');
-                addProcessLog(processId, `Tạo ảnh phân cảnh ${sIdx + 1} thành công qua Meta AI Direct!`, 'success');
-              } else {
-                throw new Error(metaRes.error);
-              }
-            } catch (metaErr) {
-              const warnMsg = `Không tạo được ảnh cảnh ${sIdx + 1} trên Meta AI Direct (${metaErr.message}). Chuyển sang vẽ ảnh dự phòng miễn phí qua Pollinations...`;
-              onLog('Buddhist', warnMsg, 'warning');
-              addProcessLog(processId, warnMsg, 'warning');
-              
+              const nrRes = await ipcRenderer.invoke('ninerouter-generate-image', { prompt: formattedPrompt });
+              if (nrRes.success) imagePath = nrRes.localPaths[0];
+              else throw new Error(nrRes.error);
+            } catch (e) {
               const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
               const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
-              if (dlRes.success) {
-                imagePath = dlRes.filePath;
-                onLog('Buddhist', `${stagePrefix} Vẽ ảnh dự phòng thành công!`, 'success');
-                addProcessLog(processId, `Vẽ ảnh dự phòng cảnh ${sIdx + 1} thành công!`, 'success');
-              } else {
-                const errMsg = `Không thể tạo ảnh Phật giáo cảnh ${sIdx + 1} (Meta AI & Pollinations đều lỗi): ${dlRes.error}`;
-                addProcessLog(processId, errMsg, 'error');
-                updateProcess(processId, { status: 'failed', error: errMsg });
-                throw new Error(errMsg);
-              }
+              if (dlRes.success) imagePath = dlRes.filePath;
+              else throw new Error(dlRes.error);
+            }
+          } else if (imageGenSource === 'meta_direct') {
+            try {
+              const cookieText = localStorage.getItem('meta_direct_cookie') || '';
+              const metaRes = await ipcRenderer.invoke('meta-direct-generate-image', { prompt: formattedPrompt, cookieText });
+              if (metaRes.success) imagePath = metaRes.localPaths[0];
+              else throw new Error(metaRes.error);
+            } catch (e) {
+              const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
+              const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
+              if (dlRes.success) imagePath = dlRes.filePath;
+              else throw new Error(dlRes.error);
             }
           } else {
-            // Vibes.ai generation logic
             try {
               const vibesCookie = localStorage.getItem('vibes_meta_session') || '';
-              if (!vibesCookie) {
-                throw new Error('Chưa cấu hình Vibes.ai Meta Session trong Cài đặt.');
-              }
-              onLog('Buddhist', `${stagePrefix} Đang gọi API Vibes.ai tạo ảnh phân cảnh ${sIdx + 1}...`, 'info');
-              addProcessLog(processId, `Đang kết nối API Vibes.ai (Cảnh ${sIdx + 1})...`, 'info');
               const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
               if (vibeRes.success) {
-                const { localPaths, projectId } = vibeRes;
-                let selectedImagePath = localPaths[0];
-                
-                if (manualImageSelect && localPaths.length > 1) {
-                  onLog('Buddhist', `${stagePrefix} Đang chờ bạn chọn ảnh trong hộp thoại...`, 'info');
-                  addProcessLog(processId, `Đang chờ người dùng chọn ảnh cho Cảnh ${sIdx + 1}...`, 'info');
-                  
+                let selectedImagePath = vibeRes.localPaths[0];
+                if (manualImageSelect && vibeRes.localPaths.length > 1) {
                   selectedImagePath = await new Promise((resolve) => {
-                    setModalImages(localPaths);
+                    setModalImages(vibeRes.localPaths);
                     setShowImageModal(true);
-                    setImageSelectCallback(() => (filePath) => {
+                    setImageSelectCallback(() => (fp) => {
                       setShowImageModal(false);
-                      resolve(filePath);
+                      resolve(fp);
                     });
                   });
                 }
-                
                 imagePath = selectedImagePath;
-                
-                // Cleanup Vibes project in the background asynchronously
-                ipcRenderer.invoke('vibes-delete-project', { projectId, metaSession: vibesCookie });
-                
-                onLog('Buddhist', `${stagePrefix} Tạo ảnh phân cảnh ${sIdx + 1} thành công qua Vibes.ai!`, 'success');
-                addProcessLog(processId, `Tạo ảnh phân cảnh ${sIdx + 1} thành công qua Vibes.ai!`, 'success');
-              } else {
-                throw new Error(vibeRes.error);
-              }
-            } catch (vibeErr) {
-              const warnMsg = `Không tạo được ảnh cảnh ${sIdx + 1} trên Vibes.ai (${vibeErr.message}). Chuyển sang vẽ ảnh dự phòng miễn phí qua Pollinations...`;
-              onLog('Buddhist', warnMsg, 'warning');
-              addProcessLog(processId, warnMsg, 'warning');
-              
+                ipcRenderer.invoke('vibes-delete-project', { projectId: vibeRes.projectId, metaSession: vibesCookie });
+              } else throw new Error(vibeRes.error);
+            } catch (e) {
               const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
               const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
-
-              if (dlRes.success) {
-                imagePath = dlRes.filePath;
-                onLog('Buddhist', `${stagePrefix} Vẽ ảnh dự phòng thành công!`, 'success');
-                addProcessLog(processId, `Vẽ ảnh dự phòng cảnh ${sIdx + 1} thành công!`, 'success');
-              } else {
-                const errMsg = `Không thể tạo ảnh Phật giáo cảnh ${sIdx + 1} (Vibes.ai & Pollinations đều lỗi): ${dlRes.error}`;
-                addProcessLog(processId, errMsg, 'error');
-                updateProcess(processId, { status: 'failed', error: errMsg });
-                throw new Error(errMsg);
-              }
+              if (dlRes.success) imagePath = dlRes.filePath;
+              else throw new Error(dlRes.error);
             }
           }
           localImages.push(imagePath);
         }
 
-        // 5. Build Slide timings
         const lastWordSeg = asrSegments[asrSegments.length - 1];
         const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 15000;
         const audioDurationFrames = Math.ceil((audioDurationMs / 1000) * 30);
@@ -730,92 +567,263 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         let computedSlides = [];
         if (writingMode === 'agentic' && videoLayout === 'storyboard') {
           computedSlides = alignStoryboardWithSegments(storyboard, asrSegments);
-          computedSlides = computedSlides.map((slide, sIdx) => ({
-            ...slide,
-            imageUrl: localImages[sIdx] || localImages[0] || ''
-          }));
+          computedSlides = computedSlides.map((slide, sIdx) => ({ ...slide, imageUrl: localImages[sIdx] || localImages[0] || '' }));
         } else {
-          computedSlides = [
-            {
-              imageUrl: localImages[0] || '',
-              startFrame: 0,
-              durationFrames: audioDurationFrames
-            }
-          ];
+          computedSlides = [{ imageUrl: localImages[0] || '', startFrame: 0, durationFrames: audioDurationFrames }];
         }
 
-
-        // Set to local states (enables real-time preview of the LAST generated video)
         setSlides(computedSlides);
         setSubtitles(asrSegments);
         setAudioUrl(localAudioUrl);
         setVideoTitle(currentTopic.title);
 
-        onLog('Buddhist', `${stagePrefix} Khởi tạo thành công cấu trúc video!`, 'success');
+        updateProcess(processId, { status: 'success', progress: 100, stage: 'Khởi tạo thành công!' });
+        onLog('Buddhist', `Khởi tạo video Phật pháp thành công! Nhấp 'Xuất Video MP4' ở bên phải để lưu file.`, 'success');
+        setShowPreview(true);
 
-        // 6. IF batch size > 1, we automatically render/export to MP4 file on the fly!
-        if (totalToGenerate > 1) {
-          setLoadingStage(`${stagePrefix} Đang kết xuất video thành tệp MP4...`);
-          onLog('Buddhist', `${stagePrefix} Bắt đầu kết xuất video MP4 tự động...`, 'info');
-          updateProcess(processId, { progress: 80, stage: 'Bắt đầu kết xuất video MP4...' });
-          addProcessLog(processId, 'Khởi chạy tiến trình render Remotion MP4...', 'info');
+      } else {
+        // 🚀 BULK BATCH PARALLEL PIPELINE FOR 2+ VIDEOS
+        setLoadingStage(`⚡ Đang khởi chạy quy trình sản xuất hàng loạt ${totalToGenerate} video (Chạy song song tối ưu)...`);
+        onLog('Buddhist', `⚡ Đang chạy quy trình sản xuất hàng loạt ${totalToGenerate} video song song...`, 'info');
 
-          const progressListener = (event, progress) => {
-            const percent = Math.floor(progress.percent * 100);
-            const remotionProgress = 80 + Math.floor(percent * 0.19);
-            updateProcess(processId, { progress: remotionProgress, stage: `Đang kết xuất Remotion MP4 (${percent}%)...` });
-            addProcessLog(processId, `Đang render Remotion: ${percent}%...`, 'info');
-          };
-          ipcRenderer.on('render-progress', progressListener);
+        const CONCURRENCY_LIMIT = 2; // Run 2 parallel media prep tasks
+        const completedResults = [];
+        const renderQueue = [];
+        let isRendering = false;
 
-          const inputProps = {
-            slides: computedSlides,
-            subtitles: asrSegments,
-            audioUrl: localAudioUrl,
-            bgMusicUrl: bgMusic,
-            type: 'buddhist',
-            shopeeProps: {
-              particleType,
-              subtitleStyle,
-              subtitleY,
-              voiceVolume,
-              bgMusicVolume
+        // Render Queue Worker
+        const processRenderQueue = async () => {
+          if (isRendering || renderQueue.length === 0) return;
+          isRendering = true;
+
+          while (renderQueue.length > 0) {
+            const item = renderQueue.shift();
+            const { processId, stagePrefix, inputProps, index, title } = item;
+
+            try {
+              updateProcess(processId, { progress: 80, stage: 'Đang kết xuất Remotion MP4...' });
+              addProcessLog(processId, `${stagePrefix} Đang tiến hành kết xuất Remotion MP4...`, 'info');
+              onLog('Buddhist', `${stagePrefix} Bắt đầu kết xuất MP4...`, 'info');
+
+              const progressListener = (event, progress) => {
+                const percent = Math.floor(progress.percent * 100);
+                const remotionProgress = 80 + Math.floor(percent * 0.19);
+                updateProcess(processId, { progress: remotionProgress, stage: `Đang render MP4 (${percent}%)...` });
+              };
+
+              ipcRenderer.on('render-progress', progressListener);
+              const renderRes = await ipcRenderer.invoke('remotion-render', { inputProps, compositionId: 'BuddhistVideo' });
+              ipcRenderer.removeListener('render-progress', progressListener);
+
+              if (renderRes.success) {
+                const resultObj = { success: true, path: renderRes.filePath, title, index };
+                completedResults.push(resultObj);
+                updateProcess(processId, { status: 'success', progress: 100, stage: 'Hoàn thành!', outputPath: renderRes.filePath });
+                addProcessLog(processId, `${stagePrefix} Xuất MP4 thành công: ${renderRes.filePath}`, 'success');
+                onLog('Buddhist', `${stagePrefix} Kết xuất MP4 thành công! Tệp: ${renderRes.filePath}`, 'success');
+              } else {
+                const resultObj = { success: false, error: renderRes.error, title, index };
+                completedResults.push(resultObj);
+                updateProcess(processId, { status: 'failed', error: renderRes.error });
+                addProcessLog(processId, `${stagePrefix} Lỗi kết xuất MP4: ${renderRes.error}`, 'error');
+                onLog('Buddhist', `${stagePrefix} Lỗi kết xuất MP4: ${renderRes.error}`, 'error');
+              }
+            } catch (rErr) {
+              const resultObj = { success: false, error: rErr.message, title, index };
+              completedResults.push(resultObj);
+              updateProcess(processId, { status: 'failed', error: rErr.message });
             }
 
-          };
-
-          const renderRes = await ipcRenderer.invoke('remotion-render', {
-            inputProps,
-            compositionId: 'BuddhistVideo'
-          });
-
-          ipcRenderer.removeListener('render-progress', progressListener);
-
-          if (renderRes.success) {
-            setBatchLogs(prev => [...prev, { success: true, path: renderRes.filePath }]);
-            onLog('Buddhist', `${stagePrefix} Kết xuất MP4 thành công! File: ${renderRes.filePath}`, 'success');
-            updateProcess(processId, { status: 'success', progress: 100, stage: 'Hoàn thành!', outputPath: renderRes.filePath });
-            addProcessLog(processId, `Kết xuất MP4 thành công! Tệp lưu tại: ${renderRes.filePath}`, 'success');
-          } else {
-            setBatchLogs(prev => [...prev, { success: false, error: renderRes.error }]);
-            onLog('Buddhist', `${stagePrefix} Lỗi kết xuất MP4: ${renderRes.error}`, 'error');
-            updateProcess(processId, { status: 'failed', error: renderRes.error });
-            addProcessLog(processId, `Lỗi kết xuất video: ${renderRes.error}`, 'error');
+            setBatchLogs([...completedResults]);
           }
-        } else {
-          // If totalToGenerate === 1, the draft preparation is complete
-          updateProcess(processId, { status: 'success', progress: 100, stage: 'Khởi tạo thành công!' });
-          addProcessLog(processId, 'Đã chuẩn bị cấu trúc video thành công! Đang mở trình xem trước...', 'success');
-          setShowPreview(true);
-        }
-      }
+          isRendering = false;
+        };
 
-      // Finish notification
-      if (totalToGenerate > 1) {
-        onLog('Buddhist', `Hoàn tất sản xuất hàng loạt ${totalToGenerate} video Phật pháp!`, 'success');
-        alert(`Đã hoàn tất sản xuất hàng loạt ${totalToGenerate} video!\nTất cả file MP4 đã được lưu trữ trong thư mục tạm.`);
-      } else {
-        onLog('Buddhist', `Khởi tạo video Phật pháp thành công! Nhấp 'Xuất Video MP4' ở bên phải để lưu file.`, 'success');
+        // Media Prep Task Runner for individual video
+        const runMediaPrepForItem = async (i) => {
+          const stagePrefix = `[Video ${i + 1}/${totalToGenerate}]`;
+          const currentTopic = plannedTopics[i % plannedTopics.length];
+          const processId = `buddhist-batch-${Date.now()}-${i}`;
+          registerProcess(processId, `[Video ${i + 1}/${totalToGenerate}] ${currentTopic.title}`, 'buddhist');
+          addProcessLog(processId, `Bắt đầu sản xuất media: "${currentTopic.title}"`, 'info');
+          onLog('Buddhist', `${stagePrefix} Chuẩn bị kịch bản & media cho chủ đề: "${currentTopic.title}"...`, 'info');
+
+          try {
+            // 1. Scripting (with Retry)
+            let generatedData = [];
+            let geminiResData = null;
+
+            const geminiRes = await withRetry(async () => {
+              if (writingMode === 'agentic') {
+                return await ipcRenderer.invoke('gemini-agentic-generate', {
+                  apiKey, topic: currentTopic.title, geminiModel, pdfFilePath, duration: videoDuration, style: scriptStyle, aspectRatio, videoLayout
+                });
+              } else {
+                const systemPrompt = `Bạn là nhà biên kịch xuất sắc... Trả về JSON.`;
+                const targetSyllables = DURATION_SYLLABLE_MAP[videoDuration] || 400;
+                const durText = videoDuration === 0.5 ? '30 giây' : `${videoDuration} phút`;
+                const styleInstruction = scriptStyle === 'accessible' ? `- GIỌNG VĂN: Bình dị.` : `- GIỌNG VĂN: Triết lý.`;
+                const userPrompt = `Hãy viết một bài giảng thiền liền mạch (khoảng ${targetSyllables} âm tiết) về chủ đề: ${currentTopic.title}. ${styleInstruction}`;
+                return await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel, pdfFilePath });
+              }
+            }, 3);
+
+            if (!geminiRes.success) throw new Error(geminiRes.error);
+            geminiResData = geminiRes.data;
+            generatedData = geminiResData.script;
+
+            // 2. TTS Voice (with Retry)
+            const fullText = generatedData.map(item => item.text).join(' ');
+            const colabApiUrl = localStorage.getItem('colab_api_url') || '';
+            const ttsRes = await withRetry(async () => {
+              return await ipcRenderer.invoke('edge-tts-synthesize', {
+                text: fullText,
+                options: { voice, rate: '-15%', refAudioPath, colabApiUrl }
+              });
+            }, 3);
+
+            if (!ttsRes.success) throw new Error(ttsRes.error);
+            const localAudioUrl = ttsRes.filePath;
+
+            // 3. ASR Syncing (with Retry)
+            const asrRes = await withRetry(async () => {
+              return await ipcRenderer.invoke('capcut-asr-transcribe', {
+                audioPath: localAudioUrl,
+                options: { language: 'vi-VN', needWordTimestamp: true }
+              });
+            }, 3);
+
+            if (!asrRes.success) throw new Error(asrRes.error);
+            const asrSegments = asrRes.segments;
+
+            // 4. Image Generation
+            const imageGenSource = localStorage.getItem('image_gen_source') || 'meta_direct';
+            const localImages = [];
+            const storyboard = (writingMode === 'agentic' && videoLayout === 'storyboard')
+              ? geminiResData.storyboard
+              : [{ sceneIndex: 1, text: fullText, imagePrompt: (geminiResData.imagePrompt || (geminiResData.storyboard?.[0]?.imagePrompt) || 'a serene Buddha meditating, vertical 9:16') }];
+
+            for (let sIdx = 0; sIdx < storyboard.length; sIdx++) {
+              const scene = storyboard[sIdx];
+              const ratioPrompt = aspectRatio === '16:9' ? 'horizontal aspect ratio, 16:9 landscape' : 'vertical aspect ratio, 9:16 portrait';
+              const formattedPrompt = `${scene.imagePrompt}, ${ratioPrompt}, photorealistic, highly detailed`;
+              const imgWidth = aspectRatio === '16:9' ? 1920 : 1080;
+              const imgHeight = aspectRatio === '16:9' ? 1080 : 1920;
+              let imagePath = '';
+
+              if (imageGenSource === '9router') {
+                try {
+                  const nrRes = await ipcRenderer.invoke('ninerouter-generate-image', { prompt: formattedPrompt });
+                  if (nrRes.success) imagePath = nrRes.localPaths[0];
+                  else throw new Error(nrRes.error);
+                } catch (e) {
+                  const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
+                  const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
+                  if (dlRes.success) imagePath = dlRes.filePath;
+                  else throw new Error(dlRes.error);
+                }
+              } else if (imageGenSource === 'meta_direct') {
+                try {
+                  const cookieText = localStorage.getItem('meta_direct_cookie') || '';
+                  const metaRes = await ipcRenderer.invoke('meta-direct-generate-image', { prompt: formattedPrompt, cookieText });
+                  if (metaRes.success) imagePath = metaRes.localPaths[0];
+                  else throw new Error(metaRes.error);
+                } catch (e) {
+                  const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
+                  const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
+                  if (dlRes.success) imagePath = dlRes.filePath;
+                  else throw new Error(dlRes.error);
+                }
+              } else {
+                try {
+                  const vibesCookie = localStorage.getItem('vibes_meta_session') || '';
+                  const vibeRes = await ipcRenderer.invoke('vibes-generate-image', { prompt: formattedPrompt, metaSession: vibesCookie });
+                  if (vibeRes.success) {
+                    imagePath = vibeRes.localPaths[0];
+                    ipcRenderer.invoke('vibes-delete-project', { projectId: vibeRes.projectId, metaSession: vibesCookie });
+                  } else throw new Error(vibeRes.error);
+                } catch (e) {
+                  const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
+                  const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
+                  if (dlRes.success) imagePath = dlRes.filePath;
+                  else throw new Error(dlRes.error);
+                }
+              }
+              localImages.push(imagePath);
+            }
+
+            // 5. Slides
+            const lastWordSeg = asrSegments[asrSegments.length - 1];
+            const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 15000;
+            const audioDurationFrames = Math.ceil((audioDurationMs / 1000) * 30);
+
+            let computedSlides = [];
+            if (writingMode === 'agentic' && videoLayout === 'storyboard') {
+              computedSlides = alignStoryboardWithSegments(storyboard, asrSegments);
+              computedSlides = computedSlides.map((slide, sIdx) => ({ ...slide, imageUrl: localImages[sIdx] || localImages[0] || '' }));
+            } else {
+              computedSlides = [{ imageUrl: localImages[0] || '', startFrame: 0, durationFrames: audioDurationFrames }];
+            }
+
+            return {
+              success: true,
+              processId,
+              stagePrefix,
+              index: i,
+              title: currentTopic.title,
+              inputProps: {
+                slides: computedSlides,
+                subtitles: asrSegments,
+                audioUrl: localAudioUrl,
+                bgMusicUrl: bgMusic,
+                type: 'buddhist',
+                shopeeProps: { particleType, subtitleStyle, subtitleY, voiceVolume, bgMusicVolume, aspectRatio }
+              }
+            };
+
+          } catch (err) {
+            updateProcess(processId, { status: 'failed', error: err.message });
+            addProcessLog(processId, `${stagePrefix} Thất bại: ${err.message}`, 'error');
+            return { success: false, index: i, title: currentTopic.title, error: err.message };
+          }
+        };
+
+        // Parallel Concurrency Pool Controller
+        const pendingIndices = Array.from({ length: totalToGenerate }, (_, idx) => idx);
+        const activePromises = new Set();
+
+        while (pendingIndices.length > 0 || activePromises.size > 0) {
+          while (pendingIndices.length > 0 && activePromises.size < CONCURRENCY_LIMIT) {
+            const itemIdx = pendingIndices.shift();
+            const taskPromise = (async () => {
+              const res = await runMediaPrepForItem(itemIdx);
+              if (res.success && res.inputProps) {
+                renderQueue.push(res);
+                processRenderQueue();
+              } else if (!res.success) {
+                completedResults.push(res);
+                setBatchLogs([...completedResults]);
+              }
+            })();
+
+            activePromises.add(taskPromise);
+            taskPromise.finally(() => activePromises.delete(taskPromise));
+          }
+
+          if (activePromises.size > 0) {
+            await Promise.race(Array.from(activePromises));
+          }
+        }
+
+        // Wait for render queue to flush completely
+        while (isRendering || renderQueue.length > 0) {
+          await new Promise(r => setTimeout(r, 500));
+        }
+
+        const successCount = completedResults.filter(r => r.success).length;
+        const failCount = completedResults.filter(r => !r.success).length;
+        onLog('Buddhist', `🎉 Đã sản xuất xong hàng loạt! Thành công ${successCount}/${totalToGenerate} video. ${failCount > 0 ? `(${failCount} tệp lỗi)` : ''}`, 'success');
+        alert(`🎉 Hoàn tất sản xuất hàng loạt ${totalToGenerate} video!\n- Thành công: ${successCount}\n- Thất bại: ${failCount}\nTất cả file MP4 đã được kết xuất và lưu trữ.`);
       }
 
     } catch (err) {
