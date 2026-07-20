@@ -81,17 +81,60 @@ function parseSafeJson(text) {
 
   try {
     return JSON.parse(clean);
-  } catch (err) {
-    const objMatch = clean.match(/\{[\s\S]*\}/);
-    if (objMatch) {
-      try { return JSON.parse(objMatch[0]); } catch (_) {}
-    }
-    const arrMatch = clean.match(/\[[\s\S]*\]/);
-    if (arrMatch) {
-      try { return JSON.parse(arrMatch[0]); } catch (_) {}
-    }
-    throw new Error(`Phản hồi AI không đúng định dạng JSON: ${clean.substring(0, 150)}...`);
+  } catch (_) {}
+
+  const objMatch = clean.match(/\{[\s\S]*\}/);
+  if (objMatch) {
+    try { return JSON.parse(objMatch[0]); } catch (_) {}
   }
+
+  const arrMatch = clean.match(/\[[\s\S]*\]/);
+  if (arrMatch) {
+    try { return JSON.parse(arrMatch[0]); } catch (_) {}
+  }
+
+  let repaired = clean;
+  repaired = repaired.replace(/[\u0000-\u001F]+/g, (match) => {
+    if (match.includes('\n')) return '\\n';
+    if (match.includes('\r')) return '\\r';
+    if (match.includes('\t')) return '\\t';
+    return '';
+  });
+  repaired = repaired.replace(/,\s*([}\]])/g, '$1');
+
+  try {
+    return JSON.parse(repaired);
+  } catch (_) {}
+
+  const repObjMatch = repaired.match(/\{[\s\S]*\}/);
+  if (repObjMatch) {
+    try { return JSON.parse(repObjMatch[0]); } catch (_) {}
+  }
+
+  try {
+    let truncated = repaired;
+    const openQuotes = (truncated.match(/(?<!\\)"/g) || []).length;
+    if (openQuotes % 2 !== 0) truncated += '"';
+
+    let openBraces = 0, openBrackets = 0;
+    let inString = false;
+    for (let i = 0; i < truncated.length; i++) {
+      const char = truncated[i];
+      if (char === '"' && (i === 0 || truncated[i - 1] !== '\\')) {
+        inString = !inString;
+      } else if (!inString) {
+        if (char === '{') openBraces++;
+        else if (char === '}') openBraces = Math.max(0, openBraces - 1);
+        else if (char === '[') openBrackets++;
+        else if (char === ']') openBrackets = Math.max(0, openBrackets - 1);
+      }
+    }
+
+    truncated += ']'.repeat(openBrackets) + '}'.repeat(openBraces);
+    return JSON.parse(truncated);
+  } catch (_) {}
+
+  throw new Error(`Phản hồi AI không đúng định dạng JSON: ${clean.substring(0, 150)}...`);
 }
 
 /**

@@ -12,15 +12,16 @@ import {
   Terminal,
   FileVideo,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  StopCircle
 } from 'lucide-react';
 
 const { ipcRenderer } = window.require('electron');
 
-export default function ProcessesTab({ processes = [], setProcesses }) {
+export default function ProcessesTab({ processes = [], setProcesses, stopProcess, stopAllProcesses }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedId, setExpandedId] = useState(null);
-  const logEndRef = useRef(null);
+  const logContainerRef = useRef(null);
 
   // Statistics
   const total = processes.length;
@@ -35,10 +36,11 @@ export default function ProcessesTab({ processes = [], setProcesses }) {
     p.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Auto-scroll logs to bottom for expanded process
+  // Auto-scroll log box to bottom when logs update, but ONLY scroll inside the log box
+  // NOT the whole page - use scrollTop on container, not scrollIntoView
   useEffect(() => {
-    if (logEndRef.current) {
-      logEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (logContainerRef.current) {
+      logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
     }
   }, [expandedId, processes]);
 
@@ -147,17 +149,35 @@ export default function ProcessesTab({ processes = [], setProcesses }) {
           />
         </div>
 
-        {processes.some(p => p.status !== 'running') && (
-          <button 
-            className="btn" 
-            onClick={handleClearHistory}
-            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)', color: '#f87171' }}
-            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239,68,68,0.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(239,68,68,0.06)'}
-          >
-            <Trash2 size={15} /> Xóa lịch sử đã xong
-          </button>
-        )}
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          {running > 0 && (
+            <button 
+              className="btn" 
+              onClick={() => {
+                if (window.confirm("Bạn có chắc chắn muốn dừng TẤT CẢ các tiến trình ngầm đang chạy?")) {
+                  stopAllProcesses && stopAllProcesses('Người dùng bấm dừng tất cả tiến trình.');
+                }
+              }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.25)', color: '#f87171', fontWeight: 600 }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.12)'}
+            >
+              <StopCircle size={15} /> Dừng tất cả ({running})
+            </button>
+          )}
+
+          {processes.some(p => p.status !== 'running') && (
+            <button 
+              className="btn" 
+              onClick={handleClearHistory}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)', color: '#f87171' }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239,68,68,0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(239,68,68,0.06)'}
+            >
+              <Trash2 size={15} /> Xóa lịch sử đã xong
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Process list */}
@@ -209,7 +229,24 @@ export default function ProcessesTab({ processes = [], setProcesses }) {
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    {proc.status === 'running' && (
+                      <button
+                        className="btn"
+                        title="Dừng tác vụ này"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (window.confirm(`Bạn có chắc chắn muốn dừng tác vụ "${proc.name}"?`)) {
+                            stopProcess && stopProcess(proc.id, 'Người dùng bấm dừng tác vụ thủ công.');
+                          }
+                        }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 12px', fontSize: 12, background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.25)', color: '#f87171', borderRadius: 8, fontWeight: 600 }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.22)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.12)'}
+                      >
+                        <StopCircle size={13} /> Dừng tác vụ
+                      </button>
+                    )}
                     {getStatusBadge(proc.status)}
                     {isExpanded ? <ChevronUp size={18} style={{ color: 'var(--text-muted)' }} /> : <ChevronDown size={18} style={{ color: 'var(--text-muted)' }} />}
                   </div>
@@ -220,12 +257,23 @@ export default function ProcessesTab({ processes = [], setProcesses }) {
                   <div style={{ marginTop: 16 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, marginBottom: 6 }}>
                       <span style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <Loader2 size={12} className="spin" style={{ color: 'var(--success)' }} /> {proc.stage}
+                        <Loader2 size={12} className="spin" style={{ color: 'var(--success)' }} /> {proc.stage || 'Đang xử lý...'}
                       </span>
                       <span style={{ fontWeight: 700, color: 'var(--success)' }}>{proc.progress}%</span>
                     </div>
                     <div style={{ height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 3, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.02)' }}>
                       <div style={{ height: '100%', width: `${proc.progress}%`, background: 'linear-gradient(to right, var(--success), #22c55e)', borderRadius: 3, boxShadow: '0 0 10px rgba(34, 197, 94, 0.4)', transition: 'width 0.4s ease' }} />
+                    </div>
+                  </div>
+                )}
+
+                {/* Error Banner (always visible when failed, even if collapsed) */}
+                {proc.status === 'failed' && proc.error && (
+                  <div style={{ marginTop: 14, background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.25)', borderRadius: 10, padding: '12px 16px', color: '#f87171', fontSize: 13, display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                    <XCircle size={16} style={{ marginTop: 2, flexShrink: 0, color: '#ef4444' }} />
+                    <div style={{ flex: 1 }}>
+                      <strong style={{ color: '#ef4444', display: 'block', fontSize: 12, textTransform: 'uppercase', marginBottom: 2 }}>Chi tiết lỗi phát sinh:</strong>
+                      <span style={{ color: '#fca5a5', lineHeight: 1.4, wordBreak: 'break-word' }}>{proc.error}</span>
                     </div>
                   </div>
                 )}
@@ -275,6 +323,7 @@ export default function ProcessesTab({ processes = [], setProcesses }) {
                         <Terminal size={13} /> Nhật ký hoạt động (Logs)
                       </h5>
                       <div 
+                        ref={logContainerRef}
                         style={{ 
                           height: 180, 
                           background: 'rgba(0,0,0,0.4)', 
@@ -289,7 +338,6 @@ export default function ProcessesTab({ processes = [], setProcesses }) {
                           gap: 4 
                         }}
                       >
-                        <div ref={logEndRef} />
                         {proc.logs.map((log, idx) => (
                           <div key={idx} style={{ color: log.type === 'error' ? '#ef4444' : log.type === 'success' ? 'var(--success)' : log.type === 'warning' ? '#f59e0b' : 'var(--text-muted)' }}>
                             [{log.timestamp}] {log.text}

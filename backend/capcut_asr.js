@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const axios = require('axios');
+const { exec } = require('child_process');
+const os = require('os');
 
 const BASE = "https://editor-api-sg.capcutapi.com";
 const VOD_REGION = "sdwdmwlll";
@@ -336,10 +338,15 @@ function upload_finish_headers(auth, device) {
 
 // ── Upload Audio File ────────────────────────────────────────────────────────
 async function upload_audio_file(filePath, device) {
+  const fileSize = fs.statSync(filePath).size;
+  const fileSizeMB = (fileSize / 1024 / 1024).toFixed(1);
+  console.log(`[CapCut ASR Upload] Bắt đầu upload file ${fileSizeMB}MB lên CapCut Storage...`);
+
   const localMd5 = file_md5(filePath);
   const data = fs.readFileSync(filePath);
   const partCrc32 = crc32_hex(data);
 
+  console.log(`[CapCut ASR Upload] Lấy thông tin xác thực upload...`);
   const { url, headers, bodyText } = upload_sign_request(device);
   const signResp = await axios.post(url, bodyText, { headers, timeout: 60000 });
   const signData = signResp.data;
@@ -352,6 +359,7 @@ async function upload_audio_file(filePath, device) {
     }
   }
 
+  console.log(`[CapCut ASR Upload] Khởi tạo phiên upload (ApplyUploadInner)...`);
   const applyUrl = `https://${creds.domain}/top/v1?` + urlencode({
     Action: "ApplyUploadInner",
     SpaceName: creds.space_name,
@@ -378,14 +386,18 @@ async function upload_audio_file(filePath, device) {
     phase: "transfer"
   });
   
+  // Upload timeout: 2 min per 100MB, minimum 5 min, maximum 20 min for very large files
+  const uploadTimeoutMs = Math.max(300000, Math.min(1200000, Math.ceil(fileSize / (100 * 1024 * 1024)) * 120000));
+  console.log(`[CapCut ASR Upload] Đang tải lên ${fileSizeMB}MB... (timeout: ${Math.round(uploadTimeoutMs/60000)} phút)`);
   const transferHeaders = upload_binary_headers(uploadAuth, partCrc32, device);
   await axios.post(transferUrl, data, { 
     headers: transferHeaders, 
-    timeout: 300000,
+    timeout: uploadTimeoutMs,
     maxContentLength: Infinity,
     maxBodyLength: Infinity
   });
 
+  console.log(`[CapCut ASR Upload] Upload xong. Đang hoàn tất (CommitUpload)...`);
   const finishUrl = `https://${uploadHost}/upload/v1/${storeUri}?` + urlencode({
     uploadmode: "part",
     phase: "finish",
@@ -413,7 +425,8 @@ async function upload_audio_file(filePath, device) {
   const result = commitData.Result.Results[0];
   const meta = result.VideoMeta || {};
   const durationMs = meta.Duration !== undefined ? Math.floor(parseFloat(meta.Duration) * 1000) : 0;
-  
+
+  console.log(`[CapCut ASR Upload] ✅ Upload thành công! VID: ${result.Vid || vid}`);
   return {
     vid: result.Vid || vid,
     md5: meta.Md5 || localMd5,
@@ -425,6 +438,7 @@ async function upload_audio_file(filePath, device) {
     store_uri: meta.Uri || storeUri,
   };
 }
+
 
 // ── Build Request ───────────────────────────────────────────────────────────
 function build_request(mode, args, device) {
@@ -478,7 +492,48 @@ function build_request(mode, args, device) {
 // ── Polling and Transcribing Programmatic interface ──────────────────────────
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-async function transcribeCapCut(filePath, options = {}) {
+function getAudioDurationSeconds(filePath) {
+  return new Promise((resolve) => {
+    const cleanPath = filePath.replace(/^file:\/\//i, '').replace(/\\/g, '/');
+    const cmd = `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${cleanPath}"`;
+    exec(cmd, (err, stdout) => {
+      if (!err && stdout && !isNaN(parseFloat(stdout.trim()))) {
+        return resolve(parseFloat(stdout.trim()));
+      }
+      exec(`ffmpeg -i "${cleanPath}"`, (err2, stdout2, stderr) => {
+        const match = (stderr || '').match(/Duration:\s*(\d+):(\d+):(\d+\.\d+)/);
+        if (match) {
+          const hours = parseInt(match[1], 10);
+          const mins = parseInt(match[2], 10);
+          const secs = parseFloat(match[3]);
+          return resolve(hours * 3600 + mins * 60 + secs);
+        }
+        resolve(0);
+      });
+    });
+  });
+}
+
+function splitAudioChunk(filePath, outputChunkPath, startSec, durationSec) {
+  return new Promise((resolve, reject) => {
+    const cleanPath = filePath.replace(/^file:\/\//i, '').replace(/\\/g, '/');
+    const cleanOut = outputChunkPath.replace(/\\/g, '/');
+    const cmd = `ffmpeg -y -ss ${startSec} -i "${cleanPath}" -t ${durationSec} -c copy "${cleanOut}"`;
+    exec(cmd, (err) => {
+      if (err) {
+        const fallbackCmd = `ffmpeg -y -ss ${startSec} -i "${cleanPath}" -t ${durationSec} "${cleanOut}"`;
+        exec(fallbackCmd, (err2) => {
+          if (err2) return reject(err2);
+          resolve(cleanOut);
+        });
+      } else {
+        resolve(cleanOut);
+      }
+    });
+  });
+}
+
+async function transcribeCapCutSingleChunk(filePath, options = {}) {
   const { 
     language = "zh-CN", 
     translationLanguage = "vi-VN", 
@@ -528,8 +583,9 @@ async function transcribeCapCut(filePath, options = {}) {
 
   let taskResult = null;
   const reqKey = "cc_audio_subtitle_asr";
+  const maxAttempts = 12; // Maximum 36 seconds total to prevent UI freezes
   
-  for (let attempt = 0; attempt < 100; attempt++) {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
     const queryBody = query_body(taskId, token, reqKey, bindId);
     const bodyText = JSON.stringify(queryBody);
     const query = common_query(deviceConfig, null, false);
@@ -544,11 +600,14 @@ async function transcribeCapCut(filePath, options = {}) {
     }
 
     try {
-      const queryResp = await axios.post(url, bodyText, { headers, timeout: 60000 });
+      const queryResp = await axios.post(url, bodyText, { headers, timeout: 8000 });
       const queryJson = queryResp.data;
       if (queryJson.ret === "0" && queryJson.data) {
         const taskInfo = queryJson.data.tasks && queryJson.data.tasks[0];
         if (taskInfo) {
+          if (taskInfo.status === 4 || taskInfo.status === "4" || taskInfo.status === 5) {
+            throw new Error(`Tác vụ CapCut ASR thất bại trên máy chủ (Mã trạng thái: ${taskInfo.status})`);
+          }
           const resultStr = taskInfo.resp || taskInfo.payload;
           if (resultStr) {
             try {
@@ -559,19 +618,21 @@ async function transcribeCapCut(filePath, options = {}) {
               }
             } catch (e) {}
           }
-          if (taskInfo.status === 4 || taskInfo.status === "4" || taskInfo.status === 5) {
-            throw new Error(`ASR task failed on CapCut server (status: ${taskInfo.status})`);
-          }
         }
+      } else if (queryJson.ret && queryJson.ret !== "0") {
+        throw new Error(`Máy chủ CapCut ASR trả về mã lỗi: ${queryJson.ret} (${queryJson.errmsg || 'Lỗi không xác định'})`);
       }
     } catch (err) {
-      console.warn(`[CapCut ASR] Polling warning on attempt ${attempt + 1}: ${err.message}`);
+      console.warn(`[CapCut ASR] Polling warning (Lần thử ${attempt + 1}/${maxAttempts}): ${err.message}`);
+      if (err.message.includes('CapCut ASR thất bại') || err.message.includes('mã lỗi')) {
+        throw err; // Stop polling immediately on explicit server failure
+      }
     }
-    await sleep(5000);
+    await sleep(3000);
   }
 
   if (!taskResult) {
-    throw new Error("ASR task timed out or returned no results");
+    throw new Error("Tác vụ CapCut ASR hết thời gian chờ (Timeout 36s). Hãy sử dụng phụ đề dự phòng.");
   }
 
   onProgress(100, "ASR Transcription completed successfully!");
@@ -596,6 +657,79 @@ async function transcribeCapCut(filePath, options = {}) {
     return { segments, raw: taskResult };
   }
   return segments;
+}
+
+async function transcribeCapCut(filePath, options = {}) {
+  const cleanPath = filePath.replace(/^file:\/\//i, '').replace(/\\/g, '/');
+  if (!fs.existsSync(cleanPath)) {
+    throw new Error(`File not found: ${filePath}`);
+  }
+
+  const fileSizeMB = fs.statSync(cleanPath).size / (1024 * 1024);
+  let durationSec = await getAudioDurationSeconds(cleanPath);
+  const CHUNK_DURATION_SEC = 900; // 15 minutes per CapCut ASR request
+
+  if (durationSec === 0 && fileSizeMB > 25) {
+    durationSec = Math.round((fileSizeMB * 1024 * 1024) / 16000);
+  }
+
+  if ((durationSec <= CHUNK_DURATION_SEC && durationSec > 0) && fileSizeMB <= 25) {
+    return await transcribeCapCutSingleChunk(cleanPath, options);
+  }
+
+  // File is longer than 15 minutes or >25MB -> split into 15-minute chunks using FFmpeg
+  const numChunks = Math.max(1, Math.ceil(durationSec / CHUNK_DURATION_SEC));
+  const { onProgress = () => {} } = options;
+
+  onProgress(5, `Phát hiện file audio dài ${Math.round(durationSec / 60)} phút (${fileSizeMB.toFixed(1)} MB). Dùng FFmpeg tự động chia làm ${numChunks} phần 15 phút để xử lý...`);
+
+  const combinedSegments = [];
+  const tmpDir = os.tmpdir();
+
+  for (let i = 0; i < numChunks; i++) {
+    const startSec = i * CHUNK_DURATION_SEC;
+    const chunkPath = path.join(tmpDir, `capcut_asr_chunk_${Date.now()}_${i}.mp3`);
+    
+    onProgress(10 + Math.floor((i / numChunks) * 80), `FFmpeg đang cắt & CapCut ASR xử lý phần ${i + 1}/${numChunks} (${Math.floor(startSec / 60)}m - ${Math.floor(Math.min(durationSec, startSec + CHUNK_DURATION_SEC) / 60)}m)...`);
+
+    try {
+      await splitAudioChunk(cleanPath, chunkPath, startSec, CHUNK_DURATION_SEC);
+      const chunkOptions = {
+        ...options,
+        onProgress: (p, msg) => {
+          const overallProgress = 10 + Math.floor(((i + p / 100) / numChunks) * 80);
+          onProgress(overallProgress, `[Phần ${i + 1}/${numChunks}] ${msg}`);
+        }
+      };
+
+      const chunkResult = await transcribeCapCutSingleChunk(chunkPath, chunkOptions);
+      const offsetMs = startSec * 1000;
+      const rawSegments = Array.isArray(chunkResult) ? chunkResult : (chunkResult.segments || []);
+      
+      for (const seg of rawSegments) {
+        combinedSegments.push({
+          text: seg.text,
+          start_time: seg.start_time + offsetMs,
+          end_time: seg.end_time + offsetMs,
+          words: seg.words ? seg.words.map(w => ({
+            text: w.text,
+            start_time: w.start_time + offsetMs,
+            end_time: w.end_time + offsetMs
+          })) : []
+        });
+      }
+    } finally {
+      if (fs.existsSync(chunkPath)) {
+        try { fs.unlinkSync(chunkPath); } catch (e) {}
+      }
+    }
+  }
+
+  onProgress(100, `Hoàn tất ghép nối phụ đề ASR toàn bộ ${numChunks} phần! (${combinedSegments.length} câu)`);
+  if (options.returnRaw) {
+    return { segments: combinedSegments, raw: { utterances: combinedSegments } };
+  }
+  return combinedSegments;
 }
 
 // ── Subtitle Exporters ──────────────────────────────────────────────────────

@@ -12,6 +12,7 @@ registerRoot(() => {
 
   return (
     <>
+      {/* ── Portrait 9:16 compositions ── */}
       <Composition
         id="ShopeeVideo"
         component={VideoComposition}
@@ -54,6 +55,58 @@ registerRoot(() => {
         fps={30}
         width={1080}
         height={1920}
+        defaultProps={{
+          slides: [],
+          subtitles: [],
+          audioUrl: '',
+          bgMusicUrl: '',
+          type: 'stickman'
+        }}
+      />
+
+      {/* ── Landscape 16:9 compositions ── */}
+      <Composition
+        id="ShopeeVideoLandscape"
+        component={VideoComposition}
+        durationInFrames={totalDurationFrames}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          slides: [],
+          subtitles: [],
+          audioUrl: '',
+          bgMusicUrl: '',
+          type: 'shopee',
+          shopeeProps: {
+            title: 'Mẫu sản phẩm Shopee',
+            price: 150000,
+            ratingStar: 4.8
+          }
+        }}
+      />
+      <Composition
+        id="BuddhistVideoLandscape"
+        component={VideoComposition}
+        durationInFrames={totalDurationFrames}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          slides: [],
+          subtitles: [],
+          audioUrl: '',
+          bgMusicUrl: '',
+          type: 'buddhist'
+        }}
+      />
+      <Composition
+        id="StickmanVideoLandscape"
+        component={VideoComposition}
+        durationInFrames={totalDurationFrames}
+        fps={30}
+        width={1920}
+        height={1080}
         defaultProps={{
           slides: [],
           subtitles: [],

@@ -203,6 +203,8 @@ export default function SettingsTab() {
           geminiModel: modelToTest,
           vibesMetaSession: vibesSession,
           colabApiUrl: colabApiUrl,
+          metaDirectCookie: metaDirectCookie,
+          labsGoogleCookie: labsGoogleCookie,
           nineRouterUrl: nineRouterUrl,
           nineRouterKey: nineRouterKey,
           nineRouterModel: nineRouterModel
@@ -221,6 +223,8 @@ export default function SettingsTab() {
     localStorage.setItem('gemini_model', model);
     localStorage.setItem('vibes_meta_session', vibesSession);
     localStorage.setItem('colab_api_url', colabApiUrl);
+    localStorage.setItem('meta_direct_cookie', metaDirectCookie);
+    localStorage.setItem('labs_google_cookie', labsGoogleCookie);
     localStorage.setItem('ninerouter_url', nineRouterUrl);
     localStorage.setItem('ninerouter_key', nineRouterKey);
     localStorage.setItem('ninerouter_model', nineRouterModel);
@@ -229,6 +233,8 @@ export default function SettingsTab() {
       geminiModel: model,
       vibesMetaSession: vibesSession,
       colabApiUrl: colabApiUrl,
+      metaDirectCookie: metaDirectCookie,
+      labsGoogleCookie: labsGoogleCookie,
       nineRouterUrl: nineRouterUrl,
       nineRouterKey: nineRouterKey,
       nineRouterModel: nineRouterModel
@@ -246,6 +252,8 @@ export default function SettingsTab() {
     localStorage.setItem('gemini_model', model);
     localStorage.setItem('vibes_meta_session', vibesSession);
     localStorage.setItem('colab_api_url', colabApiUrl);
+    localStorage.setItem('meta_direct_cookie', metaDirectCookie);
+    localStorage.setItem('labs_google_cookie', labsGoogleCookie);
     localStorage.setItem('ninerouter_url', nineRouterUrl);
     localStorage.setItem('ninerouter_key', nineRouterKey);
     localStorage.setItem('ninerouter_model', nineRouterModel);
@@ -254,11 +262,13 @@ export default function SettingsTab() {
       geminiModel: model,
       vibesMetaSession: vibesSession,
       colabApiUrl: colabApiUrl,
+      metaDirectCookie: metaDirectCookie,
+      labsGoogleCookie: labsGoogleCookie,
       nineRouterUrl: nineRouterUrl,
       nineRouterKey: nineRouterKey,
       nineRouterModel: nineRouterModel
     });
-    setStatus('success');
+    alert('Đã lưu tất cả cấu hình vĩnh viễn thành công!');
   };
 
   const handleInstallModel = async (modelName) => {

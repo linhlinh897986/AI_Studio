@@ -72,7 +72,12 @@ const STICKERS = [
   { id: 'WHAT?!', label: '❓ WHAT?!' }
 ];
 
-export default function StickmanTab({ onLog }) {
+export default function StickmanTab({ 
+  onLog, 
+  registerProcess = () => {}, 
+  updateProcess = () => {}, 
+  addProcessLog = () => {} 
+}) {
   // Input settings
   const [prompt, setPrompt] = useState('Chuyện người que Bob tập nấu trứng và làm cháy bếp');
   const [character, setCharacter] = useState('bob');
@@ -120,14 +125,24 @@ export default function StickmanTab({ onLog }) {
           showBrowser: false
         }
       });
-    } else if (imageGenSource === '9router') {
-      return await ipcRenderer.invoke('ninerouter-generate-image', { prompt: enrichedPrompt });
-    } else if (imageGenSource === 'meta_direct') {
-      const cookieText = localStorage.getItem('meta_direct_cookie') || '';
-      return await ipcRenderer.invoke('meta-direct-generate-image', { prompt: enrichedPrompt, cookieText });
+    } else if (imageGenSource === 'ninerouter') {
+      const nineRouterUrl = localStorage.getItem('ninerouter_url') || 'https://ninerouter.com/v1';
+      const nineRouterKey = localStorage.getItem('ninerouter_key') || '';
+      const nineRouterModel = localStorage.getItem('ninerouter_model') || 'recraft-v3';
+      return await ipcRenderer.invoke('ninerouter-generate-image', {
+        prompt: enrichedPrompt,
+        nineRouterUrl,
+        nineRouterKey,
+        nineRouterModel,
+        size: '1024x1024'
+      });
     } else {
-      const vibesCookie = localStorage.getItem('vibes_meta_session') || '';
-      return await ipcRenderer.invoke('vibes-generate-image', { prompt: enrichedPrompt, metaSession: vibesCookie });
+      // Default: Meta Direct Image Gen
+      const cookieText = localStorage.getItem('meta_cookie') || '';
+      return await ipcRenderer.invoke('meta-direct-generate-image', {
+        prompt: enrichedPrompt,
+        cookieText
+      });
     }
   };
 
@@ -145,9 +160,14 @@ export default function StickmanTab({ onLog }) {
 
     setLoading(true);
     setError('');
+
+    const processId = `stickman-script-${Date.now()}`;
+    registerProcess(processId, `Stickman Script: ${prompt.substring(0, 25)}...`, 'stickman');
+    addProcessLog(processId, 'Bắt đầu tạo kịch bản phân cảnh Stickman với Gemini...', 'info');
     
     try {
       setLoadingStage('Gemini đang sáng tác kịch bản phân cảnh hài hước...');
+      updateProcess(processId, { progress: 40, stage: 'Gemini đang sáng tác phân cảnh...' });
       onLog('Stickman', `Đang kết nối Gemini để thiết lập cốt truyện: "${prompt}"...`, 'info');
 
       const charObj = CHARACTER_PROFILES.find(c => c.id === character);
@@ -182,16 +202,20 @@ Hãy viết prompt mô tả bằng tiếng Anh đơn giản, hành động cực
       const enrichedStoryboard = storyboardData.map((item, idx) => ({
         ...item,
         bubblePos: item.speakerType === 'dialogue' ? (idx % 2 === 0 ? 'top-left' : 'top-right') : 'none',
-        sticker: idx === 2 ? 'BOOM!' : 'none', // give a funny sticker placeholder to scene 3
-        imageUrl: '' // will be generated later
+        sticker: idx === 2 ? 'BOOM!' : 'none',
+        imageUrl: ''
       }));
 
       setStoryboard(enrichedStoryboard);
       setStep('storyboard');
       onLog('Stickman', `Sáng tác phân cảnh truyện hoàn tất! Bắt đầu biên tập.`, 'success');
+      updateProcess(processId, { status: 'success', progress: 100, stage: 'Tạo kịch bản hoàn tất!' });
+      addProcessLog(processId, 'Tạo phân cảnh hoàn tất!', 'success');
     } catch (err) {
       setError(err.message);
       onLog('Stickman', `Lỗi tạo kịch bản: ${err.message}`, 'error');
+      updateProcess(processId, { status: 'failed', error: err.message });
+      addProcessLog(processId, `Lỗi kịch bản: ${err.message}`, 'error');
     } finally {
       setLoading(false);
       setLoadingStage('');
@@ -200,26 +224,29 @@ Hãy viết prompt mô tả bằng tiếng Anh đơn giản, hành động cực
 
   // Step 2: Regenerate single image inside storyboard editor
   const handleRegeneratePanelImage = async (index) => {
+    if (!storyboard[index]) return;
+    setLoading(true);
     setPanelDrawingIndex(index);
-    setError('');
-    onLog('Stickman', `Bắt đầu vẽ lại hình ảnh cho Phân cảnh ${index + 1}...`, 'info');
+    setLoadingStage(`Đang vẽ lại phân cảnh ${index + 1}...`);
+    onLog('Stickman', `Đang vẽ lại hình ảnh cho cảnh ${index + 1}...`, 'info');
 
     try {
-      const panel = storyboard[index];
-      const res = await generateImageForPanel(panel.imagePrompt);
+      const res = await generateImageForPanel(storyboard[index].imagePrompt);
       if (res && res.success) {
         const filePath = res.filePath || (res.localPaths && res.localPaths[0]);
-        const updatedStoryboard = [...storyboard];
-        updatedStoryboard[index].imageUrl = filePath;
-        setStoryboard(updatedStoryboard);
-        onLog('Stickman', `Vẽ thành công Phân cảnh ${index + 1}!`, 'success');
+        const updated = [...storyboard];
+        updated[index].imageUrl = filePath;
+        setStoryboard(updated);
+        onLog('Stickman', `Vẽ xong ảnh phân cảnh ${index + 1}.`, 'success');
       } else {
-        throw new Error(res ? res.error : 'Vẽ lỗi.');
+        throw new Error(res?.error || 'Không vẽ được hình ảnh');
       }
     } catch (err) {
-      setError(`Lỗi vẽ cảnh ${index + 1}: ${err.message}`);
-      onLog('Stickman', `Vẽ phân cảnh ${index + 1} thất bại: ${err.message}`, 'error');
+      onLog('Stickman', `Lỗi vẽ cảnh ${index + 1}: ${err.message}`, 'error');
+      alert(`Lỗi vẽ hình ảnh cảnh ${index + 1}: ${err.message}`);
     } finally {
+      setLoading(false);
+      setLoadingStage('');
       setPanelDrawingIndex(null);
     }
   };
@@ -230,12 +257,17 @@ Hãy viết prompt mô tả bằng tiếng Anh đơn giản, hành động cực
     setError('');
     onLog('Stickman', 'Bắt đầu tổng hợp tài nguyên truyện người que...', 'info');
 
+    const processId = `stickman-gen-${Date.now()}`;
+    registerProcess(processId, `Stickman Build: ${prompt.substring(0, 25)}...`, 'stickman');
+    addProcessLog(processId, 'Bắt đầu vẽ hình ảnh & tổng hợp lồng tiếng Stickman...', 'info');
+
     try {
       // 1. Generate missing drawing files if any panel has no image
       const updatedStoryboard = [...storyboard];
       for (let i = 0; i < updatedStoryboard.length; i++) {
         if (!updatedStoryboard[i].imageUrl) {
           setLoadingStage(`Đang vẽ tự động phân cảnh ${i + 1}/${updatedStoryboard.length}...`);
+          updateProcess(processId, { progress: 10 + Math.floor((i / updatedStoryboard.length) * 40), stage: `Vẽ tự động cảnh ${i + 1}/${updatedStoryboard.length}...` });
           setPanelDrawingIndex(i);
           const res = await generateImageForPanel(updatedStoryboard[i].imagePrompt);
           if (res && res.success) {
@@ -250,8 +282,9 @@ Hãy viết prompt mô tả bằng tiếng Anh đơn giản, hành động cực
       }
       setPanelDrawingIndex(null);
 
-      // 2. Synthesize audio speech (concatenating all dialogue and narration)
+      // 2. Synthesize audio speech (concatenating all dialogue and narration) (50%)
       setLoadingStage('Đang tổng hợp giọng nói thuyết minh AI...');
+      updateProcess(processId, { progress: 50, stage: '50% - Đang tổng hợp lồng tiếng AI Edge-TTS...' });
       onLog('Stickman', 'Đang kết nối tới Edge-TTS để đọc lời thoại...', 'info');
       const fullSpeechText = updatedStoryboard.map(item => item.text).join('. ');
       
@@ -259,25 +292,48 @@ Hãy viết prompt mô tả bằng tiếng Anh đơn giản, hành động cực
         text: fullSpeechText,
         options: { voice, rate: '0%' }
       });
-      if (!ttsRes.success) throw new Error(ttsRes.error);
+      if (!ttsRes.success) throw new Error(`Lỗi lồng tiếng AI: ${ttsRes.error}`);
       const localAudioUrl = ttsRes.filePath;
       setAudioUrl(localAudioUrl);
       onLog('Stickman', 'Lồng tiếng truyện người que hoàn thành.', 'success');
+      addProcessLog(processId, 'Tạo file âm thanh lồng tiếng thành công.', 'success');
 
-      // 3. ASR Timing extraction for accurate karaoke & slide synchronization
+      // 3. ASR Timing extraction with Smart Fallback (70%)
       setLoadingStage('Đang khớp thời gian phụ đề từng từ...');
+      updateProcess(processId, { progress: 70, stage: '70% - Đang khớp thời gian phụ đề & nhịp thoại...' });
       onLog('Stickman', 'Tách phụ đề ASR từ âm thanh...', 'info');
-      const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
-        audioPath: localAudioUrl,
-        options: { language: 'vi-VN', needWordTimestamp: false }
-      });
-      if (!asrRes.success) throw new Error(asrRes.error);
-      const asrSegments = asrRes.segments;
-      setSubtitles(asrSegments);
-      onLog('Stickman', 'Phân tích âm thanh và tạo dòng phụ đề thành công.', 'success');
+      
+      let asrSegments = [];
+      try {
+        const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
+          audioPath: localAudioUrl,
+          options: { language: 'vi-VN', needWordTimestamp: false }
+        });
+        if (asrRes.success && Array.isArray(asrRes.segments) && asrRes.segments.length > 0) {
+          asrSegments = asrRes.segments;
+          onLog('Stickman', 'Phân tích âm thanh CapCut ASR thành công.', 'success');
+          addProcessLog(processId, `Tách phụ đề ASR thành công (${asrSegments.length} phân đoạn)`, 'success');
+        } else {
+          throw new Error(asrRes.error || 'Dữ liệu ASR rỗng');
+        }
+      } catch (asrErr) {
+        onLog('Stickman', `CapCut ASR không khả dụng (${asrErr.message}). Tự động kích hoạt phụ đề dự phòng...`, 'warning');
+        addProcessLog(processId, `Tự động chuyển sang phụ đề dự phòng (${asrErr.message})`, 'warning');
 
-      // 4. Align slides exactly to ASR sentences timestamps for premium synchronization
+        const estDurationMs = Math.max(8000, updatedStoryboard.length * 3000);
+        const timePerSeg = Math.floor(estDurationMs / updatedStoryboard.length);
+        asrSegments = updatedStoryboard.map((item, idx) => ({
+          text: item.text,
+          start_time: idx * timePerSeg,
+          end_time: (idx + 1) * timePerSeg
+        }));
+      }
+
+      setSubtitles(asrSegments);
+
+      // 4. Align slides exactly to ASR sentences timestamps for premium synchronization (90%)
       setLoadingStage('Đang đồng bộ phân cảnh với nhịp thoại...');
+      updateProcess(processId, { progress: 90, stage: '90% - Đang đồng bộ hóa phân cảnh người que...' });
       const lastWordSeg = asrSegments[asrSegments.length - 1];
       const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 10000;
       const audioDurationFrames = Math.ceil((audioDurationMs / 1000) * 30);
@@ -331,11 +387,16 @@ Hãy viết prompt mô tả bằng tiếng Anh đơn giản, hành động cực
 
       setSlides(computedSlides);
       onLog('Stickman', 'Đồng bộ hóa hoạt ảnh hoàn chỉnh.', 'success');
+      updateProcess(processId, { status: 'success', progress: 100, stage: 'Tạo bản xem trước Stickman thành công!' });
+      addProcessLog(processId, 'Tác vụ hoàn tất 100%! Xem trước đã sẵn sàng.', 'success');
       setStep('ready');
       setShowPreview(true);
     } catch (err) {
-      setError(err.message);
-      onLog('Stickman', `Lỗi kết nối tài nguyên: ${err.message}`, 'error');
+      const errorMsg = err.message || String(err);
+      setError(errorMsg);
+      onLog('Stickman', `Lỗi kết nối tài nguyên: ${errorMsg}`, 'error');
+      updateProcess(processId, { status: 'failed', error: errorMsg });
+      addProcessLog(processId, `LỖI TÁC VỤ: ${errorMsg}`, 'error');
     } finally {
       setLoading(false);
       setLoadingStage('');
@@ -348,8 +409,13 @@ Hãy viết prompt mô tả bằng tiếng Anh đơn giản, hành động cực
     setExportProgress({ percent: 0, message: 'Bắt đầu render video Remotion...' });
     onLog('Stickman', 'Bắt đầu xuất video MP4 nét vẽ người que...', 'info');
 
+    const processId = `stickman-export-${Date.now()}`;
+    registerProcess(processId, `Xuất MP4 Stickman: ${prompt.substring(0, 25)}...`, 'stickman');
+    addProcessLog(processId, 'Khởi chạy render Remotion MP4 thành phẩm...', 'info');
+
     const progressListener = (event, progress) => {
       setExportProgress(progress);
+      updateProcess(processId, { progress: progress.percent, stage: progress.message || `Đang render MP4 (${progress.percent}%)...` });
     };
     ipcRenderer.on('render-progress', progressListener);
 

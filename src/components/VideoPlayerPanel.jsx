@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Player } from '@remotion/player';
 import { VideoComposition } from '../remotion/Video';
-import { Edit3, Play, Pause, Download, Sliders, Check, Type, Wind, Music, Sparkles } from 'lucide-react';
+import { Edit3, Play, Pause, Download, Sliders, Check, Type, Wind, Music, Sparkles, RotateCcw, RotateCw, SkipBack, SkipForward } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Mini SVG thumbnails for subtitle style picker
@@ -433,56 +433,189 @@ export default function VideoPlayerPanel({
               </div>
             </div>
 
-            {/* Bottom Controls Bar */}
-            <div style={{
-              width: '100%', maxWidth: 540,
-              display: 'flex', gap: 12, alignItems: 'center',
-              marginTop: 16, flexShrink: 0,
-            }}>
-              <div style={{ display: 'flex', gap: 8, flex: 1 }}>
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => playerRef.current?.play()}
-                  disabled={slides.length === 0 || isPlaying}
-                  style={{ flex: 1, padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 13, fontWeight: 700 }}
-                >
-                  <Play size={15}/> Phát
-                </button>
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => playerRef.current?.pause()}
-                  disabled={slides.length === 0 || !isPlaying}
-                  style={{ flex: 1, padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 13, fontWeight: 700 }}
-                >
-                  <Pause size={15}/> Dừng
-                </button>
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => { playerRef.current?.pause(); playerRef.current?.seekToTime(0); }}
-                  disabled={slides.length === 0}
-                  style={{ padding: '12px 14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                  title="Đặt lại về 0s"
-                >
-                  <div style={{ width: 10, height: 10, background: 'currentColor', borderRadius: 2 }}/>
-                </button>
-              </div>
+            {/* Interactive Timeline Scrubber & Controls Panel */}
+            {(() => {
+              const totalDurationMs = Math.round((totalDurationFrames / 30) * 1000);
+              const currentFrame = Math.floor((currentTimeMs / 1000) * 30);
+              const activeSceneIdx = slides.findIndex(s => currentFrame >= s.startFrame && currentFrame < (s.startFrame + s.durationFrames));
+              const formatTime = (ms) => {
+                if (!ms || isNaN(ms)) return '00:00';
+                const totalSec = Math.floor(ms / 1000);
+                const m = Math.floor(totalSec / 60);
+                const s = totalSec % 60;
+                return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+              };
 
-              <button
-                className="btn btn-primary"
-                onClick={onExport}
-                disabled={slides.length === 0 || isExporting}
-                style={{
-                  padding: '12px 28px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                  background: 'linear-gradient(135deg, #d97706, #b45309)',
-                  border: 'none', fontSize: 13, fontWeight: 700, borderRadius: 10,
-                  boxShadow: '0 4px 14px rgba(212,160,23,0.35)',
-                  cursor: 'pointer', whiteSpace: 'nowrap',
-                }}
-              >
-                <Download size={16}/> {isExporting ? 'Đang xuất MP4...' : 'Xuất Video MP4'}
-              </button>
-            </div>
+              return (
+                <div style={{
+                  width: '100%',
+                  maxWidth: isLandscape ? 680 : 540,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 10,
+                  marginTop: 14,
+                  padding: '14px 18px',
+                  background: 'rgba(15, 20, 32, 0.65)',
+                  backdropFilter: 'blur(12px)',
+                  borderRadius: 16,
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                  flexShrink: 0,
+                }}>
+                  {/* Top Status Row: Time Indicator & Current Scene Badge */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, fontWeight: 600 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#f5c842' }}>
+                      <span style={{ fontFamily: 'monospace', fontSize: 13, background: 'rgba(212,160,23,0.18)', color: '#fbbf24', padding: '3px 9px', borderRadius: 6, border: '1px solid rgba(212,160,23,0.35)' }}>
+                        {formatTime(currentTimeMs)}
+                      </span>
+                      <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+                      <span style={{ fontFamily: 'monospace', color: 'rgba(255,255,255,0.6)' }}>
+                        {formatTime(totalDurationMs)}
+                      </span>
+                    </div>
+
+                    {activeSceneIdx >= 0 && (
+                      <div style={{
+                        fontSize: 11, color: '#e0e7ff', background: 'rgba(99, 102, 241, 0.2)',
+                        padding: '3px 12px', borderRadius: 12, border: '1px solid rgba(99, 102, 241, 0.35)',
+                        maxWidth: 240, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'
+                      }}>
+                        📍 Cảnh {activeSceneIdx + 1}/{slides.length}: {slides[activeSceneIdx]?.text || ''}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Scrubber Timeline Bar */}
+                  <div style={{ position: 'relative', width: '100%', height: 26, display: 'flex', alignItems: 'center' }}>
+                    {/* Scene Marker Lines on Timeline */}
+                    <div style={{ position: 'absolute', inset: '9px 0', pointerEvents: 'none', zIndex: 1 }}>
+                      {slides.map((s, idx) => {
+                        if (idx === 0) return null;
+                        const leftPct = (s.startFrame / totalDurationFrames) * 100;
+                        return (
+                          <div
+                            key={idx}
+                            style={{
+                              position: 'absolute',
+                              left: `${leftPct}%`,
+                              top: -2,
+                              bottom: -2,
+                              width: 2,
+                              background: 'rgba(255, 255, 255, 0.45)',
+                              borderRadius: 1,
+                              boxShadow: '0 0 4px rgba(0,0,0,0.8)',
+                            }}
+                            title={`Mốc Cảnh ${idx + 1}`}
+                          />
+                        );
+                      })}
+                    </div>
+
+                    {/* Interactive Range Input Scrubber */}
+                    <input
+                      type="range"
+                      min={0}
+                      max={totalDurationMs || 1}
+                      value={currentTimeMs}
+                      disabled={slides.length === 0}
+                      onChange={(e) => {
+                        const seekMs = Number(e.target.value);
+                        setCurrentTimeMs(seekMs);
+                        playerRef.current?.seekToTime(seekMs);
+                      }}
+                      style={{
+                        width: '100%',
+                        height: 8,
+                        borderRadius: 4,
+                        outline: 'none',
+                        cursor: 'pointer',
+                        zIndex: 2,
+                        accentColor: '#f5c842',
+                        background: `linear-gradient(to right, #d97706 0%, #f5c842 ${(currentTimeMs / (totalDurationMs || 1)) * 100}%, rgba(255,255,255,0.12) ${(currentTimeMs / (totalDurationMs || 1)) * 100}%, rgba(255,255,255,0.12) 100%)`,
+                      }}
+                    />
+                  </div>
+
+                  {/* Bottom Action Controls */}
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          const newTime = Math.max(0, currentTimeMs - 5000);
+                          setCurrentTimeMs(newTime);
+                          playerRef.current?.seekToTime(newTime);
+                        }}
+                        disabled={slides.length === 0}
+                        style={{ padding: '6px 10px', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4, borderRadius: 8 }}
+                        title="Lùi 5 giây"
+                      >
+                        <RotateCcw size={12}/> -5s
+                      </button>
+
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          if (isPlaying) playerRef.current?.pause();
+                          else playerRef.current?.play();
+                        }}
+                        disabled={slides.length === 0}
+                        style={{
+                          padding: '6px 16px', fontSize: 12, fontWeight: 700,
+                          display: 'flex', alignItems: 'center', gap: 6, borderRadius: 8,
+                          background: isPlaying ? 'rgba(239, 68, 68, 0.25)' : 'rgba(245, 200, 66, 0.2)',
+                          color: isPlaying ? '#f87171' : '#f5c842',
+                          border: `1px solid ${isPlaying ? 'rgba(239, 68, 68, 0.4)' : 'rgba(245, 200, 66, 0.4)'}`
+                        }}
+                      >
+                        {isPlaying ? <Pause size={14}/> : <Play size={14}/>}
+                        {isPlaying ? 'Dừng' : 'Phát'}
+                      </button>
+
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          const newTime = Math.min(totalDurationMs, currentTimeMs + 5000);
+                          setCurrentTimeMs(newTime);
+                          playerRef.current?.seekToTime(newTime);
+                        }}
+                        disabled={slides.length === 0}
+                        style={{ padding: '6px 10px', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4, borderRadius: 8 }}
+                        title="Tiến 5 giây"
+                      >
+                        +5s <RotateCw size={12}/>
+                      </button>
+
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => { playerRef.current?.pause(); playerRef.current?.seekToTime(0); setCurrentTimeMs(0); }}
+                        disabled={slides.length === 0}
+                        style={{ padding: '6px 10px', fontSize: 11, borderRadius: 8 }}
+                        title="Về đầu 0s"
+                      >
+                        0s
+                      </button>
+                    </div>
+
+                    <button
+                      className="btn btn-primary"
+                      onClick={onExport}
+                      disabled={slides.length === 0 || isExporting}
+                      style={{
+                        padding: '8px 20px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                        background: 'linear-gradient(135deg, #d97706, #b45309)',
+                        border: 'none', fontSize: 12, fontWeight: 700, borderRadius: 8,
+                        boxShadow: '0 4px 14px rgba(212,160,23,0.35)',
+                        cursor: 'pointer', whiteSpace: 'nowrap',
+                      }}
+                    >
+                      <Download size={14}/> {isExporting ? 'Đang xuất...' : 'Xuất MP4'}
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
 
             {isExporting && exportProgress && (
               <div style={{ width: '100%', maxWidth: 540, marginTop: 8 }}>

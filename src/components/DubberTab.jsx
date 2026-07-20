@@ -4,7 +4,12 @@ import LucyLabModal from './LucyLabModal';
 
 const { ipcRenderer } = window.require('electron');
 
-export default function DubberTab({ onLog }) {
+export default function DubberTab({ 
+  onLog, 
+  registerProcess = () => {}, 
+  updateProcess = () => {}, 
+  addProcessLog = () => {} 
+}) {
   const [videoPath, setVideoPath] = useState('');
   const [sourceLang, setSourceLang] = useState('en-US');
   const [targetVoice, setTargetVoice] = useState('vi-VN-NamMinhNeural');
@@ -61,31 +66,48 @@ export default function DubberTab({ onLog }) {
     setDubbedVideoUrl('');
     setTranscript([]);
 
+    const videoName = videoPath.replace(/\\/g, '/').split('/').pop() || 'Video';
+    const processId = `dubber-${Date.now()}`;
+    registerProcess(processId, `Lồng Tiếng: ${videoName}`, 'dubber');
+    addProcessLog(processId, `Khởi tạo tiến trình lồng tiếng cho video ${videoName}`, 'info');
+
     try {
-      // Stage 1: Extract audio track from video
+      // Stage 1: Extract audio track from video (15%)
       setLoadingStage('Đang tách âm thanh gốc từ video...');
+      updateProcess(processId, { progress: 15, stage: '15% - Đang trích xuất âm thanh từ video...' });
       onLog('Dubber', 'Đang trích xuất track âm thanh của video bằng FFmpeg...', 'info');
       const extRes = await ipcRenderer.invoke('video-extract-audio', { videoPath });
-      if (!extRes.success) throw new Error(extRes.error);
+      if (!extRes.success) throw new Error(`Lỗi tách âm thanh: ${extRes.error}`);
       const audioWavPath = extRes.filePath;
       onLog('Dubber', `Tách âm thanh thành công: ${audioWavPath}`, 'success');
+      addProcessLog(processId, 'Tách âm thanh WAV thành công.', 'success');
 
-      // Stage 2: CapCut ASR Transcription in source language
+      // Stage 2: CapCut ASR Transcription in source language (35%)
       setLoadingStage('Đang gửi âm thanh lên CapCut ASR để nhận dạng giọng nói...');
+      updateProcess(processId, { progress: 35, stage: '35% - CapCut ASR nhận dạng giọng nói...' });
       onLog('Dubber', `Nhận dạng giọng nói gốc với ngôn ngữ nguồn: ${sourceLang}...`, 'info');
-      const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
-        audioPath: `file://${audioWavPath.replace(/\\/g, '/')}`,
-        options: { language: sourceLang, needWordTimestamp: false }
-      });
-      if (!asrRes.success) throw new Error(asrRes.error);
-      const segments = asrRes.segments;
-      if (segments.length === 0) {
-        throw new Error("Không phát hiện thấy lời thoại trong video gốc.");
+      
+      let segments = [];
+      try {
+        const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
+          audioPath: `file://${audioWavPath.replace(/\\/g, '/')}`,
+          options: { language: sourceLang, needWordTimestamp: false }
+        });
+        if (asrRes.success && Array.isArray(asrRes.segments) && asrRes.segments.length > 0) {
+          segments = asrRes.segments;
+        } else {
+          throw new Error(asrRes.error || "Không phát hiện thấy lời thoại.");
+        }
+      } catch (asrErr) {
+        throw new Error(`CapCut ASR nhận dạng lời thoại thất bại: ${asrErr.message}`);
       }
-      onLog('Dubber', `Tách giọng nói thành công! Nhận diện được ${segments.length} câu nói.`, 'success');
 
-      // Stage 3: Translate transcription using Gemini
+      onLog('Dubber', `Tách giọng nói thành công! Nhận diện được ${segments.length} câu nói.`, 'success');
+      addProcessLog(processId, `Đã nhận diện ${segments.length} câu thoại trong video gốc.`, 'success');
+
+      // Stage 3: Translate transcription using Gemini (55%)
       setLoadingStage('Gemini đang dịch thuật kịch bản nói sang Tiếng Việt...');
+      updateProcess(processId, { progress: 55, stage: '55% - Gemini dịch kịch bản sang tiếng Việt...' });
       onLog('Dubber', 'Gửi lời thoại gốc lên Gemini để dịch nghĩa khớp thời gian...', 'info');
       
       const systemPrompt = `Bạn là chuyên gia dịch thuật video chuyên nghiệp. Hãy dịch các phân đoạn thoại tiếng Anh/Trung sang tiếng Việt tự nhiên, phù hợp văn phong nói lồng tiếng Việt Nam. Giữ nguyên mốc thời gian. Trả về đối tượng JSON đúng cấu trúc.`;
@@ -100,13 +122,15 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
 
       const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
       const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel });
-      if (!geminiRes.success) throw new Error(geminiRes.error);
+      if (!geminiRes.success) throw new Error(`Lỗi dịch thuật Gemini: ${geminiRes.error}`);
       const translations = geminiRes.data.translations;
       setTranscript(translations);
       onLog('Dubber', 'Dịch thuật kịch bản hoàn tất.', 'success');
+      addProcessLog(processId, 'Dịch kịch bản tiếng Việt hoàn tất.', 'success');
 
-      // Stage 4: Synthesize individual segment audios and auto time-stretch
+      // Stage 4: Synthesize individual segment audios and auto time-stretch (75%)
       setLoadingStage('Đang lồng tiếng Việt từng câu khớp thời gian gốc...');
+      updateProcess(processId, { progress: 75, stage: '75% - Đang lồng tiếng AI tiếng Việt từng câu...' });
       onLog('Dubber', 'Đang tạo giọng nói lồng tiếng từng câu thông qua Edge-TTS...', 'info');
       
       const colabApiUrl = localStorage.getItem('colab_api_url') || '';
@@ -134,21 +158,27 @@ Trả về duy nhất một đối tượng JSON có thuộc tính "translations
         }
       }
 
-      // Stage 5: Merge back with original video
+      // Stage 5: Merge back with original video (90%)
       setLoadingStage('Đang hòa âm lồng tiếng và ghép trộn video...');
+      updateProcess(processId, { progress: 90, stage: '90% - Đang hòa âm & kết xuất video MP4...' });
       onLog('Dubber', 'Đang trộn lồng tiếng mới với âm thanh nền video gốc...', 'info');
       const mergeRes = await ipcRenderer.invoke('video-dub-merge', {
         videoPath,
         segments: dubbedSegments
       });
-      if (!mergeRes.success) throw new Error(mergeRes.error);
+      if (!mergeRes.success) throw new Error(`Lỗi hòa âm ghép video: ${mergeRes.error}`);
 
       setDubbedVideoUrl(mergeRes.filePath);
       onLog('Dubber', `Lồng tiếng video thành công! Video đã lưu: ${mergeRes.filePath}`, 'success');
+      updateProcess(processId, { status: 'success', progress: 100, stage: 'Hoàn thành lồng tiếng!', outputPath: mergeRes.filePath });
+      addProcessLog(processId, `Xuất video lồng tiếng thành công 100%: ${mergeRes.filePath}`, 'success');
 
     } catch (err) {
-      setError(err.message);
-      onLog('Dubber', `Lỗi nhân bản/lồng tiếng: ${err.message}`, 'error');
+      const errorMsg = err.message || String(err);
+      setError(errorMsg);
+      onLog('Dubber', `Lỗi lồng tiếng: ${errorMsg}`, 'error');
+      updateProcess(processId, { status: 'failed', error: errorMsg });
+      addProcessLog(processId, `LỖI TÁC VỤ: ${errorMsg}`, 'error');
     } finally {
       setLoading(false);
       setLoadingStage('');

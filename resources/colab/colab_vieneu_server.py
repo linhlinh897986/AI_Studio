@@ -103,8 +103,41 @@ def synthesize_async():
                 
             tts.save(audio, output_path)
             print(f"[VieNeu Async Task {tid}] Hoàn thành -> {output_path}")
+
+            drive_info = {}
+            if os.path.exists("/content/drive/MyDrive"):
+                try:
+                    gdrive_dir = "/content/drive/MyDrive/ViGen_AIO_Audio"
+                    os.makedirs(gdrive_dir, exist_ok=True)
+                    gdrive_path = os.path.join(gdrive_dir, f"vieneu_out_{tid}.wav")
+                    import shutil
+                    shutil.copy2(output_path, gdrive_path)
+                    print(f"[VieNeu Async Task {tid}] ✅ Đã tự động sao chép sang Google Drive: {gdrive_path}")
+                    drive_info["gdrive_path"] = gdrive_path
+
+                    # Try to fetch file ID and set public permission automatically
+                    try:
+                        from googleapiclient.discovery import build
+                        from google.colab import auth
+                        auth.authenticate_user()
+                        drive_service = build('drive', 'v3')
+                        filename = f"vieneu_out_{tid}.wav"
+                        results = drive_service.files().list(q=f"name='{filename}' and trashed=false", fields="files(id, name)").execute()
+                        items = results.get('files', [])
+                        if items:
+                            file_id = items[0]['id']
+                            drive_service.permissions().create(fileId=file_id, body={'type': 'anyone', 'role': 'reader'}).execute()
+                            print(f"[Google Drive API] ✅ Đã tự động kích hoạt quyền công khai link cho tệp ID: {file_id}")
+                            drive_info["drive_file_id"] = file_id
+                    except Exception as pe:
+                        print(f"[Google Drive Auto-Perm Note]: Thư mục ViGen_AIO_Audio thừa hưởng quyền chia sẻ ({pe})")
+                except Exception as de:
+                    print(f"[Google Drive Save Warning]: {de}")
+
             tasks[tid]["status"] = "completed"
             tasks[tid]["output_path"] = output_path
+            tasks[tid]["file_size"] = os.path.getsize(output_path) if os.path.exists(output_path) else 0
+            tasks[tid]["drive_info"] = drive_info
         except Exception as e:
             import traceback
             traceback.print_exc()
@@ -122,7 +155,9 @@ def get_status(task_id):
     return jsonify({
         "task_id": task_id,
         "status": info["status"],
-        "error": info.get("error")
+        "file_size": info.get("file_size", 0),
+        "error": info.get("error"),
+        "drive_info": info.get("drive_info", {})
     })
 
 @app.route('/download/<task_id>', methods=['GET'])
@@ -133,6 +168,29 @@ def download_result(task_id):
     if info["status"] != "completed" or not info.get("output_path") or not os.path.exists(info["output_path"]):
         return jsonify({"error": f"Tệp âm thanh chưa sẵn sàng hoặc bị lỗi: {info.get('error')}"}), 400
     return send_file(info["output_path"], mimetype="audio/wav")
+
+@app.route('/delete/<task_id>', methods=['POST', 'DELETE', 'GET'])
+def delete_task_file(task_id):
+    info = tasks.pop(task_id, {})
+    deleted_files = []
+    
+    if info.get("output_path") and os.path.exists(info["output_path"]):
+        try:
+            os.remove(info["output_path"])
+            deleted_files.append(info["output_path"])
+        except Exception as e:
+            print(f"[Delete Error]: {e}")
+
+    drive_info = info.get("drive_info", {})
+    if drive_info.get("gdrive_path") and os.path.exists(drive_info["gdrive_path"]):
+        try:
+            os.remove(drive_info["gdrive_path"])
+            deleted_files.append(drive_info["gdrive_path"])
+            print(f"[Google Drive Cleanup] Đã tự động dọn dẹp tệp trên Drive: {drive_info['gdrive_path']}")
+        except Exception as e:
+            print(f"[Google Drive Delete Error]: {e}")
+
+    return jsonify({"success": True, "deleted": deleted_files})
 
 @app.route('/synthesize', methods=['POST'])
 def synthesize():
@@ -170,12 +228,34 @@ def synthesize():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
-def start_cloudflare_tunnel():
-    print("\nĐang cài đặt Cloudflare Tunnel (cloudflared)...")
+# Cấu hình Ngrok AuthToken (Tùy chọn - Tốc độ nhanh & Ổn định nhất)
+NGROK_AUTHTOKEN = ""  # Dán NGROK Authtoken của bạn vào giữa cặp dấu ngoặc kép (Ví dụ: "2abc123...XYZ")
+
+def start_tunnel():
+    authtoken = NGROK_AUTHTOKEN.strip()
+    if authtoken:
+        print("\n⚡ Phát hiện Ngrok Authtoken! Đang khởi động đường truyền Ngrok...")
+        try:
+            subprocess.run(["pip", "install", "-q", "pyngrok"])
+            from pyngrok import ngrok
+            ngrok.set_auth_token(authtoken)
+            tunnel = ngrok.connect(39828)
+            public_url = tunnel.public_url
+            if public_url.startswith("http://"):
+                public_url = public_url.replace("http://", "https://")
+            print("\n" + "="*55)
+            print(f" 🚀 LIÊN KẾT ĐƯỜNG TRUYỀN NGROK CỦA BẠN (ƯU TIÊN):")
+            print(f" {public_url}")
+            print("="*55 + "\n")
+            print("Hãy sao chép liên kết Ngrok trên dán vào tab Cài Đặt của ViGen AIO.")
+            return
+        except Exception as ne:
+            print(f"⚠️ Khởi tạo Ngrok thất bại ({ne}). Đang tự động chuyển sang Cloudflare Tunnel...")
+
+    print("\n🌐 Đang cài đặt và khởi tạo đường truyền Cloudflare Tunnel...")
     subprocess.run(["wget", "-q", "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb"])
     subprocess.run(["dpkg", "-i", "cloudflared-linux-amd64.deb"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
-    print("Đang khởi tạo đường truyền Cloudflare Tunnel...")
     proc = subprocess.Popen(
         ["cloudflared", "tunnel", "--url", "http://127.0.0.1:39828"], 
         stdout=subprocess.PIPE, 
@@ -183,7 +263,6 @@ def start_cloudflare_tunnel():
         text=True
     )
     
-    tunnel_url = None
     for _ in range(30):
         time.sleep(1)
         line = proc.stdout.readline()
@@ -191,14 +270,14 @@ def start_cloudflare_tunnel():
             match = re.search(r'https://[a-zA-Z0-9-]+\.trycloudflare\.com', line)
             if match:
                 tunnel_url = match.group(0)
-                print("\n" + "="*50)
-                print(f" LIÊN KẾT ĐƯỜNG TRUYỀN GOOGLE COLAB CỦA BẠN:")
+                print("\n" + "="*55)
+                print(f" 🌐 LIÊN KẾT ĐƯỜNG TRUYỀN CLOUDFLARE CỦA BẠN:")
                 print(f" {tunnel_url}")
-                print("="*50 + "\n")
-                print("Hãy sao chép liên kết trên dán vào tab Cấu Hình của ViGen AIO.")
+                print("="*55 + "\n")
+                print("Hãy sao chép liên kết trên dán vào tab Cài Đặt của ViGen AIO.")
                 break
 
 if __name__ == '__main__':
-    threading.Thread(target=start_cloudflare_tunnel, daemon=True).start()
+    threading.Thread(target=start_tunnel, daemon=True).start()
     print("Đang khởi chạy Flask server trên cổng 39828...")
     app.run(port=39828, host='0.0.0.0')

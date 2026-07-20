@@ -27,7 +27,12 @@ import {
 
 const { ipcRenderer } = window.require ? window.require('electron') : { ipcRenderer: null };
 
-export default function VideoCloneTab({ onLog }) {
+export default function VideoCloneTab({ 
+  onLog, 
+  registerProcess = () => {}, 
+  updateProcess = () => {}, 
+  addProcessLog = () => {} 
+}) {
   const [videoPath, setVideoPath] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [customInstructions, setCustomInstructions] = useState('');
@@ -97,7 +102,13 @@ export default function VideoCloneTab({ onLog }) {
     setScenes([]);
     addLog(`Bắt đầu tải video gốc lên Gemini (${geminiModel}) để phân tích Scene 10s...`, 'info');
 
+    const videoName = cleanPath.split('/').pop() || 'Video';
+    const processId = `video-clone-${Date.now()}`;
+    registerProcess(processId, `Phân Tích Clone Video: ${videoName}`, 'video-clone');
+    addProcessLog(processId, `Tải video ${videoName} lên Gemini để phân tích...`, 'info');
+
     try {
+      updateProcess(processId, { progress: 30, stage: 'Tải video lên Gemini AI...' });
       const res = await ipcRenderer.invoke('video-clone-analyze', {
         apiKey,
         videoPath: cleanPath,
@@ -109,6 +120,8 @@ export default function VideoCloneTab({ onLog }) {
         const parsedScenes = Array.isArray(res.scenes) ? res.scenes : (res.scenes.scenes || [res.scenes]);
         setScenes(parsedScenes);
         addLog(`Phân tích video hoàn tất! Đã trích xuất ${parsedScenes.length} phân cảnh 10s.`, 'success');
+        updateProcess(processId, { status: 'success', progress: 100, stage: 'Phân tích hoàn tất!' });
+        addProcessLog(processId, `Đã trích xuất ${parsedScenes.length} phân cảnh thành công!`, 'success');
       } else {
         throw new Error(res.error || 'Gemini không thể phân tích video.');
       }
@@ -116,6 +129,8 @@ export default function VideoCloneTab({ onLog }) {
       console.error(err);
       setError(`Lỗi phân tích video: ${err.message}`);
       addLog(`Lỗi phân tích video: ${err.message}`, 'error');
+      updateProcess(processId, { status: 'failed', error: err.message });
+      addProcessLog(processId, `Lỗi phân tích: ${err.message}`, 'error');
     } finally {
       setIsAnalyzing(false);
     }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Compass, Loader, AlertTriangle, BookOpen, Sun, Wind, Type, FileText, Upload, Sliders, Layers } from 'lucide-react';
 import VideoPlayerPanel from './VideoPlayerPanel';
+import LucyLabModal from './LucyLabModal';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -185,12 +186,13 @@ export default function BuddhistTab({
   const [localMusicFiles, setLocalMusicFiles] = useState([]);
   const [musicFolderPath, setMusicFolderPath] = useState('');
 
-  // Multi-Agent and Storyboard layout states
   const [writingMode, setWritingMode] = useState('agentic'); // standard, agentic
-  const [videoLayout, setVideoLayout] = useState('storyboard'); // static, storyboard
+  const [videoLayout, setVideoLayout] = useState('static'); // static, storyboard
   const [currentAgentProgress, setCurrentAgentProgress] = useState(null); // { agent, status, message }
   const [allAgentLogs, setAllAgentLogs] = useState(null); // Stores the agent outputs object
   const [showAgentLogsModal, setShowAgentLogsModal] = useState(false);
+  const [isLucyModalOpen, setIsLucyModalOpen] = useState(false);
+  const [lucyVoiceName, setLucyVoiceName] = useState('');
 
 
   // Fetch local music files from resources/music folder on mount
@@ -482,16 +484,50 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         updateProcess(processId, { progress: 30, stage: 'Đang lồng tiếng thiền sư...' });
         const fullText = generatedData.map(item => item.text).join(' ');
         const colabApiUrl = localStorage.getItem('colab_api_url') || '';
-        const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { text: fullText, options: { voice, rate: '-15%', refAudioPath, colabApiUrl } });
+
+        const ttsProgressListener = (event, data) => {
+          if (data && data.message) {
+            updateProcess(processId, { stage: `Lồng tiếng: ${data.message}` });
+            addProcessLog(processId, data.message, 'info');
+          }
+        };
+        ipcRenderer.on('tts-download-progress', ttsProgressListener);
+
+        let ttsRes;
+        try {
+          ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { text: fullText, options: { voice, rate: '-15%', refAudioPath, colabApiUrl } });
+        } finally {
+          ipcRenderer.removeListener('tts-download-progress', ttsProgressListener);
+        }
+
         if (!ttsRes.success) throw new Error(ttsRes.error);
         const localAudioUrl = ttsRes.filePath;
 
-        // ASR
+        // ASR with Smart Fallback
         setLoadingStage(`${stagePrefix} Đang chạy phụ đề karaoke...`);
-        updateProcess(processId, { progress: 50, stage: 'Đang chạy phụ đề karaoke...' });
-        const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', { audioPath: localAudioUrl, options: { language: 'vi-VN', needWordTimestamp: true } });
-        if (!asrRes.success) throw new Error(asrRes.error);
-        const asrSegments = asrRes.segments;
+        updateProcess(processId, { progress: 50, stage: '50% - Đang chạy phụ đề karaoke ASR...' });
+        
+        let asrSegments = [];
+        try {
+          const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', { audioPath: localAudioUrl, options: { language: 'vi-VN', needWordTimestamp: true } });
+          if (asrRes.success && Array.isArray(asrRes.segments) && asrRes.segments.length > 0) {
+            asrSegments = asrRes.segments;
+            addProcessLog(processId, `Tách phụ đề ASR thành công (${asrSegments.length} câu)`, 'success');
+          } else {
+            throw new Error(asrRes.error || 'Dữ liệu ASR rỗng');
+          }
+        } catch (asrErr) {
+          onLog('Buddhist', `CapCut ASR không khả dụng (${asrErr.message}). Tự động kích hoạt phụ đề dự phòng...`, 'warning');
+          addProcessLog(processId, `Tự động chuyển sang phụ đề dự phòng (${asrErr.message})`, 'warning');
+
+          const estDurationMs = Math.max(10000, generatedData.length * 3500);
+          const timePerSeg = Math.floor(estDurationMs / generatedData.length);
+          asrSegments = generatedData.map((item, idx) => ({
+            text: item.text,
+            start_time: idx * timePerSeg,
+            end_time: (idx + 1) * timePerSeg
+          }));
+        }
 
         // Images
         const imageGenSource = localStorage.getItem('image_gen_source') || 'meta_direct';
@@ -499,6 +535,8 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         const storyboard = (writingMode === 'agentic' && videoLayout === 'storyboard')
           ? geminiResData.storyboard
           : [{ sceneIndex: 1, text: fullText, imagePrompt: (geminiResData.imagePrompt || (geminiResData.storyboard?.[0]?.imagePrompt) || 'a serene Buddha meditating, vertical 9:16') }];
+
+        onLog('Buddhist', `🖼️ Bắt đầu tạo ${storyboard.length} ảnh (nguồn: ${imageGenSource})...`, 'info');
 
         for (let sIdx = 0; sIdx < storyboard.length; sIdx++) {
           const scene = storyboard[sIdx];
@@ -508,16 +546,25 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           const imgHeight = aspectRatio === '16:9' ? 1080 : 1920;
           let imagePath = '';
 
+          onLog('Buddhist', `🖼️ [${sIdx + 1}/${storyboard.length}] Đang tạo ảnh cảnh ${sIdx + 1}...`, 'info');
+
+          const tryPollinationsFallback = async () => {
+            const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
+            onLog('Buddhist', `⚠️ [${sIdx + 1}/${storyboard.length}] Thử fallback Pollinations...`, 'warning');
+            const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
+            if (dlRes.success) return dlRes.filePath;
+            onLog('Buddhist', `❌ [${sIdx + 1}/${storyboard.length}] Tất cả nguồn ảnh thất bại. Bỏ qua cảnh này.`, 'error');
+            return ''; // Gracefully skip instead of throw
+          };
+
           if (imageGenSource === '9router') {
             try {
               const nrRes = await ipcRenderer.invoke('ninerouter-generate-image', { prompt: formattedPrompt });
               if (nrRes.success) imagePath = nrRes.localPaths[0];
               else throw new Error(nrRes.error);
             } catch (e) {
-              const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
-              const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
-              if (dlRes.success) imagePath = dlRes.filePath;
-              else throw new Error(dlRes.error);
+              onLog('Buddhist', `⚠️ [${sIdx + 1}] 9Router lỗi: ${e.message}`, 'warning');
+              imagePath = await tryPollinationsFallback();
             }
           } else if (imageGenSource === 'meta_direct') {
             try {
@@ -526,10 +573,8 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
               if (metaRes.success) imagePath = metaRes.localPaths[0];
               else throw new Error(metaRes.error);
             } catch (e) {
-              const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
-              const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
-              if (dlRes.success) imagePath = dlRes.filePath;
-              else throw new Error(dlRes.error);
+              onLog('Buddhist', `⚠️ [${sIdx + 1}] Meta Direct lỗi: ${e.message}`, 'warning');
+              imagePath = await tryPollinationsFallback();
             }
           } else {
             try {
@@ -551,14 +596,18 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                 ipcRenderer.invoke('vibes-delete-project', { projectId: vibeRes.projectId, metaSession: vibesCookie });
               } else throw new Error(vibeRes.error);
             } catch (e) {
-              const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedPrompt)}?width=${imgWidth}&height=${imgHeight}&nologo=true`;
-              const dlRes = await ipcRenderer.invoke('download-image', { imageUrl: pollinationsUrl });
-              if (dlRes.success) imagePath = dlRes.filePath;
-              else throw new Error(dlRes.error);
+              onLog('Buddhist', `⚠️ [${sIdx + 1}] Vibes lỗi: ${e.message}`, 'warning');
+              imagePath = await tryPollinationsFallback();
             }
+          }
+
+          if (imagePath) {
+            onLog('Buddhist', `✅ [${sIdx + 1}/${storyboard.length}] Ảnh OK.`, 'success');
           }
           localImages.push(imagePath);
         }
+
+        onLog('Buddhist', `✅ Hoàn tất tạo ảnh (${localImages.filter(Boolean).length}/${storyboard.length} thành công).`, 'success');
 
         const lastWordSeg = asrSegments[asrSegments.length - 1];
         const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 15000;
@@ -582,11 +631,11 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         setShowPreview(true);
 
       } else {
-        // 🚀 BULK BATCH PARALLEL PIPELINE FOR 2+ VIDEOS
-        setLoadingStage(`⚡ Đang khởi chạy quy trình sản xuất hàng loạt ${totalToGenerate} video (Chạy song song tối ưu)...`);
-        onLog('Buddhist', `⚡ Đang chạy quy trình sản xuất hàng loạt ${totalToGenerate} video song song...`, 'info');
+        // 🚀 BULK BATCH SEQUENTIAL PIPELINE (1 WORKER THREAD)
+        setLoadingStage(`⚡ Đang khởi chạy quy trình sản xuất hàng loạt ${totalToGenerate} video (1 luồng tuần tự)...`);
+        onLog('Buddhist', `⚡ Đang chạy quy trình sản xuất hàng loạt ${totalToGenerate} video (1 luồng tuần tự)...`, 'info');
 
-        const CONCURRENCY_LIMIT = 2; // Run 2 parallel media prep tasks
+        const CONCURRENCY_LIMIT = 1; // 1 single thread for stable sequential generation
         const completedResults = [];
         const renderQueue = [];
         let isRendering = false;
@@ -612,7 +661,8 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
               };
 
               ipcRenderer.on('render-progress', progressListener);
-              const renderRes = await ipcRenderer.invoke('remotion-render', { inputProps, compositionId: 'BuddhistVideo' });
+              const compositionId = aspectRatio === '16:9' ? 'BuddhistVideoLandscape' : 'BuddhistVideo';
+              const renderRes = await ipcRenderer.invoke('remotion-render', { inputProps, compositionId });
               ipcRenderer.removeListener('render-progress', progressListener);
 
               if (renderRes.success) {
@@ -675,15 +725,30 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
             // 2. TTS Voice (with Retry)
             const fullText = generatedData.map(item => item.text).join(' ');
             const colabApiUrl = localStorage.getItem('colab_api_url') || '';
-            const ttsRes = await withRetry(async () => {
-              return await ipcRenderer.invoke('edge-tts-synthesize', {
-                text: fullText,
-                options: { voice, rate: '-15%', refAudioPath, colabApiUrl }
-              });
-            }, 3);
+
+            const batchTtsProgressListener = (event, data) => {
+              if (data && data.message) {
+                updateProcess(processId, { stage: `${stagePrefix} Lồng tiếng: ${data.message}` });
+                addProcessLog(processId, `${stagePrefix} ${data.message}`, 'info');
+              }
+            };
+            ipcRenderer.on('tts-download-progress', batchTtsProgressListener);
+
+            let ttsRes;
+            try {
+              ttsRes = await withRetry(async () => {
+                return await ipcRenderer.invoke('edge-tts-synthesize', {
+                  text: fullText,
+                  options: { voice, rate: '-15%', refAudioPath, colabApiUrl }
+                });
+              }, 3);
+            } finally {
+              ipcRenderer.removeListener('tts-download-progress', batchTtsProgressListener);
+            }
 
             if (!ttsRes.success) throw new Error(ttsRes.error);
             const localAudioUrl = ttsRes.filePath;
+
 
             // 3. ASR Syncing (with Retry)
             const asrRes = await withRetry(async () => {
@@ -869,9 +934,10 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
         }
       };
 
+      const compositionId = aspectRatio === '16:9' ? 'BuddhistVideoLandscape' : 'BuddhistVideo';
       const res = await ipcRenderer.invoke('remotion-render', {
         inputProps,
-        compositionId: 'BuddhistVideo'
+        compositionId
       });
 
       if (res.success) {
@@ -1254,7 +1320,14 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           {(voice === 'vieneu-local-clone' || voice === 'omnivoice') && (
             <div className="form-group" style={{ marginBottom: 20, animation: 'fadeIn 0.3s ease' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <label className="form-label" style={{ marginBottom: 0 }}>Chọn tệp âm thanh mẫu (.wav)</label>
+                <label className="form-label" style={{ marginBottom: 0 }}>
+                  Chọn tệp âm thanh mẫu (.wav)
+                  {lucyVoiceName && (
+                    <span style={{ marginLeft: 8, color: 'var(--primary)', fontWeight: 'bold' }}>
+                      [Đang chọn: 🎙️ LucyLab - {lucyVoiceName}]
+                    </span>
+                  )}
+                </label>
                 <span style={{ fontSize: 10, color: 'var(--success)' }}>⚠️ Thời lượng tốt nhất: 3 - 5 giây</span>
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
@@ -1263,7 +1336,10 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                   className="form-input" 
                   placeholder="Đường dẫn tệp .wav hoặc bấm nút chọn..." 
                   value={refAudioPath || ''}
-                  onChange={(e) => setRefAudioPath(e.target.value)}
+                  onChange={(e) => {
+                    setRefAudioPath(e.target.value);
+                    setLucyVoiceName('');
+                  }}
                   style={{ flex: 1 }}
                   disabled={loading}
                 />
@@ -1275,6 +1351,15 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
                   disabled={loading}
                 >
                   📁 Chọn file
+                </button>
+                <button 
+                  type="button" 
+                  className="btn btn-primary" 
+                  onClick={() => setIsLucyModalOpen(true)}
+                  style={{ padding: '0 16px', height: 40, whiteSpace: 'nowrap', background: 'linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%)' }}
+                  disabled={loading}
+                >
+                  🎙️ Thư viện LucyLab
                 </button>
               </div>
               {voice === 'omnivoice' && !localStorage.getItem('colab_api_url') && (
@@ -1854,6 +1939,17 @@ Trả về duy nhất định dạng JSON có cấu trúc sau:
           </div>
         </div>
       )}
+
+      {/* LucyLab Voice Clone Library Modal */}
+      <LucyLabModal
+        isOpen={isLucyModalOpen}
+        onClose={() => setIsLucyModalOpen(false)}
+        onSelect={(filePath, voiceName) => {
+          setRefAudioPath(filePath);
+          setLucyVoiceName(voiceName);
+        }}
+        selectedPath={refAudioPath}
+      />
     </div>
   );
 }

@@ -20,7 +20,6 @@ import Dashboard from './components/Dashboard';
 import ShopeeTab from './components/ShopeeTab';
 import BuddhistTab from './components/BuddhistTab';
 import StickmanTab from './components/StickmanTab';
-import DubberTab from './components/DubberTab';
 import SettingsTab from './components/SettingsTab';
 import ProcessesTab from './components/ProcessesTab';
 import VideoCloneTab from './components/VideoCloneTab';
@@ -67,6 +66,47 @@ export default function App() {
       console.error("Failed to save processes to localStorage", e);
     }
   }, [processes]);
+
+  // Hydrate all persistent settings from IPC backend on app launch
+  useEffect(() => {
+    const hydrateSettings = async () => {
+      try {
+        const { ipcRenderer } = window.require ? window.require('electron') : {};
+        if (ipcRenderer) {
+          const res = await ipcRenderer.invoke('load-env-settings');
+          if (res.success && res.data) {
+            const { 
+              geminiApiKey, 
+              geminiModel, 
+              vibesMetaSession, 
+              colabApiUrl, 
+              metaDirectCookie, 
+              labsGoogleCookie, 
+              nineRouterUrl, 
+              nineRouterKey, 
+              nineRouterModel 
+            } = res.data;
+
+            if (geminiApiKey) {
+              localStorage.setItem('gemini_api_key', geminiApiKey);
+              setHasApiKey(true);
+            }
+            if (geminiModel) localStorage.setItem('gemini_model', geminiModel);
+            if (vibesMetaSession) localStorage.setItem('vibes_meta_session', vibesMetaSession);
+            if (colabApiUrl) localStorage.setItem('colab_api_url', colabApiUrl);
+            if (metaDirectCookie) localStorage.setItem('meta_direct_cookie', metaDirectCookie);
+            if (labsGoogleCookie) localStorage.setItem('labs_google_cookie', labsGoogleCookie);
+            if (nineRouterUrl) localStorage.setItem('ninerouter_url', nineRouterUrl);
+            if (nineRouterKey) localStorage.setItem('ninerouter_key', nineRouterKey);
+            if (nineRouterModel) localStorage.setItem('ninerouter_model', nineRouterModel);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to hydrate settings on startup:", err);
+      }
+    };
+    hydrateSettings();
+  }, []);
 
   // Poll localStorage to check if API key exists for visual warning badges
   useEffect(() => {
@@ -139,13 +179,51 @@ export default function App() {
     );
   };
 
+  const stopProcess = (id, reason = 'Đã dừng bởi người dùng.') => {
+    const timestamp = new Date().toLocaleTimeString();
+    setProcesses((prev) =>
+      prev.map((proc) => {
+        if (proc.id === id && proc.status === 'running') {
+          return {
+            ...proc,
+            status: 'failed',
+            error: reason,
+            endTime: timestamp,
+            logs: [{ timestamp, text: `[ĐÃ DỪNG] ${reason}`, type: 'error' }, ...proc.logs]
+          };
+        }
+        return proc;
+      })
+    );
+    addLog('process', `Đã dừng tiến trình [ID: ${id}]`, 'warning');
+  };
+
+  const stopAllProcesses = (reason = 'Đã dừng tất cả các tiến trình ngầm đang chạy.') => {
+    const timestamp = new Date().toLocaleTimeString();
+    setProcesses((prev) =>
+      prev.map((proc) => {
+        if (proc.status === 'running') {
+          return {
+            ...proc,
+            status: 'failed',
+            error: reason,
+            endTime: timestamp,
+            logs: [{ timestamp, text: `[ĐÃ DỪNG HÀNG LOẠT] ${reason}`, type: 'error' }, ...proc.logs]
+          };
+        }
+        return proc;
+      })
+    );
+    addLog('process', `Đã dừng tất cả các tiến trình đang chạy.`, 'warning');
+  };
+
   const getHeaderTitle = () => {
     switch (activeTab) {
       case 'dashboard': return 'Dashboard';
       case 'shopee': return 'Shopee Review';
       case 'buddhist': return 'Sản xuất Video Phật Pháp';
       case 'stickman': return 'Stickman Animator';
-      case 'dubber': return 'Video Cloner & Dubber';
+      case 'video-clone': return 'Clone Video AI';
       case 'processes': return 'Giám sát Tiến trình ngầm';
       case 'settings': return 'Cấu hình Hệ thống';
       default: return 'Studio';
@@ -192,14 +270,6 @@ export default function App() {
           >
             <Smile className="nav-icon" />
             <span>Người Que AI</span>
-          </div>
-
-          <div 
-            className={`nav-item ${activeTab === 'dubber' ? 'active' : ''}`}
-            onClick={() => setActiveTab('dubber')}
-          >
-            <Video className="nav-icon" />
-            <span>Lồng Tiếng Video</span>
           </div>
 
           <div 
@@ -305,7 +375,12 @@ export default function App() {
           <Dashboard activeTab={activeTab} setActiveTab={setActiveTab} logs={logs} />
         </div>
         <div style={{ display: activeTab === 'shopee' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
-          <ShopeeTab onLog={addLog} />
+          <ShopeeTab 
+            onLog={addLog}
+            registerProcess={registerProcess}
+            updateProcess={updateProcess}
+            addProcessLog={addProcessLog}
+          />
         </div>
         <div style={{ display: activeTab === 'buddhist' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <BuddhistTab
@@ -316,16 +391,28 @@ export default function App() {
           />
         </div>
         <div style={{ display: activeTab === 'stickman' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
-          <StickmanTab onLog={addLog} />
-        </div>
-        <div style={{ display: activeTab === 'dubber' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
-          <DubberTab onLog={addLog} />
+          <StickmanTab 
+            onLog={addLog}
+            registerProcess={registerProcess}
+            updateProcess={updateProcess}
+            addProcessLog={addProcessLog}
+          />
         </div>
         <div style={{ display: activeTab === 'video-clone' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
-          <VideoCloneTab onLog={addLog} />
+          <VideoCloneTab 
+            onLog={addLog}
+            registerProcess={registerProcess}
+            updateProcess={updateProcess}
+            addProcessLog={addProcessLog}
+          />
         </div>
         <div style={{ display: activeTab === 'processes' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
-          <ProcessesTab processes={processes} setProcesses={setProcesses} />
+          <ProcessesTab 
+            processes={processes} 
+            setProcesses={setProcesses} 
+            stopProcess={stopProcess}
+            stopAllProcesses={stopAllProcesses}
+          />
         </div>
         <div style={{ display: activeTab === 'settings' ? 'flex' : 'none', flex: 1, flexDirection: 'column', overflow: 'hidden' }}>
           <SettingsTab />

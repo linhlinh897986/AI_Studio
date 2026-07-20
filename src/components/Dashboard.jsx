@@ -26,14 +26,6 @@ export default function Dashboard({ activeTab, setActiveTab, logs = [] }) {
       icon: <Smile size={24} />, 
       color: 'var(--primary)', 
       count: 'Bong bóng hội thoại' 
-    },
-    { 
-      id: 'dubber', 
-      title: 'Lồng Tiếng AI', 
-      desc: 'Trích xuất, dịch lời thoại gốc và overdub Việt hóa', 
-      icon: <Video size={24} />, 
-      color: 'var(--secondary)', 
-      count: 'Thời gian khớp giọng' 
     }
   ];
 

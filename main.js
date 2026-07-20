@@ -205,39 +205,51 @@ const getTempDir = () => {
 };
 
 // Automatically clean up redundant temporary files (downloaded images, TTS audio, intermediate ASR/remotion bundles)
+function normalizeFsPath(p) {
+  if (!p) return null;
+  return p.replace(/^file:\/\/\/?/i, '').replace(/\//g, '\\').replace(/\\\\/g, '\\');
+}
+
 const cleanupTempFiles = (keepFilePath = null) => {
   try {
     const tempDir = getTempDir();
     if (!fs.existsSync(tempDir)) return { success: true, deletedCount: 0 };
 
-    const cleanKeepPath = keepFilePath ? keepFilePath.replace(/^file:\/\/\/?/, '').replace(/\//g, '\\') : null;
+    const cleanKeepPath = keepFilePath ? normalizeFsPath(keepFilePath).toLowerCase() : null;
     const files = fs.readdirSync(tempDir);
     let deletedCount = 0;
 
     files.forEach((file) => {
       const filePath = path.join(tempDir, file);
-      if (cleanKeepPath && filePath.toLowerCase() === cleanKeepPath.toLowerCase()) {
-        return; // Preserve final rendered MP4 video file
+      const filePathNormLower = filePath.toLowerCase();
+
+      // Always preserve the final rendered MP4 file
+      if (cleanKeepPath && filePathNormLower === cleanKeepPath) {
+        return;
       }
 
       try {
         const stat = fs.statSync(filePath);
         if (stat.isFile()) {
           const lowerName = file.toLowerCase();
-          // Delete temporary downloaded images, TTS audio, JSON transcripts, bgmusic, or old temp renders
-          const isTempAsset = lowerName.startsWith('bgmusic_') || 
-                              lowerName.startsWith('download_') || 
-                              lowerName.startsWith('tts_') || 
-                              lowerName.startsWith('edge_') || 
-                              lowerName.startsWith('asr_') || 
-                              lowerName.startsWith('meta_') || 
+          // Only delete known temporary assets - never touch vigen_render_ files unless explicitly non-keepFilePath
+          const isTempAsset = lowerName.startsWith('bgmusic_') ||
+                              lowerName.startsWith('download_') ||
+                              lowerName.startsWith('tts_') ||
+                              lowerName.startsWith('edge_') ||
+                              lowerName.startsWith('asr_') ||
+                              lowerName.startsWith('meta_') ||
                               lowerName.startsWith('vibe_') ||
                               lowerName.startsWith('extracted_') ||
-                              (lowerName.startsWith('vigen_render_') && filePath !== cleanKeepPath) ||
-                              lowerName.endsWith('.tmp') || 
+                              lowerName.startsWith('capcut_asr_chunk_') ||
+                              lowerName.endsWith('.tmp') ||
                               (lowerName.endsWith('.json') && lowerName.startsWith('asr_'));
 
-          if (isTempAsset) {
+          // Only delete old render files that are NOT the keepFile
+          const isOldRender = lowerName.startsWith('vigen_render_') && 
+                              (!cleanKeepPath || filePathNormLower !== cleanKeepPath);
+
+          if (isTempAsset || isOldRender) {
             fs.unlinkSync(filePath);
             deletedCount++;
           }
@@ -468,8 +480,14 @@ ipcMain.handle('edge-tts-synthesize', async (event, { text, options }) => {
       const { synthesizeOmniVoice } = require('./backend/omnivoice_helper');
       const filename = `speech_${Date.now()}_${Math.floor(Math.random() * 1000)}.wav`;
       const outputPath = path.join(tempDir, filename);
-      
-      await synthesizeOmniVoice(text, outputPath, options);
+
+      const onProgress = (percent, message) => {
+        try {
+          mainWindow.webContents.send('tts-download-progress', { percent, message });
+        } catch (e) {}
+      };
+
+      await synthesizeOmniVoice(text, outputPath, { ...options, onProgress });
       return { success: true, filePath: `file://${outputPath.replace(/\\/g, '/')}` };
     }
     
@@ -533,15 +551,21 @@ ipcMain.handle('download-image', async (event, { imageUrl }) => {
     const response = await axios({
       url: imageUrl,
       method: 'GET',
-      responseType: 'stream'
+      responseType: 'stream',
+      timeout: 60000 // 60s timeout – prevents infinite hang on slow/dead image APIs
     });
 
     const writer = fs.createWriteStream(outputPath);
     response.data.pipe(writer);
 
     await new Promise((resolve, reject) => {
-      writer.on('finish', resolve);
-      writer.on('error', reject);
+      // Also guard against stream stalling after connect
+      const stallTimer = setTimeout(() => {
+        writer.destroy();
+        reject(new Error('Tải ảnh quá thời gian (60s), thử lại...'));
+      }, 60000);
+      writer.on('finish', () => { clearTimeout(stallTimer); resolve(); });
+      writer.on('error', (e) => { clearTimeout(stallTimer); reject(e); });
     });
 
     return { success: true, filePath: `file://${outputPath.replace(/\\/g, '/')}` };
@@ -721,11 +745,25 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
         } else if (msg.type === 'success') {
           child.kill();
           const finalFilePath = msg.filePath;
-          // Automatically clean up all temporary images, audio & transcript files, keeping only the final output MP4!
+          const fileUrl = `file://${finalFilePath.replace(/\\/g, '/')}`;
+
+          // Copy final MP4 to user Videos or Documents folder for easy access
+          try {
+            const destDir = path.join(app.getPath('videos') || app.getPath('documents'), 'ViGen AIO Videos');
+            if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+            const destFile = path.join(destDir, path.basename(finalFilePath));
+            fs.copyFileSync(finalFilePath, destFile);
+            console.log(`[Render] Copied final video to: ${destFile}`);
+          } catch (copyErr) {
+            console.warn(`[Render] Could not copy video to Videos folder: ${copyErr.message}`);
+          }
+
+          // Delay cleanup significantly to ensure file has fully flushed to disk
           setTimeout(() => {
             cleanupTempFiles(finalFilePath);
-          }, 1000);
-          resolve({ success: true, filePath: `file://${finalFilePath.replace(/\\/g, '/')}` });
+          }, 15000);
+
+          resolve({ success: true, filePath: fileUrl });
         } else if (msg.type === 'error') {
 
           child.kill();
@@ -1605,8 +1643,29 @@ ipcMain.handle('uninstall-local-model', async (event, { modelName }) => {
   }
 });
 
-// 10. Load and Save Configuration to .env File
-const envPath = path.join(__dirname, '.env');
+// 10. Load and Save Configuration to Persistent UserData Directory
+function getEnvFilePath() {
+  try {
+    const userDir = app ? app.getPath('userData') : __dirname;
+    if (!fs.existsSync(userDir)) {
+      fs.mkdirSync(userDir, { recursive: true });
+    }
+    const userEnvPath = path.join(userDir, 'user_settings.env');
+    const localEnvPath = path.join(__dirname, '.env');
+
+    if (fs.existsSync(userEnvPath)) {
+      return userEnvPath;
+    } else if (fs.existsSync(localEnvPath)) {
+      try {
+        const content = fs.readFileSync(localEnvPath, 'utf8');
+        fs.writeFileSync(userEnvPath, content, 'utf8');
+      } catch (e) {}
+    }
+    return userEnvPath;
+  } catch (e) {
+    return path.join(__dirname, '.env');
+  }
+}
 
 function readEnv() {
   const settings = {
@@ -1615,8 +1674,12 @@ function readEnv() {
     vibesMetaSession: '',
     colabApiUrl: '',
     metaDirectCookie: '',
-    labsGoogleCookie: ''
+    labsGoogleCookie: '',
+    nineRouterUrl: '',
+    nineRouterKey: '',
+    nineRouterModel: ''
   };
+  const envPath = getEnvFilePath();
   if (fs.existsSync(envPath)) {
     const content = fs.readFileSync(envPath, 'utf8');
     const lines = content.split('\n');
@@ -1654,9 +1717,10 @@ function writeEnv(settings) {
   // Read existing settings first to preserve unsupplied fields
   const existing = readEnv();
   const merged = { ...existing, ...settings };
+  const envPath = getEnvFilePath();
 
   let content = '';
-  content += `GEMINI_API_KEY="${merged.geminiApiKey || ''}"\n`;
+  content += `GEMINI_API_KEY="${(merged.geminiApiKey || '').replace(/\r?\n/g, '\\n')}"\n`;
   content += `GEMINI_MODEL="${merged.geminiModel || ''}"\n`;
   content += `VIBES_META_SESSION="${merged.vibesMetaSession || ''}"\n`;
   content += `COLAB_API_URL="${merged.colabApiUrl || ''}"\n`;
@@ -1665,9 +1729,10 @@ function writeEnv(settings) {
   content += `NINEROUTER_URL="${merged.nineRouterUrl || ''}"\n`;
   content += `NINEROUTER_KEY="${merged.nineRouterKey || ''}"\n`;
   content += `NINEROUTER_MODEL="${merged.nineRouterModel || ''}"\n`;
+  
   fs.writeFileSync(envPath, content, 'utf8');
   
-  // Set in process.env so backend can reference it directly if needed
+  // Set in process.env so backend can reference it directly
   process.env.GEMINI_API_KEY = merged.geminiApiKey || '';
   process.env.GEMINI_MODEL = merged.geminiModel || '';
   process.env.VIBES_META_SESSION = merged.vibesMetaSession || '';
@@ -1678,6 +1743,13 @@ function writeEnv(settings) {
   process.env.NINEROUTER_KEY = merged.nineRouterKey || '';
   process.env.NINEROUTER_MODEL = merged.nineRouterModel || '';
 }
+
+// Hydrate process.env immediately on main process startup
+try {
+  const initialSettings = readEnv();
+  if (initialSettings.geminiApiKey) process.env.GEMINI_API_KEY = initialSettings.geminiApiKey;
+  if (initialSettings.geminiModel) process.env.GEMINI_MODEL = initialSettings.geminiModel;
+} catch (e) {}
 
 ipcMain.handle('load-env-settings', async () => {
   try {

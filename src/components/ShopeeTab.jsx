@@ -4,7 +4,12 @@ import VideoPlayerPanel from './VideoPlayerPanel';
 
 const { ipcRenderer } = window.require('electron');
 
-export default function ShopeeTab({ onLog }) {
+export default function ShopeeTab({ 
+  onLog, 
+  registerProcess = () => {}, 
+  updateProcess = () => {}, 
+  addProcessLog = () => {} 
+}) {
   const [shopeeLink, setShopeeLink] = useState('');
   const [voice, setVoice] = useState('vi-VN-HoaiMyNeural'); // Female review voice
   const [bgMusic, setBgMusic] = useState('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'); // Mock bgmusic URL
@@ -41,18 +46,25 @@ export default function ShopeeTab({ onLog }) {
     setAudioUrl('');
     setShopeeProps(null);
 
+    const processId = `shopee-gen-${Date.now()}`;
+    registerProcess(processId, `Shopee Review: ${shopeeLink.substring(0, 30)}...`, 'shopee');
+    addProcessLog(processId, 'Khởi tạo tác vụ Shopee Review...', 'info');
+
     try {
-      // Stage 1: Fetch Shopee Details
+      // Stage 1: Fetch Shopee Details (10%)
       setLoadingStage('Đang lấy thông tin sản phẩm từ Shopee...');
+      updateProcess(processId, { progress: 10, stage: '10% - Đang lấy thông tin sản phẩm Shopee...' });
       onLog('Shopee', 'Bắt đầu cào dữ liệu liên kết Shopee...', 'info');
       const shopeeRes = await ipcRenderer.invoke('shopee-fetch', { shopeeLink });
-      if (!shopeeRes.success) throw new Error(shopeeRes.error);
+      if (!shopeeRes.success) throw new Error(`Lỗi cào sản phẩm Shopee: ${shopeeRes.error}`);
       const product = shopeeRes.product;
       setShopeeProps(product);
       onLog('Shopee', `Cào thành công: ${product.title.substring(0, 40)}...`, 'success');
+      addProcessLog(processId, `Đã lấy dữ liệu sản phẩm: ${product.title.substring(0, 35)}...`, 'success');
 
-      // Stage 2: Call Gemini to write script
+      // Stage 2: Call Gemini to write script (25%)
       setLoadingStage('Gemini đang sáng tạo kịch bản review tiếp thị...');
+      updateProcess(processId, { progress: 25, stage: '25% - Gemini đang biên soạn kịch bản tiếp thị...' });
       onLog('Shopee', 'Đang yêu cầu Gemini viết kịch bản quảng cáo tiếp thị liên kết...', 'info');
       
       const numImages = Math.min(product.images.length, 5); // Use up to 5 images
@@ -70,38 +82,62 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
 
       const geminiModel = localStorage.getItem('gemini_model') || 'gemini-3.1-flash-lite';
       const geminiRes = await ipcRenderer.invoke('gemini-generate', { apiKey, systemPrompt, userPrompt, geminiModel });
-      if (!geminiRes.success) throw new Error(geminiRes.error);
+      if (!geminiRes.success) throw new Error(`Lỗi Gemini API: ${geminiRes.error}`);
       const scriptData = geminiRes.data.script;
-      onLog('Shopee', `Viết kịch bản hoàn tất. Gồm ${scriptData.length} phân đoạn nói.`, 'success');
+      onLog('Shopee', `Viết kịch bản hoàn tất (${scriptData.length} phân đoạn nói).`, 'success');
+      addProcessLog(processId, `Kịch bản Gemini hoàn tất (${scriptData.length} câu thoại)`, 'success');
 
-      // Stage 3: Synthesize Speech Voiceover
+      // Stage 3: Synthesize Speech Voiceover (45%)
       setLoadingStage('Đang chuyển đổi kịch bản thành giọng nói lồng tiếng AI...');
+      updateProcess(processId, { progress: 45, stage: '45% - Đang lồng tiếng AI Edge-TTS...' });
       onLog('Shopee', 'Đang kết nối tới Edge-TTS để tạo giọng nói lồng tiếng...', 'info');
       const fullText = scriptData.map(item => item.text).join(' ');
       const ttsRes = await ipcRenderer.invoke('edge-tts-synthesize', { 
         text: fullText, 
-        options: { voice, rate: '+5%' } // slightly faster for high-retention review style
+        options: { voice, rate: '+5%' }
       });
-      if (!ttsRes.success) throw new Error(ttsRes.error);
+      if (!ttsRes.success) throw new Error(`Lỗi tạo giọng nói AI: ${ttsRes.error}`);
       const localAudioUrl = ttsRes.filePath;
       setAudioUrl(localAudioUrl);
       onLog('Shopee', 'Tạo giọng nói lồng tiếng thành công.', 'success');
+      addProcessLog(processId, 'Đã tải & tổng hợp âm thanh giọng nói AI.', 'success');
 
-      // Stage 4: Run CapCut ASR to get word timings
+      // Stage 4: Run CapCut ASR with Smart Fallback (65%)
       setLoadingStage('Đang phân tích ASR CapCut để tạo phụ đề Karaoke...');
-      onLog('Shopee', 'Đang tải âm thanh lên CapCut ASR để tách từ khóa động...', 'info');
-      const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
-        audioPath: localAudioUrl,
-        options: { language: 'vi-VN', needWordTimestamp: false }
-      });
-      if (!asrRes.success) throw new Error(asrRes.error);
-      
-      const asrSegments = asrRes.segments;
-      setSubtitles(asrSegments);
-      onLog('Shopee', `Tách phụ đề thành công! Ghi nhận ${asrSegments.length} câu nói.`, 'success');
+      updateProcess(processId, { progress: 65, stage: '65% - Đang phân tích phụ đề ASR...' });
+      onLog('Shopee', 'Đang phân tích phụ đề Karaoke...', 'info');
 
-      // Stage 5: Download images to local system (for Remotion load)
+      let asrSegments = [];
+      try {
+        const asrRes = await ipcRenderer.invoke('capcut-asr-transcribe', {
+          audioPath: localAudioUrl,
+          options: { language: 'vi-VN', needWordTimestamp: false }
+        });
+        if (asrRes.success && Array.isArray(asrRes.segments) && asrRes.segments.length > 0) {
+          asrSegments = asrRes.segments;
+          onLog('Shopee', `Tách phụ đề ASR thành công! (${asrSegments.length} câu)`, 'success');
+          addProcessLog(processId, `CapCut ASR tạo phụ đề thành công (${asrSegments.length} câu)`, 'success');
+        } else {
+          throw new Error(asrRes.error || 'Dữ liệu ASR rỗng');
+        }
+      } catch (asrErr) {
+        onLog('Shopee', `CapCut ASR không khả dụng (${asrErr.message}). Tự động kích hoạt phụ đề dự phòng...`, 'warning');
+        addProcessLog(processId, `Tự động chuyển sang phụ đề dự phòng (${asrErr.message})`, 'warning');
+        
+        const estDurationMs = Math.max(8000, scriptData.length * 3000);
+        const timePerSeg = Math.floor(estDurationMs / scriptData.length);
+        asrSegments = scriptData.map((item, idx) => ({
+          text: item.text,
+          start_time: idx * timePerSeg,
+          end_time: (idx + 1) * timePerSeg
+        }));
+      }
+
+      setSubtitles(asrSegments);
+
+      // Stage 5: Download images to local system (80%)
       setLoadingStage('Đang tải và tối ưu hình ảnh sản phẩm về máy...');
+      updateProcess(processId, { progress: 80, stage: '80% - Đang tải & tối ưu hình ảnh sản phẩm...' });
       onLog('Shopee', 'Đang tải hình ảnh sản phẩm về thư mục cục bộ...', 'info');
       const localImages = [];
       for (let i = 0; i < numImages; i++) {
@@ -113,9 +149,9 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
           onLog('Shopee', `Lỗi tải ảnh ${i}: ${dlRes.error}`, 'error');
         }
       }
-      onLog('Shopee', `Đã tải xuống ${localImages.length} hình ảnh cục bộ.`, 'success');
 
-      // Stage 6: Calculate slide sequence timings
+      // Stage 6: Calculate slide sequence timings (90%)
+      updateProcess(processId, { progress: 90, stage: '90% - Đang đồng bộ hóa hình ảnh với âm thanh...' });
       const lastWordSeg = asrSegments[asrSegments.length - 1];
       const audioDurationMs = lastWordSeg ? lastWordSeg.end_time : 10000;
       const audioDurationFrames = Math.ceil((audioDurationMs / 1000) * 30);
@@ -139,11 +175,16 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
       setSlides(computedSlides);
       onLog('Shopee', 'Đã đồng bộ hóa hình ảnh sản phẩm với âm thanh.', 'success');
       onLog('Shopee', 'Khởi tạo Video thành công! Bạn có thể xem trước.', 'success');
+      updateProcess(processId, { status: 'success', progress: 100, stage: 'Hoàn tất khởi tạo bản xem trước!' });
+      addProcessLog(processId, 'Tác vụ hoàn tất 100%! Bản xem trước sẵn sàng.', 'success');
       setShowPreview(true);
 
     } catch (err) {
-      setError(err.message);
-      onLog('Shopee', `Lỗi tạo video: ${err.message}`, 'error');
+      const errorMsg = err.message || String(err);
+      setError(errorMsg);
+      onLog('Shopee', `Lỗi tạo video: ${errorMsg}`, 'error');
+      updateProcess(processId, { status: 'failed', error: errorMsg });
+      addProcessLog(processId, `LỖI TÁC VỤ: ${errorMsg}`, 'error');
     } finally {
       setLoading(false);
       setLoadingStage('');
@@ -155,9 +196,14 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
     setExportProgress({ percent: 0, message: 'Khởi chạy tiến trình kết xuất...' });
     onLog('Shopee', 'Bắt đầu tiến trình xuất video MP4...', 'info');
 
+    const processId = `shopee-export-${Date.now()}`;
+    registerProcess(processId, `Xuất Video Shopee: ${shopeeProps?.title?.substring(0, 25) || 'Shopee Video'}`, 'shopee');
+    addProcessLog(processId, 'Bắt đầu xuất video MP4 thành phẩm...', 'info');
+
     // Handle progress updates from Electron
     const progressListener = (event, progress) => {
       setExportProgress(progress);
+      updateProcess(processId, { progress: progress.percent, stage: progress.message || `Đang render MP4 (${progress.percent}%)...` });
     };
     ipcRenderer.on('render-progress', progressListener);
 
@@ -178,16 +224,18 @@ Hãy trả về duy nhất một đối tượng JSON có thuộc tính "script"
 
       if (res.success) {
         onLog('Shopee', `Xuất video MP4 thành công! Lưu tại: ${res.filePath}`, 'success');
+        updateProcess(processId, { status: 'success', progress: 100, stage: 'Hoàn thành!', outputPath: res.filePath });
+        addProcessLog(processId, `Xuất MP4 thành công! ${res.filePath}`, 'success');
         alert(`Xuất video thành công! File lưu tại: ${res.filePath}`);
       } else {
         throw new Error(res.error);
       }
     } catch (e) {
       onLog('Shopee', `Lỗi xuất video: ${e.message}`, 'error');
+      updateProcess(processId, { status: 'failed', error: e.message });
+      addProcessLog(processId, `Lỗi kết xuất: ${e.message}`, 'error');
       alert(`Lỗi xuất video: ${e.message}`);
     } finally {
-      setIsExporting(false);
-      setExportProgress(null);
       ipcRenderer.removeListener('render-progress', progressListener);
     }
   };
