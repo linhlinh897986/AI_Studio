@@ -728,6 +728,30 @@ function synthesizeLocalTtsSingleChunk(text, outputPath, options = {}) {
   });
 }
 
+async function synthesizeLocalTts(text, outputPath, options = {}) {
+  if (!text || !text.trim()) throw new Error("Văn bản rỗng");
+  const chunks = splitTextIntoSentenceChunks(text, 500);
+  if (chunks.length === 1) {
+    return await synthesizeLocalTtsSingleChunk(text, outputPath, options);
+  }
+
+  const tempChunkFiles = [];
+  const tempDir = path.dirname(outputPath);
+  try {
+    for (let i = 0; i < chunks.length; i++) {
+      const chunkPath = path.join(tempDir, `vieneu_chunk_${Date.now()}_${i}.wav`);
+      await synthesizeLocalTtsSingleChunk(chunks[i], chunkPath, options);
+      tempChunkFiles.push(chunkPath);
+    }
+    concatWavFiles(tempChunkFiles, outputPath);
+    return outputPath;
+  } finally {
+    tempChunkFiles.forEach(f => {
+      try { if (fs.existsSync(f)) fs.unlinkSync(f); } catch (_) {}
+    });
+  }
+}
+
 module.exports = {
   getPythonPath,
   synthesizeLocalTts
