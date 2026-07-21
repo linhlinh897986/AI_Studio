@@ -236,7 +236,21 @@ export default function App() {
       <aside className="sidebar">
         <div className="logo-container">
           <div className="logo-icon" />
-          <span className="logo-text">ViGen AIO</span>
+          <span className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            ViGen AIO
+            <span style={{ 
+              fontSize: '10px', 
+              background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', 
+              color: '#fff', 
+              padding: '1px 6px', 
+              borderRadius: '6px', 
+              fontWeight: 700,
+              letterSpacing: '0.5px',
+              boxShadow: '0 2px 6px rgba(99, 102, 241, 0.4)'
+            }}>
+              v1.0.5
+            </span>
+          </span>
         </div>
 
         <nav className="nav-links">
@@ -319,11 +333,15 @@ export default function App() {
           </div>
         </nav>
 
-        {/* Footer info: Local servers check */}
         <div className="sidebar-footer">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12, color: 'var(--text-secondary)' }}>
-            <Server size={14} style={{ color: 'var(--success)' }} />
-            <span>Hệ thống: Sẵn sàng</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12, color: 'var(--text-secondary)' }}>
+              <Server size={14} style={{ color: 'var(--success)' }} />
+              <span>Hệ thống: Sẵn sàng</span>
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--text-tertiary, #94a3b8)', paddingLeft: 24 }}>
+              Phiên bản: <span style={{ color: '#818cf8', fontWeight: 600 }}>v1.0.5</span>
+            </div>
           </div>
         </div>
       </aside>

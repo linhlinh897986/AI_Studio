@@ -245,8 +245,9 @@ const cleanupTempFiles = (keepFilePath = null) => {
                               lowerName.endsWith('.tmp') ||
                               (lowerName.endsWith('.json') && lowerName.startsWith('asr_'));
 
-          // Only delete old render files that are NOT the keepFile
+          // Only delete old render files older than 2 hours (never delete recent batch renders)
           const isOldRender = lowerName.startsWith('vigen_render_') && 
+                              (Date.now() - stat.mtimeMs > 2 * 60 * 60 * 1000) &&
                               (!cleanKeepPath || filePathNormLower !== cleanKeepPath);
 
           if (isTempAsset || isOldRender) {
@@ -745,7 +746,7 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
         } else if (msg.type === 'success') {
           child.kill();
           const finalFilePath = msg.filePath;
-          const fileUrl = `file://${finalFilePath.replace(/\\/g, '/')}`;
+          let fileUrl = `file://${finalFilePath.replace(/\\/g, '/')}`;
 
           // Copy final MP4 to user Videos or Documents folder for easy access
           try {
@@ -753,6 +754,7 @@ ipcMain.handle('remotion-render', async (event, { inputProps, compositionId }) =
             if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
             const destFile = path.join(destDir, path.basename(finalFilePath));
             fs.copyFileSync(finalFilePath, destFile);
+            fileUrl = `file://${destFile.replace(/\\/g, '/')}`;
             console.log(`[Render] Copied final video to: ${destFile}`);
           } catch (copyErr) {
             console.warn(`[Render] Could not copy video to Videos folder: ${copyErr.message}`);

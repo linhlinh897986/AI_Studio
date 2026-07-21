@@ -206,19 +206,21 @@ Return a JSON array matching this exact format:
 
       if (Array.isArray(chunkData)) {
         chunkData.forEach((item, idx) => {
+          const originalText = (typeof chunk[idx] === 'string' ? chunk[idx] : chunk[idx]?.text) || item.text || '';
           formattedStoryboard.push({
             sceneIndex: chunkStart + idx,
-            text: item.text || chunk[idx]?.text || '',
+            text: originalText,
             imagePrompt: item.imagePrompt || `Detailed East Asian Buddhist art of ${topic}, ${ratioText}, serene atmosphere`,
             voicePrompt: item.voicePrompt || 'Trầm ấm, chiêm nghiệm'
           });
         });
       } else {
         chunk.forEach((item, idx) => {
+          const originalText = typeof item === 'string' ? item : (item.text || '');
           formattedStoryboard.push({
             sceneIndex: chunkStart + idx,
-            text: item.text || (typeof item === 'string' ? item : ''),
-            imagePrompt: `Detailed East Asian Buddhist art illustrating: ${item.text || item}, ${ratioText}, peaceful temple backdrop`,
+            text: originalText,
+            imagePrompt: `Detailed East Asian Buddhist art illustrating: ${originalText}, ${ratioText}, peaceful temple backdrop`,
             voicePrompt: 'Trầm ấm, chiêm nghiệm'
           });
         });
@@ -226,10 +228,11 @@ Return a JSON array matching this exact format:
     } catch (chunkErr) {
       console.warn(`[Chunk Prompt Worker ${keyIdx + 1} Failed]: ${chunkErr.message}`);
       chunk.forEach((item, idx) => {
+        const originalText = typeof item === 'string' ? item : (item.text || '');
         formattedStoryboard.push({
           sceneIndex: chunkStart + idx,
-          text: item.text || (typeof item === 'string' ? item : ''),
-          imagePrompt: `Detailed East Asian Buddhist art illustrating: ${item.text || item}, ${ratioText}, peaceful temple backdrop`,
+          text: originalText,
+          imagePrompt: `Detailed East Asian Buddhist art illustrating: ${originalText}, ${ratioText}, peaceful temple backdrop`,
           voicePrompt: 'Trầm ấm, chiêm nghiệm'
         });
       });
@@ -490,7 +493,9 @@ Hãy nghiên cứu tài liệu đính kèm (nếu có), suy nghĩ tuần tự v�
       log(agent.name, 'success', successMessage, resultData[agentKey] || {});
     }
 
-    let rawScenes = resultData.formatter?.storyboard || resultData.rewriter?.rewrittenScript || [];
+    let rawScenes = (resultData.rewriter?.rewrittenScript && resultData.rewriter.rewrittenScript.length > 0)
+      ? resultData.rewriter.rewrittenScript
+      : (resultData.formatter?.storyboard || []);
 
     // ⚡ LONG DURATION SCRIPT EXPANSION: If target duration is long (>= 5 mins), expand script in chunked chapter calls
     if (duration >= 5 || rawScenes.length < targetSentences * 0.4) {

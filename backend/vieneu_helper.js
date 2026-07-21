@@ -720,6 +720,8 @@ function synthesizeLocalTtsSingleChunk(text, outputPath, options = {}) {
       });
 
       child.on('error', (err) => {
+        reject(err);
+      });
     } catch (e) {
       reject(e);
     }
