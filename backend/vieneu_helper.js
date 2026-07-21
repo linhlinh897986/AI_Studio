@@ -96,10 +96,12 @@ function uploadRefAudio(colabUrl, refAudioPath) {
       reject(err);
     }
   });
+}
+
 /**
  * Executes Colab Async Polling workflow to eliminate Cloudflare 524 timeouts.
  */
-async function executeColabAsyncPolling({ colabUrl, requestBody, boundary, outputPath }) {
+async function executeColabAsyncPolling({ colabUrl, requestBody, boundary, outputPath, onProgress = () => {} }) {
   const parsedUrl = new URL(colabUrl);
   const clientModule = parsedUrl.protocol === 'https:' ? https : http;
 
