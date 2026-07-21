@@ -325,113 +325,6 @@ async function executeColabAsyncPolling({ colabUrl, requestBody, boundary, outpu
 
 
 
-  const downloadFromGoogleDrive = async (driveUrlOrId, outputPath, onProgress) => {
-    const axios = require('axios');
-    let fileId = driveUrlOrId;
-    if (driveUrlOrId.includes('id=')) {
-      const match = driveUrlOrId.match(/id=([a-zA-Z0-9_-]+)/);
-      if (match) fileId = match[1];
-    } else if (driveUrlOrId.includes('/d/')) {
-      const match = driveUrlOrId.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if (match) fileId = match[1];
-    }
-
-    console.log(`[Google Drive Downloader] Bắt đầu tải tệp ID: ${fileId}...`);
-    onProgress(0, `Bắt đầu kết nối Google Drive CDN...`);
-
-    const initialUrl = `https://drive.google.com/uc?export=download&id=${fileId}&confirm=t`;
-
-    try {
-      const response = await axios({
-        method: 'GET',
-        url: initialUrl,
-        responseType: 'stream',
-        timeout: 180000,
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        }
-      });
-
-      const contentType = response.headers['content-type'] || '';
-      if (contentType.includes('text/html')) {
-        console.log(`[Google Drive Downloader] Phát hiện trang xác nhận virus scan, đang tự động vượt qua...`);
-        let htmlContent = '';
-        response.data.on('data', chunk => htmlContent += chunk.toString());
-        await new Promise(r => response.data.on('end', r));
-
-        const confirmMatch = htmlContent.match(/confirm=([a-zA-Z0-9_-]+)/) || htmlContent.match(/uuid=([a-zA-Z0-9_-]+)/);
-        const confirmToken = confirmMatch ? confirmMatch[1] : 't';
-        const confirmUrl = `https://drive.google.com/uc?export=download&id=${fileId}&confirm=${confirmToken}`;
-
-        const retryResponse = await axios({
-          method: 'GET',
-          url: confirmUrl,
-          responseType: 'stream',
-          timeout: 180000,
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-          }
-        });
-        return streamToFile(retryResponse, outputPath, onProgress);
-      }
-
-      return streamToFile(response, outputPath, onProgress);
-    } catch (gErr) {
-      console.warn(`[Google Drive Downloader] Tải từ Drive thất bại (${gErr.message}), chuyển về tải 10-luồng Colab...`);
-      return downloadResult(taskId);
-    }
-  };
-
-  const streamToFile = (response, outputPath, onProgress) => {
-    return new Promise((resolve, reject) => {
-      const contentLength = parseInt(response.headers['content-length'] || '0', 10);
-      const sizeMB = contentLength > 0 ? (contentLength / 1024 / 1024).toFixed(1) : '?';
-      console.log(`[Google Drive Stream] Đang tải ${sizeMB}MB từ Google CDN...`);
-      onProgress(0, `Đang kết nối tải từ Google Drive CDN (${sizeMB} MB)...`);
-
-      const outStream = fs.createWriteStream(outputPath);
-      response.data.pipe(outStream);
-
-      let received = 0;
-      let lastReportedPct = -1;
-      let stallTimer = setTimeout(() => {
-        outStream.destroy();
-        reject(new Error('Tải từ Google Drive quá thời gian chờ (Stall Timeout).'));
-      }, 180000);
-
-      response.data.on('data', (chunk) => {
-        received += chunk.length;
-        clearTimeout(stallTimer);
-        stallTimer = setTimeout(() => {
-          outStream.destroy();
-          reject(new Error('Tải từ Google Drive quá thời gian chờ (Stall Timeout).'));
-        }, 180000);
-
-        if (contentLength > 0) {
-          const pct = Math.floor((received / contentLength) * 100);
-          if (pct !== lastReportedPct && pct % 5 === 0) {
-            lastReportedPct = pct;
-            console.log(`[Google Drive Stream] Tiến độ tải: ${pct}% (${(received/1024/1024).toFixed(1)}MB / ${sizeMB}MB)`);
-            onProgress(pct, `Đang tải từ Google Drive CDN: ${pct}% (${(received/1024/1024).toFixed(1)}MB / ${sizeMB}MB)`);
-          }
-        } else {
-          const recMB = (received / 1024 / 1024).toFixed(1);
-          onProgress(50, `Đang tải từ Google Drive CDN: ${recMB} MB...`);
-        }
-      });
-
-      outStream.on('finish', () => {
-        clearTimeout(stallTimer);
-        console.log(`[Google Drive Stream] ✅ Tải Google Drive thành công: ${outputPath}`);
-        onProgress(100, `Tải tệp từ Google Drive hoàn tất!`);
-        resolve(outputPath);
-      });
-
-      outStream.on('error', err => { clearTimeout(stallTimer); reject(err); });
-      response.data.on('error', err => { clearTimeout(stallTimer); outStream.destroy(); reject(err); });
-    });
-  };
-
   const taskId = await submitTask();
   console.log(`[OmniVoice Colab Async] Started task ID: ${taskId}. Polling every 3s...`);
   onProgress(5, `Đã gửi tác vụ tới Colab (ID: ${taskId}). Đang xử lý lồng tiếng...`);
@@ -448,26 +341,16 @@ async function executeColabAsyncPolling({ colabUrl, requestBody, boundary, outpu
         const fileSizeMB = fileSize > 0 ? (fileSize / 1024 / 1024).toFixed(1) : '?';
         console.log(`[OmniVoice Colab Async] Task ${taskId} completed! Tệp âm thành: ${fileSizeMB}MB. Downloading...`);
 
-        const driveTarget = statusRes.drive_file_id || statusRes.drive_url || statusRes.gdrive_url || (statusRes.drive_info && statusRes.drive_info.gdrive_path);
-        const MIN_GDRIVE_THRESHOLD_BYTES = 30 * 1024 * 1024; // 30MB
         let downloadedPath = '';
 
         try {
-          if (driveTarget && fileSize > MIN_GDRIVE_THRESHOLD_BYTES) {
-            console.log(`[OmniVoice Download Decision] Tệp ${fileSizeMB}MB > 30MB. Chuyển sang tải bằng Google Drive CDN...`);
-            downloadedPath = await downloadFromGoogleDrive(driveTarget, outputPath, onProgress);
-          } else {
-            if (driveTarget && fileSize <= MIN_GDRIVE_THRESHOLD_BYTES && fileSize > 0) {
-              console.log(`[OmniVoice Download Decision] Tệp ${fileSizeMB}MB <= 30MB. Ưu tiên tải trực tiếp bằng 10-luồng Colab...`);
-            }
-            downloadedPath = await downloadResult(taskId);
-          }
+          downloadedPath = await downloadResult(taskId);
         } finally {
-          // Auto-cleanup task files on Colab & Google Drive after download
+          // Auto-cleanup task files on Colab after download
           try {
             const axios = require('axios');
             await axios.get(`${colabUrl.replace(/\/$/, '')}/delete/${taskId}`, { timeout: 10000 }).catch(() => {});
-            console.log(`[OmniVoice Cleanup] ✅ Đã tự động dọn dẹp tệp trên Colab & Google Drive cho task ${taskId}`);
+            console.log(`[OmniVoice Cleanup] ✅ Đã tự động dọn dẹp tệp trên Colab cho task ${taskId}`);
           } catch (e) {}
         }
 
